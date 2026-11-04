@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: ssh
+menu: [System, Resources]
+window:
+  title: Resources
+  tabs:
+    - { title: Resources, path: system/resource }
+paths:
+  system/resource:
+    form: resources
+forms:
+  resources:
+    title: Resources
+    tabs:
+      - title: Resources
+        readonly: true
+        fields: [uptime, version, board-name, architecture-name, cpu-count, cpu-load, load, free-memory, total-memory]
+labels:
+  cpu-load: CPU Load

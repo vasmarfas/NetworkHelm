@@ -1,0 +1,170 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, Certificates]
+until: 7.0
+window:
+  title: Certificates
+  tabs:
+    - { title: Certificates, path: certificate }
+    - { title: SCEP Servers, path: certificate/scep-server }
+    - { title: SCEP RA, path: certificate/scep-server/ra }
+    - { title: Requests, path: certificate/scep-server/requests }
+    - { title: OTP, path: certificate/scep-server/otp }
+    - { title: CRL, path: certificate/crl }
+paths:
+  certificate:
+    columns: [name, issuer, common-name, subject-alt-name, key-size, days-valid, trusted, scep-url, ca, fingerprint]
+    readonly:
+      - issuer
+      - key-type
+      - ca
+      - scep-url
+      - ca-crl-host
+      - serial-number
+      - fingerprint
+      - req-fingerprint
+      - ca-fingerprint
+      - akid
+      - skid
+      - invalid-before
+      - invalid-after
+      - expires-after
+      - revoked
+      - private-key
+      - crl
+      - authority
+      - smart-card-key
+      - issued
+      - expired
+      - status
+    form: certificate
+    links:
+      - { title: Sign, path: certificate/sign, argument: number }
+      - { title: Import, path: certificate/import }
+      - { title: Export, path: certificate/export-certificate, argument: numbers }
+      - { title: Settings, path: certificate/settings }
+    actions:
+      - { title: Revoke, command: issued-revoke, selection: true, confirm: true }
+  certificate/sign:
+    form: sign
+  certificate/import:
+    form: import
+  certificate/export-certificate:
+    form: export
+  certificate/settings:
+    form: settings
+  certificate/scep-server:
+    columns: [ca-cert, next-ca-cert, path, days-valid, request-lifetime]
+    form: scep-server
+  certificate/scep-server/ra:
+    columns: [name, server, template]
+    form: scep-ra
+  certificate/scep-server/requests:
+    columns: [authority, status, created, req-fingerprint, common-name]
+    readonly: [authority, status, created, req-fingerprint, common-name]
+    actions:
+      - { title: Grant, command: grant, selection: true }
+  certificate/scep-server/otp:
+    columns: [password, expires, used]
+    readonly: [password, expires, used]
+  certificate/crl:
+    columns: [url, num, revoked, next-update, last-update]
+    readonly: [num, revoked, next-update, last-update, fingerprint]
+    form: crl
+forms:
+  certificate:
+    title: "Certificate <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - issuer
+          - "-"
+          - country
+          - state
+          - locality
+          - organization
+          - unit
+          - "-"
+          - common-name
+          - subject-alt-name
+          - "-"
+          - key-type
+          - key-size
+          - days-valid
+          - digest-algorithm
+          - "-"
+          - trusted
+      - title: Key Usage
+        fields: [key-usage]
+      - title: Status
+        readonly: true
+        fields:
+          - ca-crl-host
+          - "-"
+          - scep-url
+          - "-"
+          - ca
+          - "-"
+          - serial-number
+          - fingerprint
+          - req-fingerprint
+          - ca-fingerprint
+          - akid
+          - skid
+          - "-"
+          - invalid-before
+          - invalid-after
+          - expires-after
+          - "-"
+          - revoked
+  sign:
+    tabs:
+      - title: General
+        fields: [number, ca, name, ca-crl-host, ca-on-smart-card]
+  import:
+    tabs:
+      - title: General
+        since: 6.43
+        fields: [file-name, passphrase, name]
+      - title: General
+        until: 6.43
+        fields: [file-name, passphrase]
+  export:
+    tabs:
+      - title: General
+        since: 6.43
+        fields: [numbers, type, export-passphrase, file-name]
+      - title: General
+        until: 6.43
+        fields: [numbers, type, export-passphrase]
+  settings:
+    tabs:
+      - title: General
+        fields: [crl-download, crl-use, crl-store]
+  scep-server:
+    title: "SCEP Server <{path}>"
+    tabs:
+      - title: General
+        fields: [ca-cert, next-ca-cert, path, days-valid, request-lifetime]
+  scep-ra:
+    title: "SCEP RA <{name}>"
+    tabs:
+      - title: General
+        fields: [name, server, template]
+  crl:
+    title: "CRL <{url}>"
+    tabs:
+      - title: General
+        fields: [url, "-", num, revoked, next-update, last-update, fingerprint]
+labels:
+  number: Certificate
+  numbers: Certificate
+  ca-cert: CA Certificate
+  next-ca-cert: Next CA Certificate
+  template: Certificate Template
+  scep-url: SCEP URL
+  ca-crl-host: CA CRL Host
+  req-fingerprint: Req. Fingerprint
+  subject-alt-name: Subject Alt. Name
+  akid: AKID
+  skid: SKID

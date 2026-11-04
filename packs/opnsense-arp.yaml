@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [Diagnostics, ARP]
+window:
+  title: ARP
+  tabs:
+    - { title: ARP, path: diagnostics/arp }
+    - { title: NDP, path: diagnostics/ndp }
+paths:
+  diagnostics/arp:
+    columns: [ip, mac, intf_description, hostname, manufacturer, expires]
+  diagnostics/ndp:
+    columns: [ip, mac, intf_description, manufacturer]
+labels:
+  ip: Address
+  mac: MAC Address
+  intf_description: Interface

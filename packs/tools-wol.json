@@ -1,0 +1,26 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "WoL"],
+    "since": "7.0",
+    "window": {
+        "title": "Wake on LAN",
+        "tabs": [
+            { "title": "Wake on LAN", "path": "tool/wol" }
+        ]
+    },
+    "paths": {
+        "tool/wol": {
+            "form": "wol"
+        }
+    },
+    "forms": {
+        "wol": {
+            "tabs": [
+                { "title": "General", "fields": ["mac", "interface"] }
+            ]
+        }
+    },
+    "labels": {
+        "mac": "MAC Address"
+    }
+}

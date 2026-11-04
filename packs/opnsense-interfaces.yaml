@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [Interfaces]
+window:
+  title: Interfaces
+  tabs:
+    - { title: Overview, path: interfaces/overview }
+    - { title: VLAN, path: interfaces/vlan }
+paths:
+  interfaces/overview:
+    columns: [description, device, status, link_type, ipv4, ipv6, gateways, macaddr, mtu, media]
+  interfaces/vlan:
+    columns: [vlanif, if, tag, pcp, proto, descr]
+labels:
+  macaddr: MAC Address
+  link_type: Type
+  vlanif: Device
+  if: Parent
+  pcp: Priority
+  proto: Protocol
+  descr: Description

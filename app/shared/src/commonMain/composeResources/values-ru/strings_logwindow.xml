@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="log_open_window">Открыть в окне</string>
+    <string name="log_panel">Читать строку в панели под списком, а не в окне</string>
+    <string name="log_copy_fields">Копировать все поля</string>
+</resources>

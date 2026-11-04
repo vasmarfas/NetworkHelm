@@ -1,0 +1,82 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Certificates"],
+    "since": "7.0",
+    "window": {
+        "title": "Certificates",
+        "tabs": [
+            { "title": "Certificates", "path": "certificate" },
+            { "title": "Built-in", "path": "certificate/builtin", "since": "7.19" },
+            { "title": "CRL", "path": "certificate/crl" },
+            { "title": "SCEP Server", "path": "certificate/scep-server" },
+            { "title": "Settings", "path": "certificate/settings" }
+        ]
+    },
+    "paths": {
+        "certificate": {
+            "columns": ["name", "common-name", "subject-alt-name", "key-type", "key-size", "days-valid", "trusted", "expires-after"],
+            "readonly": [
+                "key-type", "issuer", "ca", "serial-number", "fingerprint", "akid", "skid", "invalid-before", "invalid-after", "expires-after",
+                "private-key", "crl", "authority", "issued", "revoked", "expired", "status"
+            ],
+            "form": "certificate",
+            "links": [
+                { "title": "Sign", "path": "certificate/sign" },
+                { "title": "Import", "path": "certificate/import" },
+                { "title": "Export", "path": "certificate/export-certificate" }
+            ]
+        },
+        "certificate/sign": { "form": "sign" },
+        "certificate/import": { "form": "import" },
+        "certificate/export-certificate": { "form": "export" }
+    },
+    "forms": {
+        "certificate": {
+            "title": "Certificate <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "country", "state", "locality", "organization", "unit", "-",
+                        "common-name", "subject-alt-name", "-",
+                        "digest-algorithm", "key-size", "days-valid", "-",
+                        "trusted", "trust-store"
+                    ]
+                },
+                {
+                    "title": "Key Usage",
+                    "fields": ["key-usage"]
+                },
+                {
+                    "title": "Status",
+                    "fields": [
+                        "key-type", "issuer", "ca", "serial-number", "fingerprint", "akid", "skid", "invalid-before", "invalid-after",
+                        "expires-after"
+                    ],
+                    "readonly": true
+                }
+            ]
+        },
+        "sign": {
+            "tabs": [
+                { "title": "General", "fields": ["number", "ca", "name", "ca-crl-host", "ca-on-smart-card"] }
+            ]
+        },
+        "import": {
+            "tabs": [
+                { "title": "General", "fields": ["file-name", "passphrase", "name", "trusted", "trust-store", "no-key-export"] }
+            ]
+        },
+        "export": {
+            "tabs": [
+                { "title": "General", "fields": ["numbers", "type", "export-passphrase", "file-name"] }
+            ]
+        }
+    },
+    "labels": {
+        "number": "Certificate",
+        "numbers": "Certificate",
+        "akid": "AKID",
+        "skid": "SKID"
+    }
+}

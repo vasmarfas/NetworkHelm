@@ -1,0 +1,169 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Hotspot"],
+    "since": "7.0",
+    "window": {
+        "title": "Hotspot",
+        "tabs": [
+            { "title": "Servers", "path": "ip/hotspot" },
+            { "title": "Server Profiles", "path": "ip/hotspot/profile" },
+            { "title": "Users", "path": "ip/hotspot/user" },
+            { "title": "User Profiles", "path": "ip/hotspot/user/profile" },
+            { "title": "Active", "path": "ip/hotspot/active" },
+            { "title": "Hosts", "path": "ip/hotspot/host" },
+            { "title": "IP Bindings", "path": "ip/hotspot/ip-binding" },
+            { "title": "Service Ports", "path": "ip/hotspot/service-port" },
+            { "title": "Walled Garden", "path": "ip/hotspot/walled-garden" },
+            { "title": "Walled Garden IP List", "path": "ip/hotspot/walled-garden/ip" },
+            { "title": "Cookies", "path": "ip/hotspot/cookie" }
+        ]
+    },
+    "paths": {
+        "ip/hotspot": {
+            "columns": ["name", "interface", "address-pool", "profile", "addresses-per-mac", "idle-timeout", "keepalive-timeout"],
+            "readonly": ["invalid", "HTTPS"],
+            "actions": [
+                { "title": "Reset HTML", "command": "reset-html", "selection": true, "confirm": true }
+            ],
+            "form": "server"
+        },
+        "ip/hotspot/profile": {
+            "columns": ["name", "dns-name", "hotspot-address", "html-directory", "rate-limit", "login-by", "use-radius"],
+            "readonly": ["default"],
+            "form": "server-profile"
+        },
+        "ip/hotspot/user": {
+            "columns": ["server", "name", "address", "mac-address", "profile", "uptime", "bytes-in", "bytes-out", "limit-uptime"],
+            "readonly": ["uptime", "bytes-in", "bytes-out", "packets-in", "packets-out", "dynamic", "default"],
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true }
+            ],
+            "form": "user"
+        },
+        "ip/hotspot/user/profile": {
+            "columns": ["name", "shared-users", "rate-limit", "session-timeout", "idle-timeout", "keepalive-timeout", "address-pool"],
+            "readonly": ["default"],
+            "form": "user-profile"
+        },
+        "ip/hotspot/active": {
+            "columns": [
+                "server", "user", "address", "mac-address", "login-by", "uptime", "session-time-left", "idle-time", "bytes-in", "bytes-out"
+            ],
+            "readonly": [
+                "server", "user", "domain", "address", "mac-address", "login-by", "uptime", "session-time-left", "idle-time",
+                "idle-timeout", "keepalive-timeout", "bytes-in", "bytes-out", "packets-in", "packets-out", "radius", "blocked"
+            ]
+        },
+        "ip/hotspot/host": {
+            "columns": ["mac-address", "address", "to-address", "server", "uptime", "idle-time", "found-by", "bytes-in", "bytes-out"],
+            "readonly": [
+                "mac-address", "address", "to-address", "server", "uptime", "idle-time", "idle-timeout", "keepalive-timeout",
+                "host-dead-time", "found-by", "bytes-in", "bytes-out", "packets-in", "packets-out", "authorized", "bypassed", "dynamic",
+                "blocked", "DHCP"
+            ],
+            "links": [
+                { "title": "Make Binding", "path": "ip/hotspot/host/make-binding", "argument": "numbers" }
+            ]
+        },
+        "ip/hotspot/ip-binding": {
+            "columns": ["mac-address", "address", "to-address", "server", "type"],
+            "ordered": true
+        },
+        "ip/hotspot/service-port": {
+            "columns": ["name", "ports"],
+            "readonly": ["name"]
+        },
+        "ip/hotspot/walled-garden": {
+            "columns": ["action", "server", "method", "dst-host", "dst-port", "path", "src-address"],
+            "readonly": ["hits", "dynamic"],
+            "ordered": true
+        },
+        "ip/hotspot/walled-garden/ip": {
+            "columns": ["action", "server", "src-address", "dst-address", "protocol", "dst-port", "dst-host"],
+            "readonly": ["dynamic"],
+            "ordered": true
+        },
+        "ip/hotspot/cookie": {
+            "columns": ["user", "domain", "mac-address", "expires-in"],
+            "readonly": ["user", "domain", "mac-address", "expires-in", "mac-cookie"]
+        }
+    },
+    "forms": {
+        "server": {
+            "title": "Hotspot Server <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "interface", "address-pool", "profile", "-",
+                        "idle-timeout", "keepalive-timeout", "login-timeout", "addresses-per-mac"
+                    ]
+                }
+            ]
+        },
+        "server-profile": {
+            "title": "Hotspot Server Profile <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "hotspot-address", "dns-name", "html-directory", "html-directory-override", "install-hotspot-queue",
+                        "rate-limit", "-",
+                        "http-proxy", "smtp-server"
+                    ]
+                },
+                {
+                    "title": "Login",
+                    "fields": [
+                        "login-by", "mac-auth-mode", "mac-auth-password", "-",
+                        "http-cookie-lifetime", "ssl-certificate", "-",
+                        "split-user-domain", "-",
+                        "trial-uptime-limit", "trial-uptime-reset", "trial-user-profile"
+                    ]
+                },
+                {
+                    "title": "RADIUS",
+                    "fields": [
+                        "use-radius", "radius-default-domain", "-",
+                        "radius-location-id", "radius-location-name", "radius-mac-format", "-",
+                        "radius-accounting", "radius-interim-update", "nas-port-type"
+                    ]
+                }
+            ]
+        },
+        "user": {
+            "title": "Hotspot User <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["server", "name", "password", "otp-secret", "address", "mac-address", "profile", "routes", "email"]
+                },
+                { "title": "Limits", "fields": ["limit-uptime", "limit-bytes-in", "limit-bytes-out", "limit-bytes-total"] },
+                { "title": "Statistics", "fields": ["uptime", "bytes-in", "packets-in", "bytes-out", "packets-out"], "readonly": true }
+            ]
+        },
+        "user-profile": {
+            "title": "Hotspot User Profile <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "address-pool", "-",
+                        "session-timeout", "idle-timeout", "keepalive-timeout", "status-autorefresh", "-",
+                        "shared-users", "rate-limit", "-",
+                        "add-mac-cookie", "mac-cookie-timeout", "-",
+                        "address-list", "incoming-filter", "outgoing-filter", "-",
+                        "incoming-packet-mark", "outgoing-packet-mark", "-",
+                        "open-status-page", "transparent-proxy"
+                    ]
+                },
+                { "title": "Advertise", "fields": ["advertise", "advertise-url", "advertise-interval", "advertise-timeout"] },
+                { "title": "Scripts", "fields": ["on-login", "on-logout"] },
+                {
+                    "title": "Queue",
+                    "fields": ["parent-queue", "queue-type", "insert-queue-before"]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,239 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [IP, Hotspot]
+until: 7.0
+window:
+  title: Hotspot
+  tabs:
+    - { title: Servers, path: ip/hotspot }
+    - { title: Server Profiles, path: ip/hotspot/profile }
+    - { title: Users, path: ip/hotspot/user }
+    - { title: User Profiles, path: ip/hotspot/user/profile }
+    - { title: Active, path: ip/hotspot/active }
+    - { title: Hosts, path: ip/hotspot/host }
+    - { title: IP Bindings, path: ip/hotspot/ip-binding }
+    - { title: Service Ports, path: ip/hotspot/service-port }
+    - { title: Walled Garden, path: ip/hotspot/walled-garden }
+    - { title: Walled Garden IP List, path: ip/hotspot/walled-garden/ip }
+    - { title: Cookies, path: ip/hotspot/cookie }
+paths:
+  ip/hotspot:
+    columns: [name, interface, address-pool, profile, addresses-per-mac]
+    readonly: [invalid, HTTPS, ip-of-dns-name, proxy-status]
+    form: server
+    actions:
+      - { title: Reset HTML, command: reset-html, selection: true, confirm: true }
+  ip/hotspot/profile:
+    columns: [name, dns-name, html-directory, rate-limit]
+    readonly: [default]
+    form: server-profile
+  ip/hotspot/user:
+    columns: [server, name, address, mac-address, profile, uptime]
+    readonly: [uptime, bytes-in, bytes-out, packets-in, packets-out, dynamic, default]
+    form: user
+    actions:
+      - { title: Reset Counters, command: reset-counters, selection: true }
+      - { title: Reset All Counters, command: reset-counters-all }
+  ip/hotspot/user/profile:
+    columns: [name, session-timeout, idle-timeout, shared-users, rate-limit]
+    readonly: [default]
+    form: user-profile
+  ip/hotspot/active:
+    columns: [server, user, domain, address, uptime, idle-time, session-time-left, bytes-in, bytes-out]
+    readonly:
+      - server
+      - user
+      - domain
+      - address
+      - mac-address
+      - login-by
+      - uptime
+      - idle-time
+      - session-time-left
+      - idle-timeout
+      - keepalive-timeout
+      - limit-bytes-in
+      - limit-bytes-out
+      - limit-bytes-total
+      - bytes-in
+      - bytes-out
+      - packets-in
+      - packets-out
+      - radius
+      - blocked
+  ip/hotspot/host:
+    columns: [mac-address, address, to-address, server, idle-time, bytes-in, bytes-out]
+    readonly:
+      - mac-address
+      - address
+      - to-address
+      - server
+      - uptime
+      - idle-time
+      - idle-timeout
+      - keepalive-timeout
+      - host-dead-time
+      - found-by
+      - bytes-in
+      - bytes-out
+      - packets-in
+      - packets-out
+      - authorized
+      - bypassed
+      - dynamic
+      - blocked
+      - DHCP
+    links:
+      - { title: Make Binding, path: ip/hotspot/host/make-binding, argument: numbers }
+  ip/hotspot/host/make-binding:
+    form: make-binding
+  ip/hotspot/ip-binding:
+    columns: [mac-address, address, to-address, server, type]
+    form: ip-binding
+  ip/hotspot/service-port:
+    columns: [name, ports]
+    readonly: [name]
+    form: service-port
+  ip/hotspot/walled-garden:
+    columns: [action, server, method, dst-host, dst-port, hits]
+    readonly: [hits, dynamic]
+    form: walled-garden
+    actions:
+      - { title: Reset Counters, command: reset-counters, selection: true }
+      - { title: Reset All Counters, command: reset-counters-all }
+  ip/hotspot/walled-garden/ip:
+    columns: [action, server, src-address, protocol, dst-port]
+    readonly: [dynamic]
+    form: walled-garden-ip
+  ip/hotspot/cookie:
+    columns: [user, domain, mac-address, expires-in]
+    readonly: [user, domain, mac-address, expires-in, mac-cookie]
+forms:
+  server:
+    title: "Hotspot Server <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - interface
+          - address-pool
+          - profile
+          - "-"
+          - idle-timeout
+          - keepalive-timeout
+          - login-timeout
+          - addresses-per-mac
+          - "-"
+          - ip-of-dns-name
+          - proxy-status
+  server-profile:
+    title: "Hotspot Server Profile <{name}>"
+    tabs:
+      - title: General
+        fields: [name, hotspot-address, dns-name, html-directory, html-directory-override, rate-limit, "-", http-proxy, smtp-server]
+      - title: Login
+        fields:
+          - login-by
+          - mac-auth-mode
+          - mac-auth-password
+          - "-"
+          - http-cookie-lifetime
+          - ssl-certificate
+          - https-redirect
+          - "-"
+          - split-user-domain
+          - "-"
+          - trial-uptime-limit
+          - trial-uptime-reset
+          - trial-user-profile
+      - title: RADIUS
+        fields:
+          - use-radius
+          - radius-default-domain
+          - "-"
+          - radius-location-id
+          - radius-location-name
+          - radius-mac-format
+          - "-"
+          - radius-accounting
+          - radius-interim-update
+          - nas-port-type
+  user:
+    title: "Hotspot User <{name}>"
+    tabs:
+      - title: General
+        fields: [server, name, password, address, mac-address, profile, routes, email]
+      - title: Limits
+        fields: [limit-uptime, limit-bytes-in, limit-bytes-out, limit-bytes-total]
+      - title: Statistics
+        readonly: true
+        fields: [uptime, bytes-in, packets-in, bytes-out, packets-out]
+  user-profile:
+    title: "Hotspot User Profile <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - address-pool
+          - "-"
+          - session-timeout
+          - idle-timeout
+          - keepalive-timeout
+          - status-autorefresh
+          - "-"
+          - shared-users
+          - rate-limit
+          - "-"
+          - add-mac-cookie
+          - mac-cookie-timeout
+          - "-"
+          - address-list
+          - incoming-filter
+          - outgoing-filter
+          - "-"
+          - incoming-packet-mark
+          - outgoing-packet-mark
+          - "-"
+          - open-status-page
+          - transparent-proxy
+      - title: Queue
+        fields: [insert-queue-before, parent-queue, queue-type]
+      - title: Scripts
+        fields: [on-login, on-logout]
+      - title: Advertise
+        fields: [advertise, advertise-url, advertise-interval, advertise-timeout]
+  make-binding:
+    title: Make Binding
+    tabs:
+      - title: General
+        fields: [numbers, type]
+  ip-binding:
+    title: "Hotspot IP Binding <{mac-address|address}>"
+    tabs:
+      - title: General
+        fields: [mac-address, address, to-address, server, type]
+  service-port:
+    title: "Hotspot Service Port <{name}>"
+    tabs:
+      - title: General
+        fields: [name, ports]
+  walled-garden:
+    title: "Walled Garden Entry <{dst-host}>"
+    tabs:
+      - title: General
+        fields: [action, "-", server, src-address, dst-address, "-", method, dst-host, dst-port, path, "-", hits]
+  walled-garden-ip:
+    title: "Walled Garden IP Entry <{dst-address|dst-host}>"
+    tabs:
+      - title: General
+        fields: [action, "-", server, src-address, dst-address, "-", src-address-list, dst-address-list, "-", protocol, dst-port, dst-host]
+labels:
+  rate-limit: Rate Limit (rx/tx)
+  ip-of-dns-name: IP of DNS Name
+  mac-auth-mode: MAC Auth. Mode
+  mac-auth-password: MAC Auth. Password
+  radius-default-domain: Default Domain
+  radius-location-id: Location ID
+  radius-location-name: Location Name
+  radius-mac-format: MAC Format
+  radius-accounting: Accounting
+  radius-interim-update: Interim Update

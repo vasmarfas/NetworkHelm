@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Tools, WoL]
+until: 7.0
+window:
+  title: WoL
+  tabs:
+    - { title: WoL, path: tool/wol }
+paths:
+  tool/wol:
+    form: wol
+forms:
+  wol:
+    tabs:
+      - title: General
+        fields: [interface, mac]

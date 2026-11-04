@@ -1,0 +1,36 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "Addresses"],
+    "window": {
+        "title": "IPv6 Addresses",
+        "tabs": [
+            { "title": "Addresses", "path": "ipv6/address" }
+        ]
+    },
+    "paths": {
+        "ipv6/address": {
+            "columns": ["address", "from-pool", "from-pool-policy", "interface", "vrf", "advertise", "valid", "preferred"],
+            "readonly": ["vrf", "valid", "preferred"],
+            "form": "address"
+        }
+    },
+    "forms": {
+        "address": {
+            "title": "IPv6 Address <{address}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "address", "from-pool", "from-pool-policy", "interface", "vrf", "-",
+                        "eui-64", "advertise", "no-dad", "auto-link-local", "-",
+                        "valid", "preferred"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "eui-64": "EUI64",
+        "auto-link-local": "Auto Link-Local"
+    }
+}

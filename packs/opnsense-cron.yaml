@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [System, Cron]
+window:
+  title: Cron
+  tabs:
+    - { title: Jobs, path: system/cron }
+paths:
+  system/cron:
+    columns: [minutes, hours, days, months, weekdays, who, command, parameters, description]
+labels:
+  who: User
+  days: Day of Month
+  weekdays: Day of Week

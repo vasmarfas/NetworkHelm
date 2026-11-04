@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: upnp
+menu: [IP, DHCP Server]
+window:
+  title: DHCP Server
+  tabs:
+    - { title: Leases, path: ip/dhcp-server/lease }
+paths:
+  ip/dhcp-server/lease:
+    columns: [address, mac-address, host-name, interface, source, expires-after, active]

@@ -1,0 +1,127 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["MPLS", "MPLS"],
+    "since": "7.0",
+    "window": {
+        "title": "MPLS",
+        "tabs": [
+            { "title": "LDP Instance", "path": "mpls/ldp" },
+            { "title": "LDP Interface", "path": "mpls/ldp/interface" },
+            { "title": "LDP Neighbor", "path": "mpls/ldp/neighbor" },
+            { "title": "Accept Filter", "path": "mpls/ldp/accept-filter" },
+            { "title": "Advertise Filter", "path": "mpls/ldp/advertise-filter" },
+            { "title": "Local Mapping", "path": "mpls/ldp/local-mapping" },
+            { "title": "Remote Mapping", "path": "mpls/ldp/remote-mapping" },
+            { "title": "MPLS Interface", "path": "mpls/interface" },
+            { "title": "MPLS Mangle", "path": "mpls/mangle", "since": "7.17" },
+            { "title": "Forwarding Table", "path": "mpls/forwarding-table" }
+        ]
+    },
+    "paths": {
+        "mpls/ldp": {
+            "columns": ["lsr-id", "path-vector-limit", "hop-limit", "loop-detect", "use-explicit-null", "distribute-for-default", "transport-addresses", "vrf", "afi"],
+            "form": "instance"
+        },
+        "mpls/ldp/interface": {
+            "columns": ["interface", "hello-interval", "hold-time", "transport-addresses", "accept-dynamic-neighbors", "afi"],
+            "form": "interface"
+        },
+        "mpls/ldp/neighbor": {
+            "columns": ["transport", "send-targeted", "peer", "local-transport", "addresses"],
+            "readonly": ["peer", "local-transport", "addresses", "path-vector-limit", "on-demand", "used-afi"],
+            "form": "neighbor"
+        },
+        "mpls/ldp/accept-filter": {
+            "ordered": true,
+            "columns": ["vrf", "prefix", "neighbor", "accept"],
+            "form": "accept-filter"
+        },
+        "mpls/ldp/advertise-filter": {
+            "ordered": true,
+            "columns": ["vrf", "prefix", "neighbor", "advertise"],
+            "form": "advertise-filter"
+        },
+        "mpls/ldp/local-mapping": {
+            "columns": ["vrf", "dst-address", "label", "adv-path", "peers"],
+            "readonly": ["adv-path", "peers"],
+            "form": "local-mapping"
+        },
+        "mpls/ldp/remote-mapping": {
+            "columns": ["vrf", "dst-address", "label", "nexthop", "peer", "path"],
+            "readonly": ["peer", "path"],
+            "form": "remote-mapping"
+        },
+        "mpls/interface": {
+            "ordered": true,
+            "columns": ["interface", "mpls-mtu", "input"],
+            "form": "mpls-interface"
+        },
+        "mpls/mangle": {
+            "columns": ["chain", "exp", "set-exp", "set-mark", "packets"],
+            "readonly": ["packets"],
+            "form": "mangle",
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset Counters All", "command": "reset-counters-all" }
+            ]
+        },
+        "mpls/forwarding-table": {
+            "columns": ["label", "type", "vrf", "prefix", "nexthops", "te-sender", "te-session", "vpls"],
+            "readonly": ["label", "type", "vrf", "prefix", "nexthops", "te-sender", "te-session", "vpls", "ldp", "traffic-eng", "vpn"]
+        }
+    },
+    "forms": {
+        "instance": {
+            "title": "LDP Instance <{vrf}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "lsr-id", "path-vector-limit", "hop-limit", "loop-detect", "use-explicit-null", "distribute-for-default", "transport-addresses",
+                        "vrf", "afi", "preferred-afi"
+                    ]
+                }
+            ]
+        },
+        "interface": {
+            "title": "LDP Interface <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "hello-interval", "hold-time", "transport-addresses", "accept-dynamic-neighbors", "afi"] }]
+        },
+        "neighbor": {
+            "title": "LDP Neighbor <{transport}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["transport", "send-targeted", "peer", "local-transport", "addresses", "-", "path-vector-limit", "on-demand", "used-afi"]
+                }
+            ]
+        },
+        "accept-filter": {
+            "title": "LDP Accept Filter <{prefix}>",
+            "tabs": [{ "title": "General", "fields": ["vrf", "prefix", "neighbor", "accept"] }]
+        },
+        "advertise-filter": {
+            "title": "LDP Advertise Filter <{prefix}>",
+            "tabs": [{ "title": "General", "fields": ["vrf", "prefix", "neighbor", "advertise"] }]
+        },
+        "local-mapping": {
+            "title": "Local Mapping <{dst-address}>",
+            "tabs": [{ "title": "General", "fields": ["vrf", "dst-address", "label", "adv-path", "peers"] }]
+        },
+        "remote-mapping": {
+            "title": "Remote Mapping <{dst-address}>",
+            "tabs": [{ "title": "General", "fields": ["vrf", "dst-address", "label", "nexthop", "-", "peer", "path"] }]
+        },
+        "mpls-interface": {
+            "title": "MPLS Interface <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "mpls-mtu", "input"] }]
+        },
+        "mangle": {
+            "title": "MPLS Mangle <{chain}>",
+            "tabs": [{ "title": "General", "fields": ["chain", "exp", "set-exp", "set-mark", "packets"] }]
+        }
+    },
+    "labels": {
+        "adv-path": "Advertised Path"
+    }
+}

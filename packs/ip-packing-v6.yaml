@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [IP, Packing]
+until: 7.0
+window:
+  title: IP Packing
+  tabs:
+    - { title: IP Packing, path: ip/packing }
+paths:
+  ip/packing:
+    columns: [interface, packing, unpacking, aggregated-size]
+    form: packer
+    types:
+      aggregated-size: { type: integer, scaled: true }
+forms:
+  packer:
+    title: "IP Packer <{interface}>"
+    tabs:
+      - title: General
+        fields: [interface, packing, unpacking, aggregated-size]

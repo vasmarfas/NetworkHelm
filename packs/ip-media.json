@@ -1,0 +1,31 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Media"],
+    "window": {
+        "title": "Media",
+        "tabs": [
+            { "title": "Media", "path": "ip/media" }
+        ]
+    },
+    "paths": {
+        "ip/media": {
+            "columns": ["interface", "path", "friendly-name", "allowed-ip", "allowed-hostname", "status"],
+            "readonly": ["status"],
+            "form": "media",
+            "links": [
+                { "title": "Settings", "path": "ip/media/settings" }
+            ]
+        }
+    },
+    "forms": {
+        "media": {
+            "title": "Media <{friendly-name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["interface", "path", "friendly-name", "allowed-ip", "allowed-hostname", "status"]
+                }
+            ]
+        }
+    }
+}

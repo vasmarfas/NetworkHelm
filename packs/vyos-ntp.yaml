@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Services, NTP]
+window:
+  title: NTP
+  tabs:
+    - { title: NTP, path: service/ntp }

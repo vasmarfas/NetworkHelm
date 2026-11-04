@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, Dynamic DNS]
+window:
+  title: Dynamic DNS
+  tabs:
+    - { title: Services, path: ddns/service }
+    - { title: Global, path: ddns/ddns }
+paths:
+  ddns/service:
+    ordered: true
+    columns: [.name, enabled, service_name, lookup_host, ip, last-update, next-update]
+    join: status/ddns
+labels:
+  .name: Name
+  ip: Registered IP

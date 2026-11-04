@@ -1,0 +1,60 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Packages"],
+    "window": {
+        "title": "Packages",
+        "tabs": [
+            { "title": "Packages", "path": "system/package" },
+            { "title": "Local Update Packages", "path": "system/package/local-update", "since": "7.17" },
+            { "title": "Local Package Sources", "path": "system/package/local-update/update-package-source", "since": "7.17" }
+        ]
+    },
+    "paths": {
+        "system/package": {
+            "columns": ["name", "version", "build-time", "scheduled"],
+            "readonly": ["name", "version", "build-time", "scheduled", "available", "disabled", "bundle"],
+            "bytes": ["size"],
+            "actions": [
+                { "title": "Enable", "command": "enable", "selection": true },
+                { "title": "Disable", "command": "disable", "selection": true },
+                { "title": "Uninstall", "command": "uninstall", "selection": true, "confirm": true },
+                { "title": "Unschedule", "command": "unschedule", "selection": true },
+                { "title": "Apply Changes", "command": "apply-changes", "confirm": true },
+                { "title": "Downgrade", "command": "downgrade", "confirm": true }
+            ],
+            "links": [
+                { "title": "Check For Updates", "path": "system/package/update" },
+                { "title": "Check Installation", "path": "system/check-installation" }
+            ]
+        },
+        "system/package/local-update": {
+            "columns": ["name", "version", "download"],
+            "readonly": ["name", "version"]
+        },
+        "system/package/local-update/update-package-source": {
+            "columns": ["address", "user"]
+        },
+        "system/package/update": {
+            "form": "system/package/update",
+            "readonly": ["installed-version", "latest-version", "status", "changelog"],
+            "autoset": ["channel", "mode", "check-certificate", "ip-version"],
+            "blank": ["latest-version"],
+            "derived": {
+                ".state": { "of": "status", "values": { "0": ["up to date", "finding out"], "1": ["new version", "getting changelog"], "2": ["downloading"] } }
+            },
+            "actions": [
+                { "title": "Download", "command": "download", "depends": [{ ".state": "1" }, { ".state": "" }] },
+                { "title": "Download & Install", "command": "install", "confirm": true, "depends": [{ ".state": "1" }, { ".state": "" }] },
+                { "title": "Check For Updates", "command": "check-for-updates", "depends": [{ ".state": "0" }, { ".state": "" }] },
+                { "title": "Cancel", "command": "cancel", "depends": [{ ".state": "2" }, { ".state": "" }] }
+            ]
+        }
+    },
+    "forms": {
+        "system/package/update": {
+            "tabs": [
+                { "title": "General", "fields": ["channel", "mode", "check-certificate", "ip-version", "-", "installed-version", "latest-version", "-", "changelog"] }
+            ]
+        }
+    }
+}

@@ -1,0 +1,23 @@
+# The gateway of NetworkHelm as a service of systemd, unpacked in /opt/networkhelm-gateway:
+#   sudo cp networkhelm-gateway.service /etc/systemd/system/
+#   sudo systemctl enable --now networkhelm-gateway
+#   sudo journalctl -u networkhelm-gateway
+# The journal holds the password of the first start. The account, the certificate and the saved routers live in
+# /var/lib/networkhelm-gateway; --public and --code go after ExecStart. A password to set, to reset or to change, with the
+# service running or not (it takes the change at its next request):
+#   sudo env NETWORKHELM_GATEWAY_HOME=/var/lib/networkhelm-gateway /opt/networkhelm-gateway/networkhelm-gateway.sh --set-password
+#   sudo env NETWORKHELM_GATEWAY_HOME=/var/lib/networkhelm-gateway /opt/networkhelm-gateway/networkhelm-gateway.sh --reset-password
+[Unit]
+Description=NetworkHelm gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/opt/networkhelm-gateway/networkhelm-gateway.sh
+Environment=NETWORKHELM_GATEWAY_HOME=/var/lib/networkhelm-gateway
+DynamicUser=yes
+StateDirectory=networkhelm-gateway
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

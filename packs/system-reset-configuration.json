@@ -1,0 +1,37 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Reset Configuration"],
+    "window": {
+        "title": "Reset Configuration",
+        "tabs": [
+            { "title": "Reset Configuration", "path": "system/reset-configuration" }
+        ]
+    },
+    "paths": {
+        "system/reset-configuration": {
+            "confirm": true,
+            "form": "reset",
+            "types": {
+                "keep-users": { "type": "yes-no" },
+                "no-defaults": { "type": "yes-no" },
+                "skip-backup": { "type": "yes-no" }
+            }
+        }
+    },
+    "forms": {
+        "reset": {
+            "tabs": [
+                { "title": "General", "until": "7.0", "fields": ["keep-users", "no-defaults", "skip-backup", "run-after-reset"] },
+                {
+                    "title": "General",
+                    "since": "7.0",
+                    "fields": ["keep-users", "caps-mode", "no-defaults", "skip-backup", "run-after-reset", "keep-apps", "shutdown", "force-v6-to-v7-configuration-upgrade"]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "caps-mode": "CAPS Mode",
+        "force-v6-to-v7-configuration-upgrade": "Force v6 to v7 Configuration Upgrade"
+    }
+}

@@ -1,0 +1,264 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Queues"],
+    "window": {
+        "title": "Queues",
+        "tabs": [
+            { "title": "Simple Queues", "path": "queue/simple" },
+            { "title": "Interface Queues", "path": "queue/interface" },
+            { "title": "Queue Tree", "path": "queue/tree" },
+            { "title": "Queue Types", "path": "queue/type" }
+        ]
+    },
+    "paths": {
+        "queue/simple": {
+            "form": "simple-queue",
+            "columns": ["name", "target", "upload-max-limit", "download-max-limit", "packet-marks", "total-max-limit", "rate", "queued-bytes"],
+            "readonly": [
+                "rate", "packet-rate", "queued-bytes", "queued-packets", "bytes", "packets", "dropped", "total-rate",
+                "total-packet-rate", "total-queued-bytes", "total-queued-packets", "total-bytes", "total-packets",
+                "total-dropped", "pcq-queues", "total-pcq-queues", "dynamic", "invalid"
+            ],
+            "pairs": {
+                "max-limit": ["upload-max-limit", "download-max-limit"],
+                "limit-at": ["upload-limit-at", "download-limit-at"],
+                "burst-limit": ["upload-burst-limit", "download-burst-limit"],
+                "burst-threshold": ["upload-threshold", "download-threshold"],
+                "burst-time": ["upload-burst-time", "download-burst-time"],
+                "bucket-size": ["upload-bucket-size", "download-bucket-size"],
+                "priority": ["upload-priority", "download-priority"],
+                "queue": ["upload-queue", "download-queue"],
+                "rate": ["upload-rate", "download-rate"],
+                "packet-rate": ["upload-packet-rate", "download-packet-rate"],
+                "queued-bytes": ["upload-queued-bytes", "download-queued-bytes"],
+                "queued-packets": ["upload-queued-packets", "download-queued-packets"],
+                "bytes": ["upload-bytes", "download-bytes"],
+                "packets": ["upload-packets", "download-packets"],
+                "dropped": ["upload-dropped", "download-dropped"],
+                "pcq-queues": ["upload-pcq-queues", "download-pcq-queues"]
+            },
+            "bits": ["rate", "total-rate"],
+            "limits": [
+                "max-limit", "limit-at", "burst-limit", "burst-threshold", "total-max-limit", "total-limit-at",
+                "total-burst-limit", "total-burst-threshold"
+            ],
+            "totals": ["queued-bytes", "queued-packets"],
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ]
+        },
+        "queue/interface": {
+            "columns": ["interface", "queue", "active-queue"],
+            "readonly": ["interface", "active-queue", "default-queue", "dynamic"]
+        },
+        "queue/tree": {
+            "columns": ["name", "parent", "packet-mark", "limit-at", "max-limit", "rate", "queued-bytes", "bytes", "packets"],
+            "readonly": ["rate", "packet-rate", "queued-bytes", "queued-packets", "bytes", "packets", "dropped", "pcq-queues", "invalid"],
+            "bits": ["rate"],
+            "limits": ["limit-at", "max-limit", "burst-limit", "burst-threshold"],
+            "totals": ["queued-bytes", "queued-packets"],
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ],
+            "form": "tree"
+        },
+        "queue/type": {
+            "columns": ["name", "kind"],
+            "readonly": ["default"],
+            "form": "type",
+            "labels": {
+                "name": "Type Name",
+                "pfifo-limit": "Queue Size",
+                "bfifo-limit": "Queue Size",
+                "mq-pfifo-limit": "Queue Size",
+                "red-limit": "Queue Size",
+                "red-min-threshold": "Min Threshold",
+                "red-max-threshold": "Max Threshold",
+                "red-burst": "Burst",
+                "red-avg-packet": "Avg. Packet Size",
+                "sfq-perturb": "Perturb",
+                "sfq-allot": "Allot",
+                "pcq-rate": "Rate",
+                "pcq-limit": "Queue Size",
+                "pcq-total-limit": "Total Queue Size",
+                "pcq-burst-rate": "Burst Rate",
+                "pcq-burst-threshold": "Burst Threshold",
+                "pcq-burst-time": "Burst Time",
+                "pcq-classifier": "Classifier",
+                "pcq-src-address-mask": "Src. Address Mask",
+                "pcq-dst-address-mask": "Dst. Address Mask",
+                "pcq-src-address6-mask": "Src. Address6 Mask",
+                "pcq-dst-address6-mask": "Dst. Address6 Mask",
+                "codel-limit": "Limit",
+                "codel-interval": "Interval",
+                "codel-target": "Target",
+                "codel-ecn": "ECN",
+                "codel-ce-threshold": "CE Threshold",
+                "fq-codel-limit": "Limit",
+                "fq-codel-interval": "Interval",
+                "fq-codel-target": "Target",
+                "fq-codel-ecn": "ECN",
+                "fq-codel-ce-threshold": "CE Threshold",
+                "fq-codel-flows": "Flows",
+                "fq-codel-memlimit": "Memory Limit",
+                "fq-codel-quantum": "Quantum",
+                "cake-bandwidth": "Bandwidth Limit",
+                "cake-autorate-ingress": "Autorate Ingress",
+                "cake-overhead": "Overhead",
+                "cake-mpu": "MPU",
+                "cake-atm": "ATM",
+                "cake-overhead-scheme": "Overhead Scheme",
+                "cake-rtt": "RTT",
+                "cake-rtt-scheme": "RTT Scheme",
+                "cake-diffserv": "Diffserv",
+                "cake-flowmode": "Flow Mode",
+                "cake-ack-filter": "Ack Filter",
+                "cake-nat": "NAT",
+                "cake-wash": "Wash",
+                "cake-memlimit": "Memory Limit"
+            }
+        }
+    },
+    "forms": {
+        "tree": {
+            "title": "Queue <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "parent", "packet-mark", "-",
+                        "queue", "priority", "bucket-size", "-",
+                        "limit-at", "max-limit", "burst-limit", "burst-threshold", "burst-time"
+                    ]
+                },
+                {
+                    "title": "Statistics",
+                    "readonly": true,
+                    "fields": [
+                        "rate", "packet-rate", "-",
+                        "queued-bytes", "queued-packets", "-",
+                        "bytes", "packets", "-",
+                        "dropped", "pcq-queues"
+                    ]
+                }
+            ]
+        },
+        "type": {
+            "title": "Queue Type <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "kind", "-",
+                        "pfifo-limit", "bfifo-limit", "mq-pfifo-limit", "-",
+                        "red-limit", "red-min-threshold", "red-max-threshold", "red-burst", "red-avg-packet", "-",
+                        "sfq-perturb", "sfq-allot", "-",
+                        "pcq-rate", "pcq-limit", "pcq-total-limit", "-",
+                        "pcq-burst-rate", "pcq-burst-threshold", "pcq-burst-time", "pcq-classifier", "-",
+                        "pcq-src-address-mask", "pcq-dst-address-mask", "pcq-src-address6-mask", "pcq-dst-address6-mask", "-",
+                        "codel-limit", "codel-interval", "codel-target", "-",
+                        "codel-ecn", "codel-ce-threshold", "-",
+                        "fq-codel-limit", "fq-codel-interval", "fq-codel-target", "-",
+                        "fq-codel-ecn", "fq-codel-ce-threshold", "-",
+                        "fq-codel-flows", "fq-codel-memlimit", "fq-codel-quantum", "-",
+                        "cake-bandwidth", "cake-autorate-ingress", "-",
+                        "cake-overhead", "cake-mpu", "cake-atm", "cake-overhead-scheme", "cake-rtt", "cake-rtt-scheme", "cake-diffserv",
+                        "cake-flowmode", "cake-ack-filter", "cake-nat", "cake-wash", "-",
+                        "cake-memlimit"
+                    ]
+                }
+            ],
+            "only": [
+                { "fields": ["pfifo-limit"], "where": { "kind": ["pfifo"] }, "hide": true },
+                { "fields": ["bfifo-limit"], "where": { "kind": ["bfifo"] }, "hide": true },
+                { "fields": ["mq-pfifo-limit"], "where": { "kind": ["mq-pfifo"] }, "hide": true },
+                {
+                    "fields": ["red-limit", "red-min-threshold", "red-max-threshold", "red-burst", "red-avg-packet"],
+                    "where": { "kind": ["red"] },
+                    "hide": true
+                },
+                { "fields": ["sfq-perturb", "sfq-allot"], "where": { "kind": ["sfq"] }, "hide": true },
+                {
+                    "fields": [
+                        "pcq-rate", "pcq-limit", "pcq-classifier", "pcq-total-limit", "pcq-burst-rate", "pcq-burst-threshold", "pcq-burst-time",
+                        "pcq-src-address-mask", "pcq-dst-address-mask", "pcq-src-address6-mask", "pcq-dst-address6-mask"
+                    ],
+                    "where": { "kind": ["pcq"] },
+                    "hide": true
+                },
+                {
+                    "fields": ["codel-target", "codel-interval", "codel-limit", "codel-ecn", "codel-ce-threshold"],
+                    "where": { "kind": ["codel"] },
+                    "hide": true
+                },
+                {
+                    "fields": [
+                        "fq-codel-target", "fq-codel-interval", "fq-codel-limit", "fq-codel-flows", "fq-codel-quantum", "fq-codel-memlimit",
+                        "fq-codel-ecn", "fq-codel-ce-threshold"
+                    ],
+                    "where": { "kind": ["fq-codel"] },
+                    "hide": true
+                },
+                {
+                    "fields": [
+                        "cake-bandwidth", "cake-autorate-ingress", "cake-diffserv", "cake-flowmode", "cake-nat", "cake-wash", "cake-ack-filter",
+                        "cake-rtt", "cake-rtt-scheme", "cake-overhead", "cake-overhead-scheme", "cake-mpu", "cake-atm", "cake-memlimit"
+                    ],
+                    "where": { "kind": ["cake"] },
+                    "hide": true
+                }
+            ]
+        },
+        "simple-queue": {
+            "title": "Simple Queue <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "target", "dst", "-", "max-limit", "burst-limit", "burst-threshold", "burst-time", "time"] },
+                { "title": "Advanced", "fields": ["packet-marks", "-", "limit-at", "priority", "bucket-size", "queue", "-", "parent"] },
+                {
+                    "title": "Statistics",
+                    "readonly": true,
+                    "fields": [
+                        "rate", "packet-rate", "-",
+                        "queued-bytes", "queued-packets", "-",
+                        "bytes", "packets", "-",
+                        "dropped", "pcq-queues"
+                    ]
+                },
+                { "title": "Traffic", "readonly": true, "graph": "rate", "fields": ["rate", "packet-rate"] },
+                {
+                    "title": "Total",
+                    "fields": [
+                        "total-limit-at", "total-max-limit", "total-priority", "total-bucket-size", "total-burst-limit",
+                        "total-burst-threshold", "total-burst-time", "total-queue"
+                    ]
+                },
+                {
+                    "title": "Total Statistics",
+                    "readonly": true,
+                    "fields": [
+                        "total-rate", "total-packet-rate", "-",
+                        "total-queued-bytes", "total-queued-packets", "-",
+                        "total-bytes", "total-packets", "-",
+                        "total-dropped", "total-pcq-queues"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "queue": "Queue Type",
+        "active-queue": "Active Queue Type",
+        "rate": "Avg. Rate",
+        "packet-rate": "Avg. Packet Rate",
+        "total-rate": "Total Avg. Rate",
+        "total-packet-rate": "Total Avg. Packet Rate",
+        "packet-mark": "Packet Marks",
+        "upload-queue": "Upload Queue Type",
+        "download-queue": "Download Queue Type",
+        "upload-rate": "Upload Avg. Rate",
+        "download-rate": "Download Avg. Rate",
+        "total-queue": "Total Queue Type"
+    }
+}

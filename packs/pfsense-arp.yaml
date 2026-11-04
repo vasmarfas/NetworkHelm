@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: pfsense
+menu: [Diagnostics, ARP]
+window:
+  title: ARP
+  tabs:
+    - { title: ARP, path: diagnostics/arp }
+paths:
+  diagnostics/arp:
+    columns: [ip_address, mac_address, interface, hostname, expires, type]
+labels:
+  ip_address: Address
+  mac_address: MAC Address

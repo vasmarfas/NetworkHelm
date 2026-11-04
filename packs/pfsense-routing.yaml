@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: pfsense
+menu: [Routing]
+window:
+  title: Routing
+  tabs:
+    - { title: Routes, path: routing/route }
+    - { title: Gateways, path: routing/gateway }
+    - { title: Gateway Status, path: routing/gateway-status }
+paths:
+  routing/route:
+    columns: [network, gateway, descr]
+  routing/gateway:
+    columns: [name, interface, ipprotocol, gateway, monitor, descr]
+  routing/gateway-status:
+    columns: [name, srcip, monitorip, delay, stddev, loss, status]
+labels:
+  descr: Description
+  ipprotocol: IP Version
+  srcip: Source
+  monitorip: Monitor

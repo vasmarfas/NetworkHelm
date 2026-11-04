@@ -1,0 +1,34 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "Pool"],
+    "window": {
+        "title": "IPv6 Pool",
+        "tabs": [
+            { "title": "Pools", "path": "ipv6/pool" },
+            { "title": "Used Prefixes", "path": "ipv6/pool/used" }
+        ]
+    },
+    "paths": {
+        "ipv6/pool": {
+            "columns": ["name", "prefix", "prefix-length", "actual-prefix", "valid-lifetime", "preferred-lifetime"],
+            "readonly": ["actual-prefix", "valid-lifetime", "preferred-lifetime"],
+            "sort": "name",
+            "form": "pool"
+        },
+        "ipv6/pool/used": {
+            "columns": ["pool", "prefix", "owner", "info"],
+            "readonly": ["pool", "prefix", "owner", "info"]
+        }
+    },
+    "forms": {
+        "pool": {
+            "title": "IPv6 Pool <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "prefix", "from-pool", "prefix-length", "-", "actual-prefix", "valid-lifetime", "preferred-lifetime"]
+                }
+            ]
+        }
+    }
+}

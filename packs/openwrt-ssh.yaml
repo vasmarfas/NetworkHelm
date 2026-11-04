@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [System, SSH]
+window:
+  title: SSH
+  tabs:
+    - { title: SSH, path: dropbear/dropbear }
+    - { title: Keys, path: status/ssh-keys }
+paths:
+  status/ssh-keys:
+    columns: [key-type, bits, key-owner]

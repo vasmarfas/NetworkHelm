@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./menu.schema.json
+platform: vyos
+items:
+  - { title: Interfaces, path: interfaces/ethernet }
+  - { title: Firewall, path: firewall/ipv4/forward/filter/rule }
+  - { title: NAT, path: nat/source/rule }
+  - { title: Routes, path: protocols/static/route }
+  - { title: ARP, path: status/arp }
+  - title: Services
+    items:
+      - { title: DHCP Server, path: service/dhcp-server/shared-network-name }
+      - { title: DNS Forwarding, path: service/dns/forwarding }
+      - { title: NTP, path: service/ntp }
+      - { title: SSH, path: service/ssh }
+  - { title: Log, path: status/log }
+  - title: System
+    items:
+      - { title: General, path: system }
+      - { title: Users, path: system/login/user }

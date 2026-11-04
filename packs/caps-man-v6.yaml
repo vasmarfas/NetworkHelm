@@ -1,0 +1,333 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [CAPsMAN]
+window:
+  title: CAPsMAN
+  tabs:
+    - { title: CAP Interface, path: caps-man/interface }
+    - { title: Provisioning, path: caps-man/provisioning }
+    - { title: Configurations, path: caps-man/configuration }
+    - { title: Channels, path: caps-man/channel }
+    - { title: Datapaths, path: caps-man/datapath }
+    - { title: Security Cfg., path: caps-man/security }
+    - { title: Access List, path: caps-man/access-list }
+    - { title: Rates, path: caps-man/rates }
+    - { title: Remote CAP, path: caps-man/remote-cap }
+    - { title: Radio, path: caps-man/radio }
+    - { title: Registration Table, path: caps-man/registration-table }
+paths:
+  caps-man/interface:
+    columns: [name, type, actual-mtu, l2mtu, tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second, configuration, radio-mac]
+    readonly: [type, actual-mtu, running, master, bound, inactive, dynamic, tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    join: interface
+    monitor: { command: interface/monitor-traffic, argument: interface }
+    actions:
+      - { title: Reselect Channel, command: reselect-channel, selection: true }
+    links:
+      - { title: Manager, path: caps-man/manager }
+      - { title: AAA, path: caps-man/aaa }
+      - { title: Scanner, path: caps-man/interface/scan, argument: interface }
+  caps-man/provisioning:
+    form: provisioning
+    ordered: true
+    columns: [radio-mac, identity-regexp, common-name-regexp, action, master-configuration, slave-configurations]
+  caps-man/configuration:
+    form: configuration
+    columns:
+      - name
+      - ssid
+      - hide-ssid
+      - load-balancing-group
+      - country
+      - installation
+      - channel
+      - channel.frequency
+      - channel.secondary-frequency
+      - channel.band
+      - rates
+      - datapath
+      - datapath.bridge
+      - datapath.vlan-mode
+      - datapath.vlan-id
+      - security
+  caps-man/channel:
+    form: channel
+    columns: [name, frequency, secondary-frequency, control-channel-width, band, extension-channel, tx-power]
+  caps-man/datapath:
+    form: datapath
+    columns: [name, bridge, local-forwarding, client-to-client-forwarding, vlan-mode, vlan-id]
+  caps-man/security:
+    form: security
+    columns: [name, authentication-types, encryption, group-encryption, group-key-update, passphrase, eap-methods]
+  caps-man/access-list:
+    form: access-list
+    ordered: true
+    columns: [mac-address, mac-address-mask, interface, signal-range, action, client-to-client-forwarding, vlan-mode, vlan-id]
+  caps-man/rates:
+    form: rates
+    columns: [name, basic, supported, ht-basic-mcs, ht-supported-mcs, vht-basic-mcs, vht-supported-mcs]
+  caps-man/remote-cap:
+    columns: [address, name, board, serial, version, identity, base-mac, state, radios]
+    readonly: [address, name, board, serial, version, identity, base-mac, state, radios]
+    actions:
+      - { title: Provision, command: provision, selection: true }
+      - { title: Upgrade, command: upgrade, selection: true }
+    links:
+      - { title: Set Identity, path: caps-man/remote-cap/set-identity, argument: numbers }
+  caps-man/remote-cap/set-identity:
+    form: set-identity
+  caps-man/interface/scan:
+    form: scan
+  caps-man/radio:
+    columns: [radio-mac, remote-cap-name, remote-cap-identity, interface]
+    readonly: [radio-mac, remote-cap-name, remote-cap-identity, interface]
+    actions:
+      - { title: Provision, command: provision, selection: true }
+  caps-man/registration-table:
+    columns: [interface, ssid, mac-address, eap-identity, tx-rate, rx-rate, tx-signal, rx-signal, uptime, packets, bytes]
+    readonly: [interface, ssid, mac-address, eap-identity, tx-rate, rx-rate, tx-signal, rx-signal, uptime, packets, bytes]
+forms:
+  set-identity:
+    tabs:
+      - title: General
+        fields: [numbers, identity]
+  scan:
+    tabs:
+      - title: General
+        fields: [interface, duration, rounds, save-file]
+  provisioning:
+    title: "CAPs Provisioning <{radio-mac}>"
+    tabs:
+      - title: General
+        fields:
+          - radio-mac
+          - hw-supported-modes
+          - identity-regexp
+          - common-name-regexp
+          - ip-address-ranges
+          - "-"
+          - action
+          - master-configuration
+          - slave-configurations
+          - "-"
+          - name-format
+          - name-prefix
+  configuration:
+    title: "CAPs Configuration <{name}>"
+    # tik4net calls it channel.width, which RouterOS 6.49 does not take
+    renamed: { channel.width: channel.control-channel-width }
+    tabs:
+      - title: Wireless
+        fields:
+          - name
+          - mode
+          - ssid
+          - hide-ssid
+          - load-balancing-group
+          - "-"
+          - distance
+          - hw-retries
+          - hw-protection-mode
+          - frame-lifetime
+          - disconnect-timeout
+          - keepalive-frames
+          - "-"
+          - country
+          - installation
+          - "-"
+          - max-sta-count
+          - multicast-helper
+          - "-"
+          - tx-chains
+          - rx-chains
+          - guard-interval
+      - title: Channel
+        fields:
+          - channel
+          - "-"
+          - channel.frequency
+          - channel.secondary-frequency
+          - channel.control-channel-width
+          - channel.band
+          - channel.extension-channel
+          - channel.tx-power
+          - channel.save-selected
+          - channel.reselect-interval
+          - channel.skip-dfs-channels
+      - title: Rates
+        fields: [rates, "-", rates.basic, rates.supported, rates.ht-basic-mcs, rates.ht-supported-mcs, rates.vht-basic-mcs, rates.vht-supported-mcs]
+      - title: Datapath
+        fields:
+          - datapath
+          - "-"
+          - datapath.mtu
+          - datapath.l2mtu
+          - datapath.arp
+          - "-"
+          - datapath.bridge
+          - datapath.bridge-cost
+          - datapath.bridge-horizon
+          - "-"
+          - datapath.local-forwarding
+          - datapath.client-to-client-forwarding
+          - "-"
+          - datapath.vlan-mode
+          - datapath.vlan-id
+          - datapath.interface-list
+      - title: Security
+        fields:
+          - security
+          - "-"
+          - security.authentication-types
+          - security.encryption
+          - security.group-encryption
+          - security.group-key-update
+          - security.passphrase
+          - security.disable-pmkid
+          - security.eap-methods
+          - security.eap-radius-accounting
+          - security.tls-mode
+          - security.tls-certificate
+  channel:
+    title: "CAPs Channel <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - "-"
+          - frequency
+          - secondary-frequency
+          - control-channel-width
+          - band
+          - extension-channel
+          - tx-power
+          - save-selected
+          - reselect-interval
+          - skip-dfs-channels
+  datapath:
+    title: "CAPs Datapath <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - "-"
+          - mtu
+          - l2mtu
+          - arp
+          - "-"
+          - bridge
+          - bridge-cost
+          - bridge-horizon
+          - "-"
+          - local-forwarding
+          - client-to-client-forwarding
+          - "-"
+          - vlan-mode
+          - vlan-id
+          - interface-list
+          - openflow-switch
+  security:
+    title: "CAPs Security Configuration <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - "-"
+          - authentication-types
+          - encryption
+          - group-encryption
+          - group-key-update
+          - passphrase
+          - disable-pmkid
+          - eap-methods
+          - eap-radius-accounting
+          - tls-mode
+          - tls-certificate
+  access-list:
+    title: "CAPs Access Rule <{mac-address}>"
+    tabs:
+      - title: General
+        fields:
+          - mac-address
+          - mac-address-mask
+          - interface
+          - ssid-regexp
+          - signal-range
+          - allow-signal-out-of-range
+          - time
+          - "-"
+          - action
+          - "-"
+          - ap-tx-limit
+          - client-tx-limit
+          - "-"
+          - private-passphrase
+          - "-"
+          - client-to-client-forwarding
+          - radius-accounting
+          - "-"
+          - vlan-mode
+          - vlan-id
+  rates:
+    title: "CAPs Rates <{name}>"
+    tabs:
+      - title: General
+        fields: [name, basic, supported, ht-basic-mcs, ht-supported-mcs, vht-basic-mcs, vht-supported-mcs]
+labels:
+  numbers: Remote CAP
+  channel.frequency: Frequency
+  channel.secondary-frequency: Secondary Frequency
+  channel.band: Band
+  datapath.bridge: Bridge
+  datapath.vlan-mode: VLAN Mode
+  datapath.vlan-id: VLAN ID
+  mac-address-mask: MAC Mask
+  ht-basic-mcs: HT Basic MCS
+  ht-supported-mcs: HT Supported MCS
+  vht-basic-mcs: VHT Basic MCS
+  vht-supported-mcs: VHT Supported MCS
+  basic: Basic Rates
+  supported: Supported Rates
+  packets: Tx/Rx Packets
+  bytes: Tx/Rx Bytes
+  tx-bits-per-second: Tx
+  rx-bits-per-second: Rx
+  tx-packets-per-second: Tx Packet (p/s)
+  rx-packets-per-second: Rx Packet (p/s)
+  hw-retries: Hw. Retries
+  hw-protection-mode: Hw. Protection Mode
+  hw-supported-modes: Hw. Supported Modes
+  max-sta-count: Max Station Count
+  tx-chains: HT Tx Chains
+  rx-chains: HT Rx Chains
+  guard-interval: HT Guard Interval
+  channel.control-channel-width: Control Channel Width
+  channel.extension-channel: Extension Channel
+  channel.tx-power: Tx Power
+  channel.save-selected: Save Selected
+  channel.reselect-interval: Reselect Interval
+  channel.skip-dfs-channels: Skip DFS Channels
+  rates.basic: Basic Rates
+  rates.supported: Supported Rates
+  rates.ht-basic-mcs: HT Basic MCS
+  rates.ht-supported-mcs: HT Supported MCS
+  rates.vht-basic-mcs: VHT Basic MCS
+  rates.vht-supported-mcs: VHT Supported MCS
+  datapath.mtu: MTU
+  datapath.l2mtu: L2 MTU
+  datapath.arp: ARP
+  datapath.bridge-cost: Bridge Cost
+  datapath.bridge-horizon: Bridge Horizon
+  datapath.local-forwarding: Local Forwarding
+  datapath.client-to-client-forwarding: Client To Client Forwarding
+  datapath.interface-list: Interface List
+  security.authentication-types: Authentication Type
+  security.encryption: Encryption
+  security.group-encryption: Group Encryption
+  security.group-key-update: Group Key Update
+  security.passphrase: Passphrase
+  security.disable-pmkid: Disable PMKID
+  security.eap-methods: EAP Methods
+  security.eap-radius-accounting: EAP Radius Accounting
+  security.tls-mode: TLS Mode
+  security.tls-certificate: TLS Certificate
+  authentication-types: Authentication Type

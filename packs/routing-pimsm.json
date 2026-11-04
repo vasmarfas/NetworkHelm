@@ -1,0 +1,135 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "PIM SM"],
+    "since": "7.0",
+    "window": {
+        "title": "PIM SM",
+        "tabs": [
+            { "title": "Instance", "path": "routing/pimsm/instance" },
+            { "title": "Interface Template", "path": "routing/pimsm/interface-template" },
+            { "title": "IGMP Interface Template", "path": "routing/pimsm/igmp-interface-template" },
+            { "title": "Interface", "path": "routing/pimsm/interface" },
+            { "title": "Neighbor", "path": "routing/pimsm/neighbor" },
+            { "title": "Static RP", "path": "routing/pimsm/static-rp" },
+            { "title": "UIB G", "path": "routing/pimsm/uib-g" },
+            { "title": "UIB SG", "path": "routing/pimsm/uib-sg" },
+            { "title": "BSR", "path": "routing/pimsm/bsr" },
+            { "title": "Candidate", "path": "routing/pimsm/bsr/candidate" },
+            { "title": "RP Candidate", "path": "routing/pimsm/bsr/rp-candidate" }
+        ]
+    },
+    "paths": {
+        "routing/pimsm/instance": {
+            "columns": [
+                "name", "vrf", "afi", "switch-to-spt", "switch-to-spt-interval", "switch-to-spt-bytes", "crp-advertise-contained", "bsm-forward-back",
+                "rp-hash-mask-length", "rp-static-override"
+            ],
+            "form": "instance"
+        },
+        "routing/pimsm/interface-template": {
+            "ordered": true,
+            "columns": ["instance", "interfaces"],
+            "form": "interface-template"
+        },
+        "routing/pimsm/igmp-interface-template": {
+            "ordered": true,
+            "columns": ["instance", "interfaces"],
+            "form": "igmp-interface-template"
+        },
+        "routing/pimsm/interface": {
+            "columns": ["instance", "interface", "address", "pim.priority", "pim.propagation-delay", "pim.override-interval"],
+            "readonly": ["instance", "interface", "address", "pim.priority", "pim.propagation-delay", "pim.override-interval", "designated-router", "join-tracking"]
+        },
+        "routing/pimsm/neighbor": {
+            "columns": ["instance", "address", "priority", "propagation-delay", "override-interval"],
+            "readonly": ["instance", "address", "priority", "propagation-delay", "override-interval", "designated-router", "join-tracking", "timeout"]
+        },
+        "routing/pimsm/static-rp": {
+            "columns": ["instance", "group", "address"],
+            "form": "static-rp"
+        },
+        "routing/pimsm/uib-g": {
+            "columns": ["instance", "group", "rp", "rpf"],
+            "readonly": ["instance", "group", "rp", "rpf", "rp-local"]
+        },
+        "routing/pimsm/uib-sg": {
+            "columns": ["instance", "group", "source", "rpf", "register"],
+            "readonly": ["instance", "group", "source", "rpf", "register", "keepalive", "spt-bit"]
+        },
+        "routing/pimsm/bsr": {
+            "columns": ["instance", "scope4", "scope6", "address", "priority", "hash-mask-length", "state"],
+            "readonly": ["instance", "scope4", "scope6", "address", "priority", "hash-mask-length", "state"],
+            "links": [
+                { "title": "RP Set", "path": "routing/pimsm/bsr/rp-set" }
+            ]
+        },
+        "routing/pimsm/bsr/rp-set": {
+            "columns": ["instance", "group", "rp.address", "rp.priority", "rp.timeout"],
+            "readonly": ["instance", "group", "rp.address", "rp.priority", "rp.timeout"]
+        },
+        "routing/pimsm/bsr/candidate": {
+            "columns": ["instance", "address", "scope4", "scope6", "priority", "hash-mask-length"],
+            "readonly": ["state"],
+            "form": "candidate"
+        },
+        "routing/pimsm/bsr/rp-candidate": {
+            "columns": ["instance", "group", "address", "priority", "holdtime"],
+            "form": "rp-candidate"
+        }
+    },
+    "forms": {
+        "instance": {
+            "title": "PIM Instance <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "vrf", "afi", "-",
+                        "switch-to-spt", "switch-to-spt-interval", "switch-to-spt-bytes", "-",
+                        "crp-advertise-contained", "bsm-forward-back", "rp-hash-mask-length", "rp-static-override", "ssm-range"
+                    ]
+                }
+            ]
+        },
+        "interface-template": {
+            "title": "PIM Interface Template <{instance}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "instance", "interfaces", "source-addresses", "-",
+                        "hello-period", "hello-delay", "priority", "join-prune-period", "propagation-delay", "override-interval", "join-tracking-support"
+                    ]
+                }
+            ]
+        },
+        "igmp-interface-template": {
+            "title": "IGMP Interface Template <{instance}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["instance", "interfaces", "-", "robustness", "query-interval", "query-response-interval", "last-member-query-interval"]
+                }
+            ]
+        },
+        "static-rp": {
+            "title": "PIM Static RP <{address}>",
+            "tabs": [{ "title": "General", "fields": ["instance", "group", "address"] }]
+        },
+        "candidate": {
+            "title": "PIM Candidate <{address}>",
+            "tabs": [{ "title": "General", "fields": ["instance", "address", "scope4", "scope6", "priority", "hash-mask-length"] }],
+            "renamed": { "hashmask-length": "hash-mask-length" }
+        },
+        "rp-candidate": {
+            "title": "PIM RP Candidate <{address}>",
+            "tabs": [{ "title": "General", "fields": ["instance", "group", "address", "priority", "holdtime"] }]
+        }
+    },
+    "labels": {
+        "pim.priority": "Priority",
+        "pim.propagation-delay": "Propagation Delay",
+        "pim.override-interval": "Override Interval",
+        "rpf": "RPF"
+    }
+}

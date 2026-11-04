@@ -1,0 +1,91 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Logging"],
+    "since": "7.0",
+    "window": {
+        "title": "Logging",
+        "tabs": [
+            { "title": "Rules", "path": "system/logging" },
+            { "title": "Actions", "path": "system/logging/action" }
+        ]
+    },
+    "paths": {
+        "system/logging": {
+            "columns": ["topics", "prefix", "regex", "action"],
+            "readonly": ["invalid", "default", "managed"],
+            "form": "rule"
+        },
+        "system/logging/action": {
+            "columns": ["name", "target", "remote", "remote-port", "disk-file-name", "memory-lines"],
+            "readonly": ["default", "managed"],
+            "form": "action"
+        }
+    },
+    "forms": {
+        "rule": {
+            "title": "Log Rule <{topics}>",
+            "tabs": [
+                { "title": "General", "fields": ["topics", "prefix", "regex", "action"] }
+            ]
+        },
+        "action": {
+            "title": "Log Action <{name}>",
+            "only": [
+                { "fields": ["memory-lines", "memory-stop-on-full"], "where": { "target": ["memory"] }, "hide": true },
+                {
+                    "fields": ["disk-file-name", "disk-lines-per-file", "disk-file-count", "disk-stop-on-full"],
+                    "where": { "target": ["disk"] },
+                    "hide": true
+                },
+                { "fields": ["remember"], "where": { "target": ["echo"] }, "hide": true },
+                { "fields": ["email-to", "email-cc", "email-start-tls"], "where": { "target": ["email"] }, "hide": true },
+                {
+                    "fields": [
+                        "remote", "remote-port", "src-address", "bsd-syslog", "remote-log-format", "remote-protocol", "syslog-facility",
+                        "syslog-severity", "add-topics-string", "syslog-time-format", "cef-event-delimiter", "vrf", "check-certificate"
+                    ],
+                    "where": { "target": ["remote"] },
+                    "hide": true
+                },
+                { "fields": ["script"], "where": { "target": ["script"] }, "hide": true },
+                { "fields": ["syslog-facility", "syslog-severity", "add-topics-string"], "where": { "remote-log-format": ["syslog"] } },
+                { "fields": ["syslog-time-format"], "where": { "remote-log-format": ["syslog", "cef"] } },
+                { "fields": ["cef-event-delimiter"], "where": { "remote-log-format": ["cef"] } },
+                { "fields": ["check-certificate"], "where": { "remote-protocol": ["tls"] } }
+            ],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "target", "-",
+                        "memory-lines", "memory-stop-on-full", "-",
+                        "disk-file-name", "disk-lines-per-file", "disk-file-count", "disk-stop-on-full", "-",
+                        "remember", "-",
+                        "email-to", "email-cc", "email-start-tls", "-",
+                        "remote", "remote-port", "src-address", "bsd-syslog", "remote-log-format", "remote-protocol", "-",
+                        "syslog-facility", "syslog-severity", "add-topics-string", "syslog-time-format", "cef-event-delimiter", "-",
+                        "vrf", "check-certificate", "-",
+                        "script"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "memory-lines": "Lines",
+        "memory-stop-on-full": "Stop on Full",
+        "disk-file-name": "File Name",
+        "disk-lines-per-file": "Lines Per File",
+        "disk-file-count": "File Count",
+        "disk-stop-on-full": "Stop on Full",
+        "remember": "Save",
+        "email-to": "Email",
+        "email-cc": "CC",
+        "email-start-tls": "Start TLS",
+        "remote": "Remote Address",
+        "remote-protocol": "Remote Log Protocol",
+        "add-topics-string": "Add Topics",
+        "syslog-time-format": "Timestamp Format",
+        "cef-event-delimiter": "CEF Event Delimiter"
+    }
+}

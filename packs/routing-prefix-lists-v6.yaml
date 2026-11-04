@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, Prefix Lists]
+until: 7.0
+window:
+  title: Prefix Lists
+  tabs:
+    - { title: Prefix Lists, path: routing/prefix-lists }
+paths:
+  routing/prefix-lists:
+    ordered: true
+    columns: [chain, prefix, action, set-metric]
+    quick: chain
+    form: rule
+forms:
+  rule:
+    title: "Prefix List <{chain}>"
+    tabs:
+      - title: General
+        fields: [chain, prefix, prefix-length, invert-match, "-", action, set-metric]

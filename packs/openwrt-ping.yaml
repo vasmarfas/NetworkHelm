@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Tools, Ping]
+window:
+  title: Ping
+  tabs:
+    - { title: Ping, path: tool/ping }
+paths:
+  tool/ping:
+    columns: [seq, host, time, size, ttl, status]
+    summary: [sent, received, packet-loss, min-rtt, avg-rtt, max-rtt]
+labels:
+  address: Ping To
+  seq: "Seq #"

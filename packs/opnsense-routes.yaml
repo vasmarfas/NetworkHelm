@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [Routes]
+window:
+  title: Routes
+  tabs:
+    - { title: Routes, path: routes/routes }
+paths:
+  routes/routes:
+    columns: [network, gateway, descr]
+labels:
+  descr: Description

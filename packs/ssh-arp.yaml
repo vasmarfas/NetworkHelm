@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: ssh
+menu: [IP, ARP]
+window:
+  title: ARP
+  tabs:
+    - { title: ARP, path: ip/arp }
+    - { title: IPv6 Neighbors, path: ipv6/neighbor }
+paths:
+  ip/arp:
+    columns: [address, mac-address, interface, status]
+  ipv6/neighbor:
+    columns: [address, mac-address, interface, status, router]

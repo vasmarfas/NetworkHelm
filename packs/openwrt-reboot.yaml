@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [System, Reboot]
+window:
+  title: Reboot
+  tabs:
+    - { title: Reboot, path: tool/reboot }
+paths:
+  tool/reboot:
+    confirm: true

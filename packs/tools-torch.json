@@ -1,0 +1,50 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Torch"],
+    "window": {
+        "title": "Torch",
+        "tabs": [
+            { "title": "Torch", "path": "tool/torch" }
+        ]
+    },
+    "paths": {
+        "tool/torch": {
+            "form": "tool",
+            "columns": [
+                "mac-protocol", "ip-protocol", "src-address", "src-port", "dst-address", "dst-port", "vlan-id", "dscp", "tx",
+                "rx", "tx-packets", "rx-packets"
+            ],
+            "readonly": ["src-port", "dst-port", "tx", "rx", "tx-packets", "rx-packets"],
+            "flows": ["mac-protocol", "ip-protocol", "src-address", "src-port", "dst-address", "dst-port", "vlan-id", "dscp"],
+            "preselect": { "interface": "interface" },
+            "bits": ["tx", "rx"],
+            "totals": ["tx", "rx", "tx-packets", "rx-packets"],
+            "fasttrack": true
+        }
+    },
+    "forms": {
+        "tool": {
+            "tabs": [
+                {
+                    "title": "Basic",
+                    "fields": ["interface"]
+                },
+                {
+                    "title": "Filters",
+                    "fields": [
+                        "src-address", "dst-address", "src-address6", "dst-address6", "mac-protocol", "ip-protocol", "port",
+                        "vlan-id", "dscp"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "ip-protocol": "Protocol",
+        "vlan-id": "VLAN Id",
+        "tx": "Tx Rate",
+        "rx": "Rx Rate",
+        "tx-packets": "Tx Packet",
+        "rx-packets": "Rx Packet"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "MAC Server"],
+    "window": {
+        "title": "MAC Server",
+        "tabs": [
+            { "title": "Sessions", "path": "tool/mac-server/sessions" }
+        ]
+    },
+    "paths": {
+        "tool/mac-server/sessions": {
+            "columns": ["interface", "src-address", "uptime"],
+            "readonly": ["interface", "src-address", "uptime"],
+            "links": [
+                { "title": "MAC Telnet Server", "path": "tool/mac-server" },
+                { "title": "MAC WinBox Server", "path": "tool/mac-server/mac-winbox" },
+                { "title": "MAC Ping Server", "path": "tool/mac-server/ping" }
+            ]
+        }
+    }
+}

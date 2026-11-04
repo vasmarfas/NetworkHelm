@@ -1,0 +1,28 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Addresses"],
+    "window": {
+        "title": "Addresses",
+        "tabs": [
+            { "title": "Addresses", "path": "ip/address" }
+        ]
+    },
+    "paths": {
+        "ip/address": {
+            "columns": ["address", "network", "interface", "vrf"],
+            "readonly": ["vrf", "actual-interface", "dynamic", "invalid", "slave"],
+            "form": "address"
+        }
+    },
+    "forms": {
+        "address": {
+            "title": "Address <{address}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["address", "network", "interface", "vrf"]
+                }
+            ]
+        }
+    }
+}

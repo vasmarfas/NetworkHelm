@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, RIPng]
+until: 7.0
+window:
+  title: RIPng
+  tabs:
+    - { title: Interfaces, path: routing/ripng/interface }
+    - { title: Routes, path: routing/ripng/route }
+paths:
+  routing/ripng/interface:
+    columns: [interface, passive, in-prefix-list, out-prefix-list]
+    readonly: [updates-tx, updates-rx, bad-packets, bad-routes, invalid]
+    form: interface
+    links:
+      - { title: RIPng Settings, path: routing/ripng }
+  routing/ripng/route:
+    columns: [dst-address, gateway, from, metric, timeout]
+    readonly: [dst-address, gateway, from, metric, timeout]
+  routing/ripng:
+    form: settings
+forms:
+  interface:
+    title: "RIPng Interface <{interface}>"
+    tabs:
+      - title: General
+        fields: [interface, passive, "-", in-prefix-list, out-prefix-list, "-", updates-tx, updates-rx, bad-packets, bad-routes]
+  settings:
+    title: RIPng Settings
+    tabs:
+      - title: General
+        fields:
+          - distribute-default
+          - redistribute-static
+          - redistribute-connected
+          - redistribute-ospf
+          - redistribute-bgp
+          - "-"
+          - metric-default
+          - metric-static
+          - metric-connected
+          - metric-ospf
+          - metric-bgp
+          - "-"
+          - update-timer
+          - timeout-timer
+          - garbage-timer
+labels:
+  updates-tx: Tx Updates
+  updates-rx: Rx Updates
+  redistribute-static: Redistribute Static Routes
+  redistribute-connected: Redistribute Connected Routes
+  redistribute-ospf: Redistribute OSPF Routes
+  redistribute-bgp: Redistribute BGP Routes
+  metric-default: Default Route Metric
+  metric-static: Static Routes Metric
+  metric-connected: Connected Routes Metric
+  metric-ospf: OSPF Routes Metric
+  metric-bgp: BGP Routes Metric

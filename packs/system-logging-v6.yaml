@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, Logging]
+until: 7.0
+window:
+  title: Logging
+  tabs:
+    - { title: Rules, path: system/logging }
+    - { title: Actions, path: system/logging/action }
+paths:
+  system/logging:
+    columns: [topics, prefix, action]
+    readonly: [invalid, default]
+    form: rule
+  system/logging/action:
+    columns: [name, target]
+    readonly: [default]
+    form: action
+forms:
+  rule:
+    title: "Log Rule <{topics}>"
+    tabs:
+      - title: General
+        fields: [topics, prefix, action]
+  action:
+    title: "Log Action <{name}>"
+    only:
+      - { fields: [memory-lines, memory-stop-on-full], where: { target: [memory] }, hide: true }
+      - { fields: [disk-file-name, disk-lines-per-file, disk-file-count, disk-stop-on-full], where: { target: [disk] }, hide: true }
+      - { fields: [remember], where: { target: [echo] }, hide: true }
+      - { fields: [email-to, email-start-tls], where: { target: [email] }, hide: true }
+      - fields: [remote, remote-port, src-address, bsd-syslog, syslog-time-format, syslog-facility, syslog-severity]
+        where: { target: [remote] }
+        hide: true
+    tabs:
+      - title: General
+        fields:
+          - name
+          - target
+          - "-"
+          - memory-lines
+          - memory-stop-on-full
+          - "-"
+          - disk-file-name
+          - disk-lines-per-file
+          - disk-file-count
+          - disk-stop-on-full
+          - "-"
+          - remember
+          - "-"
+          - email-to
+          - email-start-tls
+          - "-"
+          - remote
+          - remote-port
+          - src-address
+          - bsd-syslog
+          - syslog-time-format
+          - syslog-facility
+          - syslog-severity
+labels:
+  target: Type
+  memory-lines: Lines
+  memory-stop-on-full: Stop on Full
+  disk-file-name: File Name
+  disk-lines-per-file: Lines Per File
+  disk-file-count: File Count
+  disk-stop-on-full: Stop on Full
+  remember: Save
+  email-to: Email To
+  email-start-tls: Email Start TLS
+  remote: Remote Address
+  syslog-time-format: Syslog Time Format

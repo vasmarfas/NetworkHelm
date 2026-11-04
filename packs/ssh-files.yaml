@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: ssh
+menu: [Files]
+window:
+  title: Files
+  tabs:
+    - { title: Files, path: file }
+paths:
+  file:
+    columns: [name, type, size, last-modified]
+    bytes: [size]
+    files: true
+    uploads: tmp

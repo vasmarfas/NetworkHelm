@@ -1,0 +1,15 @@
+{
+	"networkhelm": {
+		"description": "NetworkHelm client",
+		"read": {
+			"ubus": { "*": [ "*" ] },
+			"uci": [ "*" ],
+			"file": { "/*": [ "read", "list", "stat" ] }
+		},
+		"write": {
+			"ubus": { "*": [ "*" ] },
+			"uci": [ "*" ],
+			"file": { "/*": [ "write", "exec" ] }
+		}
+	}
+}

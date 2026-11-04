@@ -1,0 +1,30 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "Nexthops"],
+    "since": "7.0",
+    "window": {
+        "title": "Nexthops",
+        "tabs": [
+            { "title": "Nexthops", "path": "routing/nexthop" }
+        ]
+    },
+    "paths": {
+        "routing/nexthop": {
+            "columns": [
+                "afi", "address", "scope", "target-scope", "check-gateway", "immediate-gw.address", "immediate-gw.weight", "immediate-gw.flap-count",
+                "immediate-gw.mpls-peer-id", "immediate-gw.mpls-label"
+            ],
+            "readonly": [
+                "afi", "address", "scope", "target-scope", "check-gateway", "immediate-gw.address", "immediate-gw.weight", "immediate-gw.flap-count",
+                "immediate-gw.mpls-peer-id", "immediate-gw.mpls-label"
+            ]
+        }
+    },
+    "labels": {
+        "immediate-gw.address": "Gw. Address",
+        "immediate-gw.weight": "Weight",
+        "immediate-gw.flap-count": "Flap Count",
+        "immediate-gw.mpls-peer-id": "MPLS Peer",
+        "immediate-gw.mpls-label": "MPLS Label"
+    }
+}

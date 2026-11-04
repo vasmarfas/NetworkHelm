@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="files_via">via %1$s</string>
+    <string name="files_via_api">API</string>
+    <string name="files_via_sftp">SFTP</string>
+    <string name="files_via_native">8291</string>
+    <string name="files_via_rpcd">rpcd</string>
+    <string name="file_reading_via">Reading over %1$s…</string>
+    <string name="file_checking_ssh">Checking whether SSH answers…</string>
+    <string name="file_needs_bulk">This file is too big, or is not plain text, for the commands of the router.</string>
+    <string name="files_off_ssh">Large files go over SFTP, and SSH is turned off on the router.</string>
+    <string name="files_closed_ssh">Large files go over SFTP, and port %1$d of SSH does not answer.</string>
+    <string name="files_no_ssh">Large files go over SFTP, and this connection has no SSH.</string>
+    <string name="files_key_refused">The SSH host key was not accepted, so large files do not go.</string>
+    <string name="files_too_big_rpcd">The file is bigger than rpcd gives (256 KiB), and SSH is not available.</string>
+    <string name="files_openwrt_ssh">On OpenWrt SSH is turned on in System, Administration (Dropbear).</string>
+    <string name="files_enable_ssh">Turn on SSH on the router</string>
+    <string name="files_enable_ssh_question">Turn on the SSH service of the router? Files of any size will go over SFTP afterwards.</string>
+    <string name="files_retry">Try again</string>
+</resources>

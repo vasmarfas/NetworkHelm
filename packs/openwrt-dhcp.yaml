@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, DHCP and DNS]
+window:
+  title: DHCP and DNS
+  tabs:
+    - { title: Servers, path: dhcp/dnsmasq }
+    - { title: Pools, path: dhcp/dhcp }
+    - { title: Leases, path: status/dhcp-leases }
+    - { title: Static Leases, path: dhcp/host }
+    - { title: Host Names, path: dhcp/domain }
+    - { title: odhcpd, path: dhcp/odhcpd }
+paths:
+  dhcp/dnsmasq:
+    columns: [.name, domain, local, authoritative, leasefile]
+  dhcp/dhcp:
+    columns: [.name, interface, start, limit, leasetime, ignore]
+  status/dhcp-leases:
+    columns: [address, mac-address, host-name, expires]
+  dhcp/host:
+    columns: [name, mac, ip, leasetime]
+  dhcp/domain:
+    columns: [name, ip]
+  dhcp/odhcpd:
+    columns: [maindhcp, leasefile, leasetrigger]
+labels:
+  .name: Name

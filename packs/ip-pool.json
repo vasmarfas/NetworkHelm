@@ -1,0 +1,24 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Pool"],
+    "window": {
+        "title": "Pool",
+        "tabs": [
+            { "title": "Pools", "path": "ip/pool" },
+            { "title": "Used Addresses", "path": "ip/pool/used" }
+        ]
+    },
+    "paths": {
+        "ip/pool": {
+            "columns": ["name", "ranges", "next-pool", "total", "used", "available"],
+            "readonly": ["total", "used", "available"]
+        },
+        "ip/pool/used": {
+            "columns": ["pool", "address", "owner", "info"],
+            "quick": "pool"
+        }
+    },
+    "labels": {
+        "ranges": "Addresses"
+    }
+}

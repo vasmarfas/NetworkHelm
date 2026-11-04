@@ -1,0 +1,47 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Ping"],
+    "since": "7.0",
+    "window": {
+        "title": "Ping",
+        "tabs": [
+            { "title": "Ping", "path": "tool/ping" }
+        ]
+    },
+    "paths": {
+        "tool/ping": {
+            "form": "tool",
+            "columns": ["seq", "host", "time", "size", "ttl", "status"],
+            "readonly": ["seq", "host", "time", "size", "ttl", "status", "sent", "received", "packet-loss", "min-rtt", "avg-rtt", "max-rtt"],
+            "summary": ["sent", "received", "packet-loss", "min-rtt", "avg-rtt", "max-rtt"],
+            "millis": ["time", "min-rtt", "avg-rtt", "max-rtt"],
+            "columnLabels": { "time": "Time (ms)", "size": "Reply Size" },
+            "defaults": { "size": "56", "interval": "1s" }
+        }
+    },
+    "forms": {
+        "tool": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["address", "vrf", "interface", "arp-ping", "nd-ping", "count", "interval"]
+                },
+                {
+                    "title": "Advanced",
+                    "fields": ["src-address", "size", "ttl", "dscp", "do-not-fragment"]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "address": "Ping To",
+        "seq": "Seq #",
+        "count": "Packet Count",
+        "size": "Packet Size",
+        "do-not-fragment": "Dont Fragment",
+        "packet-loss": "Packet Loss, %",
+        "min-rtt": "Min",
+        "avg-rtt": "Avg",
+        "max-rtt": "Max"
+    }
+}

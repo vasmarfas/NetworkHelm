@@ -1,0 +1,35 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Email"],
+    "window": {
+        "title": "Email Settings",
+        "tabs": [
+            { "title": "Email Settings", "path": "tool/e-mail" }
+        ]
+    },
+    "paths": {
+        "tool/e-mail": {
+            "readonly": ["last-status", "last-address"],
+            "form": "settings",
+            "links": [
+                { "title": "Send Email", "path": "tool/e-mail/send" }
+            ]
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "Email Settings",
+            "renamed": { "address": "server" },
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "server", "port", "tls", "vrf", "-",
+                        "from", "user", "password", "certificate-verification", "-",
+                        "last-status", "last-address"
+                    ]
+                }
+            ]
+        }
+    }
+}

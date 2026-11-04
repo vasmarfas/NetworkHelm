@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, ARP]
+window:
+  title: ARP
+  tabs:
+    - { title: ARP, path: status/neighbors }
+    - { title: IPv6 Neighbors, path: status/neighbors6 }
+paths:
+  status/neighbors:
+    columns: [address, mac-address, interface, flags]
+  status/neighbors6:
+    columns: [address, mac-address, interface, status, router]

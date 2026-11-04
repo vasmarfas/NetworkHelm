@@ -1,0 +1,28 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Console"],
+    "window": {
+        "title": "Console",
+        "tabs": [
+            { "title": "Console", "path": "system/console" }
+        ]
+    },
+    "paths": {
+        "system/console": {
+            "columns": ["port", "channel", "term"],
+            "form": "console",
+            "links": [
+                { "title": "Screen", "path": "system/console/screen" }
+            ]
+        }
+    },
+    "forms": {
+        "console": {
+            "title": "Console <{port}>",
+            "tabs": [{ "title": "General", "fields": ["port", "channel", "term"] }]
+        }
+    },
+    "labels": {
+        "channel": "VC#"
+    }
+}

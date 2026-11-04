@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=./menu.schema.json
+platform: upnp
+items:
+  - { title: Interfaces, path: interface }
+  - title: IP
+    items:
+      - { title: DHCP Server, path: ip/dhcp-server/lease }
+      - { title: Firewall, path: ip/firewall/nat }
+  - title: System
+    items:
+      - { title: Resources, path: system/resource }

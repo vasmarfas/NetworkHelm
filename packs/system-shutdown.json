@@ -1,0 +1,13 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Shutdown"],
+    "window": {
+        "title": "Shutdown",
+        "tabs": [
+            { "title": "Shutdown", "path": "system/shutdown" }
+        ]
+    },
+    "paths": {
+        "system/shutdown": { "confirm": true }
+    }
+}

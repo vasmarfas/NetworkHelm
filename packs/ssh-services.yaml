@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: ssh
+menu: [System, Services]
+window:
+  title: Services
+  tabs:
+    - { title: Services, path: system/service }
+paths:
+  system/service:
+    columns: [name, status, load, description]

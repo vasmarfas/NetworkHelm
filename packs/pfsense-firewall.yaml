@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: pfsense
+menu: [Firewall]
+window:
+  title: Firewall
+  tabs:
+    - { title: Rules, path: firewall/rule }
+    - { title: Port Forward, path: firewall/port-forward }
+    - { title: Outbound NAT, path: firewall/outbound-nat }
+    - { title: Aliases, path: firewall/alias }
+paths:
+  firewall/rule:
+    columns: [type, interface, ipprotocol, protocol, source, source_port, destination, destination_port, gateway, descr]
+    quick: interface
+    labels:
+      type: Action
+  firewall/port-forward:
+    columns: [interface, protocol, source, destination, destination_port, target, local_port, descr]
+  firewall/outbound-nat:
+    columns: [interface, protocol, source, destination, target, descr]
+  firewall/alias:
+    columns: [name, type, address, descr]
+labels:
+  ipprotocol: IP Version
+  descr: Description
+  local_port: To Ports
+  target: To Addresses

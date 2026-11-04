@@ -1,0 +1,416 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Interfaces"],
+    "window": {
+        "title": "Interfaces",
+        "tabs": [
+            { "title": "Interface", "path": "interface" },
+            { "title": "Interface List", "path": "interface/list/member" },
+            { "title": "Ethernet", "path": "interface/ethernet" },
+            { "title": "EoIP Tunnel", "path": "interface/eoip" },
+            { "title": "IP Tunnel", "path": "interface/ipip" },
+            { "title": "GRE Tunnel", "path": "interface/gre" },
+            { "title": "VLAN", "path": "interface/vlan" },
+            { "title": "VXLAN", "path": "interface/vxlan" },
+            { "title": "VRRP", "path": "interface/vrrp" },
+            { "title": "VETH", "path": "interface/veth" },
+            { "title": "MACsec", "path": "interface/macsec" },
+            { "title": "MACVLAN", "path": "interface/macvlan", "since": "7.12" },
+            { "title": "Bonding", "path": "interface/bonding" },
+            { "title": "LTE", "path": "interface/lte" }
+        ]
+    },
+    "paths": {
+        "interface": {
+            "columns": [
+                "name", "type", "actual-mtu", "l2mtu", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second", "fp-tx-bits-per-second", "fp-rx-bits-per-second", "fp-tx-packets-per-second", "fp-rx-packets-per-second"
+            ],
+            "readonly": [
+                "type", "actual-mtu", "running", "slave", "dynamic", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second", "fp-tx-bits-per-second", "fp-rx-bits-per-second", "fp-tx-packets-per-second", "fp-rx-packets-per-second"
+            ],
+            "category": "type",
+            "iconBy": "type",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "open": {
+                "by": "type",
+                "paths": {
+                    "ether": "interface/ethernet",
+                    "eoip": "interface/eoip",
+                    "ipip-tunnel": "interface/ipip",
+                    "gre-tunnel": "interface/gre",
+                    "vlan": "interface/vlan",
+                    "vxlan": "interface/vxlan",
+                    "vrrp": "interface/vrrp",
+                    "veth": "interface/veth",
+                    "macsec": "interface/macsec",
+                    "macvlan": "interface/macvlan",
+                    "bond": "interface/bonding",
+                    "lte": "interface/lte",
+                    "vpls": "interface/vpls",
+                    "mesh": "interface/mesh",
+                    "pppoe-out": "interface/pppoe-client",
+                    "pptp-out": "interface/pptp-client",
+                    "l2tp-out": "interface/l2tp-client",
+                    "sstp-out": "interface/sstp-client",
+                    "ovpn-out": "interface/ovpn-client"
+                }
+            },
+            "actions": [{ "title": "Reset Traffic Counters", "command": "reset-counters", "selection": true }],
+            "links": [
+                { "title": "Detect Internet", "path": "interface/detect-internet" },
+                { "title": "Torch", "path": "tool/torch", "argument": "interface", "autostart": true }
+            ]
+        },
+        "interface/ethernet/cable-test": { "form": "cable-test" },
+        "interface/list/member": {
+            "columns": ["list", "interface"],
+            "quick": "list",
+            "links": [
+                { "title": "Lists", "path": "interface/list" }
+            ]
+        },
+        "interface/ethernet": {
+            "columns": [
+                "name", "type", "mtu", "actual-mtu", "l2mtu", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second", "fp-tx-bits-per-second", "fp-rx-bits-per-second"
+            ],
+            "readonly": [
+                "default-name", "type", "actual-mtu", "running", "slave", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second", "fp-tx-bits-per-second", "fp-rx-bits-per-second"
+            ],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "ethernet",
+            "actions": [
+                { "title": "Blink", "command": "blink", "selection": true },
+                { "title": "Reset Traffic Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset MAC Address", "command": "reset-mac-address", "selection": true }
+            ],
+            "links": [
+                { "title": "Torch", "path": "tool/torch", "argument": "interface", "autostart": true },
+                { "title": "Cable Test", "path": "interface/ethernet/cable-test", "argument": "numbers" }
+            ]
+        },
+        "interface/eoip": {
+            "columns": ["name", "type", "mtu", "actual-mtu", "l2mtu", "local-address", "remote-address", "tunnel-id", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "eoip"
+        },
+        "interface/ipip": {
+            "columns": ["name", "type", "mtu", "actual-mtu", "local-address", "remote-address", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "ipip"
+        },
+        "interface/gre": {
+            "columns": ["name", "type", "mtu", "actual-mtu", "local-address", "remote-address", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "gre"
+        },
+        "interface/vlan": {
+            "columns": [
+                "name", "type", "mtu", "actual-mtu", "l2mtu", "vlan-id", "interface", "tx-bits-per-second", "rx-bits-per-second",
+                "tx-packets-per-second", "rx-packets-per-second", "fp-tx-bits-per-second", "fp-rx-bits-per-second"
+            ],
+            "readonly": [
+                "type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second",
+                "fp-tx-bits-per-second", "fp-rx-bits-per-second"
+            ],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "vlan"
+        },
+        "interface/vxlan": {
+            "columns": ["name", "type", "mtu", "actual-mtu", "vni", "port", "interface", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "vxlan"
+        },
+        "interface/vrrp": {
+            "columns": ["name", "type", "mtu", "interface", "vrid", "priority", "interval", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "vrrp"
+        },
+        "interface/veth": {
+            "columns": ["name", "address", "gateway", "gateway6", "mac-address"],
+            "readonly": ["running"],
+            "join": "interface"
+        },
+        "interface/macsec": {
+            "columns": ["name", "type", "mtu", "interface", "profile", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" }
+        },
+        "interface/macvlan": {
+            "columns": ["name", "type", "mtu", "interface", "mode", "mac-address", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" }
+        },
+        "interface/bonding": {
+            "columns": [
+                "name", "type", "mtu", "actual-mtu", "l2mtu", "slaves", "mode", "tx-bits-per-second", "rx-bits-per-second",
+                "tx-packets-per-second", "rx-packets-per-second"
+            ],
+            "readonly": ["type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "links": [
+                { "title": "Monitor Slaves", "path": "interface/bonding/monitor-slaves", "argument": "bond" }
+            ],
+            "form": "bonding"
+        },
+        "interface/lte": {
+            "columns": ["name", "type", "mtu", "apn-profiles", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" }
+        }
+    },
+    "forms": {
+        "cable-test": {
+            "tabs": [
+                { "title": "General", "fields": ["numbers", "duration", "once"] }
+            ]
+        },
+        "ethernet": {
+            "title": "Interface <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "default-name", "mtu", "l2mtu", "mac-address", "orig-mac-address", "arp", "arp-timeout", "arp-accept"]
+                },
+                {
+                    "title": "Ethernet",
+                    "fields": [
+                        "auto-negotiation", "advertise", "speed", "full-duplex", "tx-flow-control", "rx-flow-control", "mdix-enable", "-",
+                        "fec-mode", "combo-mode", "sfp-rate-select", "sfp-shutdown-temperature", "sfp-ignore-rx-los", "-",
+                        "cable-settings", "disable-running-check"
+                    ]
+                },
+                { "title": "Loop Protect", "fields": ["loop-protect", "loop-protect-disable-time", "loop-protect-send-interval"] },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": [
+                        "last-link-down-time", "last-link-up-time", "link-downs", "-",
+                        "status", "auto-negotiation", "rate", "full-duplex", "tx-flow-control", "rx-flow-control", "-",
+                        "advertising", "link-partner-advertising"
+                    ],
+                    "monitor": { "command": "interface/ethernet/monitor", "argument": "numbers" }
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": [
+                        "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-",
+                        "fp-tx-bits-per-second", "fp-rx-bits-per-second", "-",
+                        "tx-byte", "rx-byte", "tx-packet", "rx-packet", "tx-drops-per-second", "rx-drops-per-second", "tx-errors-per-second",
+                        "rx-errors-per-second"
+                    ],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "vlan": {
+            "title": "VLAN <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "mtu", "forced-mac-address", "arp", "arp-timeout", "arp-accept", "-",
+                        "vlan-id", "interface", "use-service-tag", "mvrp"
+                    ]
+                },
+                { "title": "Loop Protect", "fields": ["loop-protect", "loop-protect-disable-time", "loop-protect-send-interval"] },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "bonding": {
+            "title": "Bonding <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "mtu", "arp", "arp-timeout", "forced-mac-address"] },
+                {
+                    "title": "Bonding",
+                    "fields": [
+                        "slaves", "mode", "primary", "link-monitoring", "transmit-hash-policy", "min-links", "-",
+                        "down-delay", "up-delay", "lacp-rate", "lacp-user-key", "mlag-id", "lacp-mode", "lacp-system-id", "lacp-system-priority", "-",
+                        "mii-interval", "arp-interval", "arp-ip-targets"
+                    ]
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "eoip": {
+            "title": "EoIP Tunnel <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "mtu", "mac-address", "arp", "arp-timeout", "arp-accept", "-",
+                        "local-address", "remote-address", "tunnel-id", "-",
+                        "ipsec-secret", "-",
+                        "keepalive", "-",
+                        "dscp", "dont-fragment", "clamp-tcp-mss", "allow-fast-path"
+                    ]
+                },
+                { "title": "Loop Protect", "fields": ["loop-protect", "loop-protect-disable-time", "loop-protect-send-interval"] },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "gre": {
+            "title": "GRE Tunnel <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "mtu", "-",
+                        "local-address", "remote-address", "-",
+                        "ipsec-secret", "-",
+                        "keepalive", "-",
+                        "dscp", "dont-fragment", "clamp-tcp-mss", "allow-fast-path"
+                    ]
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "ipip": {
+            "title": "IP Tunnel <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "mtu", "-",
+                        "local-address", "remote-address", "-",
+                        "ipsec-secret", "-",
+                        "keepalive", "-",
+                        "dscp", "dont-fragment", "clamp-tcp-mss", "allow-fast-path"
+                    ]
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "vxlan": {
+            "title": "VXLAN <{name}>",
+            "renamed": { "vrf": "vtep-vrf" },
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "mtu", "mac-address", "arp", "arp-timeout", "arp-accept", "-",
+                        "vni", "group", "interface", "port", "local-address", "dont-fragment", "max-fdb-size", "ttl", "vteps-ip-version", "vtep-vrf",
+                        "allow-fast-path", "learning", "checksum", "rem-csum", "hw", "bridge", "bridge-pvid"
+                    ]
+                },
+                { "title": "Loop Protect", "fields": ["loop-protect", "loop-protect-disable-time", "loop-protect-send-interval"] },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "vrrp": {
+            "title": "VRRP <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "mtu", "arp", "arp-timeout"]
+                },
+                {
+                    "title": "VRRP",
+                    "fields": [
+                        "interface", "vrid", "priority", "group-authority", "group-master", "interval", "preemption-mode", "v3-checksum-as-v2", "-",
+                        "authentication", "password", "-",
+                        "version", "v3-protocol"
+                    ]
+                },
+                {
+                    "title": "Conn. Tracking",
+                    "fields": ["sync-connection-tracking", "remote-address", "connection-tracking-port", "connection-tracking-mode"]
+                },
+                { "title": "Scripts", "fields": ["on-master", "on-backup", "on-fail"] },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        }
+    },
+    "labels": {
+        "orig-mac-address": "Orig. MAC Address",
+        "rem-csum": "Remote Checksum",
+        "tx-bits-per-second": "Tx",
+        "rx-bits-per-second": "Rx",
+        "tx-packets-per-second": "Tx Packet (p/s)",
+        "rx-packets-per-second": "Rx Packet (p/s)",
+        "fp-tx-bits-per-second": "FP Tx",
+        "fp-rx-bits-per-second": "FP Rx",
+        "fp-tx-packets-per-second": "FP Tx Packet (p/s)",
+        "fp-rx-packets-per-second": "FP Rx Packet (p/s)",
+        "tx-drops-per-second": "Tx Drops (p/s)",
+        "rx-drops-per-second": "Rx Drops (p/s)",
+        "tx-errors-per-second": "Tx Errors (p/s)",
+        "rx-errors-per-second": "Rx Errors (p/s)",
+        "tx-byte": "Tx Bytes",
+        "rx-byte": "Rx Bytes",
+        "tx-packet": "Tx Packets",
+        "rx-packet": "Rx Packets"
+    }
+}

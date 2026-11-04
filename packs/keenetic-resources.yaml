@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: keenetic
+menu: [System, Resources]
+window:
+  title: Resources
+  tabs:
+    - { title: Resources, path: system/resource }
+paths:
+  system/resource:
+    form: resources
+forms:
+  resources:
+    title: Resources
+    tabs:
+      - title: Resources
+        readonly: true
+        fields: [hostname, board-name, version, architecture-name, uptime, cpu-load, free-memory, total-memory]

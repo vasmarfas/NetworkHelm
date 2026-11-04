@@ -1,0 +1,46 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Bandwidth Test"],
+    "window": {
+        "title": "Bandwidth Test",
+        "tabs": [
+            { "title": "Bandwidth Test", "path": "tool/bandwidth-test" }
+        ]
+    },
+    "paths": {
+        "tool/bandwidth-test": {
+            "form": "tool",
+            "columns": ["status", "duration", "tx-current", "rx-current", "lost-packets", "local-cpu-load", "remote-cpu-load"],
+            "readonly": [
+                "status", "tx-current", "tx-10-second-average", "tx-total-average", "rx-current", "rx-10-second-average",
+                "rx-total-average", "lost-packets", "local-cpu-load", "remote-cpu-load"
+            ],
+            "summary": [
+                "lost-packets", "tx-current", "tx-10-second-average", "tx-total-average", "rx-current", "rx-10-second-average",
+                "rx-total-average", "local-cpu-load", "remote-cpu-load"
+            ],
+            "bits": ["tx-current", "tx-10-second-average", "tx-total-average", "rx-current", "rx-10-second-average", "rx-total-average"],
+            "radios": ["protocol"],
+            "defaults": { "protocol": "udp", "direction": "receive" }
+        }
+    },
+    "forms": {
+        "tool": {
+            "only": [{ "fields": ["local-udp-tx-size", "remote-udp-tx-size"], "where": { "protocol": ["", "udp"] }, "hide": true }],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "address", "protocol", "local-udp-tx-size", "remote-udp-tx-size", "direction", "-",
+                        "connection-count", "local-tx-speed", "remote-tx-speed", "random-data", "-",
+                        "user", "password"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "tx-10-second-average": "Tx 10s Average",
+        "rx-10-second-average": "Rx 10s Average"
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="log_open_window">Open in a window</string>
+    <string name="log_panel">Read a line in the panel below the list, not in a window</string>
+    <string name="log_copy_fields">Copy all fields</string>
+</resources>

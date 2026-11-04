@@ -1,0 +1,202 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, OSPF]
+until: 7.0
+window:
+  title: OSPF
+  tabs:
+    - { title: Interfaces, path: routing/ospf/interface }
+    - { title: Instances, path: routing/ospf/instance }
+    - { title: Networks, path: routing/ospf/network }
+    - { title: Areas, path: routing/ospf/area }
+    - { title: Area Ranges, path: routing/ospf/area/range }
+    - { title: Virtual Links, path: routing/ospf/virtual-link }
+    - { title: Neighbors, path: routing/ospf/neighbor }
+    - { title: NBMA Neighbors, path: routing/ospf/nbma-neighbor }
+    - { title: Sham Links, path: routing/ospf/sham-link }
+    - { title: LSA, path: routing/ospf/lsa }
+    - { title: Routes, path: routing/ospf/route }
+    - { title: AS Border Routers, path: routing/ospf/as-border-router }
+    - { title: Area Border Routers, path: routing/ospf/area-border-router }
+paths:
+  routing/ospf/interface:
+    columns: [interface, cost, priority, authentication, authentication-key, network-type, instance, area, neighbors, state]
+    readonly:
+      - inactive
+      - ip-address
+      - used-network-type
+      - state
+      - instance
+      - area
+      - neighbors
+      - adjacent-neighbors
+      - designated-router
+      - backup-designated-router
+    form: interface
+  routing/ospf/instance:
+    columns: [name, router-id, state]
+    readonly: [state, default]
+    form: instance
+  routing/ospf/network:
+    columns: [network, area]
+    readonly: [invalid]
+    form: network
+  routing/ospf/area:
+    columns: [name, instance, area-id, type, default-cost, interfaces, active-interfaces, neighbors]
+    readonly: [interfaces, active-interfaces, neighbors, adjacent-neighbors, invalid, default]
+    form: area
+    labels:
+      name: Area Name
+  routing/ospf/area/range:
+    columns: [area, range, cost, advertise]
+    quick: area
+    form: range
+  routing/ospf/virtual-link:
+    columns: [neighbor-id, transit-area, authentication, authentication-key]
+    readonly: [invalid]
+    form: virtual-link
+  routing/ospf/neighbor:
+    columns: [instance, router-id, address, interface, state-changes]
+    readonly:
+      - instance
+      - router-id
+      - address
+      - interface
+      - priority
+      - dr-address
+      - backup-dr-address
+      - state
+      - state-changes
+      - ls-retransmits
+      - ls-requests
+      - db-summaries
+      - adjacency
+  routing/ospf/nbma-neighbor:
+    columns: [instance, address, poll-interval, priority]
+    form: nbma-neighbor
+  routing/ospf/sham-link:
+    columns: [src-address, dst-address, cost, area]
+    readonly: [up, invalid]
+    form: sham-link
+  routing/ospf/lsa:
+    columns: [instance, area, type, id, originator, sequence-number, age]
+    readonly: [instance, area, type, id, originator, sequence-number, age, checksum, options, body]
+    labels:
+      age: Age (s)
+  routing/ospf/route:
+    columns: [instance, area, dst-address, gateway, interface, cost, state]
+    readonly: [instance, area, dst-address, gateway, interface, cost, state]
+    quick: area
+  routing/ospf/as-border-router:
+    columns: [instance, router-id, gateway, interface, cost, state]
+    readonly: [instance, router-id, gateway, interface, cost, state]
+  routing/ospf/area-border-router:
+    columns: [instance, area, router-id, gateway, interface, cost, state]
+    readonly: [instance, area, router-id, gateway, interface, cost, state]
+    quick: area
+forms:
+  interface:
+    title: "OSPF Interface <{interface}>"
+    tabs:
+      - title: General
+        fields:
+          - interface
+          - cost
+          - priority
+          - authentication
+          - authentication-key
+          - authentication-key-id
+          - network-type
+          - instance-id
+          - passive
+          - use-bfd
+          - "-"
+          - retransmit-interval
+          - transmit-delay
+          - hello-interval
+          - dead-interval
+      - title: Status
+        readonly: true
+        fields:
+          - ip-address
+          - used-network-type
+          - instance
+          - area
+          - "-"
+          - neighbors
+          - adjacent-neighbors
+          - designated-router
+          - backup-designated-router
+  instance:
+    title: "OSPF Instance <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - router-id
+          - "-"
+          - distribute-default
+          - redistribute-connected
+          - redistribute-static
+          - redistribute-rip
+          - redistribute-bgp
+          - redistribute-other-ospf
+          - "-"
+          - in-filter
+          - out-filter
+          - "-"
+          - routing-table
+          - use-dn
+      - title: Metrics
+        fields: [metric-default, metric-connected, metric-static, metric-rip, metric-bgp, metric-other-ospf]
+      - title: MPLS
+        fields: [mpls-te-area, mpls-te-router-id]
+  network:
+    title: "OSPF Network <{network}>"
+    tabs:
+      - title: General
+        fields: [network, area]
+  area:
+    title: "OSPF Area <{name}>"
+    tabs:
+      - title: General
+        fields: [name, instance, area-id, type, translator-role, inject-summary-lsas, default-cost, "-", interfaces, active-interfaces, neighbors, adjacent-neighbors]
+    only:
+      - { fields: [translator-role], where: { type: [nssa] } }
+      - { fields: [inject-summary-lsas, default-cost], where: { type: [stub, nssa] } }
+  range:
+    title: "OSPF Area Range <{range}>"
+    tabs:
+      - title: General
+        fields: [area, range, cost, advertise]
+  virtual-link:
+    title: "OSPF Virtual Link <{neighbor-id}>"
+    tabs:
+      - title: General
+        fields: [neighbor-id, transit-area, instance-id, use-bfd, authentication, authentication-key, authentication-key-id]
+  nbma-neighbor:
+    title: "OSPF NBMA Neighbor <{address}>"
+    tabs:
+      - title: General
+        fields: [instance, address, poll-interval, priority]
+  sham-link:
+    title: "OSPF Sham Link <{src-address}->{dst-address}>"
+    tabs:
+      - title: General
+        fields: [src-address, dst-address, area, cost]
+labels:
+  distribute-default: Redistribute Default Route
+  redistribute-connected: Redistribute Connected Routes
+  redistribute-static: Redistribute Static Routes
+  redistribute-rip: Redistribute RIP Routes
+  redistribute-bgp: Redistribute BGP Routes
+  redistribute-other-ospf: Redistribute Other OSPF Routes
+  in-filter: In Filter
+  out-filter: Out Filter
+  metric-default: Default Route Metric
+  metric-connected: Connected Routes Metric
+  metric-static: Static Routes Metric
+  metric-rip: RIP Routes Metric
+  metric-bgp: BGP Routes Metric
+  metric-other-ospf: Other OSPF Routes Metric
+  dead-interval: Router Dead Interval
+  inject-summary-lsas: Inject Summary LSAs

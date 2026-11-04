@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, SNTP Client]
+until: 7.0
+window:
+  title: SNTP Client
+  tabs:
+    - { title: SNTP Client, path: system/ntp/client }
+paths:
+  system/ntp/client:
+    readonly: [mode, active-server, poll-interval]
+    form: client
+forms:
+  client:
+    title: SNTP Client
+    tabs:
+      - title: General
+        fields: [enabled, primary-ntp, secondary-ntp, server-dns-names, mode, active-server, poll-interval]

@@ -1,0 +1,159 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "BGP"],
+    "since": "7.0",
+    "window": {
+        "title": "BGP",
+        "tabs": [
+            { "title": "Instances", "path": "routing/bgp/instance", "since": "7.20" },
+            { "title": "Connections", "path": "routing/bgp/connection" },
+            { "title": "Templates", "path": "routing/bgp/template" },
+            { "title": "Sessions", "path": "routing/bgp/session" },
+            { "title": "Advertisements", "path": "routing/bgp/advertisements" },
+            { "title": "VPN", "path": "routing/bgp/vpn" },
+            { "title": "EVPN", "path": "routing/bgp/evpn", "since": "7.20" },
+            { "title": "VPLS", "path": "routing/bgp/vpls" }
+        ]
+    },
+    "paths": {
+        "routing/bgp/instance": {
+            "columns": ["name", "as", "router-id", "routing-table", "vrf"],
+            "form": "instance"
+        },
+        "routing/bgp/connection": {
+            "columns": ["name", "remote.address", "remote.as", "local.role", "as", "templates", "routing-table"],
+            "readonly": ["local.default-address", "inactive"],
+            "form": "connection"
+        },
+        "routing/bgp/template": {
+            "columns": ["name", "as", "routing-table", "output.filter-chain", "input.filter"],
+            "readonly": ["default", "inactive"],
+            "form": "template"
+        },
+        "routing/bgp/session": {
+            "columns": ["name", "remote.address", "remote.as", "remote.id", "established", "uptime", "prefix-count", "local.address"],
+            "readonly": [
+                "name", "remote.address", "remote.as", "remote.id", "remote.capabilities", "remote.afi", "remote.messages", "remote.bytes",
+                "remote.eor", "local.address", "local.as", "local.id", "local.cluster-id", "local.capabilities", "local.afi", "local.messages",
+                "local.bytes", "local.eor", "output.procid", "input.procid", "ebgp", "hold-time", "keepalive-time", "uptime", "last-started",
+                "prefix-count", "established"
+            ],
+            "actions": [
+                { "title": "Refresh", "command": "refresh", "selection": true },
+                { "title": "Resend", "command": "resend", "selection": true },
+                { "title": "Stop", "command": "stop", "selection": true, "confirm": true }
+            ]
+        }
+    },
+    "forms": {
+        "instance": {
+            "title": "BGP Instance <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "as", "router-id", "routing-table", "vrf", "cluster-id", "always-compare-med", "ignore-as-path-len", "multipath"] }
+            ]
+        },
+        "connection": {
+            "title": "BGP Connection <{name}>",
+            "renamed": { "address-families": "afi", "as-override": "output.as-override", "remove-private-as": "output.remove-private-as" },
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "instance", "templates", "as", "afi", "router-id", "cluster-id", "-",
+                        "remote.address", "remote.port", "remote.as", "remote.allowed-as", "-",
+                        "local.address", "local.port", "local.role", "local.default-address", "tcp-md5-key", "-",
+                        "multihop", "local.ttl", "remote.ttl", "-",
+                        "connect", "listen"
+                    ]
+                },
+                {
+                    "title": "Extra",
+                    "fields": [
+                        "hold-time", "keepalive-time", "use-bfd", "-",
+                        "routing-table", "vrf", "-",
+                        "output.no-client-to-client-reflection", "-",
+                        "output.redistribute", "output.default-originate", "output.network-blackhole", "output.no-early-cut",
+                        "output.keep-sent-attributes", "-",
+                        "input.affinity", "output.affinity", "-",
+                        "add-path-out", "input.add-path", "output.add-path", "input.attr-error-handling", "input.limit-process-routes-ipv4",
+                        "input.limit-process-routes-ipv6", "save-to"
+                    ]
+                },
+                {
+                    "title": "Attributes",
+                    "fields": [
+                        "nexthop-choice", "-",
+                        "output.as-override", "output.default-prepend", "-",
+                        "input.allow-as", "input.ignore-as-path-len", "output.remove-private-as", "-",
+                        "cisco-vpls-nlri-len-fmt"
+                    ]
+                },
+                {
+                    "title": "Filter",
+                    "fields": [
+                        "input.filter", "input.accept-nlri", "input.filter-nlri", "input.accept-communities",
+                        "input.accept-ext-communities", "input.accept-large-communities", "input.filter-communities",
+                        "input.filter-ext-communities", "input.filter-large-communities", "input.accept-unknown", "input.filter-unknown", "-",
+                        "output.filter-chain", "output.filter-select", "output.network"
+                    ]
+                }
+            ]
+        },
+        "template": {
+            "title": "BGP Template <{name}>",
+            "renamed": { "address-families": "afi", "as-override": "output.as-override", "remove-private-as": "output.remove-private-as" },
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "templates", "as", "afi", "router-id", "cluster-id", "-",
+                        "multihop"
+                    ]
+                },
+                {
+                    "title": "Extra",
+                    "fields": [
+                        "hold-time", "keepalive-time", "use-bfd", "-",
+                        "routing-table", "vrf", "-",
+                        "output.no-client-to-client-reflection", "-",
+                        "output.redistribute", "output.default-originate", "output.network-blackhole", "output.no-early-cut",
+                        "output.keep-sent-attributes", "-",
+                        "input.affinity", "output.affinity", "-",
+                        "add-path-out", "input.add-path", "output.add-path", "input.attr-error-handling", "input.limit-process-routes-ipv4",
+                        "input.limit-process-routes-ipv6", "save-to"
+                    ]
+                },
+                {
+                    "title": "Attributes",
+                    "fields": [
+                        "nexthop-choice", "-",
+                        "output.as-override", "output.default-prepend", "-",
+                        "input.allow-as", "input.ignore-as-path-len", "output.remove-private-as", "-",
+                        "cisco-vpls-nlri-len-fmt"
+                    ]
+                },
+                {
+                    "title": "Filter",
+                    "fields": [
+                        "input.filter", "input.accept-nlri", "input.filter-nlri", "input.accept-communities",
+                        "input.accept-ext-communities", "input.accept-large-communities", "input.filter-communities",
+                        "input.filter-ext-communities", "input.filter-large-communities", "input.accept-unknown", "input.filter-unknown", "-",
+                        "output.filter-chain", "output.filter-select", "output.network"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "afi": "Address Families",
+        "ebgp": "eBGP",
+        "templates": "Template",
+        "remote.allowed-as": "Remote Allow AS",
+        "local.ttl": "Tx TTL",
+        "remote.ttl": "Rx Min TTL",
+        "output.filter-chain": "Output Filter",
+        "output.filter-select": "Output Selection Policy",
+        "input.ignore-as-path-len": "Ignore AS Path Length",
+        "cisco-vpls-nlri-len-fmt": "Cisco VPLS NLRI Length Format"
+    }
+}

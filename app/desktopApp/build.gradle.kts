@@ -1,0 +1,176 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import java.util.concurrent.TimeUnit
+
+plugins {
+    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+}
+
+// the windows draw their title bar through the custom title bar of the JetBrains Runtime; -PlegacyJava=true builds the flavour
+// for Windows 7 and 8, where Java 17 is the last runtime that loads and the window keeps the title bar of the system
+val legacy = providers.gradleProperty("legacyJava").orNull == "true"
+val arm = System.getProperty("os.arch") in listOf("aarch64", "arm64")
+val flavor = if (legacy) "-legacy" else if (arm) "-arm64" else ""
+
+val jetBrainsRuntime: JavaToolchainSpec.() -> Unit = {
+    languageVersion.set(JavaLanguageVersion.of(if (legacy) 17 else 25))
+    vendor.set(JvmVendorSpec.JETBRAINS)
+}
+
+layout.buildDirectory.set(layout.projectDirectory.dir(if (legacy) "build/legacy" else "build"))
+
+kotlin {
+    jvmToolchain(jetBrainsRuntime)
+    sourceSets.main { kotlin.setSrcDirs(listOf(if (legacy) "src/legacy/kotlin" else "src/main/kotlin")) }
+}
+
+dependencies {
+    implementation(project(":app:shared"))
+
+    implementation(compose.desktop.currentOs)
+    implementation(libs.kotlinx.coroutinesSwing)
+    if (!legacy) {
+        implementation(libs.jewel.decoratedWindow) {
+            // the icons bring IntelliJ's fork of kotlinx.coroutines 1.10 in the same packages, and Ktor needs 1.11
+            exclude(group = "org.jetbrains.intellij.deps.kotlinx")
+        }
+    }
+
+    implementation(libs.compose.uiToolingPreview)
+}
+
+val innoSetup = listOfNotNull(
+    providers.environmentVariable("INNO_SETUP").orNull,
+    providers.environmentVariable("LOCALAPPDATA").orNull?.let { "$it\\Programs\\Inno Setup 6\\ISCC.exe" },
+    "C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe",
+).firstOrNull { File(it).isFile }
+
+val appCds = tasks.register("appCds") {
+    group = "compose desktop"
+    description = "Writes the class data archives of the Windows app image"
+    dependsOn("createDistributable")
+    onlyIf { System.getProperty("os.name").startsWith("Windows") }
+    val image = layout.buildDirectory.dir("compose/binaries/main/app/NetworkHelm").get().asFile
+    val home = temporaryDir
+    doLast {
+        val config = image.resolve("app/NetworkHelm.cfg")
+        val plain = config.readText()
+        fun options(vararg added: String) = plain.replace("[JavaOptions]", (listOf("[JavaOptions]") + added.map { "java-options=$it" }).joinToString(System.lineSeparator()))
+        fun start(vararg added: String) {
+            config.writeText(options(*added))
+            val launcher = ProcessBuilder(image.resolve("NetworkHelm.exe").path).redirectErrorStream(true).redirectOutput(home.resolve("launcher.log"))
+            launcher.environment()["NETWORKHELM_HOME"] = home.path
+            check(launcher.start().waitFor(5, TimeUnit.MINUTES)) { "the launcher did not end within 5 minutes" }
+        }
+        try {
+            start("-Xshare:dump")
+            start("-XX:ArchiveClassesAtExit=\$APPDIR\\networkhelm.jsa", "-Dnetworkhelm.appcds=true")
+        } finally {
+            config.writeText(plain)
+        }
+        check(image.resolve("runtime/bin/server/classes.jsa").isFile && image.resolve("app/networkhelm.jsa").isFile) { "no class data archive was written" }
+        check("jdk.accessibility" in image.resolve("runtime/release").readText()) { "the runtime lacks jdk.accessibility, and Windows with the Java Access Bridge enabled would not start the app" }
+        config.writeText(options("-XX:SharedArchiveFile=\$APPDIR\\networkhelm.jsa"))
+    }
+}
+
+tasks.register<Exec>("packageInnoSetup") {
+    group = "compose desktop"
+    description = "Builds the Windows installer with Inno Setup"
+    dependsOn(appCds)
+    val compiler = innoSetup
+    val image = layout.buildDirectory.dir("compose/binaries/main/app/NetworkHelm").get().asFile
+    val output = layout.buildDirectory.dir("compose/binaries/main/inno").get().asFile
+    val version = rootProject.extra["appVersionName"] as String
+    val suffix = flavor
+    inputs.dir(image)
+    inputs.dir("installer")
+    outputs.dir(output)
+    executable = compiler ?: "ISCC.exe"
+    args("/Q", "/DAppVersion=${version.substringBefore('-')}", "/DAppVersionName=$version", "/DAppImage=$image", "/DOutputDir=$output")
+    if (legacy) args("/DLegacy=1")
+    if (arm) args("/DArm64=1")
+    args(file("installer/NetworkHelm.iss"))
+    doFirst { check(compiler != null) { "Inno Setup 6 is not installed: set INNO_SETUP to its ISCC.exe" } }
+    doLast { output.resolve("NetworkHelm-$version$suffix-setup.exe").copyTo(output.resolve("NetworkHelm-$version$suffix-portable.exe"), overwrite = true) }
+}
+
+val webAppResources = tasks.register<Sync>("webAppResources") {
+    from(project(":app:webApp").layout.buildDirectory.dir("bundle"))
+    into(layout.buildDirectory.dir("appResources/common/web"))
+    dependsOn(":app:webApp:webAppBundle")
+}
+tasks.matching { it.name == "prepareAppResources" }.configureEach { mustRunAfter(webAppResources) }
+tasks.matching { it.name == "createDistributable" || it.name == "createReleaseDistributable" }.configureEach { dependsOn(webAppResources) }
+
+val developerIdIdentity = providers.environmentVariable("APPLE_DEVELOPER_ID_IDENTITY").orNull?.takeIf { it.isNotBlank() }
+val desktopVersion = (rootProject.extra["appVersionName"] as String).substringBefore('-')
+
+compose.desktop {
+    application {
+        mainClass = "com.vasmarfas.networkhelm.MainKt"
+        javaHome = javaToolchains.launcherFor(jetBrainsRuntime).get().metadata.installationPath.asFile.absolutePath
+        // --enable-native-access: JDK 25 warns at the first native call of each library, JNA and Skia among them
+        jvmArgs("-Xmx1g", "-XX:ParallelGCThreads=4", "-XX:ConcGCThreads=1", "-XX:G1PeriodicGCInterval=15000", "-XX:MaxHeapFreeRatio=30", "-XX:MinHeapFreeRatio=10", "--enable-native-access=ALL-UNNAMED")
+
+        nativeDistributions {
+            // JNA of KSafe needs sun.misc.Unsafe; Netty and logback of the gateway refer to JNDI and JFR; the Java Access Bridge of Windows loads jdk.accessibility at the first window
+            modules("jdk.unsupported", "java.naming", "jdk.jfr", "jdk.accessibility")
+            appResourcesRootDir.set(layout.buildDirectory.dir("appResources"))
+            targetFormats(
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Exe,
+                TargetFormat.Deb,
+                TargetFormat.Rpm,
+            )
+            packageName = "NetworkHelm"
+            packageVersion = desktopVersion
+            vendor = "vasmarfas"
+            description = "NetworkHelm, a client for MikroTik RouterOS and OpenWrt routers"
+            licenseFile.set(rootProject.file("LICENSE"))
+
+            windows {
+                menuGroup = "NetworkHelm"
+                shortcut = true
+                perUserInstall = true
+                iconFile.set(project.file("icons/networkhelm.ico"))
+                upgradeUuid = "11C055CB-1DC3-4CC0-B7F4-A167C93DEDD5"
+            }
+            macOS {
+                bundleID = "com.vasmarfas.networkhelm"
+                minimumSystemVersion = "12.0"
+                iconFile.set(project.file("icons/networkhelm.icns"))
+                packageBuildVersion = rootProject.extra["appVersionCode"].toString()
+                entitlementsFile.set(project.file("macos/entitlements.plist"))
+                infoPlist {
+                    extraKeysRawXml = """
+                        <key>NSLocalNetworkUsageDescription</key>
+                        <string>NetworkHelm connects to routers on your network and listens for their discovery announcements.</string>
+                    """.trimIndent()
+                }
+                if (developerIdIdentity != null) {
+                    signing {
+                        sign.set(true)
+                        identity.set(developerIdIdentity)
+                    }
+                    val appleId = System.getenv("APPLE_ID")
+                    if (!appleId.isNullOrBlank()) {
+                        notarization {
+                            appleID.set(appleId)
+                            password.set(System.getenv("APPLE_ID_PASSWORD"))
+                            teamID.set(System.getenv("APPLE_TEAM_ID"))
+                        }
+                    }
+                }
+            }
+            linux {
+                iconFile.set(project.file("icons/networkhelm.png"))
+                packageName = "networkhelm"
+                menuGroup = "Network"
+                rpmLicenseType = "PolyForm-Noncommercial-1.0.0"
+            }
+        }
+    }
+}

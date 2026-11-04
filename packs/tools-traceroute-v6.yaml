@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Tools, Traceroute]
+until: 7.0
+window:
+  title: Traceroute
+  tabs:
+    - { title: Traceroute, path: tool/traceroute }
+paths:
+  tool/traceroute:
+    form: tool
+    columns: [address, loss, sent, last, avg, best, worst, std-dev, history, status]
+    readonly: [loss, sent, last, avg, best, worst, std-dev, history, status]
+    numbered: true
+    history: last
+    types:
+      size: { type: integer, scaled: true }
+      timeout: { type: time }
+      port: { type: integer, scaled: true }
+      use-dns: { type: yes-no }
+      count: { type: integer, scaled: true }
+      max-hops: { type: integer, scaled: true }
+      dscp: { type: integer, scaled: true }
+forms:
+  tool:
+    only:
+      - { fields: [port], where: { protocol: [udp] } }
+    tabs:
+      - title: Basic
+        fields: [address, size, timeout, protocol, port, use-dns]
+      - title: Advanced
+        fields: [count, max-hops, "-", src-address, interface, dscp, routing-table]
+labels:
+  avg: Avg.
+  std-dev: Std. Dev.

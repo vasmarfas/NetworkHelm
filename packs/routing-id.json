@@ -1,0 +1,24 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "Router ID"],
+    "since": "7.0",
+    "window": {
+        "title": "Router ID",
+        "tabs": [
+            { "title": "Router ID", "path": "routing/id" }
+        ]
+    },
+    "paths": {
+        "routing/id": {
+            "columns": ["id", "select-dynamic-id", "select-from-vrf", "dynamic-id"],
+            "readonly": ["dynamic-id"],
+            "form": "id"
+        }
+    },
+    "forms": {
+        "id": {
+            "title": "Router ID <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "id", "select-dynamic-id", "select-from-vrf", "-", "dynamic-id"] }]
+        }
+    }
+}

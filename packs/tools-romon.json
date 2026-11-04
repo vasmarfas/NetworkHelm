@@ -1,0 +1,35 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "RoMON"],
+    "window": {
+        "title": "RoMON Settings",
+        "tabs": [
+            { "title": "RoMON Settings", "path": "tool/romon" }
+        ]
+    },
+    "paths": {
+        "tool/romon": {
+            "readonly": ["current-id"],
+            "form": "settings",
+            "links": [
+                { "title": "Discovery", "path": "tool/romon/discover" },
+                { "title": "Ping", "path": "tool/romon/ping" },
+                { "title": "Ports", "path": "tool/romon/port" }
+            ]
+        },
+        "tool/romon/port": {
+            "columns": ["interface", "forbid", "cost"],
+            "form": "port"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "RoMON Settings",
+            "tabs": [{ "title": "General", "fields": ["enabled", "id", "secrets", "-", "current-id"] }]
+        },
+        "port": {
+            "title": "RoMON Port <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "forbid", "cost", "secrets"] }]
+        }
+    }
+}

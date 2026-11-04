@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [System, Users]
+window:
+  title: Users
+  tabs:
+    - { title: Users, path: system/users }
+    - { title: Groups, path: system/groups }
+paths:
+  system/users:
+    columns: [name, descr, "%group_memberships", email, scope, shell]
+    form: user
+  system/groups:
+    columns: [name, description, "%member", "%priv", scope]
+    form: group
+forms:
+  user:
+    title: "User <{name}>"
+    confirm: [password]
+    tabs:
+      - title: General
+        fields: [name, descr, email, password, scrambled_password, group_memberships, shell, language, landing_page, expires, comment, scope, uid]
+      - title: Privileges
+        fields: [priv]
+      - title: Keys
+        fields: [authorizedkeys, otp_seed, otp_uri, apikeys, pwd_changed_at]
+  group:
+    title: "Group <{name}>"
+    tabs:
+      - title: General
+        fields: [name, description, member, source_networks, scope, gid]
+      - title: Privileges
+        fields: [priv]
+labels:
+  descr: Full Name
+  "%group_memberships": Member Of
+  "%member": Members
+  "%priv": Privileges
+  group_memberships: Groups
+  scrambled_password: Scrambled Password
+  authorizedkeys: Authorized Keys
+  otp_seed: OTP Seed
+  otp_uri: OTP URI
+  landing_page: Login Landing Page
+  pwd_changed_at: Password Changed
+  source_networks: Source Networks

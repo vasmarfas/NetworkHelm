@@ -1,0 +1,127 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [MPLS, VPLS]
+until: 7.0
+window:
+  title: VPLS
+  tabs:
+    - { title: VPLS, path: interface/vpls }
+    - { title: BGP VPLS, path: interface/vpls/bgp-vpls }
+    - { title: Cisco BGP VPLS, path: interface/vpls/cisco-bgp-vpls }
+paths:
+  interface/vpls:
+    columns:
+      - name
+      - type
+      - actual-mtu
+      - l2mtu
+      - tx-bits-per-second
+      - rx-bits-per-second
+      - tx-packets-per-second
+      - rx-packets-per-second
+      - remote-peer
+      - vpls-id
+    readonly: [type, actual-mtu, l2mtu, running, tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    join: interface
+    monitor: { command: interface/monitor-traffic, argument: interface }
+    form: vpls
+    links:
+      - { title: Torch, path: tool/torch, argument: interface, autostart: true }
+  interface/vpls/bgp-vpls:
+    columns: [name, route-distinguisher, import-route-targets, export-route-targets, site-id, bridge, bridge-cost, bridge-horizon]
+    form: bgp-vpls
+  interface/vpls/cisco-bgp-vpls:
+    columns: [name, route-distinguisher, vpls-id, import-route-targets, export-route-targets, bridge, bridge-cost, bridge-horizon]
+    form: cisco-bgp-vpls
+forms:
+  vpls:
+    title: "Interface <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - type
+          - mtu
+          - actual-mtu
+          - l2mtu
+          - mac-address
+          - arp
+          - arp-timeout
+          - "-"
+          - remote-peer
+          - vpls-id
+          - "-"
+          - cisco-style
+          - cisco-style-id
+          - "-"
+          - advertised-l2mtu
+          - pw-type
+      - title: Status
+        readonly: true
+        path: interface
+        fields:
+          - last-link-down-time
+          - last-link-up-time
+          - link-downs
+          - "-"
+          - remote-label
+          - local-label
+          - remote-status
+          - remote-group
+          - transport
+          - transport-nexthop
+          - imposed-labels
+        monitor: { command: interface/vpls/monitor, argument: numbers }
+      - title: Traffic
+        readonly: true
+        path: interface
+        fields: [tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second, "-", tx-byte, rx-byte, tx-packet, rx-packet]
+        monitor: { command: interface/monitor-traffic, argument: interface }
+        chart: true
+  bgp-vpls:
+    title: "BGP VPLS <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - route-distinguisher
+          - import-route-targets
+          - export-route-targets
+          - site-id
+          - "-"
+          - bridge
+          - bridge-cost
+          - bridge-horizon
+          - "-"
+          - use-control-word
+          - pw-mtu
+          - pw-type
+  cisco-bgp-vpls:
+    title: "Cisco BGP VPLS <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - route-distinguisher
+          - vpls-id
+          - import-route-targets
+          - export-route-targets
+          - l2router-id
+          - "-"
+          - bridge
+          - bridge-cost
+          - bridge-horizon
+          - "-"
+          - use-control-word
+          - pw-mtu
+labels:
+  advertised-l2mtu: Advertised L2MTU
+  l2router-id: L2 Router ID
+  pw-mtu: PW MTU
+  tx-bits-per-second: Tx
+  rx-bits-per-second: Rx
+  tx-packets-per-second: Tx Packet (p/s)
+  rx-packets-per-second: Rx Packet (p/s)
+  tx-byte: Tx Bytes
+  rx-byte: Rx Bytes
+  tx-packet: Tx Packets
+  rx-packet: Rx Packets

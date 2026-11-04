@@ -1,0 +1,19 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Note"],
+    "window": {
+        "title": "System Note",
+        "tabs": [
+            { "title": "System Note", "path": "system/note" }
+        ]
+    },
+    "paths": {
+        "system/note": { "form": "note" }
+    },
+    "forms": {
+        "note": {
+            "title": "System Note",
+            "tabs": [{ "title": "General", "fields": ["show-at-login", "show-at-cli-login", "note"] }]
+        }
+    }
+}

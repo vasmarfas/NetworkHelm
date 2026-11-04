@@ -1,0 +1,9544 @@
+{
+ "caps-man/access-list": {
+  "action": {
+   "choices": [
+    "accept",
+    "reject",
+    "query-radius"
+   ],
+   "type": "enum"
+  },
+  "allow-signal-out-of-range": {
+   "type": "time"
+  },
+  "ap-tx-limit": {
+   "type": "integer"
+  },
+  "client-to-client-forwarding": {
+   "type": "yesno"
+  },
+  "client-tx-limit": {
+   "type": "integer"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "mac-address-mask": {
+   "type": "text"
+  },
+  "private-passphrase": {
+   "type": "text"
+  },
+  "radius-accounting": {
+   "type": "yesno"
+  },
+  "signal-range": {
+   "type": "text"
+  },
+  "ssid-regexp": {
+   "type": "text"
+  },
+  "time": {
+   "type": "text"
+  },
+  "vlan-id": {
+   "type": "integer"
+  },
+  "vlan-mode": {
+   "choices": [
+    "no-tag",
+    "use-service-tag",
+    "use-tag"
+   ],
+   "type": "enum"
+  }
+ },
+ "caps-man/channel": {
+  "band": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "control-channel-width": {
+   "type": "text"
+  },
+  "extension-channel": {
+   "choices": [
+    "disabled",
+    "Ce",
+    "Ceee",
+    "Ceeeeeee",
+    "XX",
+    "XXXX",
+    "XXXXXXXX",
+    "eC",
+    "eCee",
+    "eCeeeeee",
+    "eeCe",
+    "eeCeeeee",
+    "eeeC",
+    "eeeCeeee",
+    "eeeeCeee",
+    "eeeeeCee",
+    "eeeeeeCe",
+    "eeeeeeeC"
+   ],
+   "type": "enum"
+  },
+  "frequency": {
+   "multiple": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "reselect-interval": {
+   "type": "time"
+  },
+  "save-selected": {
+   "type": "yesno"
+  },
+  "secondary-frequency": {
+   "multiple": true,
+   "type": "text"
+  },
+  "skip-dfs-channels": {
+   "type": "yesno"
+  },
+  "tx-power": {
+   "type": "integer"
+  }
+ },
+ "caps-man/configuration": {
+  "channel": {
+   "type": "text"
+  },
+  "channel.band": {
+   "type": "text"
+  },
+  "channel.extension-channel": {
+   "type": "text"
+  },
+  "channel.frequency": {
+   "type": "integer"
+  },
+  "channel.reselect-interval": {
+   "type": "time"
+  },
+  "channel.save-selected": {
+   "type": "yesno"
+  },
+  "channel.secondary-frequency": {
+   "type": "integer"
+  },
+  "channel.skip-dfs-channels": {
+   "type": "yesno"
+  },
+  "channel.tx-power": {
+   "type": "integer"
+  },
+  "channel.width": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "country": {
+   "type": "text"
+  },
+  "datapath": {
+   "type": "text"
+  },
+  "datapath.bridge": {
+   "type": "text"
+  },
+  "datapath.bridge-cost": {
+   "type": "integer"
+  },
+  "datapath.bridge-horizon": {
+   "type": "integer"
+  },
+  "datapath.client-to-client-forwarding": {
+   "type": "yesno"
+  },
+  "datapath.l2mtu": {
+   "type": "integer"
+  },
+  "datapath.local-forwarding": {
+   "type": "yesno"
+  },
+  "datapath.mtu": {
+   "type": "integer"
+  },
+  "datapath.vlan-id": {
+   "type": "integer"
+  },
+  "datapath.vlan-mode": {
+   "type": "text"
+  },
+  "disconnect-timeout": {
+   "type": "time"
+  },
+  "distance": {
+   "type": "text"
+  },
+  "frame-lifetime": {
+   "type": "time"
+  },
+  "guard-interval": {
+   "choices": [
+    "any",
+    "long"
+   ],
+   "type": "enum"
+  },
+  "hide-ssid": {
+   "type": "yesno"
+  },
+  "hw-protection-mode": {
+   "choices": [
+    "rts-cts",
+    "cts-to-self",
+    "none"
+   ],
+   "type": "enum"
+  },
+  "hw-retries": {
+   "type": "integer"
+  },
+  "installation": {
+   "choices": [
+    "indoor",
+    "outdoor"
+   ],
+   "type": "enum"
+  },
+  "keepalive-frames": {
+   "choices": [
+    "enabled",
+    "disabled"
+   ],
+   "type": "enum"
+  },
+  "load-balancing-group": {
+   "type": "text"
+  },
+  "max-sta-count": {
+   "type": "integer"
+  },
+  "mode": {
+   "choices": [
+    "ap",
+    "station",
+    "station-bridge",
+    "station-pseudobridge"
+   ],
+   "type": "enum"
+  },
+  "multicast-helper": {
+   "choices": [
+    "default",
+    "dhcp",
+    "disabled",
+    "full"
+   ],
+   "type": "enum"
+  },
+  "name": {
+   "type": "text"
+  },
+  "rates": {
+   "type": "text"
+  },
+  "rates.basic": {
+   "type": "text"
+  },
+  "rates.ht-basic-mcs": {
+   "type": "text"
+  },
+  "rates.ht-supported-mcs": {
+   "type": "text"
+  },
+  "rates.supported": {
+   "type": "text"
+  },
+  "rates.vht-basic-mcs": {
+   "type": "text"
+  },
+  "rates.vht-supported-mcs": {
+   "type": "text"
+  },
+  "rx-chains": {
+   "type": "text"
+  },
+  "security": {
+   "type": "text"
+  },
+  "security.authentication-types": {
+   "type": "text"
+  },
+  "security.eap-methods": {
+   "type": "text"
+  },
+  "security.encryption": {
+   "type": "text"
+  },
+  "security.group-encryption": {
+   "type": "text"
+  },
+  "security.group-key-update": {
+   "type": "time"
+  },
+  "security.passphrase": {
+   "type": "text"
+  },
+  "security.tls-certificate": {
+   "type": "text"
+  },
+  "security.tls-mode": {
+   "type": "text"
+  },
+  "ssid": {
+   "type": "text"
+  },
+  "tx-chains": {
+   "type": "text"
+  }
+ },
+ "caps-man/datapath": {
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "bridge": {
+   "type": "text"
+  },
+  "bridge-cost": {
+   "type": "integer"
+  },
+  "bridge-horizon": {
+   "type": "integer"
+  },
+  "client-to-client-forwarding": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "interface-list": {
+   "type": "text"
+  },
+  "l2mtu": {
+   "type": "integer"
+  },
+  "local-forwarding": {
+   "type": "yesno"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "openflow-switch": {
+   "type": "text"
+  },
+  "vlan-id": {
+   "type": "integer"
+  },
+  "vlan-mode": {
+   "choices": [
+    "no-tag",
+    "use-service-tag",
+    "use-tag"
+   ],
+   "type": "enum"
+  }
+ },
+ "caps-man/interface": {
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-timeout": {
+   "type": "text"
+  },
+  "bound": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "channel": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "configuration": {
+   "type": "text"
+  },
+  "datapath": {
+   "type": "text"
+  },
+  "disable-running-check": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "l2mtu": {
+   "type": "integer"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "master": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "master-interface": {
+   "type": "text"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "radio-mac": {
+   "type": "text"
+  },
+  "radio-name": {
+   "type": "text"
+  },
+  "rates": {
+   "type": "text"
+  },
+  "rates.basic": {
+   "type": "text"
+  },
+  "rates.ht-basic-mcs": {
+   "type": "text"
+  },
+  "rates.ht-supported-mcs": {
+   "type": "text"
+  },
+  "rates.supported": {
+   "type": "text"
+  },
+  "rates.vht-basic-mcs": {
+   "type": "text"
+  },
+  "rates.vht-supported-mcs": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "security": {
+   "type": "text"
+  }
+ },
+ "caps-man/manager": {
+  "ca-certificate": {
+   "type": "text"
+  },
+  "certificate": {
+   "type": "text"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "package-path": {
+   "type": "text"
+  },
+  "require-peer-certificate": {
+   "type": "yesno"
+  },
+  "upgrade-policy": {
+   "choices": [
+    "none",
+    "require-same-version",
+    "suggest-same-version"
+   ],
+   "type": "enum"
+  }
+ },
+ "caps-man/provisioning": {
+  "action": {
+   "choices": [
+    "none",
+    "create-disabled",
+    "create-dynamic-enabled",
+    "create-enabled"
+   ],
+   "type": "enum"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "common-name-regexp": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "hw-supported-modes": {
+   "multiple": true,
+   "type": "text"
+  },
+  "identity-regexp": {
+   "type": "text"
+  },
+  "ip-address-ranges": {
+   "multiple": true,
+   "type": "text"
+  },
+  "master-configuration": {
+   "type": "text"
+  },
+  "name-format": {
+   "choices": [
+    "cap",
+    "identity",
+    "prefix",
+    "prefix-identity"
+   ],
+   "type": "enum"
+  },
+  "name-prefix": {
+   "type": "text"
+  },
+  "radio-mac": {
+   "type": "text"
+  },
+  "slave-configurations": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "caps-man/registration-table": {
+  "bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "comment": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "interface": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-signal": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "ssid": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-rate-set": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  }
+ },
+ "caps-man/security": {
+  "authentication-types": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disable-pmkid": {
+   "type": "yesno"
+  },
+  "eap-methods": {
+   "multiple": true,
+   "type": "text"
+  },
+  "eap-radius-accounting": {
+   "type": "yesno"
+  },
+  "encryption": {
+   "type": "text"
+  },
+  "group-encryption": {
+   "choices": [
+    "aes-ccm",
+    "tkip"
+   ],
+   "type": "enum"
+  },
+  "group-key-update": {
+   "type": "time"
+  },
+  "name": {
+   "type": "text"
+  },
+  "passphrase": {
+   "type": "text"
+  },
+  "tls-certificate": {
+   "type": "text"
+  },
+  "tls-mode": {
+   "type": "text"
+  }
+ },
+ "certificate": {
+  "acme-status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "akid": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ca": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "common-name": {
+   "type": "text"
+  },
+  "country": {
+   "type": "text"
+  },
+  "days-valid": {
+   "type": "integer"
+  },
+  "digest-algorithm": {
+   "choices": [
+    "md5",
+    "sha1",
+    "sha256",
+    "sha384",
+    "sha512"
+   ],
+   "type": "enum"
+  },
+  "directory-url": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "domain-names": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "expires-after": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "fingerprint": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "invalid-after": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "invalid-before": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "issuer": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "key-size": {
+   "choices": [
+    "1024",
+    "1536",
+    "2048",
+    "4096",
+    "8192",
+    "prime256v1",
+    "secp384r1",
+    "secp521r1"
+   ],
+   "type": "enum"
+  },
+  "key-type": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "key-usage": {
+   "type": "text"
+  },
+  "locality": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "organization": {
+   "type": "text"
+  },
+  "revoked": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "serial-number": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "skid": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "state": {
+   "type": "text"
+  },
+  "subject-alt-name": {
+   "multiple": true,
+   "type": "text"
+  },
+  "trust-store": {
+   "type": "text"
+  },
+  "trusted": {
+   "type": "yesno"
+  },
+  "unit": {
+   "type": "text"
+  }
+ },
+ "file": {
+  "contents": {
+   "type": "text"
+  },
+  "creation-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last-modified": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "package-architecture": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "package-built-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "package-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "package-version": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "size": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "type": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "interface": {
+  "comment": {
+   "type": "text"
+  },
+  "default-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "fast-path": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "l2mtu": {
+   "type": "text"
+  },
+  "last-link-down-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last-link-up-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mtu": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "rx-byte": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-drop": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-error": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-packet": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-byte": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-drop": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-error": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-packet": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "type": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "interface/bonding": {
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-interval": {
+   "type": "time"
+  },
+  "arp-ip-targets": {
+   "multiple": true,
+   "type": "text"
+  },
+  "arp-timeout": {
+   "type": "time"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "down-delay": {
+   "type": "time"
+  },
+  "forced-mac-address": {
+   "type": "text"
+  },
+  "lacp-mode": {
+   "choices": [
+    "active",
+    "passive"
+   ],
+   "type": "enum"
+  },
+  "lacp-rate": {
+   "choices": [
+    "30secs",
+    "1sec"
+   ],
+   "type": "enum"
+  },
+  "lacp-system-id": {
+   "type": "text"
+  },
+  "lacp-system-priority": {
+   "type": "integer"
+  },
+  "lacp-user-key": {
+   "type": "integer"
+  },
+  "link-monitoring": {
+   "choices": [
+    "mii",
+    "arp",
+    "none"
+   ],
+   "type": "enum"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mii-interval": {
+   "type": "time"
+  },
+  "min-links": {
+   "type": "integer"
+  },
+  "mode": {
+   "choices": [
+    "balance-rr",
+    "active-backup",
+    "balance-xor",
+    "broadcast",
+    "802.3ad",
+    "balance-tlb",
+    "balance-alb"
+   ],
+   "type": "enum"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "primary": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "slaves": {
+   "multiple": true,
+   "type": "text"
+  },
+  "transmit-hash-policy": {
+   "choices": [
+    "layer-2",
+    "layer-2-and-3",
+    "layer-3-and-4",
+    "encap-2-and-3",
+    "encap-3-and-4"
+   ],
+   "type": "enum"
+  },
+  "up-delay": {
+   "type": "time"
+  }
+ },
+ "interface/bridge": {
+  "actual-mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "admin-mac": {
+   "type": "text"
+  },
+  "ageing-time": {
+   "type": "time"
+  },
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-timeout": {
+   "type": "time"
+  },
+  "auto-mac": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "dhcp-agent-circuit-id": {
+   "type": "text"
+  },
+  "dhcp-agent-remote-id": {
+   "type": "text"
+  },
+  "dhcp-snooping": {
+   "type": "yesno"
+  },
+  "dhcpv6-agent-circuit-id": {
+   "type": "text"
+  },
+  "dhcpv6-agent-remote-id": {
+   "type": "text"
+  },
+  "dhcpv6-snooping": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ether-type": {
+   "choices": [
+    "0x8100",
+    "0x88a8",
+    "0x9100"
+   ],
+   "type": "enum"
+  },
+  "fast-forward": {
+   "type": "yesno"
+  },
+  "forward-delay": {
+   "type": "time"
+  },
+  "forward-reserved-addresses": {
+   "type": "text"
+  },
+  "frame-types": {
+   "choices": [
+    "admit-all",
+    "admit-only-untagged-and-priority-tagged",
+    "admit-only-vlan-tagged"
+   ],
+   "type": "enum"
+  },
+  "igmp-snooping": {
+   "type": "yesno"
+  },
+  "igmp-version": {
+   "type": "integer"
+  },
+  "ingress-filtering": {
+   "type": "yesno"
+  },
+  "l2mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last-member-interval": {
+   "type": "time"
+  },
+  "last-member-query-count": {
+   "type": "integer"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "managed": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "max-hops": {
+   "type": "integer"
+  },
+  "max-learned-entries": {
+   "type": "text"
+  },
+  "max-message-age": {
+   "type": "time"
+  },
+  "membership-interval": {
+   "type": "time"
+  },
+  "mlag-heartbeat": {
+   "type": "time"
+  },
+  "mlag-peer-port": {
+   "type": "text"
+  },
+  "mlag-priority": {
+   "type": "integer"
+  },
+  "mld-version": {
+   "type": "integer"
+  },
+  "mtu": {
+   "type": "text"
+  },
+  "multicast-querier": {
+   "type": "yesno"
+  },
+  "multicast-router": {
+   "choices": [
+    "disabled",
+    "permanent",
+    "temporary-query"
+   ],
+   "type": "enum"
+  },
+  "mvrp": {
+   "type": "yesno"
+  },
+  "name": {
+   "type": "text"
+  },
+  "port-cost-mode": {
+   "choices": [
+    "long",
+    "short"
+   ],
+   "type": "enum"
+  },
+  "priority": {
+   "type": "integer"
+  },
+  "protocol-mode": {
+   "choices": [
+    "none",
+    "rstp",
+    "stp",
+    "mstp"
+   ],
+   "type": "enum"
+  },
+  "pvid": {
+   "type": "integer"
+  },
+  "querier-interval": {
+   "type": "time"
+  },
+  "querier-uses-bridge-address": {
+   "type": "yesno"
+  },
+  "query-interval": {
+   "type": "time"
+  },
+  "query-response-interval": {
+   "type": "time"
+  },
+  "ra-guard": {
+   "type": "yesno"
+  },
+  "region-name": {
+   "type": "text"
+  },
+  "region-revision": {
+   "type": "integer"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "startup-query-count": {
+   "type": "integer"
+  },
+  "startup-query-interval": {
+   "type": "time"
+  },
+  "transmit-hold-count": {
+   "type": "integer"
+  },
+  "vlan-filtering": {
+   "type": "yesno"
+  }
+ },
+ "interface/bridge/filter": {
+  "action": {
+   "choices": [
+    "accept",
+    "arp-reply",
+    "drop",
+    "dst-nat",
+    "jump",
+    "log",
+    "mark-packet",
+    "passthrough",
+    "redirect",
+    "return",
+    "set-priority",
+    "src-nat"
+   ],
+   "type": "enum"
+  },
+  "jump-target": {
+   "type": "text"
+  },
+  "log-prefix": {
+   "type": "text"
+  },
+  "new-packet-mark": {
+   "type": "text"
+  },
+  "new-priority": {
+   "type": "text"
+  },
+  "passthrough": {
+   "type": "yesno"
+  }
+ },
+ "interface/bridge/nat": {
+  "action": {
+   "choices": [
+    "accept",
+    "arp-reply",
+    "drop",
+    "dst-nat",
+    "jump",
+    "log",
+    "mark-packet",
+    "passthrough",
+    "redirect",
+    "return",
+    "set-priority",
+    "src-nat"
+   ],
+   "type": "enum"
+  },
+  "to-arp-reply-mac-address": {
+   "type": "text"
+  },
+  "to-dst-mac-address": {
+   "type": "text"
+  },
+  "to-src-mac-address": {
+   "type": "text"
+  }
+ },
+ "interface/bridge/port": {
+  "auto-isolate": {
+   "type": "yesno"
+  },
+  "bridge": {
+   "type": "text"
+  },
+  "edge": {
+   "type": "text"
+  },
+  "external-fdb": {
+   "type": "text"
+  },
+  "horizon": {
+   "type": "text"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "path-cost": {
+   "type": "integer"
+  },
+  "point-to-point": {
+   "type": "text"
+  },
+  "priority": {
+   "type": "integer"
+  }
+ },
+ "interface/bridge/settings": {
+  "allow-fast-path": {
+   "type": "yesno"
+  },
+  "use-ip-firewall": {
+   "type": "yesno"
+  },
+  "use-ip-firewall-for-pppoe": {
+   "type": "yesno"
+  },
+  "use-ip-firewall-for-vlan": {
+   "type": "yesno"
+  }
+ },
+ "interface/bridge/vlan": {
+  "bridge": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "current-tagged": {
+   "multiple": true,
+   "readOnly": true,
+   "type": "text"
+  },
+  "current-untagged": {
+   "multiple": true,
+   "readOnly": true,
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "mvrp-forbidden": {
+   "multiple": true,
+   "type": "text"
+  },
+  "tagged": {
+   "multiple": true,
+   "type": "text"
+  },
+  "untagged": {
+   "multiple": true,
+   "type": "text"
+  },
+  "vlan-ids": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "interface/eoip": {
+  "actual-mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "allow-fast-path": {
+   "type": "yesno"
+  },
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-timeout": {
+   "type": "time"
+  },
+  "clamp-tcp-mss": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dont-fragment": {
+   "type": "text"
+  },
+  "dscp": {
+   "type": "text"
+  },
+  "ipsec-secret": {
+   "type": "text"
+  },
+  "keepalive": {
+   "type": "text"
+  },
+  "l2mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "loop-protect": {
+   "choices": [
+    "default",
+    "off",
+    "on"
+   ],
+   "type": "enum"
+  },
+  "loop-protect-disable-time": {
+   "type": "time"
+  },
+  "loop-protect-send-interval": {
+   "type": "time"
+  },
+  "loop-protect-status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "mtu": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "remote-address": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "tunnel-id": {
+   "type": "integer"
+  }
+ },
+ "interface/ethernet": {
+  "arp": {
+   "type": "text"
+  },
+  "auto-negotiation": {
+   "type": "yesno"
+  },
+  "bandwidth": {
+   "type": "text"
+  },
+  "cable-setting": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disable-running-check": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "flow-control-rx": {
+   "choices": [
+    "true",
+    "false"
+   ],
+   "type": "enum"
+  },
+  "flow-control-tx": {
+   "choices": [
+    "true",
+    "false"
+   ],
+   "type": "enum"
+  },
+  "full-duplex": {
+   "type": "yesno"
+  },
+  "l2mtu": {
+   "type": "integer"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "master-port": {
+   "type": "text"
+  },
+  "mdix-enable": {
+   "type": "yesno"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "orig-mac-address": {
+   "type": "text"
+  },
+  "poe-out": {
+   "type": "text"
+  },
+  "poe-priority": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "rx-1024-1518": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-128-255": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-1519-max": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-256-511": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-512-1023": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-64": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-65-127": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-align-error": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-broadcast": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-fcs-error": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-fragment": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-multicast": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-overflow": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-pause": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-runt": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-too-long": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "sfp-rate-select": {
+   "type": "text"
+  },
+  "slave": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "speed": {
+   "type": "text"
+  },
+  "switch": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-1024-1518": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-128-255": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-1519-max": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-256-511": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-512-1023": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-64": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-65-127": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-align-error": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-broadcast": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-fcs-error": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-fragment": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-multicast": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-overflow": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-pause": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-runt": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-too-long": {
+   "readOnly": true,
+   "type": "integer"
+  }
+ },
+ "interface/ethernet/monitor": {
+  "auto-negotiation": {
+   "type": "text"
+  },
+  "default-cable-setting": {
+   "type": "text"
+  },
+  "eeprom": {
+   "type": "text"
+  },
+  "full-duplex": {
+   "type": "yesno"
+  },
+  "name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rate": {
+   "type": "text"
+  },
+  "rx-flow-control": {
+   "type": "text"
+  },
+  "sfp-connector-type": {
+   "type": "text"
+  },
+  "sfp-link-length-copper": {
+   "type": "text"
+  },
+  "sfp-manufacturing-date": {
+   "type": "text"
+  },
+  "sfp-module-present": {
+   "type": "yesno"
+  },
+  "sfp-rx-lose": {
+   "type": "yesno"
+  },
+  "sfp-tx-fault": {
+   "type": "yesno"
+  },
+  "sfp-vendor-name": {
+   "type": "text"
+  },
+  "sfp-vendor-part-number": {
+   "type": "text"
+  },
+  "sfp-vendor-revision": {
+   "type": "text"
+  },
+  "sfp-vendor-serial": {
+   "type": "text"
+  },
+  "status": {
+   "type": "text"
+  },
+  "supported": {
+   "type": "text"
+  },
+  "tx-flow-control": {
+   "type": "text"
+  }
+ },
+ "interface/gre": {
+  "actual-mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "allow-fast-path": {
+   "type": "yesno"
+  },
+  "clamp-tcp-mss": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dont-fragment": {
+   "type": "text"
+  },
+  "dscp": {
+   "type": "text"
+  },
+  "ipsec-secret": {
+   "type": "text"
+  },
+  "keepalive": {
+   "type": "text"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "mtu": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "remote-address": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  }
+ },
+ "interface/ipip": {
+  "actual-mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "allow-fast-path": {
+   "type": "yesno"
+  },
+  "clamp-tcp-mss": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dont-fragment": {
+   "type": "text"
+  },
+  "dscp": {
+   "type": "text"
+  },
+  "ipsec-secret": {
+   "type": "text"
+  },
+  "keepalive": {
+   "type": "text"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "mtu": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "remote-address": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  }
+ },
+ "interface/l2tp-client": {
+  "add-default-route": {
+   "type": "yesno"
+  },
+  "allow": {
+   "type": "text"
+  },
+  "allow-fast-path": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connect-to": {
+   "type": "text"
+  },
+  "default-route-distance": {
+   "type": "integer"
+  },
+  "dial-on-demand": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "ipsec-secret": {
+   "type": "text"
+  },
+  "keepalive-timeout": {
+   "type": "integer"
+  },
+  "l2tp-proto-version": {
+   "choices": [
+    "l2tpv2",
+    "l2tpv3-ip",
+    "l2tpv3-udp"
+   ],
+   "type": "enum"
+  },
+  "l2tpv3-circuit-id": {
+   "type": "text"
+  },
+  "l2tpv3-cookie-length": {
+   "choices": [
+    "0",
+    "4-bytes",
+    "8-bytes"
+   ],
+   "type": "enum"
+  },
+  "l2tpv3-digest-hash": {
+   "choices": [
+    "md5",
+    "none",
+    "sha1"
+   ],
+   "type": "enum"
+  },
+  "max-mru": {
+   "type": "integer"
+  },
+  "max-mtu": {
+   "type": "integer"
+  },
+  "mrru": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "random-source-port": {
+   "type": "yesno"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "use-ipsec": {
+   "type": "yesno"
+  },
+  "use-peer-dns": {
+   "type": "text"
+  },
+  "user": {
+   "type": "text"
+  }
+ },
+ "interface/list": {
+  "builtin": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "exclude": {
+   "multiple": true,
+   "type": "text"
+  },
+  "include": {
+   "multiple": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  }
+ },
+ "interface/list/member": {
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "list": {
+   "type": "text"
+  }
+ },
+ "interface/lte": {
+  "allow-roaming": {
+   "type": "yesno"
+  },
+  "apn-profiles": {
+   "type": "text"
+  },
+  "band": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "modem-init": {
+   "type": "text"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "network-mode": {
+   "choices": [
+    "auto",
+    "3g",
+    "gsm",
+    "lte",
+    "5g"
+   ],
+   "type": "enum"
+  },
+  "nr-band": {
+   "type": "text"
+  },
+  "operator": {
+   "type": "text"
+  },
+  "pin": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "sms-protocol": {
+   "choices": [
+    "auto",
+    "3gpp",
+    "3gpp2",
+    "at",
+    "mbim"
+   ],
+   "type": "enum"
+  },
+  "sms-read": {
+   "type": "yesno"
+  }
+ },
+ "interface/monitor-traffic": {
+  "name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-bits-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-drops-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-errors-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-packets-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-bits-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-drops-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-errors-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-packets-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-queue-drops-per-second": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "interface/ovpn-client": {
+  "add-default-route": {
+   "type": "yesno"
+  },
+  "auth": {
+   "type": "text"
+  },
+  "certificate": {
+   "type": "text"
+  },
+  "cipher": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connect-to": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "disconnect-notify": {
+   "type": "yesno"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "max-mtu": {
+   "type": "integer"
+  },
+  "mode": {
+   "choices": [
+    "ip",
+    "ethernet"
+   ],
+   "type": "enum"
+  },
+  "name": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "protocol": {
+   "choices": [
+    "tcp",
+    "udp"
+   ],
+   "type": "enum"
+  },
+  "route-nopull": {
+   "type": "yesno"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "tls-version": {
+   "choices": [
+    "any",
+    "only-1.2"
+   ],
+   "type": "enum"
+  },
+  "use-peer-dns": {
+   "type": "yesno"
+  },
+  "user": {
+   "type": "text"
+  },
+  "verify-server-certificate": {
+   "type": "yesno"
+  }
+ },
+ "interface/ovpn-server/server": {
+  "auth": {
+   "type": "text"
+  },
+  "certificate": {
+   "type": "text"
+  },
+  "cipher": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "default-profile": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "enable-tun-ipv6": {
+   "type": "yesno"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ipv6-prefix-len": {
+   "type": "integer"
+  },
+  "keepalive-timeout": {
+   "type": "text"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "max-mtu": {
+   "type": "integer"
+  },
+  "mode": {
+   "choices": [
+    "ip",
+    "ethernet"
+   ],
+   "type": "enum"
+  },
+  "name": {
+   "type": "text"
+  },
+  "netmask": {
+   "type": "integer"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "protocol": {
+   "choices": [
+    "tcp",
+    "udp"
+   ],
+   "type": "enum"
+  },
+  "push-routes": {
+   "type": "text"
+  },
+  "push-routes-ipv6": {
+   "type": "text"
+  },
+  "redirect-gateway": {
+   "choices": [
+    "disabled",
+    "def1",
+    "ipv6"
+   ],
+   "type": "enum"
+  },
+  "reneg-sec": {
+   "type": "integer"
+  },
+  "require-client-certificate": {
+   "type": "yesno"
+  },
+  "tls-version": {
+   "choices": [
+    "any",
+    "only-1.2"
+   ],
+   "type": "enum"
+  },
+  "tun-server-ipv6": {
+   "type": "text"
+  },
+  "user-auth-method": {
+   "choices": [
+    "pap",
+    "mschap2"
+   ],
+   "type": "enum"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "interface/pppoe-client": {
+  "ac-name": {
+   "type": "text"
+  },
+  "add-default-route": {
+   "choices": [
+    "true",
+    "false"
+   ],
+   "type": "enum"
+  },
+  "allow": {
+   "type": "text"
+  },
+  "default-route-distance": {
+   "type": "integer"
+  },
+  "dial-on-demand": {
+   "choices": [
+    "true",
+    "false"
+   ],
+   "type": "enum"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "keepalive-timeout": {
+   "type": "integer"
+  },
+  "max-mru": {
+   "type": "text"
+  },
+  "max-mtu": {
+   "type": "text"
+  },
+  "mrru": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "service-name": {
+   "type": "text"
+  },
+  "use-peer-dns": {
+   "choices": [
+    "true",
+    "false"
+   ],
+   "type": "enum"
+  },
+  "user": {
+   "type": "text"
+  }
+ },
+ "interface/pppoe-client/monitor": {
+  "ac-mac": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ac-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "active-links": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "encoding": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "local-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mru": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "remote-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "service-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  }
+ },
+ "interface/pppoe-server/server": {
+  "authentication": {
+   "type": "text"
+  },
+  "default-profile": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "keepalive-timeout": {
+   "type": "time"
+  },
+  "max-mru": {
+   "type": "text"
+  },
+  "max-mtu": {
+   "type": "text"
+  },
+  "max-sessions": {
+   "type": "text"
+  },
+  "mrru": {
+   "type": "text"
+  },
+  "one-session-per-host": {
+   "type": "yesno"
+  },
+  "pado-delay": {
+   "type": "time"
+  },
+  "service-name": {
+   "type": "text"
+  }
+ },
+ "interface/pptp-client": {
+  "add-default-route": {
+   "type": "yesno"
+  },
+  "allow": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connect-to": {
+   "type": "text"
+  },
+  "default-route-distance": {
+   "type": "integer"
+  },
+  "dial-on-demand": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "keepalive-timeout": {
+   "type": "integer"
+  },
+  "max-mru": {
+   "type": "integer"
+  },
+  "max-mtu": {
+   "type": "integer"
+  },
+  "mrru": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "use-peer-dns": {
+   "type": "yesno"
+  },
+  "user": {
+   "type": "text"
+  }
+ },
+ "interface/sstp-client": {
+  "add-default-route": {
+   "type": "yesno"
+  },
+  "add-sni": {
+   "type": "yesno"
+  },
+  "authentication": {
+   "type": "text"
+  },
+  "certificate": {
+   "type": "text"
+  },
+  "ciphers": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connect-to": {
+   "type": "text"
+  },
+  "default-route-distance": {
+   "type": "integer"
+  },
+  "dial-on-demand": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "http-proxy": {
+   "type": "text"
+  },
+  "hw-crypto": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "keepalive-timeout": {
+   "type": "integer"
+  },
+  "max-mru": {
+   "type": "integer"
+  },
+  "max-mtu": {
+   "type": "integer"
+  },
+  "mrru": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "pfs": {
+   "type": "text"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "proxy-port": {
+   "type": "integer"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "tls-version": {
+   "choices": [
+    "any",
+    "only-1.2"
+   ],
+   "type": "enum"
+  },
+  "user": {
+   "type": "text"
+  },
+  "verify-server-address-from-certificate": {
+   "type": "yesno"
+  },
+  "verify-server-certificate": {
+   "type": "yesno"
+  }
+ },
+ "interface/vlan": {
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-timeout": {
+   "type": "time"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "l2mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "loop-protect": {
+   "choices": [
+    "default",
+    "off",
+    "on"
+   ],
+   "type": "enum"
+  },
+  "loop-protect-disable-time": {
+   "type": "time"
+  },
+  "loop-protect-send-interval": {
+   "type": "time"
+  },
+  "loop-protect-status": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "mtu": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "use-service-tag": {
+   "type": "yesno"
+  },
+  "vlan-id": {
+   "type": "text"
+  }
+ },
+ "interface/vrrp": {
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-timeout": {
+   "type": "time"
+  },
+  "authentication": {
+   "choices": [
+    "none",
+    "simple",
+    "ah"
+   ],
+   "type": "enum"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connection-tracking-mode": {
+   "choices": [
+    "passive-active",
+    "active-active"
+   ],
+   "type": "enum"
+  },
+  "connection-tracking-port": {
+   "type": "integer"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "group-authority": {
+   "type": "text"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "interval": {
+   "type": "time"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "on-backup": {
+   "type": "text"
+  },
+  "on-fail": {
+   "type": "text"
+  },
+  "on-master": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "preemption-mode": {
+   "type": "yesno"
+  },
+  "priority": {
+   "type": "integer"
+  },
+  "remote-address": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "sync-connection-tracking": {
+   "type": "yesno"
+  },
+  "v3-protocol": {
+   "choices": [
+    "ipv4",
+    "ipv6"
+   ],
+   "type": "enum"
+  },
+  "version": {
+   "type": "integer"
+  },
+  "vrid": {
+   "type": "integer"
+  }
+ },
+ "interface/vxlan": {
+  "allow-fast-path": {
+   "type": "yesno"
+  },
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-timeout": {
+   "type": "time"
+  },
+  "bridge": {
+   "type": "text"
+  },
+  "bridge-pvid": {
+   "type": "integer"
+  },
+  "checksum": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dont-fragment": {
+   "type": "text"
+  },
+  "group": {
+   "type": "text"
+  },
+  "hw": {
+   "type": "yesno"
+  },
+  "hw-offloaded": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "l2mtu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "learning": {
+   "type": "yesno"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "loop-protect": {
+   "choices": [
+    "default",
+    "off",
+    "on"
+   ],
+   "type": "enum"
+  },
+  "loop-protect-disable-time": {
+   "type": "time"
+  },
+  "loop-protect-send-interval": {
+   "type": "time"
+  },
+  "loop-protect-status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "max-fdb-size": {
+   "type": "integer"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "rem-csum": {
+   "choices": [
+    "none",
+    "rx",
+    "tx",
+    "both"
+   ],
+   "type": "enum"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ttl": {
+   "type": "text"
+  },
+  "vni": {
+   "type": "integer"
+  },
+  "vtep-vrf": {
+   "type": "text"
+  },
+  "vteps-ip-version": {
+   "choices": [
+    "ipv4",
+    "ipv6"
+   ],
+   "type": "enum"
+  }
+ },
+ "interface/wifi": {
+  "aaa": {
+   "type": "text"
+  },
+  "aaa.called-format": {
+   "type": "text"
+  },
+  "aaa.calling-format": {
+   "type": "text"
+  },
+  "aaa.interim-update": {
+   "type": "text"
+  },
+  "aaa.mac-caching": {
+   "type": "text"
+  },
+  "aaa.nas-identifier": {
+   "type": "text"
+  },
+  "aaa.password-format": {
+   "type": "text"
+  },
+  "aaa.username-format": {
+   "type": "text"
+  },
+  "arp": {
+   "choices": [
+    "enabled",
+    "disabled",
+    "proxy-arp",
+    "reply-only",
+    "local-proxy-arp"
+   ],
+   "type": "enum"
+  },
+  "arp-timeout": {
+   "type": "text"
+  },
+  "bound": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "cap": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "channel": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "configuration": {
+   "type": "text"
+  },
+  "datapath": {
+   "type": "text"
+  },
+  "default-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "disable-running-check": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "interworking": {
+   "type": "text"
+  },
+  "l2mtu": {
+   "type": "integer"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "master": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "master-interface": {
+   "type": "text"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "radio-mac": {
+   "type": "text"
+  },
+  "running": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "security": {
+   "type": "text"
+  },
+  "steering": {
+   "type": "text"
+  }
+ },
+ "interface/wifi/access-list": {
+  "action": {
+   "choices": [
+    "accept",
+    "reject",
+    "query-radius"
+   ],
+   "type": "enum"
+  },
+  "allow-signal-out-of-range": {
+   "type": "time"
+  },
+  "client-isolation": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "days": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "mac-address-mask": {
+   "type": "text"
+  },
+  "multi-passphrase-group": {
+   "type": "text"
+  },
+  "passphrase": {
+   "type": "text"
+  },
+  "radius-accounting": {
+   "type": "yesno"
+  },
+  "signal-range": {
+   "type": "text"
+  },
+  "ssid-regexp": {
+   "type": "text"
+  },
+  "time": {
+   "type": "text"
+  },
+  "vlan-id": {
+   "type": "integer"
+  }
+ },
+ "interface/wifi/channel": {
+  "band": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "deprioritize-unii-3-4": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "frequency": {
+   "multiple": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "preamble-puncturing": {
+   "type": "yesno"
+  },
+  "reselect-interval": {
+   "type": "time"
+  },
+  "reselect-time": {
+   "type": "text"
+  },
+  "secondary-frequency": {
+   "multiple": true,
+   "type": "text"
+  },
+  "skip-dfs-channels": {
+   "choices": [
+    "disabled",
+    "10min-cac",
+    "all"
+   ],
+   "type": "enum"
+  },
+  "width": {
+   "type": "text"
+  }
+ },
+ "interface/wifi/configuration": {
+  "aaa": {
+   "type": "text"
+  },
+  "aaa.called-format": {
+   "type": "text"
+  },
+  "aaa.calling-format": {
+   "type": "text"
+  },
+  "aaa.interim-update": {
+   "type": "text"
+  },
+  "aaa.mac-caching": {
+   "type": "text"
+  },
+  "aaa.nas-identifier": {
+   "type": "text"
+  },
+  "aaa.password-format": {
+   "type": "text"
+  },
+  "aaa.username-format": {
+   "type": "text"
+  },
+  "antenna-gain": {
+   "type": "integer"
+  },
+  "beacon-interval": {
+   "type": "time"
+  },
+  "chains": {
+   "type": "text"
+  },
+  "channel": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "country": {
+   "type": "text"
+  },
+  "datapath": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "distance": {
+   "type": "text"
+  },
+  "dtim-period": {
+   "type": "integer"
+  },
+  "hide-ssid": {
+   "type": "yesno"
+  },
+  "hw-protection-mode": {
+   "choices": [
+    "rts-cts",
+    "cts-to-self",
+    "none"
+   ],
+   "type": "enum"
+  },
+  "installation": {
+   "choices": [
+    "indoor",
+    "outdoor"
+   ],
+   "type": "enum"
+  },
+  "interworking": {
+   "type": "text"
+  },
+  "manager": {
+   "choices": [
+    "local",
+    "capsman",
+    "capsman-or-local"
+   ],
+   "type": "enum"
+  },
+  "max-clients": {
+   "type": "integer"
+  },
+  "mode": {
+   "choices": [
+    "ap",
+    "station",
+    "station-bridge",
+    "station-pseudobridge"
+   ],
+   "type": "enum"
+  },
+  "multicast-enhance": {
+   "choices": [
+    "disabled",
+    "enabled"
+   ],
+   "type": "enum"
+  },
+  "name": {
+   "type": "text"
+  },
+  "qos-classifier": {
+   "choices": [
+    "priority",
+    "dscp-high-3-bits"
+   ],
+   "type": "enum"
+  },
+  "security": {
+   "type": "text"
+  },
+  "ssid": {
+   "type": "text"
+  },
+  "station-roaming": {
+   "type": "yesno"
+  },
+  "steering": {
+   "type": "text"
+  },
+  "tx-chains": {
+   "type": "text"
+  },
+  "tx-power": {
+   "type": "integer"
+  }
+ },
+ "interface/wifi/datapath": {
+  "bridge": {
+   "type": "text"
+  },
+  "bridge-cost": {
+   "type": "integer"
+  },
+  "bridge-horizon": {
+   "type": "text"
+  },
+  "client-isolation": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface-list": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "openflow-switch": {
+   "type": "text"
+  },
+  "traffic-processing": {
+   "choices": [
+    "on-cap",
+    "on-capsman",
+    "on-capsman-secure"
+   ],
+   "type": "enum"
+  },
+  "vlan-id": {
+   "type": "text"
+  }
+ },
+ "interface/wifi/provisioning": {
+  "action": {
+   "choices": [
+    "none",
+    "create-disabled",
+    "create-dynamic-enabled",
+    "use-network-config",
+    "create-enabled"
+   ],
+   "type": "enum"
+  },
+  "address-ranges": {
+   "multiple": true,
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "common-name-regexp": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "identity-regexp": {
+   "type": "text"
+  },
+  "master-configuration": {
+   "type": "text"
+  },
+  "name-format": {
+   "type": "text"
+  },
+  "radio-mac": {
+   "type": "text"
+  },
+  "slave-configurations": {
+   "multiple": true,
+   "type": "text"
+  },
+  "slave-name-format": {
+   "type": "text"
+  },
+  "supported-bands": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "interface/wifi/registration-table": {
+  "auth-type": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "authorized": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "band": {
+   "multiple": true,
+   "readOnly": true,
+   "type": "text"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "interface": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last-activity": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-bits-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "signal": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ssid": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-bits-per-second": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "vlan-id": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "interface/wifi/security": {
+  "authentication-types": {
+   "type": "text"
+  },
+  "beacon-protection": {
+   "choices": [
+    "disabled",
+    "enabled"
+   ],
+   "type": "enum"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connect-group": {
+   "type": "text"
+  },
+  "connect-priority": {
+   "type": "text"
+  },
+  "dh-groups": {
+   "type": "text"
+  },
+  "disable-pmkid": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "eap-accounting": {
+   "type": "yesno"
+  },
+  "eap-anonymous-identity": {
+   "type": "text"
+  },
+  "eap-certificate-mode": {
+   "choices": [
+    "dont-verify-certificate",
+    "no-certificates",
+    "verify-certificate",
+    "verify-certificate-with-crl"
+   ],
+   "type": "enum"
+  },
+  "eap-methods": {
+   "multiple": true,
+   "type": "text"
+  },
+  "eap-password": {
+   "type": "text"
+  },
+  "eap-tls-certificate": {
+   "type": "text"
+  },
+  "eap-username": {
+   "type": "text"
+  },
+  "encryption": {
+   "type": "text"
+  },
+  "ft": {
+   "type": "yesno"
+  },
+  "ft-mobility-domain": {
+   "type": "integer"
+  },
+  "ft-nas-identifier": {
+   "type": "text"
+  },
+  "ft-over-ds": {
+   "type": "yesno"
+  },
+  "ft-preserve-vlanid": {
+   "type": "yesno"
+  },
+  "ft-r0-key-lifetime": {
+   "type": "time"
+  },
+  "ft-reassociation-deadline": {
+   "type": "integer"
+  },
+  "group-encryption": {
+   "choices": [
+    "ccmp",
+    "ccmp-256",
+    "gcmp",
+    "gcmp-256",
+    "tkip"
+   ],
+   "type": "enum"
+  },
+  "group-key-update": {
+   "type": "time"
+  },
+  "management-encryption": {
+   "choices": [
+    "cmac",
+    "cmac-256",
+    "gmac",
+    "gmac-256"
+   ],
+   "type": "enum"
+  },
+  "management-protection": {
+   "choices": [
+    "allowed",
+    "disabled",
+    "required"
+   ],
+   "type": "enum"
+  },
+  "multi-passphrase-group": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "owe-transition-interface": {
+   "type": "text"
+  },
+  "passphrase": {
+   "type": "text"
+  },
+  "sae-anti-clogging-threshold": {
+   "type": "integer"
+  },
+  "sae-max-failure-rate": {
+   "type": "integer"
+  },
+  "sae-pwe": {
+   "choices": [
+    "both",
+    "hash-to-element",
+    "hunting-and-pecking"
+   ],
+   "type": "enum"
+  },
+  "wps": {
+   "choices": [
+    "disable",
+    "push-button"
+   ],
+   "type": "enum"
+  }
+ },
+ "interface/wireguard": {
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "listen-port": {
+   "type": "integer"
+  },
+  "mtu": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "private-key": {
+   "type": "text"
+  }
+ },
+ "interface/wireguard/peers": {
+  "allowed-address": {
+   "multiple": true,
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "endpoint-address": {
+   "type": "text"
+  },
+  "endpoint-port": {
+   "type": "integer"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "preshared-key": {
+   "type": "text"
+  },
+  "public-key": {
+   "type": "text"
+  }
+ },
+ "interface/wireless": {
+  "adaptive-noise-immunity": {
+   "type": "text"
+  },
+  "allow-sharedkey": {
+   "type": "yesno"
+  },
+  "antenna-gain": {
+   "type": "integer"
+  },
+  "antenna-mode": {
+   "type": "text"
+  },
+  "area": {
+   "type": "text"
+  },
+  "arp": {
+   "type": "text"
+  },
+  "band": {
+   "type": "text"
+  },
+  "basic-rates-a/g": {
+   "type": "text"
+  },
+  "basic-rates-b": {
+   "type": "text"
+  },
+  "bridge-mode": {
+   "type": "text"
+  },
+  "burst-time": {
+   "type": "text"
+  },
+  "channel-width": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "compression": {
+   "type": "yesno"
+  },
+  "country": {
+   "type": "text"
+  },
+  "default-ap-tx-limit": {
+   "type": "integer"
+  },
+  "default-authentication": {
+   "type": "yesno"
+  },
+  "default-client-tx-limit": {
+   "type": "integer"
+  },
+  "default-forwarding": {
+   "type": "yesno"
+  },
+  "dfs-mode": {
+   "type": "text"
+  },
+  "disable-running-check": {
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "disconnect-timeout": {
+   "type": "time"
+  },
+  "distance": {
+   "type": "text"
+  },
+  "frame-lifetime": {
+   "type": "integer"
+  },
+  "frequency": {
+   "type": "text"
+  },
+  "frequency-mode": {
+   "type": "text"
+  },
+  "frequency-offset": {
+   "type": "integer"
+  },
+  "hide-ssid": {
+   "type": "yesno"
+  },
+  "ht-ampdu-priorities": {
+   "type": "text"
+  },
+  "ht-amsdu-limit": {
+   "type": "text"
+  },
+  "ht-amsdu-threshold": {
+   "type": "text"
+  },
+  "ht-basic-mcs": {
+   "type": "text"
+  },
+  "ht-guard-interval": {
+   "type": "text"
+  },
+  "ht-rxchains": {
+   "type": "text"
+  },
+  "ht-supported-mcs": {
+   "type": "text"
+  },
+  "ht-txchains": {
+   "type": "text"
+  },
+  "hw-fragmentation-threshold": {
+   "type": "text"
+  },
+  "hw-protection-mode": {
+   "type": "text"
+  },
+  "hw-protection-threshold": {
+   "type": "integer"
+  },
+  "hw-retries": {
+   "type": "integer"
+  },
+  "l2mtu": {
+   "type": "integer"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "master-interface": {
+   "type": "text"
+  },
+  "max-station-count": {
+   "type": "integer"
+  },
+  "mode": {
+   "choices": [
+    "station",
+    "station-wds",
+    "ap-bridge",
+    "bridge",
+    "alignment-only",
+    "nstreme-dual-slave",
+    "wds-slave",
+    "station-pseudobridge",
+    "station-pseudobridge-clone",
+    "station-bridge"
+   ],
+   "type": "enum"
+  },
+  "mtu": {
+   "type": "integer"
+  },
+  "multicast-helper": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "noise-floor-threshold": {
+   "type": "text"
+  },
+  "nv2-cell-radius": {
+   "type": "integer"
+  },
+  "nv2-noise-floor-offset": {
+   "type": "text"
+  },
+  "nv2-preshared-key": {
+   "type": "text"
+  },
+  "nv2-qos": {
+   "type": "text"
+  },
+  "nv2-queue-count": {
+   "type": "text"
+  },
+  "nv2-security": {
+   "type": "text"
+  },
+  "on-fail-retry-time": {
+   "type": "text"
+  },
+  "periodic-calibration": {
+   "type": "text"
+  },
+  "periodic-calibration-interval": {
+   "type": "integer"
+  },
+  "preamble-mode": {
+   "choices": [
+    "both",
+    "long",
+    "short"
+   ],
+   "type": "enum"
+  },
+  "prism-cardtype": {
+   "type": "text"
+  },
+  "proprietary-extension": {
+   "type": "text"
+  },
+  "radio-name": {
+   "type": "text"
+  },
+  "rate-selection": {
+   "type": "text"
+  },
+  "rate-set": {
+   "type": "text"
+  },
+  "scan-list": {
+   "type": "text"
+  },
+  "security-profile": {
+   "type": "text"
+  },
+  "ssid": {
+   "type": "text"
+  },
+  "station-bridge-clone-mac": {
+   "type": "text"
+  },
+  "supported-rates-a/g": {
+   "type": "text"
+  },
+  "supported-rates-b": {
+   "type": "text"
+  },
+  "tdma-debug": {
+   "type": "integer"
+  },
+  "tdma-hw-test-mode": {
+   "type": "integer"
+  },
+  "tdma-override-rate": {
+   "type": "text"
+  },
+  "tdma-override-size": {
+   "type": "integer"
+  },
+  "tdma-period-size": {
+   "type": "integer"
+  },
+  "tdma-test-mode": {
+   "type": "integer"
+  },
+  "tx-power": {
+   "type": "integer"
+  },
+  "tx-power-mode": {
+   "choices": [
+    "default",
+    "card-rates",
+    "all-rates-fixed",
+    "manual-table"
+   ],
+   "type": "enum"
+  },
+  "update-stats-interval": {
+   "type": "time"
+  },
+  "vht-basic-mcs": {
+   "type": "text"
+  },
+  "vht-supported-mcs": {
+   "type": "text"
+  },
+  "wds-cost-range": {
+   "type": "text"
+  },
+  "wds-default-bridge": {
+   "type": "text"
+  },
+  "wds-default-cost": {
+   "type": "text"
+  },
+  "wds-ignore-ssid": {
+   "type": "yesno"
+  },
+  "wds-mode": {
+   "type": "text"
+  },
+  "wireless-protocol": {
+   "choices": [
+    "unspecified",
+    "any",
+    "nstreme",
+    "nv2",
+    "nv2-nstreme",
+    "nv2-nstreme-802.11",
+    "802.11"
+   ],
+   "type": "enum"
+  },
+  "wmm-support": {
+   "type": "text"
+  }
+ },
+ "interface/wireless/access-list": {
+  "ap-tx-limit": {
+   "type": "integer"
+  },
+  "authentication": {
+   "type": "yesno"
+  },
+  "client-tx-limit": {
+   "type": "integer"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "forwarding": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "management-protection-key": {
+   "type": "text"
+  },
+  "private-algo": {
+   "type": "text"
+  },
+  "private-key": {
+   "type": "text"
+  },
+  "private-pre-shared-key": {
+   "type": "text"
+  },
+  "signal-range": {
+   "type": "text"
+  },
+  "time": {
+   "type": "text"
+  }
+ },
+ "interface/wireless/channels": {
+  "band": {
+   "type": "text"
+  },
+  "extension-channel": {
+   "type": "text"
+  },
+  "frequency": {
+   "type": "text"
+  },
+  "list": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "width": {
+   "type": "text"
+  }
+ },
+ "interface/wireless/registration-table": {
+  "802.1x-port-enabled": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ack-timeout": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "ap": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ap-tx-limit": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "authentication-type": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "bridge": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "client-tx-limit": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "comment": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "compression": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "distance": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "encryption": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "evm-ch0": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "evm-ch1": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "evm-ch2": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "frame-bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "frames": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "framing-current-size": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "framing-limit": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "framing-mode": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "group-encryption": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "hw-frame-bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "hw-frames": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "interface": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last-activity": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last-ip": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "management-protection": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "nstreme": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "p-throughput": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "packed-bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "packed-frames": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "radio-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "routeros-version": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-ccq": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "signal-strength": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "signal-strength-ch0": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "signal-strength-ch1": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "signal-strength-ch2": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "signal-to-noise": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "strength-at-rates": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tdma-retx": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tdma-rx-size": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tdma-timing-offset": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tdma-tx-size": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tdma-windfull": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-ccq": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-evm-ch0": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-evm-ch1": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-evm-ch2": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-frames-timed-out": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-signal-strength": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-signal-strength-ch0": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-signal-strength-ch1": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-signal-strength-ch2": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "wds": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "wmm-enabled": {
+   "readOnly": true,
+   "type": "yesno"
+  }
+ },
+ "interface/wireless/security-profiles": {
+  "authentication-types": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "group-ciphers": {
+   "type": "text"
+  },
+  "group-key-update": {
+   "type": "text"
+  },
+  "interim-update": {
+   "type": "time"
+  },
+  "management-protection": {
+   "type": "yesno"
+  },
+  "management-protection-key": {
+   "type": "text"
+  },
+  "mode": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "radius-called-format": {
+   "choices": [
+    "mac:ssid",
+    "mac",
+    "ssid"
+   ],
+   "type": "enum"
+  },
+  "radius-eap-accounting": {
+   "type": "yesno"
+  },
+  "radius-mac-accounting": {
+   "type": "yesno"
+  },
+  "radius-mac-authentication": {
+   "type": "yesno"
+  },
+  "radius-mac-caching": {
+   "type": "text"
+  },
+  "radius-mac-format": {
+   "type": "text"
+  },
+  "radius-mac-mode": {
+   "choices": [
+    "as-username",
+    "as-username-and-password"
+   ],
+   "type": "enum"
+  },
+  "static-algo-0": {
+   "choices": [
+    "none",
+    "40bit-wep",
+    "104bit-wep",
+    "aes-ccm",
+    "tkip"
+   ],
+   "type": "enum"
+  },
+  "static-algo-1": {
+   "choices": [
+    "none",
+    "40bit-wep",
+    "104bit-wep",
+    "aes-ccm",
+    "tkip"
+   ],
+   "type": "enum"
+  },
+  "static-algo-2": {
+   "choices": [
+    "none",
+    "40bit-wep",
+    "104bit-wep",
+    "aes-ccm",
+    "tkip"
+   ],
+   "type": "enum"
+  },
+  "static-algo-3": {
+   "choices": [
+    "none",
+    "40bit-wep",
+    "104bit-wep",
+    "aes-ccm",
+    "tkip"
+   ],
+   "type": "enum"
+  },
+  "static-key-0": {
+   "type": "text"
+  },
+  "static-key-1": {
+   "type": "text"
+  },
+  "static-key-2": {
+   "type": "text"
+  },
+  "static-key-3": {
+   "type": "text"
+  },
+  "static-sta-private-algo": {
+   "choices": [
+    "none",
+    "40bit-wep",
+    "104bit-wep",
+    "aes-ccm",
+    "tkip"
+   ],
+   "type": "enum"
+  },
+  "static-sta-private-key": {
+   "type": "text"
+  },
+  "static-transmit-key": {
+   "choices": [
+    "key-0",
+    "key-1",
+    "key-2",
+    "key-3"
+   ],
+   "type": "enum"
+  },
+  "supplicant-identity": {
+   "type": "text"
+  },
+  "unicast-ciphers": {
+   "type": "text"
+  },
+  "wpa-pre-shared-key": {
+   "type": "text"
+  },
+  "wpa2-pre-shared-key": {
+   "type": "text"
+  }
+ },
+ "interface/wireless/sniffer": {
+  "channel-time": {
+   "type": "time"
+  },
+  "multiple-channels": {
+   "type": "yesno"
+  },
+  "streaming-enabled": {
+   "type": "yesno"
+  },
+  "streaming-server": {
+   "type": "text"
+  }
+ },
+ "ip/address": {
+  "actual-interface": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "address": {
+   "type": "text"
+  },
+  "broadcast": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "netmask": {
+   "type": "text"
+  },
+  "network": {
+   "type": "text"
+  }
+ },
+ "ip/arp": {
+  "address": {
+   "type": "text"
+  },
+  "dhcp": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "mac-address": {
+   "type": "text"
+  }
+ },
+ "ip/cloud": {
+  "ddns-enabled": {
+   "choices": [
+    "no",
+    "yes",
+    "auto"
+   ],
+   "type": "enum"
+  },
+  "ddns-update-interval": {
+   "type": "time"
+  },
+  "dns-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "public-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "public-address-ipv6": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "update-time": {
+   "type": "yesno"
+  },
+  "warning": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ip/dhcp-client": {
+  "add-default-route": {
+   "choices": [
+    "yes",
+    "no",
+    "special-classless"
+   ],
+   "type": "enum"
+  },
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "client-id": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "default-route-distance": {
+   "type": "text"
+  },
+  "dhcp-server": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "expires-after": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "gateway": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "host-name": {
+   "type": "text"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "netmask": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "primary-dns": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "primary-ntp": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "secondary-dns": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "secondary-ntp": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "use-peer-dns": {
+   "type": "yesno"
+  },
+  "use-peer-ntp": {
+   "type": "yesno"
+  }
+ },
+ "ip/dhcp-relay": {
+  "add-relay-info": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "delay-threshold": {
+   "type": "time"
+  },
+  "dhcp-server": {
+   "multiple": true,
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "relay-info-remote-id": {
+   "type": "text"
+  }
+ },
+ "ip/dhcp-server": {
+  "add-arp": {
+   "type": "yesno"
+  },
+  "address-pool": {
+   "type": "text"
+  },
+  "always-broadcast": {
+   "type": "yesno"
+  },
+  "authoritative": {
+   "choices": [
+    "after-2sec-delay",
+    "yes",
+    "no",
+    "after-10sec-delay"
+   ],
+   "type": "enum"
+  },
+  "bootp-support": {
+   "choices": [
+    "static",
+    "none",
+    "dynamic"
+   ],
+   "type": "enum"
+  },
+  "delay-threshold": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "lease-script": {
+   "type": "text"
+  },
+  "lease-time": {
+   "type": "time"
+  },
+  "name": {
+   "type": "text"
+  },
+  "relay": {
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "use-radius": {
+   "type": "yesno"
+  }
+ },
+ "ip/dhcp-server/alert": {
+  "alert-timeout": {
+   "type": "time"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "on-alert": {
+   "type": "text"
+  },
+  "unknown-server": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "valid-server": {
+   "type": "text"
+  }
+ },
+ "ip/dhcp-server/config": {
+  "store-leases-disk": {
+   "type": "text"
+  }
+ },
+ "ip/dhcp-server/lease": {
+  "active-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "active-client-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "active-mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "active-server": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "address": {
+   "type": "text"
+  },
+  "address-list": {
+   "type": "text"
+  },
+  "agent-circuit-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "agent-remote-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "always-broadcast": {
+   "type": "yesno"
+  },
+  "block-access": {
+   "type": "yesno"
+  },
+  "blocked": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "client-id": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "expires-after": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "host-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "lease-time": {
+   "type": "time"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "radius": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "rate-limit": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "server": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "src-mac-address": {
+   "type": "text"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "use-src-mac": {
+   "type": "text"
+  }
+ },
+ "ip/dhcp-server/network": {
+  "address": {
+   "type": "text"
+  },
+  "boot-file-name": {
+   "type": "text"
+  },
+  "caps-manager": {
+   "multiple": true,
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "dhcp-option": {
+   "multiple": true,
+   "type": "text"
+  },
+  "dns-server": {
+   "multiple": true,
+   "type": "text"
+  },
+  "domain": {
+   "type": "text"
+  },
+  "gateway": {
+   "multiple": true,
+   "type": "text"
+  },
+  "netmask": {
+   "type": "text"
+  },
+  "next-server": {
+   "type": "text"
+  },
+  "ntp-server": {
+   "multiple": true,
+   "type": "text"
+  },
+  "wins-server": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "ip/dhcp-server/option": {
+  "code": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "raw-value": {
+   "type": "text"
+  },
+  "value": {
+   "type": "text"
+  }
+ },
+ "ip/dns": {
+  "allow-remote-requests": {
+   "type": "yesno"
+  },
+  "cache-max-ttl": {
+   "type": "time"
+  },
+  "cache-size": {
+   "type": "text"
+  },
+  "cache-used": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "servers": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "ip/dns/cache": {
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ttl": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ip/dns/cache/all": {
+  "data": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ttl": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "type": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ip/dns/static": {
+  "address": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "name": {
+   "type": "text"
+  },
+  "regexp": {
+   "type": "text"
+  },
+  "ttl": {
+   "type": "time"
+  }
+ },
+ "ip/firewall/address-list": {
+  "address": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "list": {
+   "type": "text"
+  },
+  "timeout": {
+   "type": "time"
+  }
+ },
+ "ip/firewall/connection": {
+  "assured": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "connection-mark": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "connection-type": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "dst-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "gre-key": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "gre-version": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "icmp-code": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "icmp-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "icmp-type": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "p2p": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "protocol": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "reply-dst-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "reply-src-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "src-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tcp-state": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "timeout": {
+   "readOnly": true,
+   "type": "time"
+  }
+ },
+ "ip/firewall/connection/tracking": {
+  "enabled": {
+   "type": "text"
+  },
+  "generic-timeout": {
+   "type": "time"
+  },
+  "icmp-timeout": {
+   "type": "time"
+  },
+  "max-entries": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tcp-close-timeout": {
+   "type": "time"
+  },
+  "tcp-close-wait-timeout": {
+   "type": "time"
+  },
+  "tcp-established-timeout": {
+   "type": "time"
+  },
+  "tcp-fin-wait-timeout": {
+   "type": "time"
+  },
+  "tcp-last-ack-timeout": {
+   "type": "time"
+  },
+  "tcp-syn-received-timeout": {
+   "type": "time"
+  },
+  "tcp-syn-sent-timeout": {
+   "type": "time"
+  },
+  "tcp-time-wait-timeout": {
+   "type": "time"
+  },
+  "total-entries": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "udp-stream-timeout": {
+   "type": "time"
+  },
+  "udp-timeout": {
+   "type": "time"
+  }
+ },
+ "ip/firewall/filter": {
+  "action": {
+   "choices": [
+    "accept",
+    "arp-reply",
+    "drop",
+    "dst-nat",
+    "jump",
+    "log",
+    "mark-packet",
+    "passthrough",
+    "redirect",
+    "return",
+    "set-priority",
+    "src-nat"
+   ],
+   "type": "enum"
+  },
+  "address-list": {
+   "type": "text"
+  },
+  "address-list-timeout": {
+   "type": "time"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "chain": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connection-bytes": {
+   "type": "text"
+  },
+  "connection-limit": {
+   "negatable": true,
+   "type": "text"
+  },
+  "connection-mark": {
+   "negatable": true,
+   "type": "text"
+  },
+  "connection-nat-state": {
+   "choices": [
+    "srcnat",
+    "dstnat"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "connection-rate": {
+   "negatable": true,
+   "type": "text"
+  },
+  "connection-state": {
+   "choices": [
+    "invalid",
+    "established",
+    "related",
+    "new",
+    "untracked"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "connection-type": {
+   "negatable": true,
+   "type": "text"
+  },
+  "content": {
+   "negatable": true,
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dscp": {
+   "negatable": true,
+   "type": "integer"
+  },
+  "dst-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-address-type": {
+   "choices": [
+    "unicast",
+    "local",
+    "broadcast",
+    "multicast",
+    "blackhole"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "dst-limit": {
+   "type": "text"
+  },
+  "dst-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "fragment": {
+   "type": "yesno"
+  },
+  "hotspot": {
+   "choices": [
+    "from-client",
+    "auth",
+    "local-dst",
+    "to-client",
+    "http"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "icmp-options": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-bridge-port": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-bridge-port-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-interface-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "ingress-priority": {
+   "negatable": true,
+   "type": "integer"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ipsec-policy": {
+   "type": "text"
+  },
+  "ipv4-options": {
+   "type": "text"
+  },
+  "jump-target": {
+   "type": "text"
+  },
+  "layer7-protocol": {
+   "negatable": true,
+   "type": "text"
+  },
+  "limit": {
+   "negatable": true,
+   "type": "text"
+  },
+  "log": {
+   "type": "yesno"
+  },
+  "log-prefix": {
+   "type": "text"
+  },
+  "nth": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-bridge-port": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-bridge-port-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-interface-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "p2p": {
+   "type": "text"
+  },
+  "packet-mark": {
+   "negatable": true,
+   "type": "text"
+  },
+  "packet-size": {
+   "negatable": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "per-connection-classifier": {
+   "type": "text"
+  },
+  "port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "priority": {
+   "negatable": true,
+   "type": "text"
+  },
+  "protocol": {
+   "negatable": true,
+   "type": "text"
+  },
+  "psd": {
+   "type": "text"
+  },
+  "random": {
+   "type": "text"
+  },
+  "realm": {
+   "negatable": true,
+   "type": "text"
+  },
+  "reject-with": {
+   "type": "text"
+  },
+  "routing-mark": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-type": {
+   "choices": [
+    "unicast",
+    "local",
+    "broadcast",
+    "multicast",
+    "blackhole"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "src-mac-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "tcp-flags": {
+   "choices": [
+    "fin",
+    "syn",
+    "rst",
+    "psh",
+    "ack",
+    "urg",
+    "ece",
+    "cwr"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "tcp-mss": {
+   "negatable": true,
+   "type": "text"
+  },
+  "time": {
+   "type": "text"
+  },
+  "tls-host": {
+   "negatable": true,
+   "type": "text"
+  },
+  "tos": {
+   "negatable": true,
+   "type": "text"
+  },
+  "ttl": {
+   "type": "text"
+  }
+ },
+ "ip/firewall/layer7-protocol": {
+  "comment": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "regexp": {
+   "type": "text"
+  }
+ },
+ "ip/firewall/mangle": {
+  "action": {
+   "choices": [
+    "accept",
+    "arp-reply",
+    "drop",
+    "dst-nat",
+    "jump",
+    "log",
+    "mark-packet",
+    "passthrough",
+    "redirect",
+    "return",
+    "set-priority",
+    "src-nat"
+   ],
+   "type": "enum"
+  },
+  "address-list": {
+   "type": "text"
+  },
+  "address-list-timeout": {
+   "type": "time"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "chain": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connection-bytes": {
+   "type": "text"
+  },
+  "connection-limit": {
+   "negatable": true,
+   "type": "text"
+  },
+  "connection-mark": {
+   "negatable": true,
+   "type": "text"
+  },
+  "connection-nat-state": {
+   "choices": [
+    "srcnat",
+    "dstnat"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "connection-rate": {
+   "negatable": true,
+   "type": "text"
+  },
+  "connection-state": {
+   "choices": [
+    "invalid",
+    "established",
+    "related",
+    "new",
+    "untracked"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "connection-type": {
+   "negatable": true,
+   "type": "text"
+  },
+  "content": {
+   "negatable": true,
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dscp": {
+   "negatable": true,
+   "type": "integer"
+  },
+  "dst-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-address-type": {
+   "choices": [
+    "unicast",
+    "local",
+    "broadcast",
+    "multicast",
+    "blackhole"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "dst-limit": {
+   "type": "text"
+  },
+  "dst-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "fragment": {
+   "type": "yesno"
+  },
+  "hotspot": {
+   "choices": [
+    "from-client",
+    "auth",
+    "local-dst",
+    "to-client",
+    "http"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "icmp-options": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-bridge-port": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-bridge-port-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-interface-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "ingress-priority": {
+   "negatable": true,
+   "type": "integer"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ipsec-policy": {
+   "type": "text"
+  },
+  "ipv4-options": {
+   "type": "text"
+  },
+  "jump-target": {
+   "type": "text"
+  },
+  "layer7-protocol": {
+   "negatable": true,
+   "type": "text"
+  },
+  "limit": {
+   "negatable": true,
+   "type": "text"
+  },
+  "log": {
+   "type": "yesno"
+  },
+  "log-prefix": {
+   "type": "text"
+  },
+  "new-connection-mark": {
+   "type": "text"
+  },
+  "new-dscp": {
+   "type": "integer"
+  },
+  "new-mss": {
+   "type": "text"
+  },
+  "new-packet-mark": {
+   "type": "text"
+  },
+  "new-priority": {
+   "type": "text"
+  },
+  "new-routing-mark": {
+   "type": "text"
+  },
+  "new-ttl": {
+   "type": "text"
+  },
+  "nth": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-bridge-port": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-bridge-port-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-interface-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "p2p": {
+   "type": "text"
+  },
+  "packet-mark": {
+   "negatable": true,
+   "type": "text"
+  },
+  "packet-size": {
+   "negatable": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "passthrough": {
+   "type": "yesno"
+  },
+  "per-connection-classifier": {
+   "type": "text"
+  },
+  "port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "priority": {
+   "negatable": true,
+   "type": "text"
+  },
+  "protocol": {
+   "negatable": true,
+   "type": "text"
+  },
+  "psd": {
+   "type": "text"
+  },
+  "random": {
+   "type": "text"
+  },
+  "realm": {
+   "negatable": true,
+   "type": "text"
+  },
+  "route-dst": {
+   "type": "text"
+  },
+  "routing-mark": {
+   "negatable": true,
+   "type": "text"
+  },
+  "sniff-id": {
+   "type": "integer"
+  },
+  "sniff-target": {
+   "type": "text"
+  },
+  "sniff-target-port": {
+   "type": "integer"
+  },
+  "src-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-type": {
+   "choices": [
+    "unicast",
+    "local",
+    "broadcast",
+    "multicast",
+    "blackhole"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "src-mac-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "tcp-flags": {
+   "choices": [
+    "fin",
+    "syn",
+    "rst",
+    "psh",
+    "ack",
+    "urg",
+    "ece",
+    "cwr"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "tcp-mss": {
+   "negatable": true,
+   "type": "text"
+  },
+  "time": {
+   "type": "text"
+  },
+  "tls-host": {
+   "negatable": true,
+   "type": "text"
+  },
+  "tos": {
+   "negatable": true,
+   "type": "text"
+  },
+  "ttl": {
+   "type": "text"
+  }
+ },
+ "ip/firewall/nat": {
+  "action": {
+   "type": "text"
+  },
+  "chain": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dst-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "in-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "out-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "protocol": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "to-addresses": {
+   "type": "text"
+  },
+  "to-ports": {
+   "type": "ports"
+  }
+ },
+ "ip/firewall/raw": {
+  "action": {
+   "choices": [
+    "accept",
+    "arp-reply",
+    "drop",
+    "dst-nat",
+    "jump",
+    "log",
+    "mark-packet",
+    "passthrough",
+    "redirect",
+    "return",
+    "set-priority",
+    "src-nat"
+   ],
+   "type": "enum"
+  },
+  "address-list": {
+   "type": "text"
+  },
+  "address-list-timeout": {
+   "type": "time"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "chain": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "content": {
+   "negatable": true,
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dscp": {
+   "negatable": true,
+   "type": "integer"
+  },
+  "dst-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-address-type": {
+   "choices": [
+    "unicast",
+    "local",
+    "broadcast",
+    "multicast",
+    "blackhole"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "dst-limit": {
+   "type": "text"
+  },
+  "dst-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "fragment": {
+   "type": "yesno"
+  },
+  "hotspot": {
+   "choices": [
+    "from-client",
+    "auth",
+    "local-dst",
+    "to-client",
+    "http"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "icmp-options": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-bridge-port": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-bridge-port-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "in-interface-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "ingress-priority": {
+   "negatable": true,
+   "type": "integer"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ipsec-policy": {
+   "type": "text"
+  },
+  "ipv4-options": {
+   "type": "text"
+  },
+  "jump-target": {
+   "type": "text"
+  },
+  "limit": {
+   "negatable": true,
+   "type": "text"
+  },
+  "log": {
+   "type": "yesno"
+  },
+  "log-prefix": {
+   "type": "text"
+  },
+  "nth": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-bridge-port": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-bridge-port-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-interface": {
+   "negatable": true,
+   "type": "text"
+  },
+  "out-interface-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "packet-mark": {
+   "negatable": true,
+   "type": "text"
+  },
+  "packet-size": {
+   "negatable": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "per-connection-classifier": {
+   "type": "text"
+  },
+  "port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "priority": {
+   "negatable": true,
+   "type": "text"
+  },
+  "protocol": {
+   "negatable": true,
+   "type": "text"
+  },
+  "psd": {
+   "type": "text"
+  },
+  "random": {
+   "type": "text"
+  },
+  "src-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-type": {
+   "choices": [
+    "unicast",
+    "local",
+    "broadcast",
+    "multicast",
+    "blackhole"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "src-mac-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "tcp-flags": {
+   "choices": [
+    "fin",
+    "syn",
+    "rst",
+    "psh",
+    "ack",
+    "urg",
+    "ece",
+    "cwr"
+   ],
+   "multiple": true,
+   "negatable": true,
+   "type": "enum"
+  },
+  "tcp-mss": {
+   "negatable": true,
+   "type": "text"
+  },
+  "time": {
+   "type": "text"
+  },
+  "tls-host": {
+   "negatable": true,
+   "type": "text"
+  },
+  "tos": {
+   "negatable": true,
+   "type": "text"
+  },
+  "ttl": {
+   "type": "text"
+  }
+ },
+ "ip/firewall/service-port": {
+  "disabled": {
+   "type": "yesno"
+  },
+  "name": {
+   "type": "text"
+  },
+  "ports": {
+   "type": "ports"
+  }
+ },
+ "ip/hotspot": {
+  "address-pool": {
+   "type": "text"
+  },
+  "addresses-per-mac": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "idle-timeout": {
+   "type": "time"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "keepalive-timeout": {
+   "type": "time"
+  },
+  "login-timeout": {
+   "type": "time"
+  },
+  "name": {
+   "type": "text"
+  },
+  "profile": {
+   "type": "text"
+  }
+ },
+ "ip/hotspot/active": {
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "bytes-in": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "bytes-out": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "idle-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "idle-timeout": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "login-by": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "server": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "session-time-left": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "user": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ip/hotspot/ip-binding": {
+  "address": {
+   "type": "text"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "server": {
+   "type": "text"
+  },
+  "to-address": {
+   "type": "text"
+  },
+  "type": {
+   "type": "text"
+  }
+ },
+ "ip/hotspot/profile": {
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "dns-name": {
+   "type": "text"
+  },
+  "hotspot-address": {
+   "type": "text"
+  },
+  "html-directory": {
+   "type": "text"
+  },
+  "html-directory-override": {
+   "type": "text"
+  },
+  "http-cookie-lifetime": {
+   "type": "time"
+  },
+  "http-proxy": {
+   "type": "text"
+  },
+  "install-hotspot-queue": {
+   "type": "yesno"
+  },
+  "login-by": {
+   "type": "text"
+  },
+  "mac-auth-mode": {
+   "type": "text"
+  },
+  "mac-auth-password": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "nas-port-type": {
+   "type": "text"
+  },
+  "radius-accounting": {
+   "type": "yesno"
+  },
+  "radius-default-domain": {
+   "type": "text"
+  },
+  "radius-interim-update": {
+   "type": "time"
+  },
+  "radius-location-id": {
+   "type": "text"
+  },
+  "radius-location-name": {
+   "type": "text"
+  },
+  "radius-mac-format": {
+   "type": "text"
+  },
+  "rate-limit": {
+   "type": "text"
+  },
+  "smtp-server": {
+   "type": "text"
+  },
+  "split-user-domain": {
+   "type": "yesno"
+  },
+  "ssl-certificate": {
+   "type": "text"
+  },
+  "trial-uptime-limit": {
+   "type": "time"
+  },
+  "trial-uptime-reset": {
+   "type": "time"
+  },
+  "trial-user-profile": {
+   "type": "text"
+  },
+  "use-radius": {
+   "type": "yesno"
+  }
+ },
+ "ip/hotspot/user": {
+  "address": {
+   "type": "text"
+  },
+  "bytes-in": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "bytes-out": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "email": {
+   "type": "text"
+  },
+  "limit-bytes-in": {
+   "type": "integer"
+  },
+  "limit-bytes-out": {
+   "type": "integer"
+  },
+  "limit-bytes-total": {
+   "type": "integer"
+  },
+  "limit-uptime": {
+   "type": "time"
+  },
+  "mac-address": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "packets-in": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "packets-out": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "password": {
+   "type": "text"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "routes": {
+   "type": "text"
+  },
+  "server": {
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  }
+ },
+ "ip/hotspot/user/profile": {
+  "add-mac-cookie": {
+   "type": "yesno"
+  },
+  "address-list": {
+   "multiple": true,
+   "type": "text"
+  },
+  "address-pool": {
+   "type": "text"
+  },
+  "advertise": {
+   "type": "yesno"
+  },
+  "advertise-interval": {
+   "multiple": true,
+   "type": "time"
+  },
+  "advertise-timeout": {
+   "type": "text"
+  },
+  "advertise-url": {
+   "multiple": true,
+   "type": "text"
+  },
+  "idle-timeout": {
+   "type": "time"
+  },
+  "incoming-filter": {
+   "type": "text"
+  },
+  "incoming-packet-mark": {
+   "type": "text"
+  },
+  "keepalive-timeout": {
+   "type": "time"
+  },
+  "mac-cookie-timeout": {
+   "type": "time"
+  },
+  "name": {
+   "type": "text"
+  },
+  "on-login": {
+   "type": "text"
+  },
+  "on-logout": {
+   "type": "text"
+  },
+  "open-status-page": {
+   "type": "text"
+  },
+  "outgoing-filter": {
+   "type": "text"
+  },
+  "outgoing-packet-mark": {
+   "type": "text"
+  },
+  "rate-limit": {
+   "type": "text"
+  },
+  "session-timeout": {
+   "type": "time"
+  },
+  "shared-users": {
+   "type": "text"
+  },
+  "status-autorefresh": {
+   "type": "text"
+  },
+  "transparent-proxy": {
+   "type": "yesno"
+  }
+ },
+ "ip/hotspot/walled-garden": {
+  "action": {
+   "choices": [
+    "allow",
+    "deny"
+   ],
+   "type": "enum"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dst-host": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "method": {
+   "negatable": true,
+   "type": "text"
+  },
+  "path": {
+   "negatable": true,
+   "type": "text"
+  },
+  "server": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address": {
+   "negatable": true,
+   "type": "text"
+  }
+ },
+ "ip/hotspot/walled-garden/ip": {
+  "action": {
+   "choices": [
+    "accept",
+    "drop",
+    "reject"
+   ],
+   "type": "enum"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dst-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-address-list": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-host": {
+   "type": "text"
+  },
+  "dst-port": {
+   "negatable": true,
+   "type": "text"
+  },
+  "protocol": {
+   "negatable": true,
+   "type": "text"
+  },
+  "server": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address-list": {
+   "negatable": true,
+   "type": "text"
+  }
+ },
+ "ip/ipsec/active-peers": {
+  "dynamic-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last-seen": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "local-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "natt-peer": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ph2-total": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "remote-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "responder": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "rx-bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx-packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "side": {
+   "choices": [
+    "initiator",
+    "responder"
+   ],
+   "readOnly": true,
+   "type": "enum"
+  },
+  "state": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx-packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ip/ipsec/identity": {
+  "auth-method": {
+   "choices": [
+    "pre-shared-key",
+    "pre-shared-key-xauth",
+    "rsa-signature",
+    "rsa-signature-hybrid",
+    "rsa-key",
+    "digital-signature",
+    "eap",
+    "eap-radius"
+   ],
+   "type": "enum"
+  },
+  "certificate": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "eap-methods": {
+   "type": "text"
+  },
+  "generate-policy": {
+   "choices": [
+    "no",
+    "port-override",
+    "port-strict"
+   ],
+   "type": "enum"
+  },
+  "key": {
+   "type": "text"
+  },
+  "match-by": {
+   "choices": [
+    "remote-id",
+    "certificate"
+   ],
+   "type": "enum"
+  },
+  "mode-config": {
+   "type": "text"
+  },
+  "my-id": {
+   "choices": [
+    "auto",
+    "address",
+    "fqdn",
+    "user-fqdn",
+    "key-id",
+    "dn"
+   ],
+   "type": "enum"
+  },
+  "notrack-chain": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "peer": {
+   "type": "text"
+  },
+  "policy-template-group": {
+   "type": "text"
+  },
+  "remote-certificate": {
+   "type": "text"
+  },
+  "remote-id": {
+   "choices": [
+    "auto",
+    "address",
+    "dn",
+    "fqdn",
+    "user-fqdn",
+    "key-id",
+    "ignore"
+   ],
+   "type": "enum"
+  },
+  "remote-key": {
+   "type": "text"
+  },
+  "secret": {
+   "type": "text"
+  },
+  "username": {
+   "type": "text"
+  }
+ },
+ "ip/ipsec/installed-sa": {
+  "AH": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ESP": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "add-lifetime": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "addtime": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "auth-algorithm": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "auth-key": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "current-bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "dst-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "enc-algorithm": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "enc-key": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "enc-key-size": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "expires-in": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "hw-aead": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "replay": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "spi": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "src-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "state": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ip/ipsec/key/rsa": {
+  "key-size": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "private-key": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "rsa": {
+   "readOnly": true,
+   "type": "yesno"
+  }
+ },
+ "ip/ipsec/mode-config": {
+  "address": {
+   "type": "text"
+  },
+  "address-pool": {
+   "type": "text"
+  },
+  "address-prefix-length": {
+   "type": "integer"
+  },
+  "connection-mark": {
+   "type": "text"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "name": {
+   "type": "text"
+  },
+  "responder": {
+   "type": "yesno"
+  },
+  "split-dns": {
+   "multiple": true,
+   "type": "text"
+  },
+  "split-include": {
+   "multiple": true,
+   "type": "text"
+  },
+  "src-address-list": {
+   "type": "text"
+  },
+  "static-dns": {
+   "multiple": true,
+   "type": "text"
+  },
+  "system-dns": {
+   "type": "yesno"
+  },
+  "use-responder-dns": {
+   "choices": [
+    "exclusively",
+    "no",
+    "yes"
+   ],
+   "type": "enum"
+  }
+ },
+ "ip/ipsec/peer": {
+  "address": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "exchange-mode": {
+   "choices": [
+    "main",
+    "aggressive",
+    "base",
+    "ike2"
+   ],
+   "type": "enum"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "passive": {
+   "type": "yesno"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "ppk-secret": {
+   "type": "text"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "responder": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "send-initial-contact": {
+   "type": "yesno"
+  }
+ },
+ "ip/ipsec/policy": {
+  "action": {
+   "choices": [
+    "accept",
+    "arp-reply",
+    "drop",
+    "dst-nat",
+    "jump",
+    "log",
+    "mark-packet",
+    "passthrough",
+    "redirect",
+    "return",
+    "set-priority",
+    "src-nat"
+   ],
+   "type": "enum"
+  },
+  "active": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dst-address": {
+   "type": "text"
+  },
+  "dst-port": {
+   "type": "text"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "group": {
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ipsec-protocols": {
+   "choices": [
+    "esp",
+    "ah"
+   ],
+   "type": "enum"
+  },
+  "level": {
+   "choices": [
+    "require",
+    "use",
+    "unique"
+   ],
+   "type": "enum"
+  },
+  "peer": {
+   "type": "text"
+  },
+  "ph2-count": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ph2-state": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "proposal": {
+   "type": "text"
+  },
+  "protocol": {
+   "type": "text"
+  },
+  "sa-dst-address": {
+   "type": "text"
+  },
+  "sa-src-address": {
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "src-port": {
+   "type": "text"
+  },
+  "template": {
+   "type": "yesno"
+  },
+  "tunnel": {
+   "type": "yesno"
+  }
+ },
+ "ip/ipsec/profile": {
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "dh-group": {
+   "type": "text"
+  },
+  "dpd-maximum-failures": {
+   "type": "integer"
+  },
+  "enc-algorithm": {
+   "type": "text"
+  },
+  "hash-algorithm": {
+   "choices": [
+    "sha1",
+    "md5",
+    "sha256",
+    "sha512",
+    "sha384"
+   ],
+   "type": "enum"
+  },
+  "lifebytes": {
+   "type": "integer"
+  },
+  "lifetime": {
+   "type": "time"
+  },
+  "name": {
+   "type": "text"
+  },
+  "nat-traversal": {
+   "type": "yesno"
+  },
+  "ppk": {
+   "type": "yesno"
+  },
+  "prf-algorithm": {
+   "choices": [
+    "auto",
+    "sha1",
+    "sha256",
+    "sha384",
+    "sha512"
+   ],
+   "type": "enum"
+  },
+  "proposal-check": {
+   "choices": [
+    "obey",
+    "claim",
+    "exact",
+    "strict"
+   ],
+   "type": "enum"
+  }
+ },
+ "ip/ipsec/proposal": {
+  "auth-algorithms": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "enc-algorithms": {
+   "type": "text"
+  },
+  "lifetime": {
+   "type": "time"
+  },
+  "name": {
+   "type": "text"
+  },
+  "pfs-group": {
+   "choices": [
+    "none",
+    "modp768",
+    "modp1024",
+    "modp1536",
+    "modp2048",
+    "modp3072",
+    "modp4096",
+    "modp6144",
+    "modp8192",
+    "ecp256",
+    "ecp384",
+    "ecp521",
+    "ec2n155",
+    "ec2n185"
+   ],
+   "type": "enum"
+  }
+ },
+ "ip/neighbor": {
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "address4": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "address6": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "age": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "board": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "discovered-by": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "identity": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "interface": {
+   "multiple": true,
+   "readOnly": true,
+   "type": "text"
+  },
+  "interface-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ipv6": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "mac-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "platform": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "software-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "system-caps": {
+   "multiple": true,
+   "readOnly": true,
+   "type": "text"
+  },
+  "system-caps-enabled": {
+   "multiple": true,
+   "readOnly": true,
+   "type": "text"
+  },
+  "unpack": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "version": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ip/pool": {
+  "name": {
+   "type": "text"
+  },
+  "next-pool": {
+   "type": "text"
+  },
+  "ranges": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "ip/proxy": {
+  "always-from-cache": {
+   "type": "yesno"
+  },
+  "anonymous": {
+   "type": "yesno"
+  },
+  "cache-administrator": {
+   "type": "text"
+  },
+  "cache-hit-dscp": {
+   "type": "integer"
+  },
+  "cache-on-disk": {
+   "type": "yesno"
+  },
+  "cache-path": {
+   "type": "text"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "max-cache-object-size": {
+   "type": "integer"
+  },
+  "max-cache-size": {
+   "type": "text"
+  },
+  "max-client-connections": {
+   "type": "integer"
+  },
+  "max-fresh-time": {
+   "type": "time"
+  },
+  "max-server-connections": {
+   "type": "integer"
+  },
+  "parent-proxy": {
+   "type": "text"
+  },
+  "parent-proxy-port": {
+   "type": "integer"
+  },
+  "port": {
+   "type": "ports"
+  },
+  "serialize-connections": {
+   "type": "yesno"
+  },
+  "src-address": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "ip/proxy/access": {
+  "action": {
+   "choices": [
+    "allow",
+    "deny",
+    "redirect",
+    "url-append"
+   ],
+   "type": "enum"
+  },
+  "action-data": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dst-address": {
+   "type": "text"
+  },
+  "dst-host": {
+   "negatable": true,
+   "type": "text"
+  },
+  "dst-port": {
+   "negatable": true,
+   "type": "ports"
+  },
+  "hits": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "local-port": {
+   "negatable": true,
+   "type": "integer"
+  },
+  "method": {
+   "choices": [
+    "any",
+    "connect",
+    "delete",
+    "get",
+    "head",
+    "options",
+    "post",
+    "put",
+    "trace"
+   ],
+   "negatable": true,
+   "type": "enum"
+  },
+  "path": {
+   "negatable": true,
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  }
+ },
+ "ip/route": {
+  "active": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "bgp": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "bgp-as-path": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "bgp-communities": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "bgp-origin": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "connect": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "distance": {
+   "type": "integer"
+  },
+  "dst-address": {
+   "type": "text"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "gateway": {
+   "type": "text"
+  },
+  "gateway-status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "pref-src": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "received-from": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "scope": {
+   "type": "integer"
+  },
+  "static": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "target-scope": {
+   "type": "integer"
+  }
+ },
+ "ip/service": {
+  "certificate": {
+   "type": "text"
+  },
+  "connection": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "local": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "max-sessions": {
+   "type": "integer"
+  },
+  "name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "proto": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "remote": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tls-version": {
+   "choices": [
+    "any",
+    "only-1.2"
+   ],
+   "type": "enum"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "ip/settings": {
+  "accept-redirects": {
+   "type": "yesno"
+  },
+  "accept-source-route": {
+   "type": "yesno"
+  },
+  "allow-fast-path": {
+   "type": "yesno"
+  },
+  "arp-timeout": {
+   "type": "time"
+  },
+  "icmp-errors-use-inbound-interface-address": {
+   "type": "yesno"
+  },
+  "icmp-rate-limit": {
+   "type": "integer"
+  },
+  "icmp-rate-mask": {
+   "type": "integer"
+  },
+  "ip-forward": {
+   "type": "yesno"
+  },
+  "ipv4-fast-path-active": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ipv4-fast-path-bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "ipv4-fast-path-packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "ipv4-fasttrack-active": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "ipv4-fasttrack-bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "ipv4-fasttrack-packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "ipv4-multipath-hash-policy": {
+   "choices": [
+    "l3",
+    "l4",
+    "l3-inner"
+   ],
+   "type": "enum"
+  },
+  "max-neighbor-entries": {
+   "type": "integer"
+  },
+  "rp-filter": {
+   "choices": [
+    "no",
+    "loose",
+    "strict"
+   ],
+   "type": "enum"
+  },
+  "secure-redirects": {
+   "type": "yesno"
+  },
+  "send-redirects": {
+   "type": "yesno"
+  },
+  "tcp-syncookies": {
+   "type": "yesno"
+  },
+  "tcp-timestamps": {
+   "choices": [
+    "random-offset",
+    "enabled",
+    "disabled"
+   ],
+   "type": "enum"
+  }
+ },
+ "ip/socks": {
+  "auth-method": {
+   "type": "text"
+  },
+  "connection-idle-timeout": {
+   "type": "time"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "max-connections": {
+   "type": "integer"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "version": {
+   "type": "text"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "ip/ssh": {
+  "ciphers": {
+   "choices": [
+    "auto",
+    "aes-gcm",
+    "aes-ctr",
+    "aes-cbc",
+    "3des-cbc",
+    "null"
+   ],
+   "multiple": true,
+   "type": "enum"
+  },
+  "forwarding-enabled": {
+   "choices": [
+    "no",
+    "local",
+    "remote",
+    "both"
+   ],
+   "type": "enum"
+  },
+  "host-key-size": {
+   "type": "integer"
+  },
+  "host-key-type": {
+   "choices": [
+    "rsa",
+    "ed25519"
+   ],
+   "type": "enum"
+  },
+  "password-authentication": {
+   "choices": [
+    "yes-if-no-key",
+    "yes",
+    "no"
+   ],
+   "type": "enum"
+  },
+  "publickey-authentication-options": {
+   "choices": [
+    "none",
+    "touch-required",
+    "verify-required"
+   ],
+   "type": "enum"
+  },
+  "strong-crypto": {
+   "type": "yesno"
+  }
+ },
+ "ip/traffic-flow": {
+  "active-flow-timeout": {
+   "type": "time"
+  },
+  "cache-entries": {
+   "type": "text"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "inactive-flow-timeout": {
+   "type": "time"
+  },
+  "interfaces": {
+   "multiple": true,
+   "type": "text"
+  },
+  "packet-sampling": {
+   "type": "yesno"
+  },
+  "sampling-interval": {
+   "type": "integer"
+  },
+  "sampling-space": {
+   "type": "integer"
+  }
+ },
+ "ip/traffic-flow/target": {
+  "disabled": {
+   "type": "yesno"
+  },
+  "dst-address": {
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "v9-template-timeout": {
+   "type": "time"
+  },
+  "version": {
+   "choices": [
+    "1",
+    "5",
+    "9",
+    "ipfix"
+   ],
+   "type": "enum"
+  }
+ },
+ "ip/upnp": {
+  "allow-disable-external-interface": {
+   "type": "yesno"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "show-dummy-rule": {
+   "type": "yesno"
+  }
+ },
+ "ip/upnp/interfaces": {
+  "disabled": {
+   "type": "yesno"
+  },
+  "forced-ip": {
+   "type": "text"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "type": {
+   "choices": [
+    "internal",
+    "external"
+   ],
+   "type": "enum"
+  }
+ },
+ "log": {
+  "message": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "topics": {
+   "multiple": true,
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ping": {
+  "avg-rtt": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "host": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "max-rtt": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "min-rtt": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "packet-loss": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "received": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "sent": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "seq": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "time": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "ttl": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "ppp/aaa": {
+  "accounting": {
+   "type": "yesno"
+  },
+  "interim-update": {
+   "type": "time"
+  },
+  "use-radius": {
+   "type": "yesno"
+  }
+ },
+ "ppp/active": {
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "caller-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "encoding": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "limit-bytes-in": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "limit-bytes-out": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "service": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "session-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  }
+ },
+ "ppp/profile": {
+  "address-list": {
+   "multiple": true,
+   "type": "text"
+  },
+  "bridge": {
+   "type": "text"
+  },
+  "change-tcp-mss": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "dhcpv6-pd-pool": {
+   "type": "text"
+  },
+  "dns-server": {
+   "multiple": true,
+   "type": "text"
+  },
+  "idle-timeout": {
+   "type": "time"
+  },
+  "incoming-filter": {
+   "type": "text"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "on-down": {
+   "type": "text"
+  },
+  "on-up": {
+   "type": "text"
+  },
+  "only-one": {
+   "type": "text"
+  },
+  "outgoing-filter": {
+   "type": "text"
+  },
+  "rate-limit": {
+   "type": "text"
+  },
+  "remote-address": {
+   "type": "text"
+  },
+  "remote-ipv6-prefix-pool": {
+   "type": "text"
+  },
+  "session-timeout": {
+   "type": "time"
+  },
+  "use-compression": {
+   "type": "text"
+  },
+  "use-encryption": {
+   "type": "text"
+  },
+  "use-ipv6": {
+   "type": "text"
+  },
+  "use-mpls": {
+   "type": "text"
+  },
+  "use-vj-compression": {
+   "type": "text"
+  },
+  "wins-server": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "ppp/secret": {
+  "caller-id": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "limit-bytes-in": {
+   "type": "integer"
+  },
+  "limit-bytes-out": {
+   "type": "integer"
+  },
+  "local-address": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "profile": {
+   "type": "text"
+  },
+  "remote-address": {
+   "type": "text"
+  },
+  "remote-ipv6-prefix": {
+   "type": "text"
+  },
+  "routes": {
+   "type": "text"
+  },
+  "service": {
+   "type": "text"
+  }
+ },
+ "queue/simple": {
+  "burst-limit": {
+   "type": "text"
+  },
+  "burst-threshold": {
+   "type": "text"
+  },
+  "burst-time": {
+   "type": "text"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dropped": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "dst": {
+   "type": "text"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "limit-at": {
+   "type": "text"
+  },
+  "max-limit": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "packet-rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "parent": {
+   "type": "text"
+  },
+  "priority": {
+   "type": "text"
+  },
+  "queue": {
+   "type": "text"
+  },
+  "queued-bytes": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "queued-packets": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rate": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "target": {
+   "multiple": true,
+   "type": "text"
+  },
+  "total-bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "total-dropped": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "total-max-limit": {
+   "type": "integer"
+  },
+  "total-packet-rate": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "total-packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "total-queue": {
+   "type": "text"
+  },
+  "total-queued-bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "total-queued-packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "total-rate": {
+   "readOnly": true,
+   "type": "integer"
+  }
+ },
+ "queue/tree": {
+  "burst-limit": {
+   "type": "integer"
+  },
+  "burst-threshold": {
+   "type": "integer"
+  },
+  "burst-time": {
+   "type": "time"
+  },
+  "bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dropped": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "limit-at": {
+   "type": "integer"
+  },
+  "max-limit": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "packet-mark": {
+   "multiple": true,
+   "type": "text"
+  },
+  "packet-rate": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "parent": {
+   "type": "text"
+  },
+  "priority": {
+   "type": "integer"
+  },
+  "queue": {
+   "type": "text"
+  },
+  "queued-bytes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "queued-packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rate": {
+   "readOnly": true,
+   "type": "integer"
+  }
+ },
+ "queue/type": {
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "kind": {
+   "type": "text"
+  },
+  "mq-pfifo-limit": {
+   "type": "integer"
+  },
+  "name": {
+   "type": "text"
+  },
+  "pcq-burst-rate": {
+   "type": "integer"
+  },
+  "pcq-burst-threshold": {
+   "type": "integer"
+  },
+  "pcq-burst-time": {
+   "type": "time"
+  },
+  "pcq-classifier": {
+   "type": "text"
+  },
+  "pcq-dst-address-mask": {
+   "type": "integer"
+  },
+  "pcq-dst-address6-mask": {
+   "type": "integer"
+  },
+  "pcq-limit": {
+   "type": "integer"
+  },
+  "pcq-rate": {
+   "type": "integer"
+  },
+  "pcq-src-address-mask": {
+   "type": "integer"
+  },
+  "pcq-src-address6-mask": {
+   "type": "integer"
+  },
+  "pcq-total-limit": {
+   "type": "integer"
+  },
+  "pfifo-limit": {
+   "type": "integer"
+  },
+  "red-avg-packet": {
+   "type": "integer"
+  },
+  "red-burst": {
+   "type": "integer"
+  },
+  "red-limit": {
+   "type": "integer"
+  },
+  "red-max-threshold": {
+   "type": "integer"
+  },
+  "red-min-threshold": {
+   "type": "integer"
+  },
+  "sfq-allot": {
+   "type": "integer"
+  },
+  "sfq-perturb": {
+   "type": "integer"
+  }
+ },
+ "radius": {
+  "accounting-backup": {
+   "type": "yesno"
+  },
+  "address": {
+   "type": "text"
+  },
+  "called-id": {
+   "type": "text"
+  },
+  "certificate": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "domain": {
+   "type": "text"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "protocol": {
+   "choices": [
+    "tcp",
+    "udp"
+   ],
+   "type": "enum"
+  },
+  "radsec-timeout": {
+   "type": "time"
+  },
+  "realm": {
+   "type": "text"
+  },
+  "require-message-auth": {
+   "choices": [
+    "no",
+    "yes-for-request-resp"
+   ],
+   "type": "enum"
+  },
+  "secret": {
+   "type": "text"
+  },
+  "service": {
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "timeout": {
+   "type": "time"
+  }
+ },
+ "radius/incoming": {
+  "accept": {
+   "type": "yesno"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "routing/bgp/advertisements": {
+  "as-path": {
+   "type": "text"
+  },
+  "communities": {
+   "type": "text"
+  },
+  "nexthop": {
+   "type": "text"
+  },
+  "origin": {
+   "type": "text"
+  },
+  "peer": {
+   "type": "text"
+  },
+  "prefix": {
+   "type": "text"
+  }
+ },
+ "routing/bgp/connection": {
+  "disabled": {
+   "type": "yesno"
+  },
+  "local.role": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "remote.address": {
+   "type": "text"
+  },
+  "remote.as": {
+   "type": "text"
+  },
+  "templates": {
+   "type": "text"
+  }
+ },
+ "routing/bgp/instance": {
+  "as": {
+   "type": "integer"
+  },
+  "client-to-client-reflection": {
+   "type": "yesno"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "ignore-as-path-len": {
+   "type": "yesno"
+  },
+  "name": {
+   "type": "text"
+  },
+  "redistribute-connected": {
+   "type": "yesno"
+  },
+  "redistribute-ospf": {
+   "type": "yesno"
+  },
+  "redistribute-other-bgp": {
+   "type": "yesno"
+  },
+  "redistribute-rip": {
+   "type": "yesno"
+  },
+  "redistribute-static": {
+   "type": "yesno"
+  },
+  "router-id": {
+   "type": "text"
+  }
+ },
+ "routing/filter/rule": {
+  "chain": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "rule": {
+   "type": "text"
+  }
+ },
+ "routing/ospf/area": {
+  "area-id": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "default-cost": {
+   "type": "integer"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "instance": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "no-summaries": {
+   "type": "yesno"
+  },
+  "nssa-translator": {
+   "choices": [
+    "candidate",
+    "no",
+    "yes"
+   ],
+   "type": "enum"
+  },
+  "type": {
+   "choices": [
+    "default",
+    "nssa",
+    "stub"
+   ],
+   "type": "enum"
+  }
+ },
+ "routing/ospf/instance": {
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "domain-id": {
+   "type": "text"
+  },
+  "domain-tag": {
+   "type": "text"
+  },
+  "in-filter-chain": {
+   "type": "text"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "mpls-te-address": {
+   "type": "text"
+  },
+  "mpls-te-area": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "originate-default": {
+   "choices": [
+    "never",
+    "always",
+    "if-installed"
+   ],
+   "type": "enum"
+  },
+  "out-filter-chain": {
+   "type": "text"
+  },
+  "out-filter-select": {
+   "type": "text"
+  },
+  "redistribute": {
+   "type": "text"
+  },
+  "router-id": {
+   "type": "text"
+  },
+  "routing-table": {
+   "type": "text"
+  },
+  "use-dn": {
+   "type": "yesno"
+  },
+  "version": {
+   "choices": [
+    "2",
+    "3"
+   ],
+   "type": "enum"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "routing/ospf/interface-template": {
+  "area": {
+   "type": "text"
+  },
+  "auth": {
+   "type": "text"
+  },
+  "auth-id": {
+   "type": "integer"
+  },
+  "auth-key": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "cost": {
+   "type": "integer"
+  },
+  "dead-interval": {
+   "type": "time"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "hello-interval": {
+   "type": "time"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "instance-id": {
+   "type": "integer"
+  },
+  "interfaces": {
+   "multiple": true,
+   "type": "text"
+  },
+  "networks": {
+   "multiple": true,
+   "type": "text"
+  },
+  "passive": {
+   "type": "yesno"
+  },
+  "prefix-list": {
+   "type": "text"
+  },
+  "priority": {
+   "type": "integer"
+  },
+  "retransmit-interval": {
+   "type": "time"
+  },
+  "transmit-delay": {
+   "type": "time"
+  },
+  "type": {
+   "choices": [
+    "broadcast",
+    "nbma",
+    "ptmp",
+    "ptmp-broadcast",
+    "ptp",
+    "ptp-unnumbered",
+    "virtual-link"
+   ],
+   "type": "enum"
+  },
+  "use-bfd": {
+   "type": "yesno"
+  },
+  "vlink-neighbor-id": {
+   "type": "text"
+  },
+  "vlink-transit-area": {
+   "type": "text"
+  }
+ },
+ "routing/ospf/neighbor": {
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "adjacency": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "area": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "bdr": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "db-summaries": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "dr": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "instance": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "interface": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ls-requests": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "ls-retransmits": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "priority": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "router-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "state": {
+   "choices": [
+    "down",
+    "attempt",
+    "init",
+    "2-way",
+    "ex-start",
+    "exchange",
+    "loading",
+    "full"
+   ],
+   "readOnly": true,
+   "type": "enum"
+  },
+  "state-changes": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "timeout": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "virtual": {
+   "readOnly": true,
+   "type": "yesno"
+  }
+ },
+ "routing/rule": {
+  "action": {
+   "choices": [
+    "accept",
+    "arp-reply",
+    "drop",
+    "dst-nat",
+    "jump",
+    "log",
+    "mark-packet",
+    "passthrough",
+    "redirect",
+    "return",
+    "set-priority",
+    "src-nat"
+   ],
+   "type": "enum"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dst-address": {
+   "type": "text"
+  },
+  "inactive": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "min-prefix": {
+   "type": "integer"
+  },
+  "routing-mark": {
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "table": {
+   "type": "text"
+  }
+ },
+ "routing/table": {
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "fib": {
+   "type": "yesno"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "name": {
+   "type": "text"
+  }
+ },
+ "snmp": {
+  "contact": {
+   "type": "text"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "engine-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "engine-id-suffix": {
+   "type": "text"
+  },
+  "location": {
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "trap-community": {
+   "type": "text"
+  },
+  "trap-generators": {
+   "multiple": true,
+   "type": "text"
+  },
+  "trap-interfaces": {
+   "multiple": true,
+   "type": "text"
+  },
+  "trap-target": {
+   "multiple": true,
+   "type": "text"
+  },
+  "trap-version": {
+   "choices": [
+    "1",
+    "2",
+    "3"
+   ],
+   "type": "enum"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "snmp/community": {
+  "addresses": {
+   "multiple": true,
+   "type": "text"
+  },
+  "authentication-password": {
+   "type": "text"
+  },
+  "authentication-protocol": {
+   "choices": [
+    "MD5",
+    "SHA1"
+   ],
+   "type": "enum"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "encryption-password": {
+   "type": "text"
+  },
+  "encryption-protocol": {
+   "choices": [
+    "DES",
+    "AES"
+   ],
+   "type": "enum"
+  },
+  "name": {
+   "type": "text"
+  },
+  "read-access": {
+   "type": "yesno"
+  },
+  "security": {
+   "choices": [
+    "none",
+    "authorized",
+    "private"
+   ],
+   "type": "enum"
+  },
+  "write-access": {
+   "type": "yesno"
+  }
+ },
+ "system/clock": {
+  "date": {
+   "type": "text"
+  },
+  "dst-active": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "gmt-offset": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "time": {
+   "type": "text"
+  },
+  "time-zone-autodetect": {
+   "type": "yesno"
+  },
+  "time-zone-name": {
+   "type": "text"
+  }
+ },
+ "system/health": {
+  "state": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "state-after-reboot": {
+   "type": "text"
+  }
+ },
+ "system/identity": {
+  "name": {
+   "type": "text"
+  }
+ },
+ "system/leds": {
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "multiple": true,
+   "type": "text"
+  },
+  "leds": {
+   "multiple": true,
+   "type": "text"
+  },
+  "modem-signal-threshold": {
+   "type": "integer"
+  },
+  "type": {
+   "choices": [
+    "off",
+    "on",
+    "ap-cap",
+    "fan-fault",
+    "flash-access",
+    "interface-activity",
+    "interface-receive",
+    "interface-transmit",
+    "interface-status",
+    "interface-speed",
+    "interface-speed-1G",
+    "interface-speed-2.5G",
+    "interface-speed-25G",
+    "interface-speed-100G",
+    "modem-signal",
+    "modem-technology",
+    "poe-fault",
+    "poe-out",
+    "wireless-signal-strength",
+    "wireless-status"
+   ],
+   "type": "enum"
+  }
+ },
+ "system/logging": {
+  "action": {
+   "type": "text"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "prefix": {
+   "type": "text"
+  },
+  "regex": {
+   "type": "text"
+  },
+  "topics": {
+   "multiple": true,
+   "negatable": true,
+   "type": "text"
+  }
+ },
+ "system/logging/action": {
+  "cef-event-delimiter": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disk-file-name": {
+   "type": "text"
+  },
+  "disk-stop-on-full": {
+   "type": "yesno"
+  },
+  "email-start-tls": {
+   "type": "yesno"
+  },
+  "email-to": {
+   "type": "text"
+  },
+  "memory-stop-on-full": {
+   "type": "yesno"
+  },
+  "name": {
+   "type": "text"
+  },
+  "remember": {
+   "type": "yesno"
+  },
+  "remote": {
+   "type": "text"
+  },
+  "remote-log-format": {
+   "choices": [
+    "default",
+    "syslog",
+    "cef"
+   ],
+   "type": "enum"
+  },
+  "remote-protocol": {
+   "choices": [
+    "udp",
+    "tcp",
+    "tls"
+   ],
+   "type": "enum"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "syslog-facility": {
+   "choices": [
+    "kern",
+    "user",
+    "mail",
+    "daemon",
+    "auth",
+    "syslog",
+    "lpr",
+    "news",
+    "uucp",
+    "cron",
+    "authpriv",
+    "ftp",
+    "ntp",
+    "local0",
+    "local1",
+    "local2",
+    "local3",
+    "local4",
+    "local5",
+    "local6",
+    "local7"
+   ],
+   "type": "enum"
+  },
+  "syslog-severity": {
+   "choices": [
+    "auto",
+    "emergency",
+    "alert",
+    "critical",
+    "error",
+    "warning",
+    "notice",
+    "info",
+    "debug"
+   ],
+   "type": "enum"
+  },
+  "syslog-time-format": {
+   "choices": [
+    "bsd-syslog",
+    "iso8601"
+   ],
+   "type": "enum"
+  },
+  "target": {
+   "choices": [
+    "memory",
+    "disk",
+    "echo",
+    "remote",
+    "email",
+    "script"
+   ],
+   "type": "enum"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "system/note": {
+  "note": {
+   "type": "text"
+  },
+  "show-at-cli-login": {
+   "type": "yesno"
+  },
+  "show-at-login": {
+   "type": "yesno"
+  }
+ },
+ "system/ntp/client": {
+  "enabled": {
+   "type": "yesno"
+  },
+  "freq-drift": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "mode": {
+   "choices": [
+    "unicast",
+    "broadcast",
+    "manycast",
+    "multicast"
+   ],
+   "type": "enum"
+  },
+  "servers": {
+   "multiple": true,
+   "type": "text"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "synced-server": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "synced-stratum": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "system-offset": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "system/ntp/server": {
+  "auth-key": {
+   "type": "text"
+  },
+  "broadcast": {
+   "type": "yesno"
+  },
+  "broadcast-addresses": {
+   "multiple": true,
+   "type": "text"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "local-clock-stratum": {
+   "type": "integer"
+  },
+  "manycast": {
+   "type": "yesno"
+  },
+  "multicast": {
+   "type": "yesno"
+  },
+  "use-local-clock": {
+   "type": "yesno"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "system/package": {
+  "available": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "build-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "disabled": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "scheduled": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "size": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "version": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "system/resource": {
+  "architecture-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "board-name": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "build-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "cpu": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "cpu-count": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "cpu-frequency": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "cpu-load": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "free-hdd-space": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "free-memory": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "platform": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "total-hdd-space": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "total-memory": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "version": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "write-sect-since-reboot": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "write-sect-total": {
+   "readOnly": true,
+   "type": "integer"
+  }
+ },
+ "system/routerboard": {
+  "board-name": {
+   "type": "text"
+  },
+  "current-firmware": {
+   "type": "text"
+  },
+  "factory-firmware": {
+   "type": "text"
+  },
+  "firmware-type": {
+   "type": "text"
+  },
+  "model": {
+   "type": "text"
+  },
+  "routerboard": {
+   "type": "yesno"
+  },
+  "serial-number": {
+   "type": "text"
+  },
+  "upgrade-firmware": {
+   "type": "text"
+  }
+ },
+ "system/scheduler": {
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interval": {
+   "type": "time"
+  },
+  "name": {
+   "type": "text"
+  },
+  "next-run": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "on-event": {
+   "type": "text"
+  },
+  "owner": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "policy": {
+   "type": "text"
+  },
+  "run-count": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "start-date": {
+   "type": "text"
+  },
+  "start-time": {
+   "type": "text"
+  }
+ },
+ "system/script": {
+  "comment": {
+   "type": "text"
+  },
+  "dont-require-permissions": {
+   "type": "yesno"
+  },
+  "invalid": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "last-started": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "owner": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "policy": {
+   "type": "text"
+  },
+  "run-count": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "source": {
+   "type": "text"
+  }
+ },
+ "system/watchdog": {
+  "auto-send-supout": {
+   "type": "yesno"
+  },
+  "automatic-supout": {
+   "type": "yesno"
+  },
+  "ping-start-after-boot": {
+   "type": "time"
+  },
+  "ping-timeout": {
+   "type": "time"
+  },
+  "send-email-from": {
+   "type": "text"
+  },
+  "send-email-to": {
+   "type": "text"
+  },
+  "send-smtp-server": {
+   "type": "text"
+  },
+  "watch-address": {
+   "type": "text"
+  },
+  "watchdog-timer": {
+   "type": "yesno"
+  }
+ },
+ "tool/bandwidth-server": {
+  "allocate-udp-ports-from": {
+   "type": "integer"
+  },
+  "allowed-addresses4": {
+   "multiple": true,
+   "type": "text"
+  },
+  "allowed-addresses6": {
+   "multiple": true,
+   "type": "text"
+  },
+  "authenticate": {
+   "type": "yesno"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "max-sessions": {
+   "type": "integer"
+  }
+ },
+ "tool/e-mail": {
+  "certificate-verification": {
+   "choices": [
+    "no",
+    "yes",
+    "yes-without-crl"
+   ],
+   "type": "enum"
+  },
+  "from": {
+   "type": "text"
+  },
+  "password": {
+   "type": "text"
+  },
+  "port": {
+   "type": "integer"
+  },
+  "tls": {
+   "choices": [
+    "no",
+    "yes",
+    "starttls"
+   ],
+   "type": "enum"
+  },
+  "user": {
+   "type": "text"
+  },
+  "vrf": {
+   "type": "text"
+  }
+ },
+ "tool/graphing/interface": {
+  "allow-address": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "store-on-disk": {
+   "type": "yesno"
+  }
+ },
+ "tool/graphing/queue": {
+  "allow-address": {
+   "type": "text"
+  },
+  "allow-target": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "simple-queue": {
+   "type": "text"
+  },
+  "store-on-disk": {
+   "type": "yesno"
+  }
+ },
+ "tool/graphing/resource": {
+  "allow-address": {
+   "type": "text"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "store-on-disk": {
+   "type": "yesno"
+  }
+ },
+ "tool/mac-server": {
+  "allowed-interface-list": {
+   "type": "text"
+  }
+ },
+ "tool/mac-server/mac-winbox": {
+  "allowed-interface-list": {
+   "type": "text"
+  }
+ },
+ "tool/netwatch": {
+  "accept-icmp-time-exceeded": {
+   "type": "yesno"
+  },
+  "certificate": {
+   "type": "text"
+  },
+  "check-certificate": {
+   "type": "yesno"
+  },
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dns-server": {
+   "type": "text"
+  },
+  "done-tests": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "down-script": {
+   "type": "text"
+  },
+  "early-failure-detection": {
+   "type": "yesno"
+  },
+  "early-success-detection": {
+   "type": "yesno"
+  },
+  "failed-tests": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "host": {
+   "type": "text"
+  },
+  "http-codes": {
+   "multiple": true,
+   "type": "text"
+  },
+  "ignore-initial-down": {
+   "type": "yesno"
+  },
+  "ignore-initial-up": {
+   "type": "yesno"
+  },
+  "interval": {
+   "type": "time"
+  },
+  "loss-count": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "loss-percent": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "packet-interval": {
+   "type": "time"
+  },
+  "record-type": {
+   "choices": [
+    "A",
+    "AAAA",
+    "MX",
+    "NS"
+   ],
+   "type": "enum"
+  },
+  "response-count": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "sent-count": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "since": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "src-address": {
+   "type": "text"
+  },
+  "start-delay": {
+   "type": "time"
+  },
+  "startup-delay": {
+   "type": "time"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tcp-connect-time": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "test-script": {
+   "type": "text"
+  },
+  "thr-avg": {
+   "type": "time"
+  },
+  "thr-http-time": {
+   "type": "time"
+  },
+  "thr-jitter": {
+   "type": "time"
+  },
+  "thr-loss-percent": {
+   "type": "text"
+  },
+  "thr-max": {
+   "type": "time"
+  },
+  "thr-stdev": {
+   "type": "time"
+  },
+  "thr-tcp-conn-time": {
+   "type": "time"
+  },
+  "timeout": {
+   "type": "time"
+  },
+  "type": {
+   "choices": [
+    "simple",
+    "icmp",
+    "tcp-conn",
+    "http-get",
+    "https-get",
+    "dns"
+   ],
+   "type": "enum"
+  },
+  "up-script": {
+   "type": "text"
+  }
+ },
+ "tool/romon": {
+  "current-id": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "enabled": {
+   "type": "yesno"
+  },
+  "id": {
+   "type": "text"
+  },
+  "secrets": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "tool/romon/discover": {
+  "active": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "board": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "cost": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "hops": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "identity": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "l2mtu": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "path": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "uptime": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "version": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "tool/romon/ping": {
+  "avg-rtt": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "host": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "max-rtt": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "min-rtt": {
+   "readOnly": true,
+   "type": "time"
+  },
+  "packet-loss": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "received": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "sent": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "seq": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "size": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "time": {
+   "readOnly": true,
+   "type": "time"
+  }
+ },
+ "tool/romon/port": {
+  "comment": {
+   "type": "text"
+  },
+  "cost": {
+   "type": "integer"
+  },
+  "default": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "dynamic": {
+   "readOnly": true,
+   "type": "yesno"
+  },
+  "forbid": {
+   "type": "yesno"
+  },
+  "interface": {
+   "type": "text"
+  },
+  "secrets": {
+   "multiple": true,
+   "type": "text"
+  }
+ },
+ "tool/torch": {
+  "dst-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "dst-port": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "ip-protocol": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "rx": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "rx-packets": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "src-address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "src-port": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "tx": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "tx-packets": {
+   "readOnly": true,
+   "type": "integer"
+  }
+ },
+ "tool/traceroute": {
+  "address": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "avg": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "best": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "last": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "loss": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "sent": {
+   "readOnly": true,
+   "type": "integer"
+  },
+  "status": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "worst": {
+   "readOnly": true,
+   "type": "text"
+  }
+ },
+ "user": {
+  "comment": {
+   "type": "text"
+  },
+  "disabled": {
+   "type": "yesno"
+  },
+  "group": {
+   "type": "text"
+  },
+  "last-logged-in": {
+   "readOnly": true,
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  }
+ },
+ "user/group": {
+  "comment": {
+   "type": "text"
+  },
+  "name": {
+   "type": "text"
+  },
+  "policy": {
+   "type": "text"
+  },
+  "skin": {
+   "type": "text"
+  }
+ }
+}

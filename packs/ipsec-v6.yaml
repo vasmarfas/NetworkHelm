@@ -1,0 +1,378 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [IP, IPsec]
+until: 7.0
+window:
+  title: IPsec
+  tabs:
+    - { title: Policies, path: ip/ipsec/policy }
+    - { title: Proposals, path: ip/ipsec/proposal }
+    - { title: Groups, path: ip/ipsec/policy/group }
+    - { title: Peers, path: ip/ipsec/peer }
+    - { title: Identities, path: ip/ipsec/identity, since: 6.43 }
+    - { title: Profiles, path: ip/ipsec/profile, since: 6.43 }
+    - { title: Active Peers, path: ip/ipsec/active-peers, since: 6.43 }
+    - { title: Remote Peers, path: ip/ipsec/remote-peers, until: 6.43 }
+    - { title: Mode Configs, path: ip/ipsec/mode-config }
+    - { title: Installed SAs, path: ip/ipsec/installed-sa }
+    - { title: Keys, path: ip/ipsec/key }
+    - { title: Users, path: ip/ipsec/user, until: 6.43 }
+paths:
+  ip/ipsec/policy:
+    ordered: true
+    columns: [peer, tunnel, src-address, src-port, dst-address, dst-port, protocol, action, level, ph2-state]
+    readonly: [ph2-count, ph2-state, active, default, dynamic, invalid]
+    form: policy
+    links:
+      - { title: Statistics, path: ip/ipsec/statistics }
+  ip/ipsec/statistics:
+    form: statistics
+  ip/ipsec/proposal:
+    columns: [name, auth-algorithms, enc-algorithms, lifetime, pfs-group]
+    readonly: [default]
+    form: proposal
+  ip/ipsec/policy/group:
+    columns: [name]
+    readonly: [default]
+    form: group
+  ip/ipsec/peer:
+    columns: [name, address, local-address, profile, exchange-mode]
+    readonly: [dynamic, responder]
+    form: peer
+  ip/ipsec/identity:
+    columns: [peer, auth-method, username, remote-id, mode-config]
+    readonly: [dynamic]
+    form: identity
+    links:
+      - { title: Settings, path: ip/ipsec/settings }
+  ip/ipsec/settings:
+    form: settings
+  ip/ipsec/profile:
+    columns: [name, hash-algorithm, enc-algorithm, dh-group, proposal-check]
+    readonly: [default]
+    form: profile
+  ip/ipsec/active-peers:
+    columns: [id, state, local-address, remote-address, dynamic-address, side, uptime, ph2-total, tx-bytes, rx-bytes, tx-packets, rx-packets]
+    readonly:
+      - id
+      - state
+      - local-address
+      - remote-address
+      - dynamic-address
+      - side
+      - uptime
+      - ph2-total
+      - tx-bytes
+      - rx-bytes
+      - tx-packets
+      - rx-packets
+      - last-seen
+      - natt-peer
+      - responder
+    actions:
+      - { title: Kill Connections, command: kill-connections, confirm: true }
+  ip/ipsec/remote-peers:
+    columns: [id, state, local-address, remote-address, dynamic-address, side, uptime]
+    readonly: [id, state, local-address, remote-address, dynamic-address, side, uptime, last-seen, natt-peer, responder]
+    actions:
+      - { title: Kill Connections, command: kill-connections, confirm: true }
+  ip/ipsec/mode-config:
+    columns: [name, responder, address-pool, address, address-prefix-length, split-include, system-dns, connection-mark, src-address-list]
+    readonly: [default]
+    form: mode-config
+  ip/ipsec/installed-sa:
+    columns: [spi, src-address, dst-address, auth-algorithm, enc-algorithm, enc-key-size, current-bytes]
+    readonly:
+      - spi
+      - src-address
+      - dst-address
+      - state
+      - auth-algorithm
+      - enc-algorithm
+      - enc-key-size
+      - auth-key
+      - enc-key
+      - addtime
+      - expires-in
+      - add-lifetime
+      - current-bytes
+      - replay
+    actions:
+      - { title: Flush, command: flush, confirm: true }
+    labels: { auth-algorithm: Auth. Algorithm, enc-algorithm: Encr. Algorithm }
+  ip/ipsec/key:
+    columns: [name, key-size]
+    readonly: [key-size]
+    links:
+      - { title: Import, path: ip/ipsec/key/import }
+      - { title: Export Pub. Key, path: ip/ipsec/key/export-pub-key, argument: key }
+      - { title: Generate Key, path: ip/ipsec/key/generate-key }
+  ip/ipsec/key/import:
+    form: import
+  ip/ipsec/key/export-pub-key:
+    form: export-pub-key
+  ip/ipsec/key/generate-key:
+    form: generate-key
+  ip/ipsec/user:
+    columns: [name, address]
+    form: user
+forms:
+  policy:
+    title: "IPsec Policy <{src-address}->{dst-address}>"
+    only:
+      - { fields: [peer, tunnel, level], where: { template: ["", "false", "no"] }, hide: true }
+      - { fields: [group], where: { template: ["true", "yes"] }, hide: true }
+    tabs:
+      - title: General
+        fields: [peer, tunnel, src-address, src-port, dst-address, dst-port, protocol, "-", template, group]
+      - title: Action
+        since: 6.43
+        fields: [action, level, ipsec-protocols, proposal]
+      - title: Action
+        until: 6.43
+        fields: [action, level, ipsec-protocols, sa-src-address, sa-dst-address, proposal, priority]
+      - title: Status
+        since: 6.43
+        readonly: true
+        fields: [ph2-count, ph2-state, sa-src-address, sa-dst-address]
+      - title: Status
+        until: 6.43
+        readonly: true
+        fields: [ph2-count, ph2-state]
+  statistics:
+    title: Statistics
+    tabs:
+      - title: In
+        readonly: true
+        fields:
+          - in-errors
+          - in-buffer-errors
+          - in-header-errors
+          - "-"
+          - in-no-states
+          - in-state-protocol-errors
+          - in-state-mode-errors
+          - in-state-sequence-errors
+          - in-state-expired
+          - in-state-mismatches
+          - in-state-invalid
+          - "-"
+          - in-template-mismatches
+          - in-no-policies
+          - in-policy-blocked
+          - in-policy-errors
+      - title: Out
+        readonly: true
+        fields:
+          - out-errors
+          - out-bundle-errors
+          - out-bundle-check-errors
+          - "-"
+          - out-no-states
+          - out-state-protocol-errors
+          - out-state-mode-errors
+          - out-state-sequence-errors
+          - out-state-expired
+          - "-"
+          - out-policy-blocked
+          - out-policy-dead
+          - out-policy-errors
+  proposal:
+    title: "IPsec Proposal <{name}>"
+    tabs:
+      - title: General
+        fields: [name, auth-algorithms, enc-algorithms, lifetime, pfs-group]
+  group:
+    title: "Policy Group <{name}>"
+    tabs:
+      - title: General
+        fields: [name]
+  peer:
+    title: "IPsec Peer <{name|address}>"
+    only:
+      - { fields: [secret], where: { auth-method: ["", "pre-shared-key", "pre-shared-key-xauth"] }, hide: true }
+      - { fields: [certificate], where: { auth-method: [rsa-signature, rsa-signature-hybrid, eap-radius] }, hide: true }
+      - { fields: [remote-certificate], where: { auth-method: [rsa-signature, rsa-signature-hybrid] }, hide: true }
+      - { fields: [key, remote-key], where: { auth-method: [rsa-key] }, hide: true }
+      - { fields: [xauth-login, xauth-password], where: { auth-method: [pre-shared-key-xauth, rsa-signature-hybrid] }, hide: true }
+    tabs:
+      - title: General
+        since: 6.43
+        fields: [name, address, port, local-address, profile, exchange-mode, passive, send-initial-contact]
+      - title: General
+        until: 6.43
+        fields:
+          - address
+          - port
+          - local-address
+          - auth-method
+          - secret
+          - certificate
+          - remote-certificate
+          - key
+          - remote-key
+          - xauth-login
+          - xauth-password
+          - "-"
+          - exchange-mode
+          - passive
+          - send-initial-contact
+          - "-"
+          - my-id
+          - policy-template-group
+          - mode-config
+          - generate-policy
+          - notrack-chain
+      - title: Encryption
+        until: 6.43
+        fields:
+          - hash-algorithm
+          - enc-algorithm
+          - dh-group
+          - "-"
+          - proposal-check
+          - lifetime
+          - lifebytes
+          - "-"
+          - nat-traversal
+          - dpd-interval
+          - dpd-maximum-failures
+          - compatibility-options
+  identity:
+    title: "IPsec Identity <{peer}>"
+    only:
+      - { fields: [secret], where: { auth-method: ["", "pre-shared-key", "pre-shared-key-xauth"] }, hide: true }
+      - { fields: [certificate], where: { auth-method: [digital-signature, eap, eap-radius, rsa-signature-hybrid] }, hide: true }
+      - { fields: [remote-certificate], where: { auth-method: [digital-signature, rsa-signature-hybrid] }, hide: true }
+      - { fields: [key, remote-key], where: { auth-method: [rsa-key] }, hide: true }
+      - { fields: [username, password], where: { auth-method: [eap, pre-shared-key-xauth, rsa-signature-hybrid] }, hide: true }
+      - { fields: [eap-methods], where: { auth-method: [eap] }, hide: true }
+    tabs:
+      - title: General
+        fields:
+          - peer
+          - auth-method
+          - "-"
+          - secret
+          - certificate
+          - remote-certificate
+          - key
+          - remote-key
+          - username
+          - password
+          - eap-methods
+          - "-"
+          - policy-template-group
+          - notrack-chain
+          - "-"
+          - my-id
+          - "-"
+          - remote-id
+          - match-by
+          - "-"
+          - mode-config
+          - generate-policy
+  settings:
+    title: IPsec User Settings
+    tabs:
+      - title: General
+        fields: [xauth-use-radius, accounting, interim-update]
+  profile:
+    title: "IPsec Profile <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - hash-algorithm
+          - prf-algorithm
+          - enc-algorithm
+          - dh-group
+          - "-"
+          - proposal-check
+          - lifetime
+          - lifebytes
+          - "-"
+          - nat-traversal
+          - dpd-interval
+          - dpd-maximum-failures
+  mode-config:
+    title: "Mode Config <{name}>"
+    only:
+      - fields: [address-pool, address, address-prefix-length, split-include, split-dns, static-dns, system-dns]
+        where: { responder: ["true", "yes"] }
+        hide: true
+      - { fields: [connection-mark, src-address-list, use-responder-dns], where: { responder: ["", "false", "no"] }, hide: true }
+    tabs:
+      - title: General
+        fields:
+          - name
+          - responder
+          - "-"
+          - address-pool
+          - address
+          - address-prefix-length
+          - split-include
+          - split-dns
+          - static-dns
+          - system-dns
+          - connection-mark
+          - src-address-list
+          - use-responder-dns
+  import:
+    title: Import
+    tabs:
+      - title: General
+        fields: [file-name, name, passphrase]
+  export-pub-key:
+    title: Export Pub. Key
+    tabs:
+      - title: General
+        fields: [key, file-name]
+  generate-key:
+    title: Generate Key
+    tabs:
+      - title: General
+        fields: [name, key-size]
+  user:
+    title: "IPsec User <{name}>"
+    tabs:
+      - title: General
+        fields: [name, password, address]
+labels:
+  auth-method: Auth. Method
+  auth-algorithms: Auth. Algorithms
+  enc-algorithms: Encr. Algorithms
+  enc-algorithm: Encryption Algorithm
+  enc-key-size: Encr. Key Size
+  hash-algorithm: Hash Algorithms
+  prf-algorithm: PRF Algorithms
+  mode-config: Mode Configuration
+  send-initial-contact: Send INITIAL_CONTACT
+  xauth-use-radius: XAuth Use Radius
+  accounting: Radius Accounting
+  xauth-login: XAuth Login
+  xauth-password: XAuth Password
+  in-errors: Errors
+  in-buffer-errors: Buffer Errors
+  in-header-errors: Header Errors
+  in-no-states: No States
+  in-state-protocol-errors: State Protocol Errors
+  in-state-mode-errors: State Mode Errors
+  in-state-sequence-errors: State Sequence Errors
+  in-state-expired: State Expired
+  in-state-mismatches: State Mismatches
+  in-state-invalid: State Invalid
+  in-template-mismatches: Template Mismatches
+  in-no-policies: No Policies
+  in-policy-blocked: Policy Blocked
+  in-policy-errors: Policy Errors
+  out-errors: Errors
+  out-bundle-errors: Bundle Errors
+  out-bundle-check-errors: Bundle Check Errors
+  out-no-states: No States
+  out-state-protocol-errors: State Protocol Errors
+  out-state-mode-errors: State Mode Errors
+  out-state-sequence-errors: State Sequence Errors
+  out-state-expired: State Expired
+  out-policy-blocked: Policy Blocked
+  out-policy-dead: Policy Dead
+  out-policy-errors: Policy Errors

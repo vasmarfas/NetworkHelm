@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, Policy Routing]
+window:
+  title: Policy Routing
+  tabs:
+    - { title: Policies, path: pbr/policy }
+    - { title: DNS Policies, path: pbr/dns_policy }
+    - { title: Includes, path: pbr/include }
+    - { title: Settings, path: pbr/pbr }
+paths:
+  pbr/policy:
+    ordered: true
+    columns: [name, enabled, interface, src_addr, src_port, dest_addr, dest_port, proto, chain]
+    quick: interface
+  pbr/dns_policy:
+    ordered: true
+    columns: [name, enabled, src_addr, dest_dns, dest_dns_port]
+  pbr/include:
+    ordered: true
+    columns: [path, enabled]
+labels:
+  src_addr: Src. Address
+  src_port: Src. Port
+  dest_addr: Dst. Address
+  dest_port: Dst. Port
+  dest_dns: DNS Server
+  dest_dns_port: DNS Port

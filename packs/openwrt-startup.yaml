@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [System, Startup]
+window:
+  title: Startup
+  tabs:
+    - { title: Startup, path: status/services }
+paths:
+  status/services:
+    columns: [name, start, enabled, running]
+    actions:
+      - { title: Start, command: start, selection: true }
+      - { title: Restart, command: restart, selection: true }
+      - { title: Reload, command: reload, selection: true }
+      - { title: Stop, command: stop, selection: true, confirm: true }
+      - { title: Enable, command: enable, selection: true }
+      - { title: Disable, command: disable, selection: true, confirm: true }
+labels:
+  start: Start Order
+  stop: Stop Order

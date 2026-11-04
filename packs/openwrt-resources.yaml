@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [System, Resources]
+window:
+  title: Resources
+  tabs:
+    - { title: Resources, path: status/resource }
+paths:
+  status/resource:
+    actions:
+      - { title: Sync with This Device, command: sync-time }
+    form: resources
+forms:
+  resources:
+    title: Resources
+    tabs:
+      - title: Resources
+        readonly: true
+        fields: [uptime, date, time, version, revision, board-name, architecture-name, cpu, kernel, load-average, free-memory, total-memory, free-hdd-space, total-hdd-space]
+labels:
+  cpu: CPU
+  free-hdd-space: Free HDD Space
+  total-hdd-space: Total HDD Space

@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: pfsense
+menu: [Services, DHCP Leases]
+window:
+  title: Services
+  tabs:
+    - { title: DHCP Leases, path: services/dhcp-lease }
+    - { title: DNS Overrides, path: services/dns-override }
+    - { title: Status, path: services/status }
+paths:
+  services/dhcp-lease:
+    columns: [ip, mac, hostname, if, starts, ends, active_status, online_status, descr]
+  services/dns-override:
+    columns: [host, domain, ip, descr]
+  services/status:
+    columns: [name, description, enabled, status]
+labels:
+  ip: Address
+  mac: MAC Address
+  if: Interface
+  descr: Description

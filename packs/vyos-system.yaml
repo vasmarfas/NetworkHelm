@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [System, General]
+window:
+  title: System
+  tabs:
+    - { title: General, path: system }
+paths:
+  system:
+    form: general
+forms:
+  general:
+    title: System
+    tabs:
+      - title: General
+        fields: [host-name, domain-name, time-zone, name-server]

@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=./menu.schema.json
+platform: pfsense
+items:
+  - { title: Interfaces, path: interfaces/overview }
+  - { title: Firewall, path: firewall/rule }
+  - { title: Routing, path: routing/route }
+  - title: Services
+    items:
+      - { title: DHCP Leases, path: services/dhcp-lease }
+      - { title: DNS Overrides, path: services/dns-override }
+      - { title: Status, path: services/status }
+  - title: Diagnostics
+    items:
+      - { title: ARP, path: diagnostics/arp }
+  - { title: Log, path: log/system }
+  - title: System
+    items:
+      - { title: Resources, path: system/resource }

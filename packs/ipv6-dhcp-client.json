@@ -1,0 +1,70 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "DHCP Client"],
+    "window": {
+        "title": "IPv6 DHCP Client",
+        "tabs": [
+            { "title": "DHCP Client", "path": "ipv6/dhcp-client" },
+            { "title": "DHCP Client Options", "path": "ipv6/dhcp-client/option" }
+        ]
+    },
+    "paths": {
+        "ipv6/dhcp-client": {
+            "columns": ["interface", "request", "pool-name", "prefix", "address", "expires-after", "status"],
+            "readonly": [
+                "status", "prefix", "prefix-expires-after", "address", "address-expires-after", "expires-after", "dhcp-server-v6", "duid",
+                "reconfigure-key", "last-received-counter", "dynamic", "invalid"
+            ],
+            "actions": [
+                { "title": "Release", "command": "release", "selection": true },
+                { "title": "Renew", "command": "renew", "selection": true }
+            ],
+            "form": "client"
+        },
+        "ipv6/dhcp-client/option": {
+            "columns": ["name", "code", "value"]
+        }
+    },
+    "forms": {
+        "client": {
+            "title": "IPv6 DHCP Client <{interface}>",
+            "only": [
+                {
+                    "fields": ["default-route-distance", "default-route-tables", "check-gateway"],
+                    "where": { "add-default-route": ["true", "yes"] }
+                }
+            ],
+            "tabs": [
+                {
+                    "title": "DHCP",
+                    "fields": [
+                        "interface", "request", "pool-name", "pool-prefix-length", "prefix-hint", "accept-prefix-without-address",
+                        "prefix-address-lists", "-",
+                        "use-peer-dns", "custom-duid", "use-interface-duid", "custom-iapd-id", "custom-iana-id", "rapid-commit",
+                        "add-default-route", "allow-reconfigure"
+                    ]
+                },
+                {
+                    "title": "Advanced",
+                    "fields": [
+                        "validate-server-duid", "default-route-distance", "default-route-tables", "check-gateway", "dhcp-options", "-",
+                        "script"
+                    ]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": [
+                        "prefix", "prefix-expires-after", "address", "address-expires-after", "expires-after", "duid", "dhcp-server-v6",
+                        "reconfigure-key", "last-received-counter"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "custom-duid": "Custom Client DUID",
+        "dhcp-server-v6": "Server",
+        "allow-reconfigure": "Allow Reconfigure Messages"
+    }
+}

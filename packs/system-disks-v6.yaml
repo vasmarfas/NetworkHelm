@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, Disks]
+until: 7.0
+window:
+  title: Disk List
+  tabs:
+    - { title: Disks, path: disk }
+paths:
+  disk:
+    columns: [name, label, type, disk, free, size]
+    readonly: [name, label, type, disk, free, size]
+    actions:
+      - { title: Eject Drive, command: eject-drive, selection: true, argument: number }

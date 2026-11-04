@@ -1,0 +1,21 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "History"],
+    "since": "7.0",
+    "window": {
+        "title": "History",
+        "tabs": [
+            { "title": "History", "path": "system/history" }
+        ]
+    },
+    "paths": {
+        "system/history": {
+            "columns": ["time", "action", "by", "policy", "trace", "undo", "redo"],
+            "readonly": ["time", "action", "by", "policy", "trace", "undo", "redo", "undoable", "redoable", "floating-undo"]
+        }
+    },
+    "labels": {
+        "undo": "Undo Cmds",
+        "redo": "Redo Cmds"
+    }
+}

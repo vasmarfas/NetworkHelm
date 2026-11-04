@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: ssh
+menu: [System, Processes]
+window:
+  title: Processes
+  tabs:
+    - { title: Processes, path: system/process }
+paths:
+  system/process:
+    columns: [pid, user, cpu, memory, vsz, stat, command]
+labels:
+  pid: PID
+  cpu: CPU
+  vsz: VSZ
+  stat: State

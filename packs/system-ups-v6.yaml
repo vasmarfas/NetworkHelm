@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, UPS]
+until: 7.0
+window:
+  title: UPS
+  tabs:
+    - { title: UPS, path: system/ups }
+paths:
+  system/ups:
+    columns: [name, port, model]
+    readonly: [model, version, serial, manufacture-date, nominal-battery-voltage]
+    form: ups
+    actions:
+      - { title: Beep, command: beep, selection: true, argument: number }
+    types:
+      offline-time: { type: time }
+forms:
+  ups:
+    title: "UPS <{name}>"
+    tabs:
+      - title: General
+        fields: [name, port, offline-time, min-runtime, alarm-setting]
+      - title: Model
+        fields: [model, version, serial, manufacture-date, nominal-battery-voltage]
+        readonly: true

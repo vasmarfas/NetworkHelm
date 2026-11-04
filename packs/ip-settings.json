@@ -1,0 +1,44 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Settings"],
+    "window": {
+        "title": "IP Settings",
+        "tabs": [
+            { "title": "Settings", "path": "ip/settings" }
+        ]
+    },
+    "paths": {
+        "ip/settings": {
+            "readonly": [
+                "ipv4-fast-path-active", "ipv4-fast-path-packets", "ipv4-fast-path-bytes", "ipv4-fasttrack-active", "ipv4-fasttrack-packets",
+                "ipv4-fasttrack-bytes"
+            ],
+            "form": "settings"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "IP Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "ip-forward", "-",
+                        "send-redirects", "accept-redirects", "secure-redirects", "accept-source-route", "allow-fast-path", "route-cache", "-",
+                        "rp-filter", "ipv4-multipath-hash-policy", "-",
+                        "tcp-syncookies", "tcp-timestamps", "-",
+                        "max-neighbor-entries", "arp-timeout", "-",
+                        "icmp-rate-limit", "icmp-rate-mask", "icmp-errors-use-inbound-interface-address", "ipv4-high-fragment-thresh", "ipv4-fragment-time", "-",
+                        "ipv4-fast-path-active", "ipv4-fast-path-packets", "ipv4-fast-path-bytes", "-",
+                        "ipv4-fasttrack-active", "ipv4-fasttrack-packets", "ipv4-fasttrack-bytes"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "tcp-syncookies": "TCP SynCookies",
+        "ipv4-high-fragment-thresh": "IPv4 Fragment Threshold Bytes",
+        "ipv4-fragment-time": "IPv4 Fragment Timeout"
+    }
+}

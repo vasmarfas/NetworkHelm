@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: ssh
+menu: [IP, Routes]
+window:
+  title: Routes
+  tabs:
+    - { title: IPv4 Routes, path: ip/route }
+    - { title: IPv6 Routes, path: ipv6/route }
+paths:
+  ip/route:
+    columns: [dst-address, gateway, interface, metric, protocol, routing-table, pref-src]
+    quick: routing-table
+  ipv6/route:
+    columns: [dst-address, gateway, interface, metric, protocol, routing-table]
+    quick: routing-table

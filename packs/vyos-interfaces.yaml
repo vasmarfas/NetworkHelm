@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Interfaces]
+window:
+  title: Interfaces
+  tabs:
+    - { title: Ethernet, path: interfaces/ethernet }
+    - { title: Bridge, path: interfaces/bridge }
+    - { title: Bonding, path: interfaces/bonding }
+    - { title: WireGuard, path: interfaces/wireguard }
+    - { title: PPPoE, path: interfaces/pppoe }
+    - { title: Dummy, path: interfaces/dummy }
+    - { title: Loopback, path: interfaces/loopback }
+    - { title: Status, path: status/interfaces }
+paths:
+  interfaces/ethernet:
+    columns: [.name, description, address, hw-id, mtu, speed, duplex, vif]
+  interfaces/bridge:
+    columns: [.name, description, address, member interface, vif]
+  interfaces/bonding:
+    columns: [.name, description, address, mode, member interface]
+  interfaces/wireguard:
+    columns: [.name, description, address, port, peer]
+  interfaces/pppoe:
+    columns: [.name, description, source-interface, authentication username]
+  interfaces/dummy:
+    columns: [.name, description, address]
+  interfaces/loopback:
+    columns: [.name, description, address]
+  status/interfaces:
+    columns: [interface, ip-address, mac, vrf, mtu, s-l, rx-bytes, tx-bytes, rx-errors, tx-errors, description]
+    labels:
+      s-l: S/L
+labels:
+  .name: Name
+  hw-id: MAC Address
+  vif: VLANs
+  member interface: Members
+  peer: Peers
+  authentication username: User

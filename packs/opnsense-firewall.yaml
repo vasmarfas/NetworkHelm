@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [Firewall]
+window:
+  title: Firewall
+  tabs:
+    - { title: Rules, path: firewall/filter }
+    - { title: Source NAT, path: firewall/source-nat }
+    - { title: Aliases, path: firewall/alias }
+paths:
+  firewall/filter:
+    columns: [sequence, action, interface, direction, ipprotocol, protocol, source_net, source_port, destination_net, destination_port, gateway, description]
+  firewall/source-nat:
+    columns: [sequence, interface, ipprotocol, protocol, source_net, source_port, destination_net, destination_port, target, target_port, description]
+  firewall/alias:
+    columns: [name, type, content, description, current_items, last_updated]
+labels:
+  ipprotocol: IP Version
+  source_net: Source
+  destination_net: Destination
+  current_items: Entries

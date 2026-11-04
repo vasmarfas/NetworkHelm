@@ -1,0 +1,53 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "DHCP Relay"],
+    "since": "7.0",
+    "window": {
+        "title": "DHCPv6 Relay",
+        "tabs": [
+            { "title": "DHCP Relay", "path": "ipv6/dhcp-relay" },
+            { "title": "Relayed Bindings", "path": "ipv6/dhcp-relay/routes", "since": "7.18" },
+            { "title": "Options", "path": "ipv6/dhcp-relay/option", "since": "7.22" }
+        ]
+    },
+    "paths": {
+        "ipv6/dhcp-relay": {
+            "columns": ["name", "interface", "dhcp-server"],
+            "sort": "name",
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true }
+            ],
+            "form": "relay"
+        },
+        "ipv6/dhcp-relay/routes": {
+            "columns": ["relay", "prefix", "peer-address", "life-time", "last-seen"],
+            "readonly": ["relay", "prefix", "peer-address", "life-time", "last-seen"]
+        },
+        "ipv6/dhcp-relay/option": {
+            "columns": ["name", "code", "value"],
+            "readonly": ["raw-value"],
+            "form": "option"
+        }
+    },
+    "forms": {
+        "relay": {
+            "title": "DHCP Relay <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "interface", "dhcp-server", "link-address", "store-relayed-bindings", "dhcp-options", "-", "delay-threshold"]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": ["requests", "responses"],
+                    "monitor": { "command": "ipv6/dhcp-relay/monitor", "argument": "numbers" }
+                }
+            ]
+        },
+        "option": {
+            "title": "DHCPv6 Relay Option <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "code", "value", "only-if-mac-available", "-", "raw-value"] }]
+        }
+    }
+}

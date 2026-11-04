@@ -1,0 +1,100 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [MPLS, MPLS]
+until: 7.0
+window:
+  title: MPLS
+  tabs:
+    - { title: LDP Interface, path: mpls/ldp/interface }
+    - { title: LDP Neighbor, path: mpls/ldp/neighbor }
+    - { title: Accept Filter, path: mpls/ldp/accept-filter }
+    - { title: Advertise Filter, path: mpls/ldp/advertise-filter }
+    - { title: Forwarding Table, path: mpls/forwarding-table }
+    - { title: MPLS Interface, path: mpls/interface }
+    - { title: Local Bindings, path: mpls/local-bindings }
+    - { title: Remote Bindings, path: mpls/remote-bindings }
+paths:
+  mpls/ldp/interface:
+    columns: [interface, hello-interval, hold-time, transport-address, accept-dynamic-neighbors]
+    form: ldp-interface
+    links:
+      - { title: MPLS Settings, path: mpls }
+      - { title: LDP Settings, path: mpls/ldp }
+  mpls/ldp/neighbor:
+    columns: [transport, send-targeted, peer, local-transport, addresses]
+    readonly: [peer, local-transport, addresses]
+    form: neighbor
+  mpls/ldp/accept-filter:
+    ordered: true
+    columns: [prefix, neighbor, accept]
+    form: accept-filter
+  mpls/ldp/advertise-filter:
+    ordered: true
+    columns: [prefix, neighbor, advertise]
+    form: advertise-filter
+  mpls/forwarding-table:
+    columns: [in-label, out-labels, interface, nexthop, destination, bytes, packets]
+    readonly: [in-label, out-labels, interface, nexthop, destination, bytes, packets]
+  mpls/interface:
+    ordered: true
+    columns: [interface, mpls-mtu]
+    form: mpls-interface
+  mpls/local-bindings:
+    columns: [dst-address, label, adv-path, peers]
+    readonly: [adv-path, peers]
+    form: local-binding
+  mpls/remote-bindings:
+    columns: [dst-address, label, nexthop, peer, path]
+    readonly: [peer, path]
+    form: remote-binding
+  mpls:
+    form: mpls-settings
+  mpls/ldp:
+    form: ldp-settings
+forms:
+  ldp-interface:
+    title: "LDP Interface <{interface}>"
+    tabs:
+      - title: General
+        fields: [interface, hello-interval, hold-time, transport-address, accept-dynamic-neighbors]
+  neighbor:
+    title: "LDP Neighbor <{transport}>"
+    tabs:
+      - title: General
+        fields: [transport, send-targeted, "-", peer, local-transport, addresses]
+  accept-filter:
+    title: "LDP Accept Filter <{prefix}>"
+    tabs:
+      - title: General
+        fields: [prefix, neighbor, accept]
+  advertise-filter:
+    title: "LDP Advertise Filter <{prefix}>"
+    tabs:
+      - title: General
+        fields: [prefix, neighbor, advertise]
+  mpls-interface:
+    title: "MPLS Interface <{interface}>"
+    tabs:
+      - title: General
+        fields: [interface, mpls-mtu]
+  local-binding:
+    title: "Local Binding <{dst-address}>"
+    tabs:
+      - title: General
+        fields: [dst-address, label, adv-path, peers]
+  remote-binding:
+    title: "Remote Binding <{dst-address}>"
+    tabs:
+      - title: General
+        fields: [dst-address, label, nexthop, "-", peer, path]
+  mpls-settings:
+    title: MPLS Settings
+    tabs:
+      - title: General
+        fields: [dynamic-label-range, propagate-ttl, allow-fast-path]
+  ldp-settings:
+    title: LDP Settings
+    tabs:
+      - title: General
+        fields: [enabled, lsr-id, transport-address, path-vector-limit, hop-limit, loop-detect, use-explicit-null, distribute-for-default-route]
+labels:
+  adv-path: Advertised Path

@@ -1,0 +1,203 @@
+{
+    "$schema": "./pack.schema.json",
+    "since": "7.0",
+    "menu": ["IP", "IPsec"],
+    "window": {
+        "title": "IPsec",
+        "tabs": [
+            { "title": "Policies", "path": "ip/ipsec/policy" },
+            { "title": "Proposals", "path": "ip/ipsec/proposal" },
+            { "title": "Groups", "path": "ip/ipsec/policy/group" },
+            { "title": "Peers", "path": "ip/ipsec/peer" },
+            { "title": "Identities", "path": "ip/ipsec/identity" },
+            { "title": "Profiles", "path": "ip/ipsec/profile" },
+            { "title": "Active Peers", "path": "ip/ipsec/active-peers" },
+            { "title": "Mode Configs", "path": "ip/ipsec/mode-config" },
+            { "title": "Installed SAs", "path": "ip/ipsec/installed-sa" },
+            { "title": "Statistics", "path": "ip/ipsec/statistics" }
+        ]
+    },
+    "paths": {
+        "ip/ipsec/policy": {
+            "ordered": true,
+            "columns": ["peer", "tunnel", "src-address", "src-port", "dst-address", "dst-port", "protocol", "action", "level", "ph2-count", "ph2-state"],
+            "readonly": ["ph2-count", "ph2-state", "active", "default", "dynamic", "invalid"],
+            "form": "policy",
+            "links": [
+                { "title": "Settings", "path": "ip/ipsec/settings" }
+            ]
+        },
+        "ip/ipsec/proposal": {
+            "columns": ["name", "auth-algorithms", "enc-algorithms", "lifetime", "pfs-group"],
+            "readonly": ["default"],
+            "form": "proposal"
+        },
+        "ip/ipsec/policy/group": {
+            "columns": ["name"],
+            "readonly": ["default"]
+        },
+        "ip/ipsec/peer": {
+            "columns": ["name", "address", "local-address", "port", "profile", "exchange-mode", "passive", "send-initial-contact"],
+            "readonly": ["dynamic"],
+            "form": "peer"
+        },
+        "ip/ipsec/identity": {
+            "columns": ["peer", "auth-method", "my-id", "remote-id", "match-by", "mode-config", "generate-policy", "policy-template-group"],
+            "form": "identity"
+        },
+        "ip/ipsec/profile": {
+            "columns": ["name", "hash-algorithm", "enc-algorithm", "dh-group", "lifetime", "proposal-check", "nat-traversal", "dpd-interval", "dpd-maximum-failures"],
+            "readonly": ["default"],
+            "form": "profile"
+        },
+        "ip/ipsec/active-peers": {
+            "columns": ["remote-address", "local-address", "state", "side", "uptime", "ph2-total", "rx-bytes", "tx-bytes"],
+            "readonly": [
+                "local-address", "remote-address", "state", "side", "uptime", "last-seen", "ph2-total", "spii", "spir", "rx-packets",
+                "rx-bytes", "tx-packets", "tx-bytes", "responder", "natt-peer", "dynamic"
+            ],
+            "actions": [
+                { "title": "Kill Connections", "command": "kill-connections", "confirm": true }
+            ]
+        },
+        "ip/ipsec/mode-config": {
+            "columns": ["name", "responder", "address", "address-pool", "split-include", "system-dns", "static-dns"],
+            "readonly": ["default"],
+            "form": "mode-config"
+        },
+        "ip/ipsec/installed-sa": {
+            "columns": ["spi", "src-address", "dst-address", "state", "auth-algorithm", "enc-algorithm", "enc-key-size", "current-bytes", "current-packets", "expires-in"],
+            "readonly": [
+                "spi", "src-address", "dst-address", "state", "auth-algorithm", "enc-algorithm", "enc-key-size", "auth-key", "enc-key",
+                "addtime", "expires-in", "add-lifetime", "current-bytes", "current-packets", "replay", "seen-traffic", "hw-aead"
+            ],
+            "actions": [
+                { "title": "Flush", "command": "flush", "confirm": true }
+            ]
+        },
+        "ip/ipsec/statistics": {
+            "readonly": [
+                "in-errors", "in-buffer-errors", "in-header-errors", "in-no-states", "in-state-protocol-errors", "in-state-mode-errors",
+                "in-state-sequence-errors", "in-state-expired", "in-state-mismatches", "in-state-invalid", "in-template-mismatches",
+                "in-no-policies", "in-policy-blocked", "in-policy-errors", "out-errors", "out-bundle-errors", "out-bundle-check-errors",
+                "out-no-states", "out-state-protocol-errors", "out-state-mode-errors", "out-state-sequence-errors", "out-state-expired",
+                "out-policy-blocked", "out-policy-dead", "out-policy-errors"
+            ],
+            "form": "statistics"
+        }
+    },
+    "forms": {
+        "policy": {
+            "title": "IPsec Policy <{src-address}->{dst-address}>",
+            "tabs": [
+                { "title": "General", "fields": ["peer", "tunnel", "src-address", "src-port", "dst-address", "dst-port", "protocol", "-", "template", "group"] },
+                { "title": "Action", "fields": ["action", "level", "ipsec-protocols", "sa-src-address", "sa-dst-address", "proposal"] },
+                { "title": "Status", "readonly": true, "fields": ["ph2-count", "ph2-state"] }
+            ]
+        },
+        "proposal": {
+            "title": "IPsec Proposal <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "auth-algorithms", "enc-algorithms", "lifetime", "pfs-group"] }]
+        },
+        "peer": {
+            "title": "IPsec Peer <{name}>",
+            "only": [{ "fields": ["ppk-secret"], "where": { "exchange-mode": ["ike2"] }, "hide": true }],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "address", "port", "local-address", "profile", "exchange-mode", "passive", "send-initial-contact", "ppk-secret"]
+                }
+            ]
+        },
+        "identity": {
+            "title": "IPsec Identity <{peer}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "peer", "auth-method", "secret", "certificate", "remote-certificate", "key", "remote-key", "username", "password",
+                        "eap-methods", "-",
+                        "policy-template-group", "notrack-chain", "-",
+                        "my-id", "-",
+                        "remote-id", "match-by", "-",
+                        "mode-config", "generate-policy"
+                    ]
+                }
+            ],
+            "only": [
+                { "fields": ["secret"], "where": { "auth-method": ["", "pre-shared-key", "pre-shared-key-xauth"] }, "hide": true },
+                {
+                    "fields": ["certificate"],
+                    "where": { "auth-method": ["digital-signature", "eap", "eap-radius", "rsa-signature-hybrid"] },
+                    "hide": true
+                },
+                {
+                    "fields": ["remote-certificate"],
+                    "where": { "auth-method": ["digital-signature", "rsa-signature-hybrid"] },
+                    "hide": true
+                },
+                { "fields": ["key", "remote-key"], "where": { "auth-method": ["rsa-key"] }, "hide": true },
+                {
+                    "fields": ["username", "password"],
+                    "where": { "auth-method": ["eap", "pre-shared-key-xauth", "rsa-signature-hybrid"] },
+                    "hide": true
+                },
+                { "fields": ["eap-methods"], "where": { "auth-method": ["eap"] }, "hide": true }
+            ]
+        },
+        "profile": {
+            "title": "IPsec Profile <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "hash-algorithm", "prf-algorithm", "enc-algorithm", "dh-group", "-",
+                        "proposal-check", "lifetime", "lifebytes", "-",
+                        "nat-traversal", "ppk", "dpd-interval", "dpd-maximum-failures"
+                    ]
+                }
+            ]
+        },
+        "mode-config": {
+            "title": "Mode Config <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "responder", "-",
+                        "address-pool", "address", "address-prefix-length", "split-include", "split-dns", "static-dns", "system-dns",
+                        "src-address-list", "connection-mark", "use-responder-dns"
+                    ]
+                }
+            ],
+            "only": [
+                {
+                    "fields": ["address-pool", "address", "address-prefix-length", "split-include", "split-dns", "static-dns", "system-dns"],
+                    "where": { "responder": ["true", "yes"] },
+                    "hide": true
+                },
+                {
+                    "fields": ["src-address-list", "connection-mark", "use-responder-dns"],
+                    "where": { "responder": ["", "false", "no"] },
+                    "hide": true
+                }
+            ]
+        },
+        "statistics": {
+            "title": "IPsec Statistics",
+            "tabs": [
+                {
+                    "title": "Statistics",
+                    "readonly": true,
+                    "fields": [
+                        "in-errors", "in-buffer-errors", "in-header-errors", "in-no-states", "in-state-protocol-errors", "in-state-mode-errors",
+                        "in-state-sequence-errors", "in-state-expired", "in-state-mismatches", "in-state-invalid", "in-template-mismatches",
+                        "in-no-policies", "in-policy-blocked", "in-policy-errors", "out-errors", "out-bundle-errors", "out-bundle-check-errors",
+                        "out-no-states", "out-state-protocol-errors", "out-state-mode-errors", "out-state-sequence-errors", "out-state-expired",
+                        "out-policy-blocked", "out-policy-dead", "out-policy-errors"
+                    ]
+                }
+            ]
+        }
+    }
+}

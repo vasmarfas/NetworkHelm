@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, BFD]
+until: 7.0
+window:
+  title: BFD
+  tabs:
+    - { title: Interfaces, path: routing/bfd/interface }
+    - { title: Neighbors, path: routing/bfd/neighbor }
+paths:
+  routing/bfd/interface:
+    columns: [interface, interval, min-rx, multiplier]
+    readonly: [invalid, default]
+    form: interface
+  routing/bfd/neighbor:
+    columns: [interface, address, protocols, multihop, state, state-changes, uptime, packets-rx, packets-tx]
+    readonly: [interface, address, protocols, multihop, state, state-changes, uptime, packets-rx, packets-tx]
+forms:
+  interface:
+    title: "BFD Interface <{interface}>"
+    tabs:
+      - title: General
+        fields: [interface, interval, min-rx, multiplier]
+labels:
+  interval: Interval (s)
+  min-rx: Min Rx (s)
+  packets-tx: Packet Tx

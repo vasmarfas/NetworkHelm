@@ -1,0 +1,43 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Routes"],
+    "since": "7.0",
+    "window": {
+        "title": "Routes",
+        "tabs": [
+            { "title": "Routes", "path": "ip/route" }
+        ]
+    },
+    "paths": {
+        "ip/route": {
+            "columns": ["dst-address", "gateway", "distance", "routing-table", "pref-src"],
+            "readonly": [
+                "immediate-gw", "local-address", "active", "inactive", "connect", "static", "dhcp", "dynamic", "hw-offloaded",
+                "ecmp"
+            ],
+            "quick": "routing-table",
+            "form": "route"
+        }
+    },
+    "forms": {
+        "route": {
+            "title": "Route <{dst-address}->{gateway}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "dst-address", "gateway", "immediate-gw", "local-address", "-",
+                        "check-gateway", "-",
+                        "distance", "scope", "target-scope", "-",
+                        "vrf-interface", "routing-table", "pref-src", "-",
+                        "blackhole", "suppress-hw-offload"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "pref-src": "Pref. Source",
+        "immediate-gw": "Immediate Gateway"
+    }
+}

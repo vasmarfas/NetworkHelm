@@ -1,0 +1,117 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Packet Sniffer"],
+    "window": {
+        "title": "Packet Sniffer",
+        "tabs": [
+            { "title": "Settings", "path": "tool/sniffer" },
+            { "title": "Quick", "path": "tool/sniffer/quick" },
+            { "title": "Packets", "path": "tool/sniffer/packet" },
+            { "title": "Connections", "path": "tool/sniffer/connection" },
+            { "title": "Hosts", "path": "tool/sniffer/host" },
+            { "title": "Protocols", "path": "tool/sniffer/protocol" }
+        ]
+    },
+    "paths": {
+        "tool/sniffer": {
+            "readonly": ["running"],
+            "actions": [
+                { "title": "Start", "command": "start" },
+                { "title": "Stop", "command": "stop" },
+                { "title": "Save", "command": "save" }
+            ],
+            "form": "sniffer"
+        },
+        "tool/sniffer/quick": {
+            "form": "quick",
+            "columns": ["interface", "time", "num", "dir", "src-mac", "dst-mac", "vlan", "src-address", "dst-address", "protocol", "size", "cpu", "fp"],
+            "readonly": ["interface", "time", "num", "dir", "src-mac", "dst-mac", "vlan", "src-address", "dst-address", "protocol", "size", "cpu", "fp"]
+        },
+        "tool/sniffer/packet": {
+            "columns": [
+                "num", "time", "interface", "direction", "src-mac", "dst-mac", "src-address", "dst-address", "protocol", "ip-protocol",
+                "size", "cpu"
+            ],
+            "readonly": [
+                "num", "time", "interface", "direction", "src-mac", "dst-mac", "src-address", "dst-address", "protocol", "ip-protocol",
+                "size", "cpu"
+            ]
+        },
+        "tool/sniffer/connection": {
+            "columns": ["src-address", "dst-address", "bytes", "resends", "mss", "active"],
+            "readonly": ["src-address", "dst-address", "bytes", "resends", "mss", "active"]
+        },
+        "tool/sniffer/host": {
+            "columns": ["address", "rate", "peak-rate", "total"],
+            "readonly": ["address", "rate", "peak-rate", "total"]
+        },
+        "tool/sniffer/protocol": {
+            "columns": ["protocol", "packets", "bytes", "share"],
+            "readonly": ["protocol", "packets", "bytes", "share"]
+        }
+    },
+    "forms": {
+        "sniffer": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "memory-limit", "only-headers", "memory-scroll", "max-packet-size", "-",
+                        "file-name", "file-limit", "-",
+                        "quick-rows", "quick-show-frame", "-",
+                        "running"
+                    ]
+                },
+                { "title": "Streaming", "fields": ["streaming-enabled", "streaming-server", "filter-stream"] },
+                {
+                    "title": "Filter",
+                    "fields": [
+                        "filter-interface", "filter-mac-address", "filter-src-mac-address", "filter-dst-mac-address", "filter-mac-protocol",
+                        "filter-ip-address", "filter-src-ip-address", "filter-dst-ip-address", "filter-ipv6-address",
+                        "filter-src-ipv6-address", "filter-dst-ipv6-address", "filter-ip-protocol", "filter-port", "filter-src-port",
+                        "filter-dst-port", "filter-vlan", "filter-cpu", "filter-size", "filter-direction",
+                        "filter-operator-between-entries"
+                    ]
+                }
+            ]
+        },
+        "quick": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "interface", "mac-address", "src-mac-address", "dst-mac-address", "mac-protocol", "ip-address", "src-ip-address",
+                        "dst-ip-address", "ipv6-address", "src-ipv6-address", "dst-ipv6-address", "ip-protocol", "port", "src-port", "dst-port",
+                        "vlan-id", "size", "cpu", "direction", "operator-between-entries", "rows", "show-frame", "duration"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "dir": "Direction",
+        "vlan-id": "VLAN",
+        "operator-between-entries": "Filter Operation",
+        "streaming-server": "Server",
+        "filter-interface": "Interfaces",
+        "filter-mac-address": "MAC Address",
+        "filter-src-mac-address": "Src. MAC Address",
+        "filter-dst-mac-address": "Dst. MAC Address",
+        "filter-mac-protocol": "MAC Protocol",
+        "filter-ip-address": "IP Address",
+        "filter-src-ip-address": "Src. IP Address",
+        "filter-dst-ip-address": "Dst. IP Address",
+        "filter-ipv6-address": "IPv6 Address",
+        "filter-src-ipv6-address": "Src. IPv6 Address",
+        "filter-dst-ipv6-address": "Dst. IPv6 Address",
+        "filter-ip-protocol": "IP Protocol",
+        "filter-port": "Port",
+        "filter-src-port": "Src. Port",
+        "filter-dst-port": "Dst. Port",
+        "filter-vlan": "VLAN",
+        "filter-cpu": "CPU",
+        "filter-size": "Size",
+        "filter-direction": "Direction",
+        "filter-operator-between-entries": "Filter Operation"
+    }
+}

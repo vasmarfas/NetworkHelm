@@ -1,0 +1,79 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "Filters"],
+    "since": "7.0",
+    "window": {
+        "title": "Filters",
+        "tabs": [
+            { "title": "Rule", "path": "routing/filter/rule" },
+            { "title": "Select Rule", "path": "routing/filter/select-rule" },
+            { "title": "Num Set", "path": "routing/filter/num-list" },
+            { "title": "Community Set", "path": "routing/filter/community-list" },
+            { "title": "Community Ext Set", "path": "routing/filter/community-ext-list" },
+            { "title": "Community Large Set", "path": "routing/filter/community-large-list" }
+        ]
+    },
+    "paths": {
+        "routing/filter/rule": {
+            "ordered": true,
+            "columns": ["chain", "rule"],
+            "quick": "chain",
+            "form": "rule"
+        },
+        "routing/filter/select-rule": {
+            "ordered": true,
+            "columns": ["chain", "do-where", "do-jump", "do-take", "do-select-num", "do-select-prfx", "do-group-num", "do-group-prfx"],
+            "quick": "chain",
+            "form": "select-rule"
+        },
+        "routing/filter/num-list": {
+            "columns": ["list", "range"],
+            "quick": "list",
+            "labels": { "list": "Set" },
+            "form": "num-list"
+        },
+        "routing/filter/community-list": {
+            "columns": ["list", "communities", "regexp"],
+            "quick": "list",
+            "labels": { "list": "Name" },
+            "form": "community-list"
+        },
+        "routing/filter/community-ext-list": {
+            "columns": ["list", "communities", "regexp"],
+            "quick": "list",
+            "labels": { "list": "Name" },
+            "element": "Routing Community Ext Set",
+            "form": "community-list"
+        },
+        "routing/filter/community-large-list": {
+            "columns": ["list", "communities", "regexp"],
+            "quick": "list",
+            "labels": { "list": "Name" },
+            "element": "Routing Community Large Set",
+            "form": "community-list"
+        }
+    },
+    "forms": {
+        "rule": {
+            "title": "Routing Filter Rule",
+            "tabs": [{ "title": "General", "fields": ["chain", "rule"] }]
+        },
+        "select-rule": {
+            "title": "Select Rule",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["chain", "-", "do-where", "do-jump", "do-take", "do-select-num", "do-select-prfx", "do-group-num", "do-group-prfx"]
+                }
+            ]
+        },
+        "num-list": {
+            "title": "Routing Num Set",
+            "tabs": [{ "title": "General", "fields": ["list", "range"] }]
+        },
+        "community-list": {
+            "title": "Routing Community Set",
+            "tabs": [{ "title": "General", "fields": ["list", "communities", "regexp"] }]
+        }
+    }
+}

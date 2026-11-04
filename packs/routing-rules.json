@@ -1,0 +1,32 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "Rules"],
+    "since": "7.0",
+    "window": {
+        "title": "Rules",
+        "tabs": [
+            { "title": "Rules", "path": "routing/rule" }
+        ]
+    },
+    "paths": {
+        "routing/rule": {
+            "ordered": true,
+            "columns": ["src-address", "dst-address", "routing-mark", "interface", "chain", "action", "table", "min-prefix", "vrf"],
+            "form": "rule"
+        }
+    },
+    "forms": {
+        "rule": {
+            "title": "Policy Routing Rule",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "src-address", "dst-address", "routing-mark", "interface", "realm", "-",
+                        "chain", "action", "table", "min-prefix", "vrf"
+                    ]
+                }
+            ]
+        }
+    }
+}

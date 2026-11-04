@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Queues]
+window:
+  title: Queues
+  tabs:
+    - { title: SQM, path: sqm/queue }
+paths:
+  sqm/queue:
+    columns: [.name, enabled, interface, download, upload, qdisc, script]
+labels:
+  .name: Name
+  enabled: Enabled

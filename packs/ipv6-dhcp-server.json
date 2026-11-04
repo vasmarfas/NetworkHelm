@@ -1,0 +1,78 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "DHCP Server"],
+    "window": {
+        "title": "DHCPv6 Server",
+        "tabs": [
+            { "title": "DHCP", "path": "ipv6/dhcp-server" },
+            { "title": "Bindings", "path": "ipv6/dhcp-server/binding" },
+            { "title": "Options", "path": "ipv6/dhcp-server/option" },
+            { "title": "Option Sets", "path": "ipv6/dhcp-server/option/sets" }
+        ]
+    },
+    "paths": {
+        "ipv6/dhcp-server": {
+            "columns": ["name", "interface", "prefix-pool", "address-pool", "lease-time", "add-dns-entries"],
+            "sort": "name",
+            "form": "server"
+        },
+        "ipv6/dhcp-server/binding": {
+            "columns": ["address", "duid", "iaid", "server", "life-time", "prefix-pool"],
+            "actions": [
+                { "title": "Make Static", "command": "make-static", "selection": true },
+                { "title": "Send Reconfigure", "command": "send-reconfigure", "selection": true }
+            ],
+            "form": "binding"
+        },
+        "ipv6/dhcp-server/option": {
+            "columns": ["name", "code", "value"],
+            "sort": "name",
+            "form": "option"
+        },
+        "ipv6/dhcp-server/option/sets": {
+            "columns": ["name", "options"],
+            "sort": "name",
+            "form": "option-set"
+        }
+    },
+    "forms": {
+        "server": {
+            "title": "DHCPv6 Server <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "interface", "prefix-pool", "address-pool", "lease-time", "dhcp-option", "dns-none", "address-lists", "use-radius",
+                        "rapid-commit", "use-reconfigure", "ignore-ia-na-bindings", "route-distance", "preference", "add-dns-entries",
+                        "add-dns-entries-suffix"
+                    ]
+                },
+                { "title": "Queues", "fields": ["insert-queue-before", "parent-queue", "allow-dual-stack-queue"] },
+                { "title": "Script", "fields": ["binding-script"] }
+            ]
+        },
+        "binding": {
+            "title": "DHCPv6 Binding <{address}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["address", "duid", "iaid", "ia-type", "server", "life-time", "prefix-pool", "address-lists", "dhcp-option"]
+                },
+                { "title": "Queues", "fields": ["rate-limit", "queue-type", "insert-queue-before", "parent-queue", "allow-dual-stack-queue"] }
+            ]
+        },
+        "option": {
+            "title": "DHCPv6 Option <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "code", "value"] }]
+        },
+        "option-set": {
+            "title": "DHCPv6 Option Set <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "options"] }]
+        }
+    },
+    "labels": {
+        "dns-none": "No DNS",
+        "ignore-ia-na-bindings": "Ignore IA-NA Bindings",
+        "add-dns-entries": "Add DNS Entries For Bindings"
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Flood Ping"],
+    "since": "7.0",
+    "window": {
+        "title": "Flood Ping",
+        "tabs": [
+            { "title": "Flood Ping", "path": "tool/flood-ping" }
+        ]
+    },
+    "paths": {
+        "tool/flood-ping": {
+            "form": "flood-ping",
+            "readonly": ["sent", "received", "min-rtt", "avg-rtt", "max-rtt"],
+            "summary": ["sent", "received", "min-rtt", "avg-rtt", "max-rtt"]
+        }
+    },
+    "forms": {
+        "flood-ping": {
+            "tabs": [
+                { "title": "General", "fields": ["address", "count", "size", "timeout"] }
+            ]
+        }
+    },
+    "labels": {
+        "count": "Packet Count",
+        "size": "Packet Size",
+        "sent": "Packets Sent",
+        "received": "Packets Received",
+        "min-rtt": "Minimum RTT",
+        "avg-rtt": "Average RTT",
+        "max-rtt": "Maximum RTT"
+    }
+}

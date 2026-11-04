@@ -1,0 +1,84 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Netwatch"],
+    "since": "7.0",
+    "window": {
+        "title": "Netwatch",
+        "tabs": [
+            { "title": "Netwatch", "path": "tool/netwatch" }
+        ]
+    },
+    "paths": {
+        "tool/netwatch": {
+            "columns": ["name", "host", "type", "interval", "status", "since", "done-tests", "failed-tests"],
+            "readonly": [
+                "status", "since", "done-tests", "failed-tests", "sent-count", "response-count", "loss-count", "loss-percent", "rtt-avg",
+                "rtt-min", "rtt-max", "rtt-jitter", "rtt-stdev", "tcp-connect-time", "http-status-code", "http-resp-time", "ip"
+            ],
+            "quick": "type",
+            "form": "probe"
+        }
+    },
+    "forms": {
+        "probe": {
+            "title": "Netwatch <{host}>",
+            "tabs": [
+                {
+                    "title": "Host",
+                    "fields": [
+                        "name", "host", "type", "src-address", "interval", "timeout", "start-delay", "startup-delay", "ignore-initial-up",
+                        "ignore-initial-down", "-",
+                        "packet-interval", "packet-count", "packet-size", "-",
+                        "thr-max", "thr-avg", "thr-stdev", "thr-jitter", "thr-loss-percent", "thr-loss-count", "ttl",
+                        "accept-icmp-time-exceeded", "early-success-detection", "early-failure-detection", "-",
+                        "port", "thr-tcp-conn-time", "thr-http-time", "http-codes", "certificate", "check-certificate", "-",
+                        "record-type", "dns-server"
+                    ]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": [
+                        "status", "since", "done-tests", "failed-tests", "-",
+                        "sent-count", "response-count", "loss-count", "loss-percent", "-",
+                        "rtt-avg", "rtt-min", "rtt-max", "rtt-jitter", "rtt-stdev", "-",
+                        "tcp-connect-time", "http-status-code", "http-resp-time", "-",
+                        "ip"
+                    ]
+                },
+                { "title": "Up", "fields": ["up-script"] },
+                { "title": "Down", "fields": ["down-script"] },
+                { "title": "Test", "fields": ["test-script"] }
+            ],
+            "only": [
+                {
+                    "fields": [
+                        "packet-interval", "packet-count", "packet-size", "thr-max", "thr-avg", "thr-stdev", "thr-jitter",
+                        "thr-loss-percent", "thr-loss-count", "ttl", "accept-icmp-time-exceeded", "early-success-detection",
+                        "early-failure-detection"
+                    ],
+                    "where": { "type": ["icmp"] },
+                    "hide": true
+                },
+                { "fields": ["port"], "where": { "type": ["tcp-conn", "http-get", "https-get"] }, "hide": true },
+                { "fields": ["thr-tcp-conn-time"], "where": { "type": ["tcp-conn"] }, "hide": true },
+                { "fields": ["http-codes", "thr-http-time"], "where": { "type": ["http-get", "https-get"] }, "hide": true },
+                { "fields": ["certificate", "check-certificate"], "where": { "type": ["https-get"] }, "hide": true },
+                { "fields": ["dns-server", "record-type"], "where": { "type": ["dns"] }, "hide": true }
+            ]
+        }
+    },
+    "labels": {
+        "thr-avg": "Threshold RTT Avg",
+        "thr-max": "Threshold RTT Max",
+        "thr-jitter": "Threshold Jitter",
+        "thr-stdev": "Threshold Std. Dev.",
+        "thr-loss-count": "Threshold Loss Count",
+        "thr-loss-percent": "Threshold Loss %",
+        "thr-tcp-conn-time": "Threshold TCP Connect Time",
+        "thr-http-time": "Threshold HTTP Time",
+        "rtt-stdev": "RTT Std. Dev.",
+        "http-resp-time": "HTTP Response Time",
+        "ip": "Resolved IP"
+    }
+}

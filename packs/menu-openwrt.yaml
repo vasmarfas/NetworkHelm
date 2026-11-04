@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=./menu.schema.json
+platform: openwrt
+items:
+  - { title: Interfaces, path: network/interface }
+  - { title: WireGuard, path: status/wireguard }
+  - { title: Wireless, path: wireless/wifi-iface }
+  - { title: LTE, path: status/mobile }
+  - { title: Bridge, path: network/device }
+  - { title: Mixomo, path: mixomo/overview }
+  - title: IP
+    items:
+      - { title: Addresses, path: status/addresses }
+      - { title: ARP, path: status/neighbors }
+      - { title: DHCP and DNS, path: dhcp/dnsmasq }
+      - { title: Dynamic DNS, path: ddns/service }
+      - { title: Firewall, path: firewall/zone }
+      - { title: Policy Routing, path: pbr/policy }
+      - { title: Routes, path: network/route }
+      - { title: UPnP, path: status/upnp }
+  - title: System
+    items:
+      - { title: General, path: system/system }
+      - { title: LEDs, path: system/led }
+      - { title: NTP, path: system/timeserver }
+      - { title: Packages, path: status/packages }
+      - { title: Password, path: tool/password }
+      - { title: Processes, path: status/processes }
+      - { title: Reboot, path: tool/reboot }
+      - { title: Resources, path: status/resource }
+      - { title: Scheduler, path: status/scheduler }
+      - { title: SSH, path: dropbear/dropbear }
+      - { title: Startup, path: status/services }
+      - { title: Web Server, path: uhttpd/uhttpd }
+  - { title: Queues, path: sqm/queue }
+  - { title: Files, path: status/files }
+  - { title: Log, path: status/log }
+  - title: Tools
+    items:
+      - { title: Graphing, path: luci_statistics/statistics }
+      - { title: NS Lookup, path: tool/nslookup }
+      - { title: Ping, path: tool/ping }
+      - { title: Traceroute, path: tool/traceroute }
+      - { title: Traffic, path: tool/traffic }
+  - { title: New Terminal, window: terminal }
+  - { title: SSH Tunnels, window: tunnels }
+hidden: [luci, rpcd, ucitrack]

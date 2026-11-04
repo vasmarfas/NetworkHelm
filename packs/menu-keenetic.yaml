@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=./menu.schema.json
+platform: keenetic
+items:
+  - { title: Interfaces, path: interface }
+  - title: IP
+    items:
+      - { title: ARP, path: ip/arp }
+      - { title: DHCP Bindings, path: ip/dhcp/bindings }
+      - { title: Hotspot, path: ip/hotspot }
+      - { title: Routes, path: ip/route }
+  - { title: Log, path: log }
+  - title: System
+    items:
+      - { title: Resources, path: system/resource }

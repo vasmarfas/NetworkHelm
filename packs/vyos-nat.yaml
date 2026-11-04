@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [NAT]
+window:
+  title: NAT
+  tabs:
+    - { title: Source, path: nat/source/rule }
+    - { title: Destination, path: nat/destination/rule }
+paths:
+  nat/source/rule:
+    columns: [.name, outbound-interface name, protocol, source address, destination address, translation address, description]
+  nat/destination/rule:
+    columns: [.name, inbound-interface name, protocol, destination address, destination port, translation address, translation port, description]
+labels:
+  .name: Name
+  outbound-interface name: Out. Interface
+  inbound-interface name: In. Interface
+  source address: Src. Address
+  destination address: Dst. Address
+  destination port: Dst. Port
+  translation address: To Addresses
+  translation port: To Ports

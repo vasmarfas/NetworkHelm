@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [System, Firmware]
+window:
+  title: Firmware
+  tabs:
+    - { title: Status, path: system/firmware }
+paths:
+  system/firmware:
+    form: firmware
+forms:
+  firmware:
+    title: Firmware
+    tabs:
+      - title: Status
+        readonly: true
+        fields:
+          - product_name
+          - product_version
+          - product_latest
+          - product_series
+          - product_nickname
+          - product_abi
+          - product_arch
+          - product_repos
+          - product_mirror
+          - product_time
+          - status
+          - status_msg
+          - last_check
+          - updates
+          - download_size
+          - needs_reboot
+labels:
+  product_name: Product
+  product_version: Version
+  product_latest: Latest Version
+  product_series: Series
+  product_nickname: Nickname
+  product_abi: ABI
+  product_arch: Architecture
+  product_repos: Repositories
+  product_mirror: Mirror
+  product_time: Build Time
+  status_msg: Message
+  download_size: Download Size
+  needs_reboot: Needs Reboot

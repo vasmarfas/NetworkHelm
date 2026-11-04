@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, OSPFv3]
+until: 7.0
+window:
+  title: OSPFv3
+  tabs:
+    - { title: Interfaces, path: routing/ospf-v3/interface }
+    - { title: Instances, path: routing/ospf-v3/instance }
+    - { title: Areas, path: routing/ospf-v3/area }
+    - { title: Area Ranges, path: routing/ospf-v3/area/range }
+    - { title: Virtual Links, path: routing/ospf-v3/virtual-link }
+    - { title: Neighbors, path: routing/ospf-v3/neighbor }
+    - { title: NBMA Neighbors, path: routing/ospf-v3/nbma-neighbor }
+    - { title: LSA, path: routing/ospf-v3/lsa }
+    - { title: Routes, path: routing/ospf-v3/route }
+    - { title: AS Border Routers, path: routing/ospf-v3/as-border-router }
+    - { title: OSPFv3 Routers, path: routing/ospf-v3/ospf-router }
+paths:
+  routing/ospf-v3/interface:
+    columns: [area, interface, cost, priority, network-type, instance, neighbors, state]
+    readonly: [instance, neighbors, state, inactive]
+    form: interface
+  routing/ospf-v3/instance:
+    columns: [name, router-id, state]
+    readonly: [state, default]
+    form: instance
+  routing/ospf-v3/area:
+    columns: [instance, name, area-id, type, default-cost, interfaces, active-interfaces, neighbors]
+    readonly: [interfaces, active-interfaces, neighbors, adjacent-neighbors, invalid, default]
+    form: area
+    labels:
+      name: Area Name
+  routing/ospf-v3/area/range:
+    columns: [area, range, cost, advertise]
+    quick: area
+    form: range
+  routing/ospf-v3/virtual-link:
+    columns: [neighbor-id, transit-area]
+    form: virtual-link
+  routing/ospf-v3/neighbor:
+    columns: [instance, router-id, address, interface, state-changes]
+    readonly: [instance, router-id, address, interface, state-changes, state, priority]
+  routing/ospf-v3/nbma-neighbor:
+    columns: [instance, address, poll-interval, priority]
+    form: nbma-neighbor
+  routing/ospf-v3/lsa:
+    columns: [instance, area, type, id, originator, sequence-number, age]
+    readonly: [instance, area, type, id, originator, sequence-number, age, body]
+    labels:
+      age: Age (s)
+  routing/ospf-v3/route:
+    columns: [instance, area, dst-address, gateway, interface, cost, state]
+    readonly: [instance, area, dst-address, gateway, interface, cost, state]
+    quick: area
+  routing/ospf-v3/as-border-router:
+    columns: [instance, router-id, gateway, interface, cost, state]
+    readonly: [instance, router-id, gateway, interface, cost, state]
+  routing/ospf-v3/ospf-router:
+    columns: [instance, area, router-id, gateway, interface, cost, state]
+    readonly: [instance, area, router-id, gateway, interface, cost, state]
+    quick: area
+forms:
+  interface:
+    title: "OSPFv3 Interface <{interface}>"
+    tabs:
+      - title: General
+        fields:
+          - interface
+          - area
+          - cost
+          - priority
+          - network-type
+          - instance-id
+          - passive
+          - use-bfd
+          - "-"
+          - retransmit-interval
+          - transmit-delay
+          - hello-interval
+          - dead-interval
+  instance:
+    title: "OSPFv3 Instance <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - router-id
+          - "-"
+          - distribute-default
+          - redistribute-connected
+          - redistribute-static
+          - redistribute-rip
+          - redistribute-bgp
+          - redistribute-other-ospf
+      - title: Metrics
+        fields: [metric-default, metric-connected, metric-static, metric-rip, metric-bgp, metric-other-ospf]
+  area:
+    title: "OSPFv3 Area <{name}>"
+    tabs:
+      - title: General
+        fields: [name, instance, area-id, type, default-cost, "-", interfaces, active-interfaces, neighbors, adjacent-neighbors]
+  range:
+    title: "OSPFv3 Area Range <{range}>"
+    tabs:
+      - title: General
+        fields: [area, range, cost, advertise]
+  virtual-link:
+    title: "OSPFv3 Virtual Link <{neighbor-id}>"
+    tabs:
+      - title: General
+        fields: [neighbor-id, transit-area, use-bfd]
+  nbma-neighbor:
+    title: "OSPFv3 NBMA Neighbor <{address}>"
+    tabs:
+      - title: General
+        fields: [instance, address, poll-interval, priority]
+labels:
+  distribute-default: Redistribute Default Route
+  redistribute-connected: Redistribute Connected Routes
+  redistribute-static: Redistribute Static Routes
+  redistribute-rip: Redistribute RIP Routes
+  redistribute-bgp: Redistribute BGP Routes
+  redistribute-other-ospf: Redistribute Other OSPF Routes
+  metric-default: Default Route Metric
+  metric-connected: Connected Routes Metric
+  metric-static: Static Routes Metric
+  metric-rip: RIP Routes Metric
+  metric-bgp: BGP Routes Metric
+  metric-other-ospf: Other OSPF Routes Metric

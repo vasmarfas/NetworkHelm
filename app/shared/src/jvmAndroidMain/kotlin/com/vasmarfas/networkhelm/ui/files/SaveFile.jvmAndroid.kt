@@ -1,0 +1,14 @@
+package com.vasmarfas.networkhelm.ui.files
+
+import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.dialogs.openFileSaver
+import io.github.vinceglb.filekit.write
+
+internal actual suspend fun saveFile(name: String, bytes: ByteArray): Boolean {
+    val target = FileKit.openFileSaver(
+        suggestedName = name.substringBeforeLast('.', name),
+        defaultExtension = name.substringAfterLast('.', "").ifEmpty { null },
+    ) ?: return false
+    target.write(bytes)
+    return true
+}

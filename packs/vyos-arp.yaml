@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [ARP]
+window:
+  title: ARP
+  tabs:
+    - { title: ARP, path: status/arp }
+paths:
+  status/arp:
+    columns: [address, link-layer-address, interface, state]
+labels:
+  link-layer-address: MAC Address

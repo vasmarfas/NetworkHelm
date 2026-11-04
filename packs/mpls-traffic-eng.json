@@ -1,0 +1,85 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["MPLS", "Traffic Eng"],
+    "since": "7.0",
+    "window": {
+        "title": "Traffic Eng",
+        "tabs": [
+            { "title": "Interface", "path": "mpls/traffic-eng/interface" },
+            { "title": "Tunnel Path", "path": "mpls/traffic-eng/path" },
+            { "title": "Tunnel", "path": "mpls/traffic-eng/tunnel" },
+            { "title": "Flow", "path": "mpls/traffic-eng/flow" }
+        ]
+    },
+    "paths": {
+        "mpls/traffic-eng/interface": {
+            "columns": ["interface", "bandwidth", "te-metric", "remaining-bw"],
+            "readonly": ["remaining-bw", "remaining-bw-prios", "lih", "local-address-ip", "local-address-ip6"],
+            "form": "interface"
+        },
+        "mpls/traffic-eng/path": {
+            "columns": ["name", "use-cspf", "hops"],
+            "form": "path"
+        },
+        "mpls/traffic-eng/tunnel": {
+            "columns": ["name", "vrf", "from-address", "to-address", "bandwidth", "primary-path"],
+            "readonly": ["forwarding-on", "primary", "primary-pending", "secondary", "secondary-pending"],
+            "form": "tunnel",
+            "actions": [{ "title": "Reoptimize", "command": "reoptimize", "selection": true }]
+        },
+        "mpls/traffic-eng/flow": {
+            "columns": ["vrf", "session", "sender", "label", "out-labels", "out-nexthop", "bw"],
+            "readonly": ["vrf", "session", "sender", "label", "out-labels", "out-nexthop", "bw"]
+        }
+    },
+    "forms": {
+        "interface": {
+            "title": "TE Interface <{interface}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "interface", "bandwidth", "k-factor", "resource-class", "refresh-time", "use-udp", "blockade-k-factor", "te-metric",
+                        "igp-flood-period", "up-flood-thresholds", "down-flood-thresholds", "-",
+                        "remaining-bw", "remaining-bw-prios", "lih", "local-address-ip", "local-address-ip6"
+                    ]
+                }
+            ]
+        },
+        "path": {
+            "title": "Tunnel Path <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "use-cspf", "setup-priority", "holding-priority", "record-route", "affinity-include-all", "affinity-include-any",
+                        "affinity-exclude", "reoptimize-interval", "hops"
+                    ]
+                }
+            ]
+        },
+        "tunnel": {
+            "title": "Tunnel <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "vrf", "from-address", "to-address", "bandwidth", "primary-path", "secondary-paths", "secondary-standby"] },
+                {
+                    "title": "TE",
+                    "fields": [
+                        "primary-retry-interval", "setup-priority", "holding-priority", "record-route", "affinity-include-all", "affinity-include-any",
+                        "affinity-exclude", "reoptimize-interval"
+                    ]
+                },
+                {
+                    "title": "Bandwidth",
+                    "fields": ["bandwidth-limit", "auto-bandwidth-range", "auto-bandwidth-reserve", "auto-bandwidth-avg-interval", "auto-bandwidth-update-interval"]
+                },
+                { "title": "Status", "readonly": true, "fields": ["forwarding-on", "primary", "primary-pending", "secondary", "secondary-pending"] }
+            ]
+        }
+    },
+    "labels": {
+        "lih": "LIH",
+        "remaining-bw": "Remaining Bw.",
+        "bw": "Bw."
+    }
+}

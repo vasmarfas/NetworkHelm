@@ -1,0 +1,25 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Files"],
+    "window": {
+        "title": "Files",
+        "tabs": [
+            { "title": "File", "path": "file" },
+            { "title": "Cloud Backup", "path": "system/backup/cloud" }
+        ]
+    },
+    "paths": {
+        "file": {
+            "columns": ["name", "type", "size", "last-modified"],
+            "readonly": ["size", "last-modified", "creation-time"],
+            "bytes": ["size"],
+            "files": true,
+            "links": [
+                { "title": "Backup", "path": "system/backup/save" },
+                { "title": "Restore", "path": "system/backup/load" }
+            ]
+        },
+        "system/backup/cloud": {},
+        "system/backup/load": { "confirm": true }
+    }
+}

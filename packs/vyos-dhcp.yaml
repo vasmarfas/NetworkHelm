@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Services, DHCP Server]
+window:
+  title: DHCP Server
+  tabs:
+    - { title: Networks, path: service/dhcp-server/shared-network-name }
+    - { title: Leases, path: status/dhcp-leases }
+paths:
+  service/dhcp-server/shared-network-name:
+    columns: [.name, subnet, authoritative, description]
+labels:
+  .name: Name
+  subnet: Subnets

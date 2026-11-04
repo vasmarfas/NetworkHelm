@@ -1,0 +1,99 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["MPLS", "VPLS"],
+    "since": "7.0",
+    "window": {
+        "title": "VPLS",
+        "tabs": [
+            { "title": "VPLS", "path": "interface/vpls" },
+            { "title": "BGP VPLS", "path": "routing/bgp/vpls" }
+        ]
+    },
+    "paths": {
+        "interface/vpls": {
+            "columns": [
+                "name", "type", "actual-mtu", "l2mtu", "peer", "vpls-id", "cisco-static-id", "bridge", "bgp-vpls", "tx-bits-per-second",
+                "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second"
+            ],
+            "readonly": [
+                "type", "actual-mtu", "l2mtu", "running", "bgp-vpls", "bgp-vpls-prfx", "tx-bits-per-second", "rx-bits-per-second",
+                "tx-packets-per-second", "rx-packets-per-second"
+            ],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "vpls",
+            "labels": {
+                "peer": "Remote Peer",
+                "bgp-vpls-prfx": "BGP VPLS Prefix"
+            },
+            "links": [
+                { "title": "Torch", "path": "tool/torch", "argument": "interface", "autostart": true }
+            ]
+        },
+        "routing/bgp/vpls": {
+            "columns": ["name", "vrf", "rd", "site-id", "cisco-id", "import-route-targets", "export-route-targets", "bridge", "bridge-cost", "bridge-horizon"],
+            "form": "bgp-vpls",
+            "labels": {
+                "rd": "Route Distinguisher",
+                "local-pref": "Local Pref."
+            }
+        }
+    },
+    "forms": {
+        "vpls": {
+            "title": "Interface <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "type", "mtu", "actual-mtu", "l2mtu", "mac-address", "arp", "arp-timeout", "-", "peer", "vpls-id", "cisco-static-id"]
+                },
+                {
+                    "title": "VPLS",
+                    "fields": [
+                        "bridge", "bridge-cost", "bridge-horizon", "bridge-pvid", "-",
+                        "pw-type", "pw-l2mtu", "pw-control-word", "-",
+                        "bgp-vpls", "bgp-vpls-prfx"
+                    ]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["last-link-down-time", "last-link-up-time", "link-downs", "-", "remote-label", "local-label", "remote-status", "remote-group", "te-tunnel"],
+                    "monitor": { "command": "interface/vpls/monitor", "argument": "numbers" }
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "bgp-vpls": {
+            "title": "BGP VPLS <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "vrf", "rd", "site-id", "cisco-id", "import-route-targets", "export-route-targets", "local-pref", "-",
+                        "bridge", "bridge-cost", "bridge-horizon", "bridge-pvid", "-",
+                        "pw-type", "pw-l2mtu", "pw-control-word"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "tx-bits-per-second": "Tx",
+        "rx-bits-per-second": "Rx",
+        "tx-packets-per-second": "Tx Packet (p/s)",
+        "rx-packets-per-second": "Rx Packet (p/s)",
+        "tx-byte": "Tx Bytes",
+        "rx-byte": "Rx Bytes",
+        "tx-packet": "Tx Packets",
+        "rx-packet": "Rx Packets"
+    }
+}

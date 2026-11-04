@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: snmp
+menu: [IP, Neighbors]
+window:
+  title: Neighbors
+  tabs:
+    - { title: Neighbors, path: ip/neighbor }
+paths:
+  ip/neighbor:
+    columns: [interface, identity, address, mac-address, interface-name, system-description]
+labels:
+  interface-name: Port

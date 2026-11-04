@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Tools, Flood Ping]
+until: 7.0
+window:
+  title: Flood Ping
+  tabs:
+    - { title: Flood Ping, path: tool/flood-ping }
+paths:
+  tool/flood-ping:
+    form: flood-ping
+forms:
+  flood-ping:
+    tabs:
+      - title: General
+        fields: [address, size, count, interval, timeout]

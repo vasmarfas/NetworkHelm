@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Firewall]
+window:
+  title: Firewall
+  tabs:
+    - { title: Forward, path: firewall/ipv4/forward/filter/rule }
+    - { title: Input, path: firewall/ipv4/input/filter/rule }
+    - { title: Output, path: firewall/ipv4/output/filter/rule }
+    - { title: Address Groups, path: firewall/group/address-group }
+    - { title: Network Groups, path: firewall/group/network-group }
+    - { title: Port Groups, path: firewall/group/port-group }
+paths:
+  firewall/ipv4/forward/filter/rule:
+    columns: [.name, action, protocol, source address, destination address, destination port, state, description]
+  firewall/ipv4/input/filter/rule:
+    columns: [.name, action, protocol, source address, destination address, destination port, state, description]
+  firewall/ipv4/output/filter/rule:
+    columns: [.name, action, protocol, source address, destination address, destination port, state, description]
+  firewall/group/address-group:
+    columns: [.name, address, description]
+  firewall/group/network-group:
+    columns: [.name, network, description]
+  firewall/group/port-group:
+    columns: [.name, port, description]
+labels:
+  .name: Name
+  source address: Src. Address
+  destination address: Dst. Address
+  destination port: Dst. Port

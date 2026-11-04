@@ -1,0 +1,27 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Identity"],
+    "window": {
+        "title": "Identity",
+        "tabs": [
+            { "title": "Identity", "path": "system/identity" }
+        ]
+    },
+    "paths": {
+        "system/identity": { "form": "identity" }
+    },
+    "forms": {
+        "identity": {
+            "title": "Identity",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name"]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "name": "Identity"
+    }
+}

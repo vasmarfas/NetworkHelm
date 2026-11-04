@@ -1,0 +1,167 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, BGP]
+until: 7.0
+window:
+  title: BGP
+  tabs:
+    - { title: Instances, path: routing/bgp/instance }
+    - { title: VRFs, path: routing/bgp/instance/vrf }
+    - { title: Peers, path: routing/bgp/peer }
+    - { title: Networks, path: routing/bgp/network }
+    - { title: Aggregates, path: routing/bgp/aggregate }
+    - { title: VPN4 Routes, path: routing/bgp/vpnv4-route }
+    - { title: Advertisements, path: routing/bgp/advertisements }
+paths:
+  routing/bgp/instance:
+    columns: [name, as, router-id, out-filter, confederation, confederation-peers, cluster-id]
+    readonly: [default]
+    form: instance
+  routing/bgp/instance/vrf:
+    columns: [instance, routing-mark, in-filter, out-filter]
+    readonly: [invalid]
+    form: vrf
+  routing/bgp/peer:
+    columns: [name, instance, remote-address, remote-as, multihop, route-reflect, ttl, remote-id, uptime, prefix-count, state]
+    readonly:
+      - remote-id
+      - local-address
+      - uptime
+      - prefix-count
+      - updates-sent
+      - updates-received
+      - withdrawn-sent
+      - withdrawn-received
+      - remote-hold-time
+      - used-hold-time
+      - used-keepalive-time
+      - refresh-capability
+      - as4-capability
+      - state
+      - established
+    form: peer
+    actions:
+      - { title: Refresh, command: refresh, selection: true }
+      - { title: Refresh All, command: refresh-all }
+      - { title: Resend, command: resend, selection: true }
+      - { title: Resend All, command: resend-all }
+  routing/bgp/network:
+    columns: [network, synchronize]
+    form: network
+  routing/bgp/aggregate:
+    columns: [prefix, summary-only, inherit-attributes, include-igp, attribute-filter, suppress-filter, advertise-filter, routes-used]
+    readonly: [active, routes-used]
+    form: aggregate
+  routing/bgp/vpnv4-route:
+    columns: [route-distinguisher, dst-address, gateway, interface, in-label, out-label]
+    readonly: [route-distinguisher, dst-address, gateway, interface, in-label, out-label]
+  routing/bgp/advertisements:
+    columns: [peer, prefix, nexthop, as-path, origin, local-pref, med]
+    readonly: [peer, prefix, nexthop, as-path, origin, local-pref, med, atomic-aggregate, aggregator, originator-id, cluster-list, communities]
+    quick: peer
+forms:
+  instance:
+    title: "BGP Instance <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - as
+          - router-id
+          - "-"
+          - redistribute-connected
+          - redistribute-static
+          - redistribute-rip
+          - redistribute-ospf
+          - redistribute-other-bgp
+          - "-"
+          - out-filter
+          - confederation
+          - confederation-peers
+          - cluster-id
+          - routing-table
+          - client-to-client-reflection
+          - ignore-as-path-len
+  vrf:
+    title: "BGP VRF <{routing-mark}>"
+    tabs:
+      - title: General
+        fields:
+          - instance
+          - routing-mark
+          - "-"
+          - redistribute-connected
+          - redistribute-static
+          - redistribute-rip
+          - redistribute-ospf
+          - redistribute-other-bgp
+          - "-"
+          - in-filter
+          - out-filter
+  peer:
+    title: "BGP Peer <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - instance
+          - remote-address
+          - remote-port
+          - remote-as
+          - tcp-md5-key
+          - nexthop-choice
+          - multihop
+          - route-reflect
+          - "-"
+          - hold-time
+          - keepalive-time
+          - ttl
+          - max-prefix-limit
+          - max-prefix-restart-time
+          - "-"
+          - in-filter
+          - out-filter
+          - allow-as-in
+          - remove-private-as
+          - as-override
+          - "-"
+          - default-originate
+          - passive
+          - use-bfd
+      - title: Advanced
+        fields: [address-families, update-source, cisco-vpls-nlri-len-fmt]
+      - title: Status
+        readonly: true
+        fields:
+          - remote-id
+          - local-address
+          - uptime
+          - prefix-count
+          - "-"
+          - updates-sent
+          - updates-received
+          - withdrawn-sent
+          - withdrawn-received
+          - "-"
+          - remote-hold-time
+          - used-hold-time
+          - used-keepalive-time
+          - refresh-capability
+          - as4-capability
+          - state
+          - established
+  network:
+    title: "BGP Network <{network}>"
+    tabs:
+      - title: General
+        fields: [network, synchronize]
+  aggregate:
+    title: "BGP Aggregate <{prefix}>"
+    tabs:
+      - title: General
+        fields: [instance, prefix, summary-only, inherit-attributes, include-igp, "-", attribute-filter, suppress-filter, advertise-filter, "-", routes-used]
+labels:
+  cisco-vpls-nlri-len-fmt: Cisco VPLS NLRI Length Format
+  in-filter: In Filter
+  out-filter: Out Filter
+  ignore-as-path-len: Ignore AS Path Length
+  routes-used: Routes Used Count

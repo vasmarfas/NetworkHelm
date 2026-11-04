@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: keenetic
+menu: [Interfaces]
+window:
+  title: Interfaces
+  tabs:
+    - { title: Interface, path: interface }
+paths:
+  interface:
+    columns: [id, interface-name, type, description, link, state, mac, mtu, address, mask, uptime]
+    category: type
+    form: interface
+forms:
+  interface:
+    title: Interface
+    tabs:
+      - title: General
+        readonly: true
+        fields: [id, interface-name, type, description, link, connected, state, mac, mtu, address, mask, uptime]
+labels:
+  id: Name
+  mac: MAC Address
+  mtu: MTU

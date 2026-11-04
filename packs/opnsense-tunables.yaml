@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [System, Tunables]
+window:
+  title: Tunables
+  tabs:
+    - { title: Tunables, path: system/tunables }
+paths:
+  system/tunables:
+    columns: [tunable, value, default_value, descr]
+    sort: tunable
+labels:
+  default_value: Default
+  descr: Description

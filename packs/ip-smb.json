@@ -1,0 +1,31 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "SMB"],
+    "window": {
+        "title": "SMB Settings",
+        "tabs": [
+            { "title": "SMB Settings", "path": "ip/smb" }
+        ]
+    },
+    "paths": {
+        "ip/smb": {
+            "readonly": ["status"],
+            "form": "settings",
+            "links": [
+                { "title": "Shares", "path": "ip/smb/shares" },
+                { "title": "Users", "path": "ip/smb/users" }
+            ]
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "SMB Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["enabled", "domain", "interfaces", "allow-guests", "-", "status"]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Log"],
+    "window": {
+        "title": "Log",
+        "tabs": [
+            { "title": "Log", "path": "log" }
+        ]
+    },
+    "paths": {
+        "log": {
+            "columns": ["time", "topics", "message"],
+            "readonly": ["time", "topics", "message"],
+            "quick": "topics",
+            "follow": true,
+            "log": true
+        }
+    }
+}

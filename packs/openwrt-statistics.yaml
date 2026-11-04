@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Tools, Graphing]
+window:
+  title: Graphing
+  tabs:
+    - { title: Collectd, path: luci_statistics/statistics }
+paths:
+  luci_statistics/statistics:
+    columns: [.name, enable, Interval]
+labels:
+  .name: Name

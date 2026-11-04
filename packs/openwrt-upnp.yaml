@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, UPnP]
+window:
+  title: UPnP
+  tabs:
+    - { title: Port Maps, path: status/upnp }
+    - { title: Settings, path: upnpd/upnpd }
+    - { title: Access Control, path: upnpd/perm_rule }
+paths:
+  status/upnp:
+    columns: [client, address, port, external-port, protocol, expires, description]
+  upnpd/perm_rule:
+    ordered: true
+    columns: [comment, int_addr, int_ports, ext_ports, action]
+labels:
+  int_addr: Client Address
+  int_ports: Client Port
+  ext_ports: External Port

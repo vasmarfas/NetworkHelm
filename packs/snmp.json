@@ -1,0 +1,55 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "SNMP"],
+    "window": {
+        "title": "SNMP Settings",
+        "tabs": [
+            { "title": "SNMP Settings", "path": "snmp" }
+        ]
+    },
+    "paths": {
+        "snmp": {
+            "readonly": ["engine-id"],
+            "form": "settings",
+            "links": [
+                { "title": "Communities", "path": "snmp/community" }
+            ]
+        },
+        "snmp/community": {
+            "columns": ["name", "addresses", "security", "read-access", "write-access"],
+            "readonly": ["default"],
+            "form": "community"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "SNMP Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "enabled", "contact", "location", "-",
+                        "engine-id-suffix", "engine-id", "-",
+                        "trap-target", "trap-community", "trap-version", "trap-generators", "trap-interfaces", "src-address", "vrf"
+                    ]
+                }
+            ]
+        },
+        "community": {
+            "title": "SNMP Community <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "addresses", "security", "read-access", "write-access", "denied-oids", "-",
+                        "authentication-protocol", "encryption-protocol", "-",
+                        "authentication-password", "encryption-password"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "contact": "Contact Info"
+    }
+}

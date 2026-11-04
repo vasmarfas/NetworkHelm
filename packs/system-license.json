@@ -1,0 +1,38 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "License"],
+    "window": {
+        "title": "License",
+        "tabs": [
+            { "title": "License", "path": "system/license" }
+        ]
+    },
+    "paths": {
+        "system/license": {
+            "readonly": [
+                "system-id", "software-id", "level", "nlevel", "features", "upgradable-to", "next-renewal-at", "deadline-at", "limited-upgrades"
+            ],
+            "form": "license",
+            "actions": [
+                { "title": "Generate New ID", "command": "generate-new-id", "confirm": true }
+            ],
+            "links": [
+                { "title": "Renew License", "path": "system/license/renew" }
+            ]
+        }
+    },
+    "forms": {
+        "license": {
+            "title": "License",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "system-id", "software-id", "level", "nlevel", "features", "upgradable-to", "-",
+                        "next-renewal-at", "deadline-at", "limited-upgrades"
+                    ]
+                }
+            ]
+        }
+    }
+}

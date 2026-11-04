@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: ssh
+menu: [Log]
+window:
+  title: Log
+  tabs:
+    - { title: Log, path: log }
+paths:
+  log:
+    columns: [time, topics, message]
+    quick: topics
+    follow: true
+    log: true

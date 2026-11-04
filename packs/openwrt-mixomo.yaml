@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Mixomo]
+window:
+  title: Mixomo
+  tabs:
+    - { title: Overview, path: mixomo/overview }
+    - { title: MagiTrickle, path: mixomo/magitrickle }
+    - { title: Mihomo, path: mixomo/profiles }
+    - { title: Routing, path: mixomo/clients }
+    - { title: DNS, path: mixomo/dns }
+    - { title: Backup, path: mixomo/backups }
+paths:
+  mixomo/clients:
+    ordered: true
+    columns: [name, source, connection-type]
+    links:
+      - { title: Bypass Mihomo, path: mixomo/exclusions }
+      - { title: Advanced, path: mixomo/routing }
+  mixomo/exclusions:
+    ordered: true
+    columns: [name, destination]
+  # the settings behind Advanced are no tab, and the labels of the pack reach them only by a path of it
+  mixomo/routing: {}
+  mixomo/profiles:
+    columns: [name, interval, updated]
+    actions:
+      - { title: Activate, command: activate, selection: true }
+      - { title: Refresh, command: refresh, selection: true }
+    links:
+      - { title: Rules Lists, path: mixomo/rules }
+      - { title: Schedule, path: mixomo/schedule }
+  mixomo/rules:
+    columns: [name, size, url, interval, updated]
+    bytes: [size]
+  mixomo/schedule:
+    columns: [name, type, profile]
+  mixomo/dns:
+    columns: [name, servers, active]
+  mixomo/backups:
+    columns: [created, component, file]
+    actions:
+      - { title: Create, command: create }
+      - { title: Restore, command: restore, selection: true, confirm: true }
+labels:
+  router-traffic: Proxy Router Traffic
+  block-quic: Block QUIC (UDP/443)
+  url: Subscription URL
+  interval: Update Interval (h)
+  updated: Last Update

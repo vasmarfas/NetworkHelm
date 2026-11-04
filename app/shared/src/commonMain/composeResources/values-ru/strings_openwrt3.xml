@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_view_winbox_hint">Конфиги UCI самого роутера: конфиг, его секции, их опции. У известных служб свои окна.</string>
+    <string name="main_view_native_hint">Меню и формы LuCI, как их показывает веб-интерфейс роутера.</string>
+    <string name="main_view_routeros_hint">Меню и окна RouterOS поверх UCI: только то, что умеет OpenWrt.</string>
+</resources>

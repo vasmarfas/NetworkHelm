@@ -1,0 +1,61 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Web Proxy"],
+    "window": {
+        "title": "Web Proxy Settings",
+        "tabs": [
+            { "title": "Web Proxy Settings", "path": "ip/proxy" }
+        ]
+    },
+    "paths": {
+        "ip/proxy": {
+            "form": "settings",
+            "actions": [
+                { "title": "Clear Cache", "command": "clear-cache" },
+                { "title": "Reset HTML", "command": "reset-html" }
+            ],
+            "links": [
+                { "title": "Access", "path": "ip/proxy/access" },
+                { "title": "Cache", "path": "ip/proxy/cache" },
+                { "title": "Direct", "path": "ip/proxy/direct" },
+                { "title": "Connections", "path": "ip/proxy/connections" },
+                { "title": "Cache Contents", "path": "ip/proxy/cache-contents" },
+                { "title": "Lookups", "path": "ip/proxy/lookups" },
+                { "title": "Inserts", "path": "ip/proxy/inserts" },
+                { "title": "Refreshes", "path": "ip/proxy/refreshes" }
+            ]
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "Web Proxy Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "enabled", "src-address", "port", "anonymous", "-",
+                        "parent-proxy", "parent-proxy-port", "-",
+                        "cache-administrator", "max-cache-size", "max-cache-object-size", "cache-on-disk", "-",
+                        "max-client-connections", "max-server-connections", "max-fresh-time", "serialize-connections", "always-from-cache", "-",
+                        "cache-hit-dscp", "-",
+                        "cache-path"
+                    ]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "monitor": { "command": "ip/proxy/monitor" },
+                    "fields": [
+                        "status", "uptime", "client-connections", "server-connections", "requests", "hits", "-",
+                        "cache-used", "total-ram-used", "-",
+                        "received-from-servers", "sent-to-clients", "hits-sent-to-clients"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "cache-hit-dscp": "Cache Hit DSCP (TOS)",
+        "total-ram-used": "Total RAM Used"
+    }
+}

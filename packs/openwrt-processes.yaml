@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [System, Processes]
+window:
+  title: Processes
+  tabs:
+    - { title: Processes, path: status/processes }
+paths:
+  status/processes:
+    columns: [pid, user, command, cpu, memory, vsz, stat]
+    actions:
+      - { title: Hang Up, command: hang-up, selection: true }
+      - { title: Terminate, command: terminate, selection: true }
+      - { title: Kill, command: kill, selection: true }
+labels:
+  pid: PID
+  ppid: PPID
+  cpu: CPU
+  vsz: VSZ
+  stat: State

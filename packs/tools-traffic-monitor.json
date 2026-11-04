@@ -1,0 +1,23 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Traffic Monitor"],
+    "window": {
+        "title": "Traffic Monitor",
+        "tabs": [
+            { "title": "Traffic Monitor", "path": "tool/traffic-monitor" }
+        ]
+    },
+    "paths": {
+        "tool/traffic-monitor": {
+            "columns": ["name", "interface", "traffic", "trigger", "threshold", "on-event"],
+            "sort": "name",
+            "form": "monitor"
+        }
+    },
+    "forms": {
+        "monitor": {
+            "title": "Traffic Monitor <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "interface", "traffic", "trigger", "threshold", "-", "on-event"] }]
+        }
+    }
+}

@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [System, Scheduler]
+window:
+  title: Scheduler
+  tabs:
+    - { title: Scheduler, path: status/scheduler }
+paths:
+  status/scheduler:
+    columns: [minute, hour, day, month, weekday, command]
+labels:
+  day: Day of Month
+  weekday: Day of Week

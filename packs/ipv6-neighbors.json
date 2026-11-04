@@ -1,0 +1,17 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "Neighbors"],
+    "window": {
+        "title": "IPv6 Neighbors",
+        "tabs": [
+            { "title": "Neighbors", "path": "ipv6/neighbor" }
+        ]
+    },
+    "paths": {
+        "ipv6/neighbor": {
+            "columns": ["address", "interface", "vrf", "mac-address", "status", "bridge-port", "host-name"],
+            "readonly": ["vrf", "status", "bridge-port", "host-name", "router", "dynamic", "invalid"],
+            "quick": "interface"
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Cloud"],
+    "window": {
+        "title": "Cloud",
+        "tabs": [
+            { "title": "Cloud", "path": "ip/cloud" },
+            { "title": "Advanced", "path": "ip/cloud/advanced" }
+        ]
+    },
+    "paths": {
+        "ip/cloud": {
+            "readonly": ["public-address", "public-address-ipv6", "dns-name", "status", "warning"],
+            "actions": [
+                { "title": "Force Update", "command": "force-update" }
+            ],
+            "form": "cloud"
+        }
+    },
+    "forms": {
+        "cloud": {
+            "title": "Cloud",
+            "tabs": [
+                {
+                    "title": "Cloud",
+                    "fields": [
+                        "ddns-enabled", "ddns-update-interval", "update-time", "-",
+                        "public-address", "public-address-ipv6", "dns-name", "-",
+                        "status", "warning"
+                    ]
+                }
+            ]
+        }
+    }
+}

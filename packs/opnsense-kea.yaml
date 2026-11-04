@@ -1,0 +1,89 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [Services, DHCP Server (Kea)]
+window:
+  title: DHCP Server (Kea)
+  tabs:
+    - { title: Subnets, path: kea/subnet }
+    - { title: Reservations, path: kea/reservation }
+paths:
+  kea/subnet:
+    columns: [subnet, pools, option_data.routers, option_data.domain_name_servers, valid_lifetime, description]
+    form: subnet
+  kea/reservation:
+    columns: [subnet, ip_address, hw_address, hostname, client_id, description]
+    form: reservation
+forms:
+  subnet:
+    title: "Subnet <{subnet}>"
+    tabs:
+      - title: General
+        fields: [subnet, pools, description, valid_lifetime, next_server, match-client-id, allocator]
+      - title: Options
+        fields:
+          - option_data_autocollect
+          - option_data.routers
+          - option_data.domain_name_servers
+          - option_data.domain_search
+          - option_data.domain_name
+          - option_data.ntp_servers
+          - option_data.time_servers
+          - option_data.static_routes
+          - option_data.classless_static_route
+          - option_data.tftp_server_name
+          - option_data.boot_file_name
+          - option_data.v6_only_preferred
+          - option_data.v4_dnr
+          - option
+      - title: DDNS
+        fields:
+          - ddns_forward_zone
+          - ddns_reverse_zone
+          - ddns_qualifying_suffix
+          - ddns_dns_server
+          - ddns_dns_port
+          - ddns_domain_key_name
+          - ddns_domain_key_secret
+          - ddns_domain_key_algorithm
+          - ddns_conflict_resolution_mode
+          - ddns_override_no_update
+          - ddns_override_client_update
+          - ddns_update_on_renew
+  reservation:
+    title: "Reservation <{ip_address}>"
+    tabs:
+      - title: General
+        fields: [subnet, ip_address, hw_address, client_id, hostname, description, next_server]
+      - title: Options
+        fields:
+          - option_data.routers
+          - option_data.domain_name_servers
+          - option_data.domain_search
+          - option_data.domain_name
+          - option_data.ntp_servers
+          - option_data.time_servers
+          - option_data.static_routes
+          - option_data.classless_static_route
+          - option_data.tftp_server_name
+          - option_data.boot_file_name
+          - option
+labels:
+  option_data.routers: Routers
+  option_data.domain_name_servers: DNS Servers
+  option_data.domain_search: Domain Search
+  option_data.domain_name: Domain Name
+  option_data.ntp_servers: NTP Servers
+  option_data.time_servers: Time Servers
+  option_data.static_routes: Static Routes
+  option_data.classless_static_route: Classless Static Route
+  option_data.tftp_server_name: TFTP Server Name
+  option_data.boot_file_name: Boot File Name
+  option_data.v6_only_preferred: IPv6-Only Preferred
+  option_data.v4_dnr: DNR
+  option_data_autocollect: Collect Options From Interface
+  match-client-id: Match Client ID
+  ddns_override_no_update: Override No Update
+  ddns_override_client_update: Override Client Update
+  ddns_update_on_renew: Update On Renew
+  ip_address: IP Address
+  hw_address: MAC Address

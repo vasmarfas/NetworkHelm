@@ -1,0 +1,88 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Mesh"],
+    "window": {
+        "title": "Mesh",
+        "tabs": [
+            { "title": "Mesh", "path": "interface/mesh" },
+            { "title": "Ports", "path": "interface/mesh/port" },
+            { "title": "FDB", "path": "interface/mesh/fdb" }
+        ]
+    },
+    "paths": {
+        "interface/mesh": {
+            "columns": [
+                "name", "type", "actual-mtu", "l2mtu", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second",
+                "mac-address"
+            ],
+            "readonly": [
+                "type", "actual-mtu", "l2mtu", "mac-address", "running", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second"
+            ],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "form": "mesh",
+            "links": [
+                { "title": "Mesh Traceroute", "path": "interface/mesh/traceroute" },
+                { "title": "Torch", "path": "tool/torch", "argument": "interface", "autostart": true }
+            ]
+        },
+        "interface/mesh/port": {
+            "columns": ["interface", "mesh"],
+            "readonly": ["active-port-type", "dr-address", "inactive", "dynamic"],
+            "form": "port"
+        },
+        "interface/mesh/fdb": {
+            "columns": ["mesh", "type", "mac-address", "on-interface", "lifetime", "age", "metric", "seq-number"],
+            "readonly": ["mesh", "type", "mac-address", "on-interface", "lifetime", "age", "metric", "seq-number", "active", "root"]
+        }
+    },
+    "forms": {
+        "mesh": {
+            "title": "Interface <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "type", "mtu", "actual-mtu", "l2mtu", "mac-address", "arp", "arp-timeout", "admin-mac", "auto-mac"] },
+                {
+                    "title": "HWMP",
+                    "fields": [
+                        "mesh-portal", "-",
+                        "hwmp-default-hoplimit", "hwmp-preq-waiting-time", "hwmp-preq-retries", "hwmp-preq-destination-only", "hwmp-preq-reply-and-forward", "-",
+                        "hwmp-prep-lifetime", "hwmp-rann-interval", "hwmp-rann-propagation-delay", "hwmp-rann-lifetime", "reoptimize-paths"
+                    ]
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "port": {
+            "title": "Mesh Port <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "mesh", "-", "path-cost", "hello-interval", "port-type", "-", "dr-address", "active-port-type"] }]
+        }
+    },
+    "labels": {
+        "admin-mac": "Admin. MAC Address",
+        "hwmp-default-hoplimit": "Default Hoplimit",
+        "hwmp-preq-waiting-time": "PREQ Waiting Time",
+        "hwmp-preq-retries": "PREQ Retries",
+        "hwmp-preq-destination-only": "PREQ Destination Only",
+        "hwmp-preq-reply-and-forward": "PREQ Reply and Forward",
+        "hwmp-prep-lifetime": "PREP Lifetime",
+        "hwmp-rann-interval": "RANN Interval",
+        "hwmp-rann-propagation-delay": "RANN Propagation Delay",
+        "hwmp-rann-lifetime": "RANN Lifetime",
+        "tx-bits-per-second": "Tx",
+        "rx-bits-per-second": "Rx",
+        "tx-packets-per-second": "Tx Packet (p/s)",
+        "rx-packets-per-second": "Rx Packet (p/s)",
+        "tx-byte": "Tx Bytes",
+        "rx-byte": "Rx Bytes",
+        "tx-packet": "Tx Packets",
+        "rx-packet": "Rx Packets"
+    }
+}

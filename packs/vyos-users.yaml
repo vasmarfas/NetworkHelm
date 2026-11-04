@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [System, Users]
+window:
+  title: Users
+  tabs:
+    - { title: Users, path: system/login/user }
+paths:
+  system/login/user:
+    columns: [.name, full-name]
+labels:
+  .name: Name

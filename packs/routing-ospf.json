@@ -1,0 +1,118 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "OSPF"],
+    "since": "7.0",
+    "window": {
+        "title": "OSPF",
+        "tabs": [
+            { "title": "Instances", "path": "routing/ospf/instance" },
+            { "title": "Areas", "path": "routing/ospf/area" },
+            { "title": "Area Ranges", "path": "routing/ospf/area/range" },
+            { "title": "Interface Templates", "path": "routing/ospf/interface-template" },
+            { "title": "Interfaces", "path": "routing/ospf/interface" },
+            { "title": "Neighbors", "path": "routing/ospf/neighbor" },
+            { "title": "Static Neighbors", "path": "routing/ospf/static-neighbor" },
+            { "title": "LSA", "path": "routing/ospf/lsa" }
+        ]
+    },
+    "paths": {
+        "routing/ospf/instance": {
+            "columns": ["name", "version", "router-id", "vrf", "redistribute", "originate-default"],
+            "readonly": ["inactive"],
+            "form": "instance"
+        },
+        "routing/ospf/area": {
+            "columns": ["name", "instance", "area-id", "type", "default-cost", "no-summaries"],
+            "readonly": ["inactive"],
+            "form": "area"
+        },
+        "routing/ospf/area/range": {
+            "columns": ["area", "prefix", "advertise", "cost"]
+        },
+        "routing/ospf/interface-template": {
+            "columns": ["interfaces", "networks", "area", "type", "cost", "priority", "passive"],
+            "readonly": ["inactive"],
+            "form": "template",
+            "labels": { "type": "Network Type" }
+        },
+        "routing/ospf/interface": {
+            "columns": ["address", "area", "state", "network-type", "cost", "priority", "dr", "bdr"],
+            "readonly": [
+                "address", "area", "state", "network-type", "dr", "bdr", "cost", "priority", "use-bfd", "retransmit-interval", "transmit-delay",
+                "hello-interval", "dead-interval"
+            ]
+        },
+        "routing/ospf/neighbor": {
+            "columns": ["address", "router-id", "area", "state", "priority", "dr", "bdr", "state-changes", "adjacency"],
+            "readonly": ["instance", "area", "address", "priority", "router-id", "dr", "bdr", "state", "state-changes", "ls-retransmits", "adjacency", "timeout"]
+        },
+        "routing/ospf/static-neighbor": {
+            "columns": ["address", "area", "instance-id", "poll-interval"]
+        },
+        "routing/ospf/lsa": {
+            "columns": ["area", "type", "id", "originator", "sequence", "age", "checksum"],
+            "readonly": ["instance", "area", "type", "originator", "id", "sequence", "age", "checksum", "body", "self-originated"],
+            "quick": "type",
+            "form": "lsa"
+        }
+    },
+    "forms": {
+        "instance": {
+            "title": "OSPF Instance <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "version", "vrf", "router-id", "routing-table", "-",
+                        "originate-default", "redistribute", "-",
+                        "out-filter-select", "out-filter-chain", "in-filter-chain", "-",
+                        "domain-id", "domain-tag", "use-dn", "-",
+                        "mpls-te-address", "mpls-te-area"
+                    ]
+                }
+            ]
+        },
+        "area": {
+            "title": "OSPF Area <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "instance", "area-id", "type", "no-summaries", "default-cost", "nssa-translator"]
+                }
+            ]
+        },
+        "lsa": {
+            "title": "LSA <{type} {id}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "readonly": true,
+                    "fields": ["instance", "area", "type", "id", "originator", "sequence", "age", "checksum", "self-originated", "body"]
+                }
+            ]
+        },
+        "template": {
+            "title": "OSPF Interface Template <{interfaces}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "interfaces", "area", "networks", "type", "prefix-list", "instance-id", "vlink-neighbor-id", "vlink-transit-area", "-",
+                        "cost", "priority", "passive", "-",
+                        "auth", "auth-key", "auth-id", "use-bfd", "-",
+                        "retransmit-interval", "transmit-delay", "hello-interval", "dead-interval"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "ls-retransmits": "LS Retransmits",
+        "in-filter-chain": "In Filter",
+        "out-filter-chain": "Out Filter",
+        "out-filter-select": "Out Filter Select",
+        "auth": "Authentication",
+        "auth-key": "Auth. Key",
+        "auth-id": "Auth. ID"
+    }
+}

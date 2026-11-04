@@ -1,0 +1,73 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "IGMP Proxy"],
+    "since": "7.0",
+    "window": {
+        "title": "IGMP Proxy",
+        "tabs": [
+            { "title": "Interface", "path": "routing/igmp-proxy/interface" },
+            { "title": "MFC", "path": "routing/igmp-proxy/mfc" }
+        ]
+    },
+    "paths": {
+        "routing/igmp-proxy/interface": {
+            "columns": ["interface", "upstream", "threshold", "alternative-subnets", "state.rx-packets", "state.tx-packets"],
+            "readonly": [
+                "state.querier", "state.rx-bytes", "state.rx-packets", "state.tx-bytes", "state.tx-packets", "state.robustness", "state.query-interval",
+                "state.source-ip-address"
+            ],
+            "form": "interface",
+            "links": [
+                { "title": "Settings", "path": "routing/igmp-proxy" }
+            ]
+        },
+        "routing/igmp-proxy/mfc": {
+            "columns": ["group", "source", "upstream-interface", "downstream-interfaces", "packets"],
+            "readonly": ["active-downstream-interfaces", "bytes", "packets", "wrong-packets"],
+            "form": "mfc"
+        },
+        "routing/igmp-proxy": {
+            "form": "settings"
+        }
+    },
+    "forms": {
+        "interface": {
+            "title": "IGMP Proxy Interface <{interface}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "interface", "upstream", "threshold", "alternative-subnets", "-",
+                        "robustness", "query-interval", "query-response-interval", "last-member-query-interval", "state.source-ip-address", "-",
+                        "state.querier", "state.rx-bytes", "state.rx-packets", "state.tx-bytes", "state.tx-packets", "state.robustness", "state.query-interval"
+                    ]
+                }
+            ]
+        },
+        "mfc": {
+            "title": "IGMP Proxy Group <{group}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["group", "source", "upstream-interface", "downstream-interfaces", "-", "active-downstream-interfaces", "bytes", "packets", "wrong-packets"]
+                }
+            ]
+        },
+        "settings": {
+            "title": "IGMP Proxy Settings",
+            "tabs": [
+                { "title": "General", "fields": ["robustness", "query-interval", "query-response-interval", "last-member-query-interval", "quick-leave"] }
+            ]
+        }
+    },
+    "labels": {
+        "state.querier": "Querier",
+        "state.rx-bytes": "Rx Bytes",
+        "state.rx-packets": "Rx Packets",
+        "state.tx-bytes": "Tx Bytes",
+        "state.tx-packets": "Tx Packets",
+        "state.robustness": "Current Robustness",
+        "state.query-interval": "Current Query Interval",
+        "state.source-ip-address": "Source IP Address"
+    }
+}

@@ -1,0 +1,102 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "DNS"],
+    "window": {
+        "title": "DNS Settings",
+        "tabs": [
+            { "title": "DNS Settings", "path": "ip/dns" }
+        ]
+    },
+    "paths": {
+        "ip/dns": {
+            "readonly": ["dynamic-servers", "cache-used"],
+            "gauges": { "cache-used": "cache-size" },
+            "form": "dns",
+            "links": [
+                { "title": "Static", "path": "ip/dns/static" },
+                { "title": "Cache", "path": "ip/dns/cache" },
+                { "title": "Adlist", "path": "ip/dns/adlist" },
+                { "title": "Forwarders", "path": "ip/dns/forwarders" }
+            ]
+        },
+        "ip/dns/static": {
+            "ordered": true,
+            "columns": ["name", "regexp", "type", "address", "cname", "forward-to", "ttl"],
+            "quick": "type",
+            "form": "static"
+        },
+        "ip/dns/cache": {
+            "columns": ["name", "type", "data", "ttl"],
+            "readonly": ["name", "type", "data", "ttl", "static"],
+            "quick": "type",
+            "actions": [
+                { "title": "Flush Cache", "command": "flush" }
+            ]
+        },
+        "ip/dns/adlist": {
+            "columns": ["url", "file", "ssl-verify"],
+            "actions": [
+                { "title": "Reload", "command": "reload" }
+            ]
+        },
+        "ip/dns/forwarders": {
+            "columns": ["name", "dns-servers", "doh-servers", "verify-doh-cert"]
+        }
+    },
+    "forms": {
+        "dns": {
+            "title": "DNS Settings",
+            "only": [
+                {
+                    "fields": ["verify-doh-cert", "doh-max-server-connections", "doh-max-concurrent-queries", "doh-timeout"],
+                    "where": { "use-doh-server": ["*"] },
+                    "hide": true
+                }
+            ],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "servers", "dynamic-servers", "-",
+                        "use-doh-server", "verify-doh-cert", "doh-max-server-connections", "doh-max-concurrent-queries", "doh-timeout", "-",
+                        "mdns-repeat-ifaces", "-",
+                        "allow-remote-requests", "vrf", "max-udp-packet-size", "-",
+                        "query-server-timeout", "query-total-timeout", "-",
+                        "max-concurrent-queries", "max-concurrent-tcp-sessions", "-",
+                        "cache-size", "cache-max-ttl", "cache-used", "-",
+                        "address-list-extra-time"
+                    ]
+                }
+            ]
+        },
+        "static": {
+            "title": "DNS Static Entry <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "regexp", "type", "ttl", "match-subdomain", "address-list", "-",
+                        "address", "cname", "forward-to", "mx-preference", "mx-exchange", "ns", "srv-priority", "srv-weight", "srv-port",
+                        "srv-target", "text"
+                    ]
+                }
+            ],
+            "only": [
+                { "fields": ["address"], "where": { "type": ["", "A", "AAAA"] }, "hide": true },
+                { "fields": ["cname"], "where": { "type": ["CNAME"] }, "hide": true },
+                { "fields": ["forward-to"], "where": { "type": ["FWD"] }, "hide": true },
+                { "fields": ["mx-preference", "mx-exchange"], "where": { "type": ["MX"] }, "hide": true },
+                { "fields": ["ns"], "where": { "type": ["NS"] }, "hide": true },
+                { "fields": ["srv-priority", "srv-weight", "srv-port", "srv-target"], "where": { "type": ["SRV"] }, "hide": true },
+                { "fields": ["text"], "where": { "type": ["TXT"] }, "hide": true }
+            ]
+        }
+    },
+    "labels": {
+        "cname": "CNAME",
+        "verify-doh-cert": "Verify DoH Certificate",
+        "mdns-repeat-ifaces": "mDNS Repeater Interfaces",
+        "max-concurrent-queries": "Max. Concurrent Queries",
+        "max-concurrent-tcp-sessions": "Max. Concurrent TCP Sessions"
+    }
+}

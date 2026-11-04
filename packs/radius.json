@@ -1,0 +1,62 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["RADIUS"],
+    "window": {
+        "title": "RADIUS",
+        "tabs": [
+            { "title": "Servers", "path": "radius" },
+            { "title": "Incoming", "path": "radius/incoming" }
+        ]
+    },
+    "paths": {
+        "radius": {
+            "columns": ["service", "address", "protocol", "authentication-port", "accounting-port", "src-address", "timeout", "status"],
+            "readonly": ["status"],
+            "ordered": true,
+            "actions": [{ "title": "Reset Status", "command": "reset-counters", "selection": true }],
+            "form": "server"
+        },
+        "radius/incoming": {
+            "actions": [{ "title": "Reset Status", "command": "reset-counters" }],
+            "form": "incoming"
+        }
+    },
+    "forms": {
+        "server": {
+            "title": "RADIUS Server <{address}>",
+            "only": [{ "fields": ["radsec-timeout", "certificate"], "where": { "protocol": ["radsec"] } }],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "service", "-",
+                        "called-id", "domain", "address", "protocol", "-",
+                        "secret", "authentication-port", "accounting-port", "timeout", "-",
+                        "radsec-timeout", "certificate", "-",
+                        "accounting-backup", "realm", "require-message-auth", "src-address"
+                    ]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": ["pending", "requests", "accepts", "rejects", "resends", "timeouts", "bad-replies", "last-request-rtt"],
+                    "monitor": { "command": "radius/monitor", "argument": "numbers" }
+                }
+            ]
+        },
+        "incoming": {
+            "tabs": [
+                { "title": "General", "fields": ["accept", "port", "vrf"] },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": ["requests", "bad-requests", "acks", "naks"],
+                    "monitor": { "command": "radius/incoming/monitor" }
+                }
+            ]
+        }
+    },
+    "labels": {
+        "last-request-rtt": "Last Request RTT"
+    }
+}

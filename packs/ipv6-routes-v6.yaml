@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [IPv6, Routes]
+until: 7.0
+window:
+  title: IPv6 Route List
+  tabs:
+    - { title: Routes, path: ipv6/route }
+paths:
+  ipv6/route:
+    columns: [dst-address, gateway, distance]
+    readonly: [gateway-status, received-from, active, dynamic, static, connect, unreachable, bgp-weight, ospf-metric, ospf-type]
+    form: route
+forms:
+  route:
+    title: "IPv6 Route <{dst-address}>"
+    tabs:
+      - title: General
+        fields: [dst-address, gateway, gateway-status, "-", check-gateway, type, "-", distance, scope, target-scope, "-", received-from]
+      - title: Attributes
+        fields:
+          - bgp-as-path
+          - bgp-weight
+          - bgp-local-pref
+          - bgp-prepend
+          - bgp-med
+          - bgp-atomic-aggregate
+          - bgp-origin
+          - bgp-communities
+          - "-"
+          - route-tag
+          - "-"
+          - ospf-metric
+          - ospf-type
+labels:
+  bgp-local-pref: BGP Local Pref.

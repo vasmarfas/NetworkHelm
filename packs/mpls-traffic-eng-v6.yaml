@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [MPLS, Traffic Eng]
+until: 7.0
+window:
+  title: Traffic Eng
+  tabs:
+    - { title: Interface, path: mpls/traffic-eng/interface }
+    - { title: Tunnel Path, path: mpls/traffic-eng/tunnel-path }
+    - { title: Path State, path: mpls/traffic-eng/path-state }
+    - { title: Resv. State, path: mpls/traffic-eng/resv-state }
+    - { title: Traffic Eng Interface, path: interface/traffic-eng }
+paths:
+  mpls/traffic-eng/interface:
+    columns: [interface, bandwidth, te-metric, remaining-bw]
+    readonly: [remaining-bw]
+    form: interface
+  mpls/traffic-eng/tunnel-path:
+    columns: [name, use-cspf, hops]
+    form: path
+  interface/traffic-eng:
+    columns: [name, type, actual-mtu, l2mtu, tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    readonly: [type, actual-mtu, l2mtu, running, tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    join: interface
+    monitor: { command: interface/monitor-traffic, argument: interface }
+    form: tunnel
+    links:
+      - { title: Torch, path: tool/torch, argument: interface, autostart: true }
+forms:
+  interface:
+    title: "TE Interface <{interface}>"
+    tabs:
+      - title: General
+        fields:
+          - interface
+          - bandwidth
+          - k-factor
+          - resource-class
+          - refresh-time
+          - use-udp
+          - "-"
+          - blockade-k-factor
+          - te-metric
+          - igp-flood-period
+          - up-flood-thresholds
+          - down-flood-thresholds
+          - "-"
+          - remaining-bw
+  path:
+    title: "Tunnel Path <{name}>"
+    tabs:
+      - title: General
+        fields:
+          - name
+          - use-cspf
+          - "-"
+          - setup-priority
+          - holding-priority
+          - record-route
+          - affinity-include-all
+          - affinity-include-any
+          - affinity-exclude
+          - reoptimize-interval
+          - "-"
+          - hops
+  tunnel:
+    title: "Interface <{name}>"
+    tabs:
+      - title: General
+        fields: [name, type, mtu, actual-mtu, l2mtu, "-", from-address, to-address, bandwidth, primary-path, secondary-paths]
+      - title: TE
+        fields:
+          - primary-retry-interval
+          - setup-priority
+          - holding-priority
+          - record-route
+          - affinity-include-all
+          - affinity-include-any
+          - affinity-exclude
+          - reoptimize-interval
+      - title: Bandwidth
+        fields: [bandwidth-limit, auto-bandwidth-range, auto-bandwidth-reserve, auto-bandwidth-avg-interval, auto-bandwidth-update-interval]
+      - title: Traffic
+        readonly: true
+        path: interface
+        fields: [tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second, "-", tx-byte, rx-byte, tx-packet, rx-packet]
+        monitor: { command: interface/monitor-traffic, argument: interface }
+        chart: true
+labels:
+  remaining-bw: Remaining Bw.
+  tx-bits-per-second: Tx
+  rx-bits-per-second: Rx
+  tx-packets-per-second: Tx Packet (p/s)
+  rx-packets-per-second: Rx Packet (p/s)
+  tx-byte: Tx Bytes
+  rx-byte: Rx Bytes
+  tx-packet: Tx Packets
+  rx-packet: Rx Packets

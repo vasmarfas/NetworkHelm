@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [System, Certificates]
+window:
+  title: Certificates
+  tabs:
+    - { title: Certificates, path: system/certificates }
+paths:
+  system/certificates:
+    columns: [descr, name, caref, rfc3280_purpose, valid_from, valid_to, in_use]
+    sort: valid_to
+labels:
+  descr: Description
+  name: Subject
+  caref: CA
+  rfc3280_purpose: Purpose
+  in_use: In Use

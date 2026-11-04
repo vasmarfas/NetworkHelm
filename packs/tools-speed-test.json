@@ -1,0 +1,30 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Speed Test"],
+    "window": {
+        "title": "Speed Test",
+        "tabs": [
+            { "title": "Speed Test", "path": "tool/speed-test" }
+        ]
+    },
+    "paths": {
+        "tool/speed-test": {
+            "form": "tool",
+            "columns": ["status", "time-remaining", "tcp-download", "tcp-upload", "udp-download", "udp-upload"],
+            "readonly": [
+                "status", "time-remaining", "ping-min-avg-max", "jitter-min-avg-max", "loss", "tcp-download", "tcp-upload", "udp-download", "udp-upload"
+            ],
+            "summary": ["time-remaining", "ping-min-avg-max", "jitter-min-avg-max", "loss", "tcp-download", "tcp-upload", "udp-download", "udp-upload"],
+            "defaults": { "user": "admin", "test-duration": "10s" }
+        }
+    },
+    "forms": {
+        "tool": {
+            "tabs": [{ "title": "General", "fields": ["address", "connection-count", "test-duration", "-", "user", "password"] }]
+        }
+    },
+    "labels": {
+        "ping-min-avg-max": "Ping min/avg/max",
+        "jitter-min-avg-max": "Jitter min/avg/max"
+    }
+}

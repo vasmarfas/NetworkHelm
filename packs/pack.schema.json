@@ -1,0 +1,366 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "pack.schema.json",
+    "title": "NetworkHelm UI pack",
+    "description": "Where a window sits in the menu, its tabs, and how each path in it is shown. Property names are the public CLI ones.",
+    "type": "object",
+    "required": ["menu", "window"],
+    "additionalProperties": false,
+    "properties": {
+        "$schema": { "type": "string" },
+        "platform": { "enum": ["routeros", "openwrt", "ssh", "opnsense", "snmp", "upnp", "pfsense", "keenetic", "vyos"], "default": "routeros" },
+        "menu": {
+            "description": "Place in the left menu, from the top level down: [\"IP\", \"Firewall\"].",
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1
+        },
+        "window": {
+            "type": "object",
+            "required": ["title", "tabs"],
+            "additionalProperties": false,
+            "properties": {
+                "title": { "type": "string" },
+                "tabs": { "type": "array", "items": { "$ref": "#/definitions/tab" }, "minItems": 1 }
+            }
+        },
+        "paths": {
+            "description": "How each menu path of the window is shown, by path: ip/firewall/filter.",
+            "type": "object",
+            "additionalProperties": { "$ref": "#/definitions/path" }
+        },
+        "forms": {
+            "description": "Item dialogs, by name; a path refers to one with form.",
+            "type": "object",
+            "additionalProperties": { "$ref": "#/definitions/form" }
+        },
+        "labels": {
+            "description": "Labels the rules derived from property names get wrong, by property.",
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+        },
+        "since": { "description": "The first RouterOS version the window is written for.", "$ref": "#/definitions/version" },
+        "until": {
+            "description": "The first RouterOS version without the window: 7.0 for a window of RouterOS 6. The command snapshot used by the build check starts at 7.9, so a window that ends before it is not checked against it.",
+            "$ref": "#/definitions/version"
+        },
+        "native": {
+            "description": "A window of a page only the view of LuCI shows, with no place in the menu of the OpenWrt view: Status > Routing.",
+            "type": "boolean"
+        }
+    },
+    "definitions": {
+        "version": {
+            "description": "A RouterOS version: 7.13, 7.18.2, 7.19beta1.",
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+(\\.\\d+)?((alpha|beta|rc)\\d+)?$"
+        },
+        "tab": {
+            "type": "object",
+            "required": ["title", "path"],
+            "additionalProperties": false,
+            "properties": {
+                "title": { "type": "string" },
+                "path": { "type": "string", "pattern": "^[a-z0-9-]+(/[a-z0-9-]+)*$" },
+                "since": { "$ref": "#/definitions/version" },
+                "until": { "description": "The first version without the tab.", "$ref": "#/definitions/version" }
+            }
+        },
+        "path": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ordered": { "description": "Rows can be dragged into another order, sent as move.", "type": "boolean" },
+                "columns": { "type": "array", "items": { "type": "string" } },
+                "readonly": {
+                    "description": "Properties only print shows, such as counters and state: inspect does not list them.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "form": { "description": "The item dialog, a key of forms.", "type": "string" },
+                "actions": { "type": "array", "items": { "$ref": "#/definitions/action" } },
+                "quick": { "description": "The column of the drop-down filter next to the search box.", "type": "string" },
+                "category": { "description": "The column Show Categories groups the rows by.", "type": "string" },
+                "iconBy": { "description": "The property whose value picks the icon before the first column, by the keys value/<property>=<value> of the theme: the type of an interface.", "type": "string" },
+                "sort": { "description": "The column the rows are sorted by until the user sorts them another way.", "type": "string" },
+                "follow": { "description": "New rows come at the end and stay in view while the table is scrolled to the end.", "type": "boolean" },
+                "log": { "description": "The rows are the lines of a log with the columns time, topics and message: the window colours them by severity and has filters and copying for them.", "type": "boolean" },
+                "join": { "description": "Another path whose element of the same name fills in what this one lacks.", "type": "string" },
+                "monitor": { "$ref": "#/definitions/monitor" },
+                "confirm": { "description": "The command of the path asks before it runs: Reboot, Shutdown.", "type": "boolean" },
+                "where": {
+                    "description": "Only the elements whose property has one of the values: PPP interfaces by type.",
+                    "type": "object",
+                    "additionalProperties": { "type": "array", "items": { "type": "string" } }
+                },
+                "summary": {
+                    "description": "Properties of the last reply of a command, shown above its table: sent and received of ping.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "totals": {
+                    "description": "Properties summed over the rows in view, shown under the table: rates and packets of all flows of torch.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "numbered": { "description": "The rows in view are numbered from 1, as the hops of traceroute.", "type": "boolean" },
+                "history": {
+                    "description": "A property of a command whose values a row keeps over the rounds, drawn as bars in the column history: last of the hops of traceroute.",
+                    "type": "string"
+                },
+                "flows": {
+                    "description": "Properties that tell a flow of a command apart, as the addresses and ports of torch: a flow a new table lacks stays three tables more without its rates.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "bits": {
+                    "description": "Rates in bits per second that come as plain numbers: tx and rx of torch.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "limits": {
+                    "description": "Limits in bits per second that come as plain numbers, written as they are typed: 10M for max-limit of a queue.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "bytes": {
+                    "description": "Sizes in bytes that come as plain numbers, written the way RouterOS writes them: 19.9 MiB for size of a package. A name that means bytes everywhere, as free-memory, needs no entry.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "pairs": {
+                    "description": "Properties of two values written a/b, with the names of the halves: upload-max-limit and download-max-limit of max-limit of a simple queue. The list shows the halves as columns, the dialog as fields.",
+                    "type": "object",
+                    "additionalProperties": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 }
+                },
+                "gauges": {
+                    "description": "A read-only property against the field of its limit, shown with the unit of the limit and a bar: cache-used of DNS against cache-size.",
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                },
+                "fasttrack": { "description": "The command turns FastTrack off on the whole router while it runs, as torch does.", "type": "boolean" },
+                "autostart": { "description": "The command starts when its window opens, as profile does.", "type": "boolean" },
+                "combos": {
+                    "description": "Arguments of a command that are a list to choose from: the names the router takes and a number for each thing it counts, as cpu of profile with all, total and cpu0 to cpuN. The value of a numbered entry is its number.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "names": { "description": "The entries that are words, in the order shown.", "type": "array", "items": { "type": "string" } },
+                            "count": { "description": "Where the router tells how many numbered entries there are, as path:property: system/resource:cpu-count.", "type": "string" },
+                            "label": { "description": "How a numbered entry is written, # standing for its number: cpu#.", "type": "string", "default": "#" }
+                        }
+                    }
+                },
+                "autoset": {
+                    "description": "Fields that go to the router as soon as they change, without OK or Apply: Channel of the update window. A window whose editable fields are all of this kind has no OK, Apply or Cancel, only Close.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "radios": {
+                    "description": "Enumerations that the window shows as radio buttons in a row instead of a list: Protocol of Bandwidth Test.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "blank": {
+                    "description": "Read-only fields the window shows empty while the router sends nothing for them: Latest Version of the update window while the router checks, so that the lines under it do not move.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "derived": {
+                    "description": "Fields the window works out of another one, never sent to the router; a name that starts with a dot is no field of the form and only an action asks about it. The value is the first of values whose words the text of the other field contains, in lower case: .state of the update window from its status.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "required": ["of", "values"],
+                        "additionalProperties": false,
+                        "properties": {
+                            "of": { "description": "The field the value comes from.", "type": "string" },
+                            "values": { "description": "The value by the words it stands for.", "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }
+                        }
+                    }
+                },
+                "files": { "description": "The list is the router's files: upload, download and export go over SFTP.", "type": "boolean" },
+                "uploads": { "description": "The directory uploads go to, from the root of the files: tmp on OpenWrt, whose root is flash.", "type": "string" },
+                "labels": {
+                    "description": "Labels of this path alone, over those of the pack: type is the action of a rule of pfSense and the kind of an alias.",
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                },
+                "columnLabels": {
+                    "description": "Titles of the columns of the table of a command and of the lines under it, over the labels: the size of a ping is Packet Size in its form and Reply Size in its table; # is the numbered column.",
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                },
+                "millis": {
+                    "description": "Times of the table that are written in milliseconds with three decimals: the answers of a ping.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "preselect": {
+                    "description": "Arguments of a command that take the name of the first row, by number, of another menu when the window opens, as WinBox does: the interface of torch, from the menu interface.",
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                },
+                "element": {
+                    "description": "What an element is called in its dialog where the path shares the form of another: NAT Rule, whose form is that of Firewall Rule.",
+                    "type": "string"
+                },
+                "defaults": {
+                    "description": "What the router takes for a property an element does not have, which neither print nor inspect tells: accept for the action of a firewall rule. Shown, never sent.",
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                },
+                "types": {
+                    "description": "Types of fields a router without inspect does not tell, as the model names them: { \"type\": \"yes-no\" } for ARP Ping of ping on RouterOS 6, { \"type\": \"switch\" } for Don't Fragment.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": { "type": { "type": "string" } },
+                        "required": ["type"]
+                    }
+                },
+                "links": {
+                    "description": "Windows the Configuration part opens: Static and Cache of DNS Settings.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["title", "path"],
+                        "additionalProperties": false,
+                        "properties": {
+                            "title": { "type": "string" },
+                            "path": { "type": "string" },
+                            "window": { "type": "string", "description": "A window of the client instead of the path: dhcp-setup." },
+                            "argument": { "type": "string", "description": "The argument of the command the link opens that takes the element it is opened for: number of a WiFi scan." },
+                            "autostart": { "type": "boolean", "description": "The command the link opens runs as its window opens, for an element chosen in the table: Torch of an interface." }
+                        }
+                    }
+                },
+                "menu": {
+                    "description": "Items of the context menu of a row, and the buttons of the window that need no row, that open another window with fields filled from the row: Torch of an interface.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["title", "path"],
+                        "additionalProperties": false,
+                        "properties": {
+                            "title": { "type": "string" },
+                            "path": { "type": "string" },
+                            "window": { "type": "string", "description": "A window of the client instead of the path: telnet or mac-telnet, which connect from the router to the address the item fills." },
+                            "fill": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": ["to"],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "to": { "type": "string", "description": "The label of the field of the window that gets the value." },
+                                        "from": { "type": "string", "description": "The label of the column of the row that holds the value; without it the name of the row." }
+                                    }
+                                }
+                            },
+                            "autostart": { "type": "boolean", "description": "The window runs its command as it opens." },
+                            "global": { "type": "boolean", "description": "A button of the window that needs no row." },
+                            "item": { "type": "boolean", "description": "The item opens a new row of the table at path." }
+                        }
+                    }
+                },
+                "owner": {
+                    "description": "The rows come from the elements of another path, and a row opens the dialog of its element there: an address of OpenWrt opens its interface.",
+                    "type": "object",
+                    "required": ["path", "by", "title"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "path": { "type": "string" },
+                        "by": { "description": "The property of the row that holds the id of the element.", "type": "string" },
+                        "title": { "description": "The title of the dialog.", "type": "string" }
+                    }
+                },
+                "open": {
+                    "description": "The dialog of a row comes from another path, chosen by a property of the row: type ether opens interface/ethernet.",
+                    "type": "object",
+                    "required": ["by", "paths"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "by": { "type": "string" },
+                        "paths": { "type": "object", "additionalProperties": { "type": "string" } }
+                    }
+                }
+            }
+        },
+        "monitor": {
+            "description": "A command that reports elements live, run with their names: interface/monitor-traffic with interface. The monitor of a settings menu takes no argument.",
+            "type": "object",
+            "required": ["command"],
+            "additionalProperties": false,
+            "properties": {
+                "command": { "type": "string" },
+                "argument": { "type": "string" }
+            }
+        },
+        "action": {
+            "type": "object",
+            "required": ["title", "command"],
+            "additionalProperties": false,
+            "properties": {
+                "title": { "type": "string" },
+                "command": { "description": "A command of the path: reset-counters.", "type": "string" },
+                "selection": { "description": "Run for the selected rows.", "type": "boolean" },
+                "argument": { "description": "What the command takes the rows by: numbers takes them all at once, number one, and then the command runs once a row: run of /system/script.", "enum": ["numbers", "number"] },
+                "confirm": { "description": "Ask before running: Uninstall of a package.", "type": "boolean" },
+                "depends": { "description": "The button stands where one of these sets of fields holds the values it names; an empty value stands for a field the window does not show: the buttons of the update window by its .state.", "type": "array", "items": { "type": "object", "additionalProperties": { "type": "string" } } },
+                "output": { "description": "The property of the reply that is text to read and copy, shown with its QR code: conf of show-client-config of a WireGuard peer.", "type": "string" }
+            }
+        },
+        "form": {
+            "type": "object",
+            "required": ["tabs"],
+            "additionalProperties": false,
+            "properties": {
+                "title": { "description": "May name properties in braces: \"Firewall Rule <{src-address}->{dst-address}>\".", "type": "string" },
+                "tabs": { "type": "array", "items": { "$ref": "#/definitions/formTab" }, "minItems": 1 },
+                "confirm": {
+                    "description": "Fields typed twice before they go to the router, as the password of a user: OK and Apply wait until both say the same.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "renamed": {
+                    "description": "Old names of fields by the new ones, as address of an IP service before available-from of 7.24: the old name stands in place of the new one, under its label, where the router lacks the new one, and is never shown beside it.",
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                },
+                "only": {
+                    "description": "Fields that apply only where each property of the element has one of the values: the ports of a firewall rule with a protocol that has ports. An empty value stands for an element without the property: the address of a DNS entry without a type, which is A; * stands for any value but none; a property of several values holds a value among them, mac-auth in dot1x,mac-auth. Until then a field without a value cannot be set.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["fields", "where"],
+                        "additionalProperties": false,
+                        "properties": {
+                            "fields": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+                            "where": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } },
+                            "hide": { "description": "The fields are not shown at all until then, as the fields of the other kinds of a queue type.", "type": "boolean" }
+                        }
+                    }
+                }
+            }
+        },
+        "formTab": {
+            "type": "object",
+            "required": ["title", "fields"],
+            "additionalProperties": false,
+            "properties": {
+                "title": { "type": "string" },
+                "fields": { "description": "Properties in the order of the dialog; - is the line WinBox draws between two groups of them.", "type": "array", "items": { "type": "string" } },
+                "readonly": { "type": "boolean" },
+                "since": { "$ref": "#/definitions/version" },
+                "until": { "$ref": "#/definitions/version" },
+                "path": { "description": "The fields belong to the element of the same name in this path.", "type": "string" },
+                "monitor": { "$ref": "#/definitions/monitor" },
+                "chart": { "description": "A graph of tx-bits-per-second and rx-bits-per-second from the monitor.", "type": "boolean" },
+                "graph": { "description": "A graph of a pair of rates of the path, a line for each half of its pairs: rate of a simple queue.", "type": "string" }
+            }
+        }
+    }
+}

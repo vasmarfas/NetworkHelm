@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: pfsense
+menu: [Log]
+window:
+  title: Log
+  tabs:
+    - { title: System, path: log/system }
+    - { title: Firewall, path: log/firewall }
+paths:
+  log/system:
+    columns: [time, program, message]
+    follow: true
+  log/firewall:
+    columns: [time, action, interface, direction, protocol, source, destination, flags, rule]
+    quick: action
+    follow: true
+labels:
+  text: Line

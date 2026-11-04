@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: snmp
+menu: [System, Resources]
+window:
+  title: Resources
+  tabs:
+    - { title: Resources, path: system/resource }
+paths:
+  system/resource:
+    form: resources
+forms:
+  resources:
+    title: Resources
+    tabs:
+      - title: Resources
+        readonly: true
+        fields: [name, description, contact, location, object-id, uptime, cpu-load, free-memory, total-memory]
+labels:
+  cpu-load: CPU Load
+  object-id: Object ID

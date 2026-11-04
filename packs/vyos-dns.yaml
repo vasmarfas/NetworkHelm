@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Services, DNS Forwarding]
+window:
+  title: DNS Forwarding
+  tabs:
+    - { title: DNS Forwarding, path: service/dns/forwarding }

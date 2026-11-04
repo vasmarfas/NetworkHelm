@@ -1,0 +1,46 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "NTP Server"],
+    "since": "7.0",
+    "window": {
+        "title": "NTP Server",
+        "tabs": [
+            { "title": "NTP Server", "path": "system/ntp/server" }
+        ]
+    },
+    "paths": {
+        "system/ntp/server": {
+            "form": "settings",
+            "links": [
+                { "title": "Keys", "path": "system/ntp/key" }
+            ]
+        },
+        "system/ntp/key": {
+            "columns": ["key-id", "key-val"],
+            "form": "key"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "NTP Server",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["enabled", "broadcast", "multicast", "manycast", "broadcast-addresses", "-", "vrf", "-", "use-local-clock", "local-clock-stratum", "-", "auth-key"]
+                }
+            ],
+            "only": [
+                { "fields": ["broadcast-addresses"], "where": { "broadcast": ["true", "yes"] } },
+                { "fields": ["local-clock-stratum"], "where": { "use-local-clock": ["true", "yes"] } }
+            ]
+        },
+        "key": {
+            "title": "NTP Key <{key-id}>",
+            "tabs": [{ "title": "General", "fields": ["key-id", "key-val"] }]
+        }
+    },
+    "labels": {
+        "auth-key": "Auth. Key",
+        "key-val": "Key Value"
+    }
+}

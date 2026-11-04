@@ -1,0 +1,27 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Reverse Proxy"],
+    "window": {
+        "title": "Reverse Proxy",
+        "tabs": [
+            { "title": "Reverse Proxy", "path": "ip/reverse-proxy" }
+        ]
+    },
+    "paths": {
+        "ip/reverse-proxy": {
+            "columns": ["sni", "ip-address", "port", "certificate", "vrf"],
+            "form": "rule"
+        }
+    },
+    "forms": {
+        "rule": {
+            "title": "Rule <{sni}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["sni", "ip-address", "port", "certificate", "vrf"]
+                }
+            ]
+        }
+    }
+}

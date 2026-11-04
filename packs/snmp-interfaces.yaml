@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: snmp
+menu: [Interfaces]
+window:
+  title: Interfaces
+  tabs:
+    - { title: Interface, path: interface }
+paths:
+  interface:
+    columns: [name, type, mtu, mac-address, speed, tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    readonly: [tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    category: type
+    monitor: { command: interface/monitor-traffic, argument: interface }
+    form: interface
+forms:
+  interface:
+    title: Interface
+    tabs:
+      - title: General
+        readonly: true
+        fields: [name, description, comment, type, mtu, mac-address, speed, status]
+      - title: Traffic
+        readonly: true
+        fields: [tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+        monitor: { command: interface/monitor-traffic, argument: interface }
+        chart: true
+      - title: Statistics
+        readonly: true
+        fields: [tx-byte, rx-byte, tx-packet, rx-packet, tx-drop, rx-drop, tx-error, rx-error]
+labels:
+  mtu: MTU

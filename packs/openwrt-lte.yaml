@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [LTE]
+window:
+  title: LTE
+  tabs:
+    - { title: Modem, path: status/mobile }
+paths:
+  status/mobile:
+    form: modem
+forms:
+  modem:
+    title: LTE
+    tabs:
+      - title: Status
+        readonly: true
+        fields: [current-operator, data-class, registration-status, sim-status, current-cellid, primary-band, rssi, rsrp, rsrq, sinr, rscp, ecio]
+      - title: Modem
+        readonly: true
+        fields: [model, revision, imei, imsi, iccid, temperature]
+labels:
+  data-class: Access Technology
+  sim-status: SIM Status
+  current-cellid: Cell ID
+  rssi: RSSI
+  rsrp: RSRP
+  rsrq: RSRQ
+  sinr: SINR
+  rscp: RSCP
+  ecio: EC/IO
+  imei: IMEI
+  imsi: IMSI
+  iccid: ICCID

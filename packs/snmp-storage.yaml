@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: snmp
+menu: [System, Storage]
+window:
+  title: Storage
+  tabs:
+    - { title: Storage, path: system/storage }
+paths:
+  system/storage:
+    columns: [description, type, size, used, free]
+    bytes: [size, used, free]

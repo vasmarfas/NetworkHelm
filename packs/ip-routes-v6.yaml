@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [IP, Routes]
+until: 7.0
+window:
+  title: Route List
+  tabs:
+    - { title: Routes, path: ip/route }
+    - { title: Nexthops, path: ip/route/nexthop }
+    - { title: Rules, path: ip/route/rule }
+    - { title: VRF, path: ip/route/vrf }
+paths:
+  ip/route:
+    columns: [dst-address, gateway, distance, routing-mark, pref-src]
+    readonly: [gateway-status, active, dynamic, static, connect, blackhole, bgp-weight, ospf-metric, ospf-type]
+    quick: routing-mark
+    form: route
+  ip/route/nexthop:
+    columns: [address, gw-state, forwarding-nexthop, interface, scope, check-gateway, table]
+    readonly: [address, gw-state, forwarding-nexthop, interface, scope, check-gateway, table]
+  ip/route/rule:
+    ordered: true
+    columns: [src-address, dst-address, routing-mark, interface, action, table]
+    readonly: [inactive]
+    form: rule
+  ip/route/vrf:
+    columns: [routing-mark, interfaces, route-distinguisher]
+    form: vrf
+forms:
+  route:
+    title: "Route <{dst-address}>"
+    tabs:
+      - title: General
+        fields: [dst-address, gateway, gateway-status, "-", check-gateway, type, "-", distance, scope, target-scope, routing-mark, pref-src, vrf-interface]
+      - title: Attributes
+        fields:
+          - bgp-as-path
+          - bgp-weight
+          - bgp-local-pref
+          - bgp-prepend
+          - bgp-med
+          - bgp-atomic-aggregate
+          - bgp-origin
+          - bgp-communities
+          - "-"
+          - route-tag
+          - "-"
+          - ospf-metric
+          - ospf-type
+  rule:
+    title: "Policy Routing Rule <{src-address}->{dst-address}>"
+    tabs:
+      - title: General
+        fields: [src-address, dst-address, routing-mark, interface, "-", action, table]
+  vrf:
+    title: "VRF <{routing-mark}>"
+    tabs:
+      - title: General
+        fields: [routing-mark, interfaces, route-distinguisher, import-route-targets, export-route-targets]
+labels:
+  pref-src: Pref. Source
+  gw-state: Gateway State
+  bgp-local-pref: BGP Local Pref.

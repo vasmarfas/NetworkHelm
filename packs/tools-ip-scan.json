@@ -1,0 +1,27 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "IP Scan"],
+    "window": {
+        "title": "IP Scan",
+        "tabs": [
+            { "title": "IP Scan", "path": "tool/ip-scan" }
+        ]
+    },
+    "paths": {
+        "tool/ip-scan": {
+            "form": "tool",
+            "columns": ["address", "mac-address", "time", "dns", "snmp", "netbios"],
+            "readonly": ["address", "mac-address", "time", "dns", "snmp", "netbios"]
+        }
+    },
+    "forms": {
+        "tool": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["interface", "address-range"]
+                }
+            ]
+        }
+    }
+}

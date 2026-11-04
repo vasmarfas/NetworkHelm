@@ -1,0 +1,36 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "UPnP"],
+    "window": {
+        "title": "UPnP Settings",
+        "tabs": [
+            { "title": "UPnP Settings", "path": "ip/upnp" }
+        ]
+    },
+    "paths": {
+        "ip/upnp": {
+            "form": "settings",
+            "links": [
+                { "title": "Interfaces", "path": "ip/upnp/interfaces" }
+            ]
+        },
+        "ip/upnp/interfaces": {
+            "columns": ["interface", "type", "forced-ip"],
+            "form": "interface"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "UPnP Settings",
+            "tabs": [{ "title": "General", "fields": ["enabled", "allow-disable-external-interface", "show-dummy-rule"] }]
+        },
+        "interface": {
+            "title": "UPnP Interface <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "type", "forced-ip"] }]
+        }
+    },
+    "labels": {
+        "allow-disable-external-interface": "Allow To Disable External Interface",
+        "forced-ip": "Forced External IP"
+    }
+}

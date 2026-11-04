@@ -1,0 +1,61 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Dot1X"],
+    "window": {
+        "title": "Dot1X",
+        "tabs": [
+            { "title": "Client", "path": "interface/dot1x/client" },
+            { "title": "Server", "path": "interface/dot1x/server" },
+            { "title": "State", "path": "interface/dot1x/server/state" },
+            { "title": "Active", "path": "interface/dot1x/server/active" }
+        ]
+    },
+    "paths": {
+        "interface/dot1x/client": {
+            "columns": ["interface", "eap-methods", "identity", "certificate", "status"],
+            "readonly": ["status"],
+            "form": "client"
+        },
+        "interface/dot1x/server": {
+            "columns": ["interface", "auth-types", "accounting", "interim-update", "auth-timeout", "retrans-timeout", "reauth-period"],
+            "form": "server"
+        },
+        "interface/dot1x/server/state": {
+            "columns": ["interface", "status"],
+            "readonly": ["interface", "status"]
+        },
+        "interface/dot1x/server/active": {
+            "columns": ["interface", "username", "client-mac-address", "vlan-id", "auth-info"],
+            "readonly": ["interface", "username", "client-mac-address", "vlan-id", "auth-info"]
+        }
+    },
+    "forms": {
+        "client": {
+            "title": "Dot1X Client <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "eap-methods", "identity", "password", "anon-identity", "certificate"] }]
+        },
+        "server": {
+            "title": "Dot1X Server <{interface}>",
+            "renamed": { "reauth-timeout": "reauth-period" },
+            "only": [{ "fields": ["mac-auth-mode", "radius-mac-format"], "where": { "auth-types": ["mac-auth"] }, "hide": true }],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "interface", "-",
+                        "auth-types", "mac-auth-mode", "radius-mac-format", "-",
+                        "accounting", "interim-update", "-",
+                        "auth-timeout", "retrans-timeout", "reauth-period", "reject-vlan-id", "guest-vlan-id", "server-fail-vlan-id"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "anon-identity": "Anon. Identity",
+        "auth-types": "Auth. Types",
+        "auth-timeout": "Auth. Timeout",
+        "retrans-timeout": "Retrans. Timeout",
+        "reauth-period": "Reauth. Period"
+    }
+}

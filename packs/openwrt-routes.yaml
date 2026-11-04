@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, Routes]
+window:
+  title: Routes
+  tabs:
+    - { title: IPv4 Routes, path: network/route }
+    - { title: IPv6 Routes, path: network/route6 }
+    - { title: IPv4 Rules, path: network/rule }
+    - { title: IPv6 Rules, path: network/rule6 }
+    - { title: Active IPv4, path: status/routes }
+    - { title: Active IPv6, path: status/routes6 }
+paths:
+  network/route:
+    columns: [interface, target, netmask, gateway, metric, table]
+  network/route6:
+    columns: [interface, target, gateway, metric, table]
+  network/rule:
+    columns: [src, dest, in, out, lookup, priority, action]
+  network/rule6:
+    columns: [src, dest, in, out, lookup, priority, action]
+  status/routes:
+    columns: [dst-address, gateway, interface, pref-src, table, distance, type, protocol]
+  status/routes6:
+    columns: [dst-address, gateway, interface, pref-src, table, distance, type, protocol]

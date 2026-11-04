@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Tools, Traceroute]
+window:
+  title: Traceroute
+  tabs:
+    - { title: Traceroute, path: tool/traceroute }
+paths:
+  tool/traceroute:
+    columns: [hop, address, loss, sent, last, avg, best, worst, status]
+labels:
+  hop: "#"

@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, History]
+until: 7.0
+window:
+  title: History
+  tabs:
+    - { title: History, path: system/history }
+paths:
+  system/history:
+    columns: [time, action, by, policy]
+    readonly: [time, action, by, policy, undoable, redoable, floating-undo]

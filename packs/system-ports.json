@@ -1,0 +1,48 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Ports"],
+    "window": {
+        "title": "Ports",
+        "tabs": [
+            { "title": "Ports", "path": "port" },
+            { "title": "Remote Access", "path": "port/remote-access" }
+        ]
+    },
+    "paths": {
+        "port": {
+            "columns": ["name", "used-by", "channels", "baud-rate", "flow-control", "latency-timer"],
+            "readonly": ["used-by", "channels", "line-state", "device", "inactive"],
+            "form": "port"
+        },
+        "port/remote-access": {
+            "columns": ["port", "channel", "protocol", "remote-addresses", "ip-port"],
+            "readonly": ["active", "active-peer", "active-peer-port", "busy", "logging-active", "inactive"],
+            "form": "remote-access"
+        }
+    },
+    "forms": {
+        "port": {
+            "title": "Port <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "-",
+                        "baud-rate", "data-bits", "parity", "stop-bits", "flow-control", "dtr", "rts", "latency-timer", "-",
+                        "used-by", "channels", "line-state"
+                    ]
+                }
+            ]
+        },
+        "remote-access": {
+            "title": "Remote Port <{port}>",
+            "renamed": { "tcp-port": "ip-port", "allowed-addresses": "remote-addresses" },
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["port", "channel", "-", "local-address", "ip-port", "protocol", "-", "log-file", "-", "remote-addresses"]
+                }
+            ]
+        }
+    }
+}

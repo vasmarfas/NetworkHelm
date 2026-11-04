@@ -1,0 +1,24 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Watchdog"],
+    "window": {
+        "title": "Watchdog",
+        "tabs": [
+            { "title": "Watchdog", "path": "system/watchdog" }
+        ]
+    },
+    "paths": {
+        "system/watchdog": { "form": "watchdog" }
+    },
+    "forms": {
+        "watchdog": {
+            "title": "Watchdog",
+            "only": [{ "fields": ["send-email-to", "send-email-from", "send-smtp-server"], "where": { "auto-send-supout": ["true", "yes"] } }],
+            "tabs": [
+                { "title": "Watchdog", "fields": ["watchdog-timer"] },
+                { "title": "Ping Watchdog", "fields": ["watch-address", "ping-start-after-boot", "ping-timeout"] },
+                { "title": "Supout Settings", "fields": ["automatic-supout", "auto-send-supout", "send-email-to", "send-email-from", "send-smtp-server"] }
+            ]
+        }
+    }
+}

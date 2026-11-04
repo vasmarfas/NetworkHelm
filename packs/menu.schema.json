@@ -1,0 +1,49 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "menu.schema.json",
+    "title": "NetworkHelm left menu",
+    "description": "The menu on the left of the main window. An entry opens a menu path in a window; a group holds entries. An entry is shown only when the router has its path.",
+    "type": "object",
+    "required": ["items"],
+    "additionalProperties": false,
+    "properties": {
+        "$schema": { "type": "string" },
+        "platform": { "enum": ["routeros", "openwrt", "ssh", "opnsense", "snmp", "upnp", "pfsense", "keenetic", "vyos"], "default": "routeros" },
+        "items": { "type": "array", "items": { "$ref": "#/definitions/entry" } },
+        "hidden": {
+            "description": "Menus of the router that are not windows (scripting, the console), top-level ones or deeper. Other top-level menus the router has and the items do not name are added at the end of the menu, and other menus under a group join it.",
+            "type": "array",
+            "items": { "type": "string" }
+        }
+    },
+    "definitions": {
+        "version": {
+            "description": "A RouterOS version: 7.0, 7.13, 7.19beta1.",
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+(\\.\\d+)?((alpha|beta|rc)\\d+)?$"
+        },
+        "entry": {
+            "type": "object",
+            "required": ["title"],
+            "additionalProperties": false,
+            "properties": {
+                "title": { "type": "string" },
+                "path": { "type": "string", "pattern": "^[a-z0-9-]+(/[a-z0-9-]+)*$" },
+                "items": { "type": "array", "items": { "$ref": "#/definitions/entry" } },
+                "requires": {
+                    "description": "What the path needs beyond the base system, such as an extra package. The command snapshot used by the build check does not cover these, so the path is not checked.",
+                    "type": "string"
+                },
+                "window": {
+                    "description": "A window of the client rather than a path of the router: the terminal, a console over SSH, shown only where the platform has a terminal and the router an SSH login; the tunnels, ports of this computer that lead through the SSH of the router, shown where the router has an SSH login and the platform listens on ports; the dashboard and the topology of the controller, drawn from the tables of the path the entry names, shown where the router has that path; the telnet window, an address that the telnet client of the router is started with in a console, shown where the router has an SSH login.",
+                    "enum": ["terminal", "tunnels", "dashboard", "topology", "telnet"]
+                },
+                "since": { "description": "The first RouterOS version with the entry.", "$ref": "#/definitions/version" },
+                "until": {
+                    "description": "The first RouterOS version without the entry: 7.0 for a menu of RouterOS 6, which the build check does not look up in its snapshot of 7.9 and later.",
+                    "$ref": "#/definitions/version"
+                }
+            }
+        }
+    }
+}

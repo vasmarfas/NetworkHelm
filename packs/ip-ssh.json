@@ -1,0 +1,39 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "SSH"],
+    "window": {
+        "title": "SSH Settings",
+        "tabs": [
+            { "title": "SSH Settings", "path": "ip/ssh" }
+        ]
+    },
+    "paths": {
+        "ip/ssh": {
+            "readonly": ["host-key-fingerprint"],
+            "form": "settings",
+            "actions": [
+                { "title": "Regenerate Host Key", "command": "regenerate-host-key", "confirm": true }
+            ],
+            "links": [
+                { "title": "Export Host Key", "path": "ip/ssh/export-host-key" },
+                { "title": "Import Host Key", "path": "ip/ssh/import-host-key" },
+                { "title": "Known Hosts", "path": "ip/ssh/known-hosts" }
+            ]
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "SSH Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "forwarding-enabled", "password-authentication", "always-allow-password-login", "publickey-authentication-options",
+                        "strong-crypto", "allow-none-crypto", "ciphers", "host-key-type", "host-key-size", "host-key-fingerprint", "-",
+                        "known-hosts-validation", "known-hosts-trusted-subnets"
+                    ]
+                }
+            ]
+        }
+    }
+}

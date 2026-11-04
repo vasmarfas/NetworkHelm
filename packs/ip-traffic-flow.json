@@ -1,0 +1,64 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Traffic Flow"],
+    "window": {
+        "title": "Traffic Flow",
+        "tabs": [
+            { "title": "Settings", "path": "ip/traffic-flow" },
+            { "title": "Targets", "path": "ip/traffic-flow/target" },
+            { "title": "IPFIX", "path": "ip/traffic-flow/ipfix" }
+        ]
+    },
+    "paths": {
+        "ip/traffic-flow": {
+            "form": "settings"
+        },
+        "ip/traffic-flow/target": {
+            "columns": ["dst-address", "port", "version", "src-address", "v9-template-refresh", "v9-template-timeout"]
+        },
+        "ip/traffic-flow/ipfix": {
+            "form": "ipfix"
+        }
+    },
+    "forms": {
+        "settings": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "enabled", "interfaces", "cache-entries", "active-flow-timeout", "inactive-flow-timeout", "packet-sampling", "sampling-interval",
+                        "sampling-space"
+                    ]
+                }
+            ],
+            "only": [
+                { "fields": ["sampling-interval", "sampling-space"], "where": { "packet-sampling": ["true", "yes"] }, "hide": true }
+            ]
+        },
+        "ipfix": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "last-forwarded", "first-forwarded", "sys-init-time", "packets", "bytes", "in-interface", "out-interface",
+                        "src-address", "dst-address", "src-port", "dst-port", "protocol", "tos", "gateway", "src-address-mask",
+                        "dst-address-mask", "tcp-flags", "dst-mac-address", "src-mac-address", "nat-src-address", "nat-dst-address",
+                        "nat-src-address6", "nat-dst-address6", "nat-src-port", "nat-dst-port", "ipv6-flow-label", "ttl", "is-multicast",
+                        "ip-header-length", "ip-total-length", "udp-length", "tcp-seq-num", "tcp-ack-num", "tcp-window-size", "igmp-type",
+                        "icmp-type", "icmp-code", "-",
+                        "nat-events"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "sampling-interval": "Packet Sampling Interval",
+        "sampling-space": "Packet Sampling Space",
+        "sys-init-time": "System Init Time",
+        "tos": "IP ToS",
+        "tcp-seq-num": "TCP Seq. Number",
+        "tcp-ack-num": "TCP Ack. Number",
+        "nat-events": "Log NAT Events"
+    }
+}

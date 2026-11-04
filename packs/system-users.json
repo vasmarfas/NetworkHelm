@@ -1,0 +1,68 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Users"],
+    "window": {
+        "title": "Users",
+        "tabs": [
+            { "title": "Users", "path": "user" },
+            { "title": "Groups", "path": "user/group" },
+            { "title": "SSH Keys", "path": "user/ssh-keys" },
+            { "title": "SSH Private Keys", "path": "user/ssh-keys/private" },
+            { "title": "Active Users", "path": "user/active" }
+        ]
+    },
+    "paths": {
+        "user": {
+            "columns": ["name", "group", "address", "last-logged-in"],
+            "readonly": ["last-logged-in", "expired"],
+            "quick": "group",
+            "links": [
+                { "title": "Settings", "path": "user/settings" },
+                { "title": "AAA", "path": "user/aaa" }
+            ],
+            "form": "user"
+        },
+        "user/group": {
+            "columns": ["name", "policy", "skin"],
+            "form": "group"
+        },
+        "user/ssh-keys": {
+            "columns": ["user", "key-type", "bits", "key-owner"],
+            "readonly": ["user", "key-type", "bits", "key-owner"]
+        },
+        "user/ssh-keys/private": {
+            "columns": ["user", "key-type", "bits", "key-owner"],
+            "readonly": ["user", "key-type", "bits", "key-owner"]
+        },
+        "user/active": {
+            "columns": ["name", "when", "address", "via", "group"],
+            "readonly": ["name", "when", "address", "via", "group", "radius"],
+            "quick": "via",
+            "actions": [
+                { "title": "Request Logout", "command": "request-logout", "selection": true }
+            ]
+        },
+        "user/settings": {},
+        "user/aaa": {}
+    },
+    "forms": {
+        "user": {
+            "title": "User <{name}>",
+            "confirm": ["password"],
+            "tabs": [
+                { "title": "General", "fields": ["name", "group", "address", "-", "password", "inactivity-timeout", "inactivity-policy"] },
+                { "title": "Status", "readonly": true, "fields": ["last-logged-in", "expired"] }
+            ]
+        },
+        "group": {
+            "title": "Group <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "policy", "skin"] }
+            ]
+        }
+    },
+    "labels": {
+        "address": "Allowed Address",
+        "last-logged-in": "Last Logged In"
+    }
+}

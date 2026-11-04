@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Status, Routing]
+native: true
+window:
+  title: Routing
+  tabs:
+    - { title: IPv4 Routes, path: status/routes }
+    - { title: IPv6 Routes, path: status/routes6 }
+    - { title: ARP, path: status/neighbors }
+    - { title: IPv6 Neighbors, path: status/neighbors6 }
+paths:
+  status/routes:
+    columns: [dst-address, gateway, interface, pref-src, table, distance, type, protocol]
+  status/routes6:
+    columns: [dst-address, gateway, interface, pref-src, table, distance, type, protocol]
+  status/neighbors:
+    columns: [address, mac-address, interface, flags]
+  status/neighbors6:
+    columns: [address, mac-address, interface, status, router]
+labels:
+  pref-src: Pref. Source

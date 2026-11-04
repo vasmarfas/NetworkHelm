@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Tools, Traffic]
+window:
+  title: Traffic
+  tabs:
+    - { title: Traffic, path: tool/traffic }
+paths:
+  tool/traffic:
+    columns: [name, rx-bits-per-second, tx-bits-per-second]
+    bits: [rx-bits-per-second, tx-bits-per-second]
+labels:
+  name: Interface
+  rx-bits-per-second: Rx
+  tx-bits-per-second: Tx

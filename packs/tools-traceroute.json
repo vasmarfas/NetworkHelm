@@ -1,0 +1,46 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Traceroute"],
+    "since": "7.0",
+    "window": {
+        "title": "Traceroute",
+        "tabs": [
+            { "title": "Traceroute", "path": "tool/traceroute" }
+        ]
+    },
+    "paths": {
+        "tool/traceroute": {
+            "form": "tool",
+            "columns": ["address", "loss", "sent", "last", "avg", "best", "worst", "std-dev", "history", "status"],
+            "readonly": ["address", "loss", "sent", "last", "avg", "best", "worst", "std-dev", "history", "status"],
+            "numbered": true,
+            "columnLabels": { "#": "Hop", "address": "Host" },
+            "history": "last",
+            "defaults": { "size": "56", "timeout": "1s", "port": "33434" }
+        }
+    },
+    "forms": {
+        "tool": {
+            "only": [{ "fields": ["port"], "where": { "protocol": ["udp"] } }],
+            "tabs": [
+                {
+                    "title": "Basic",
+                    "fields": ["address", "vrf", "interface", "size", "timeout", "protocol", "port", "use-dns"]
+                },
+                {
+                    "title": "Advanced",
+                    "fields": [
+                        "count", "max-hops", "-",
+                        "src-address", "dscp"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "address": "Traceroute To",
+        "size": "Packet Size",
+        "avg": "Avg.",
+        "std-dev": "Std. Dev."
+    }
+}

@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, Firewall]
+window:
+  title: Firewall
+  tabs:
+    - { title: Zones, path: firewall/zone }
+    - { title: Forwardings, path: firewall/forwarding }
+    - { title: Rules, path: firewall/rule }
+    - { title: Port Forwards, path: firewall/redirect }
+    - { title: NAT, path: firewall/nat }
+    - { title: IP Sets, path: firewall/ipset }
+    - { title: Connections, path: status/connections }
+    - { title: Ruleset, path: status/firewall }
+    - { title: Defaults, path: firewall/defaults }
+paths:
+  firewall/zone:
+    columns: [name, network, input, output, forward, masq]
+  firewall/forwarding:
+    columns: [src, dest]
+  firewall/rule:
+    ordered: true
+    columns: [name, src, dest, proto, src_ip, dest_ip, dest_port, target, enabled]
+    quick: src
+  firewall/redirect:
+    ordered: true
+    columns: [name, src, src_dport, dest, dest_ip, dest_port, proto, target, enabled]
+  firewall/nat:
+    ordered: true
+    columns: [name, src, src_ip, dest_ip, target, enabled]
+  firewall/ipset:
+    columns: [name, match, entry]
+  status/connections:
+    columns: [protocol, src-address, src-port, dst-address, dst-port, tcp-state, timeout, bytes, reply-bytes]
+    quick: protocol
+  status/firewall:
+    columns: [chain, rule, packets, bytes, comment]
+    quick: chain
+labels:
+  src_ip: Src. IP
+  dest_ip: Dst. IP
+  src_dport: Src. Port
+  dest_port: Dst. Port

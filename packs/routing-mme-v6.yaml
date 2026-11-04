@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, MME]
+until: 7.0
+window:
+  title: MME
+  tabs:
+    - { title: Interface, path: routing/mme/interface }
+    - { title: Networks, path: routing/mme/network }
+    - { title: Originators, path: routing/mme/originators }
+paths:
+  routing/mme/interface:
+    columns: [interface, passive, primary, messages-tx, messages-rx]
+    readonly: [messages-tx, messages-rx]
+    form: interface
+    links:
+      - { title: Settings, path: routing/mme }
+  routing/mme/network:
+    columns: [network]
+    form: network
+  routing/mme/originators:
+    columns: [originator, gateway, gateway-class, last-packet-before]
+    readonly: [originator, gateway, gateway-class, last-packet-before]
+  routing/mme:
+    form: settings
+forms:
+  interface:
+    title: "MME Interface <{interface}>"
+    tabs:
+      - title: General
+        fields: [interface, passive, primary, "-", messages-tx, messages-rx]
+  network:
+    title: "MME Network <{network}>"
+    tabs:
+      - title: General
+        fields: [network]
+  settings:
+    title: MME Settings
+    tabs:
+      - title: General
+        fields:
+          - origination-interval
+          - timeout
+          - bidirectional-timeout
+          - ttl
+          - "-"
+          - gateway-class
+          - gateway-selection
+          - gateway-keepalive
+          - preferred-gateway

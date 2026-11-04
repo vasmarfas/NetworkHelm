@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [IP, Accounting]
+until: 7.0
+window:
+  title: Traffic Accounting
+  tabs:
+    - { title: Traffic Accounting, path: ip/accounting }
+paths:
+  ip/accounting:
+    form: settings
+    links:
+      - { title: Snapshot, path: ip/accounting/snapshot }
+      - { title: Uncounted, path: ip/accounting/uncounted }
+      - { title: Web Access, path: ip/accounting/web-access }
+  ip/accounting/snapshot:
+    columns: [src-address, dst-address, packets, bytes]
+    readonly: [src-address, dst-address, packets, bytes]
+    actions:
+      - { title: Take Snapshot, command: take }
+forms:
+  settings:
+    title: Traffic Accounting
+    tabs:
+      - { title: General, fields: [enabled, account-local-traffic, threshold] }
+labels:
+  enabled: Enable Accounting

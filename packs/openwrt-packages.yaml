@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [System, Packages]
+window:
+  title: Packages
+  tabs:
+    - { title: Packages, path: status/packages }
+paths:
+  status/packages:
+    columns: [name, version]

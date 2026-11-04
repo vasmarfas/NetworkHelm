@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [System, Resources]
+window:
+  title: Resources
+  tabs:
+    - { title: Resources, path: system/resources }
+paths:
+  system/resources:
+    form: resources
+    bytes: [memory_total, memory_used]
+forms:
+  resources:
+    title: Resources
+    tabs:
+      - title: Resources
+        readonly: true
+        fields: [hostname, version, architecture, cpu, uptime, datetime, boottime, config, loadavg, memory_used, memory_total, disks]
+labels:
+  datetime: Date and Time
+  boottime: Boot Time
+  config: Config Changed
+  loadavg: Load Average
+  memory_used: Used Memory
+  memory_total: Total Memory

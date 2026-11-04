@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, Filters]
+until: 7.0
+window:
+  title: Route Filters
+  tabs:
+    - { title: Route Filters, path: routing/filter }
+paths:
+  routing/filter:
+    ordered: true
+    quick: chain
+    category: chain
+    columns: [chain, prefix, prefix-length, protocol, bgp-as-path, action]
+    form: filter
+forms:
+  filter:
+    title: "Route Filter <{chain}>"
+    tabs:
+      - title: Matchers
+        fields:
+          - chain
+          - prefix
+          - prefix-length
+          - match-chain
+          - protocol
+          - distance
+          - scope
+          - target-scope
+          - pref-src
+          - routing-mark
+          - route-comment
+          - route-tag
+          - route-targets
+          - site-of-origin
+          - address-family
+          - ospf-type
+          - "-"
+          - invert-match
+      - title: BGP
+        fields:
+          - bgp-as-path
+          - bgp-as-path-length
+          - bgp-weight
+          - bgp-local-pref
+          - bgp-med
+          - bgp-atomic-aggregate
+          - bgp-origin
+          - locally-originated-bgp
+          - bgp-communities
+      - title: Actions
+        fields:
+          - action
+          - jump-target
+          - set-distance
+          - set-scope
+          - set-target-scope
+          - set-pref-src
+          - set-in-nexthop
+          - set-in-nexthop-direct
+          - set-out-nexthop
+          - set-routing-mark
+          - set-route-comment
+          - set-check-gateway
+          - set-disabled
+          - set-type
+          - set-route-tag
+          - set-use-te-nexthop
+          - set-route-targets
+          - append-route-targets
+          - set-site-of-origin
+          - "-"
+          - set-in-nexthop-ipv6
+          - set-in-nexthop-linklocal
+          - set-out-nexthop-ipv6
+          - set-out-nexthop-linklocal
+      - title: BGP Actions
+        fields: [set-bgp-weight, set-bgp-local-pref, set-bgp-prepend, set-bgp-prepend-path, set-bgp-med, set-bgp-communities, append-bgp-communities]
+    only:
+      - { fields: [jump-target], where: { action: [jump] } }
+labels:
+  pref-src: Pref. Source
+  set-pref-src: Set Pref. Source
+  bgp-local-pref: BGP Local Pref.
+  set-bgp-local-pref: Set BGP Local Pref.

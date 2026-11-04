@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Log]
+window:
+  title: Log
+  tabs:
+    - { title: Log, path: status/log }
+    - { title: Kernel Log, path: status/kernel-log }
+paths:
+  status/log:
+    columns: [time, topics, message]
+    quick: topics
+    follow: true
+    log: true
+  status/kernel-log:
+    columns: [time, topics, message]
+    quick: topics
+    log: true

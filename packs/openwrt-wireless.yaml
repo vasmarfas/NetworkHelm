@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Wireless]
+window:
+  title: Wireless
+  tabs:
+    - { title: Networks, path: wireless/wifi-iface }
+    - { title: Radios, path: wireless/wifi-device }
+    - { title: Clients, path: status/wireless-clients }
+paths:
+  wireless/wifi-iface:
+    columns: [.name, device, mode, ssid, network, encryption, disabled]
+  wireless/wifi-device:
+    columns: [.name, type, band, channel, htmode, country, disabled]
+  status/wireless-clients:
+    columns: [interface, mac-address, signal, connected-time, rx-bytes, tx-bytes]
+    actions:
+      - { title: Disconnect, command: disconnect, selection: true }
+labels:
+  .name: Name
+  ssid: SSID
+  htmode: Width

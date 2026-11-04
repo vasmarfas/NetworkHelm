@@ -1,0 +1,39 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "TFTP"],
+    "window": {
+        "title": "TFTP",
+        "tabs": [
+            { "title": "TFTP", "path": "ip/tftp" }
+        ]
+    },
+    "paths": {
+        "ip/tftp": {
+            "ordered": true,
+            "columns": ["ip-addresses", "req-filename", "real-filename", "allow", "read-only", "hits"],
+            "readonly": ["hits"],
+            "form": "tftp",
+            "links": [
+                { "title": "Settings", "path": "ip/tftp/settings" }
+            ]
+        }
+    },
+    "forms": {
+        "tftp": {
+            "title": "TFTP <{req-filename}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "ip-addresses", "req-filename", "real-filename", "allow", "read-only", "allow-overwrite", "allow-rollover",
+                        "reading-window-size", "-",
+                        "hits"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "req-filename": "Req. Filename"
+    }
+}

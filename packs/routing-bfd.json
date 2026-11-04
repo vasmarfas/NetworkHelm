@@ -1,0 +1,30 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "BFD"],
+    "since": "7.0",
+    "window": {
+        "title": "BFD",
+        "tabs": [
+            { "title": "Configuration", "path": "routing/bfd/configuration" },
+            { "title": "Session", "path": "routing/bfd/session" }
+        ]
+    },
+    "paths": {
+        "routing/bfd/configuration": {
+            "ordered": true,
+            "columns": ["interfaces", "address-list", "multiplier", "forbid-bfd"],
+            "form": "configuration"
+        }
+    },
+    "forms": {
+        "configuration": {
+            "title": "BFD Configuration",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["vrf", "interfaces", "addresses", "address-list", "min-tx", "min-rx", "multiplier", "forbid-bfd"]
+                }
+            ]
+        }
+    }
+}

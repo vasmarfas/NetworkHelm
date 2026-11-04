@@ -1,0 +1,125 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "DHCP Server"],
+    "window": {
+        "title": "DHCP Server",
+        "tabs": [
+            { "title": "DHCP", "path": "ip/dhcp-server" },
+            { "title": "Networks", "path": "ip/dhcp-server/network" },
+            { "title": "Leases", "path": "ip/dhcp-server/lease" },
+            { "title": "Options", "path": "ip/dhcp-server/option" },
+            { "title": "Option Sets", "path": "ip/dhcp-server/option/sets" },
+            { "title": "Option Matcher", "path": "ip/dhcp-server/matcher" },
+            { "title": "Alerts", "path": "ip/dhcp-server/alert" }
+        ]
+    },
+    "paths": {
+        "ip/dhcp-server": {
+            "columns": ["name", "interface", "relay", "lease-time", "address-pool", "add-arp", "add-dns-entries"],
+            "readonly": ["invalid", "dynamic"],
+            "links": [
+                { "title": "DHCP Config", "path": "ip/dhcp-server/config" },
+                { "title": "DHCP Setup", "path": "ip/dhcp-server", "window": "dhcp-setup" }
+            ],
+            "form": "server"
+        },
+        "ip/dhcp-server/network": {
+            "columns": ["address", "gateway", "dns-server", "domain", "wins-server", "ntp-server", "next-server"],
+            "form": "network"
+        },
+        "ip/dhcp-server/lease": {
+            "columns": [
+                "address", "mac-address", "client-id", "server", "active-address", "active-mac-address", "host-name",
+                "expires-after", "status"
+            ],
+            "readonly": [
+                "active-address", "active-mac-address", "active-client-id", "active-server", "host-name", "expires-after",
+                "status", "last-seen", "blocked", "radius", "dynamic", "active-agent-circuit-id", "active-agent-remote-id"
+            ],
+            "quick": "server",
+            "actions": [
+                { "title": "Make Static", "command": "make-static", "selection": true },
+                { "title": "Send Reconfigure", "command": "send-reconfigure", "selection": true },
+                { "title": "Check Status", "command": "check-status", "selection": true }
+            ],
+            "form": "lease"
+        },
+        "ip/dhcp-server/option": {
+            "columns": ["name", "code", "value"]
+        },
+        "ip/dhcp-server/option/sets": {
+            "columns": ["name", "options"]
+        },
+        "ip/dhcp-server/matcher": {
+            "columns": ["name", "server", "code", "value", "address-pool", "option-set", "matching-type"]
+        },
+        "ip/dhcp-server/alert": {
+            "columns": ["interface", "valid-server", "alert-timeout", "on-alert"],
+            "actions": [
+                { "title": "Reset Alert", "command": "reset-alert", "selection": true }
+            ]
+        }
+    },
+    "forms": {
+        "server": {
+            "title": "DHCP Server <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "interface", "relay", "lease-time", "bootp-lease-time", "address-pool", "dynamic-lease-identifiers",
+                        "dhcp-option-set", "address-lists", "-",
+                        "server-address", "delay-threshold", "-",
+                        "authoritative", "bootp-support", "client-mac-limit", "-",
+                        "use-radius", "support-broadband-tr101", "-",
+                        "use-reconfigure", "always-broadcast", "add-arp", "add-dns-entries", "add-dns-entries-suffix",
+                        "use-framed-as-classless", "conflict-detection", "ipv6-only-preferred"
+                    ]
+                },
+                { "title": "Queues", "fields": ["insert-queue-before", "parent-queue", "allow-dual-stack-queue"] },
+                { "title": "Script", "fields": ["lease-script"] }
+            ]
+        },
+        "network": {
+            "title": "DHCP Network <{address}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "address", "-",
+                        "gateway", "netmask", "dns-none", "dns-server", "domain", "wins-server", "ntp-none", "ntp-server", "caps-manager", "cmr-none",
+                        "cmr-server", "next-server", "boot-file-name", "dhcp-option", "dhcp-option-set"
+                    ]
+                }
+            ]
+        },
+        "lease": {
+            "title": "DHCP Lease <{address}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "address", "mac-address", "use-src-mac", "client-id", "agent-circuit-id", "agent-remote-id", "server", "-",
+                        "lease-time", "block-access", "always-broadcast", "-",
+                        "dhcp-option", "dhcp-option-set", "rate-limit", "routes", "address-lists", "-",
+                        "allow-dual-stack-queue", "insert-queue-before", "parent-queue", "queue-type"
+                    ]
+                },
+                {
+                    "title": "Active",
+                    "readonly": true,
+                    "fields": [
+                        "active-address", "active-mac-address", "active-client-id", "host-name", "active-agent-circuit-id",
+                        "active-agent-remote-id", "active-server", "-",
+                        "expires-after", "last-seen", "blocked", "radius"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "add-arp": "Add ARP For Leases",
+        "support-broadband-tr101": "Support Broadband TR-101",
+        "use-framed-as-classless": "Use Framed As Classless"
+    }
+}

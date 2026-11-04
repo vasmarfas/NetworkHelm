@@ -1,0 +1,91 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Wireless"],
+    "window": {
+        "title": "Wireless",
+        "tabs": [
+            { "title": "WiFi Interfaces", "path": "interface/wireless" },
+            { "title": "Nstreme Dual", "path": "interface/wireless/nstreme-dual" },
+            { "title": "Access List", "path": "interface/wireless/access-list" },
+            { "title": "Registration", "path": "interface/wireless/registration-table" },
+            { "title": "Connect List", "path": "interface/wireless/connect-list" },
+            { "title": "Security Profiles", "path": "interface/wireless/security-profiles" },
+            { "title": "Channels", "path": "interface/wireless/channels" },
+            { "title": "Interworking Profiles", "path": "interface/wireless/interworking-profiles" }
+        ]
+    },
+    "paths": {
+        "interface/wireless": {
+            "columns": ["name", "type", "actual-mtu", "mode", "ssid", "band", "frequency", "channel-width", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "links": [
+                { "title": "CAP", "path": "interface/wireless/cap" },
+                { "title": "WPS Client", "path": "interface/wireless/wps-client", "argument": "number" },
+                { "title": "Setup Repeater", "path": "interface/wireless/setup-repeater", "argument": "number" },
+                { "title": "Scanner", "path": "interface/wireless/scan", "argument": "number" },
+                { "title": "Freq. Usage", "path": "interface/wireless/frequency-monitor", "argument": "number" },
+                { "title": "Alignment", "path": "interface/wireless/align" },
+                { "title": "Wireless Sniffer", "path": "interface/wireless/sniffer" },
+                { "title": "Wireless Snooper", "path": "interface/wireless/snooper" }
+            ]
+        },
+        "interface/wireless/wps-client": { "form": "wps-client" },
+        "interface/wireless/setup-repeater": { "form": "setup-repeater" },
+        "interface/wireless/scan": { "form": "scan" },
+        "interface/wireless/frequency-monitor": { "form": "frequency-monitor" },
+        "interface/wireless/nstreme-dual": {
+            "columns": ["name", "type", "actual-mtu", "tx-radio", "rx-radio", "remote-mac", "tx-frequency", "rx-frequency", "tx-bits-per-second", "rx-bits-per-second"],
+            "readonly": ["type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "actions": [{ "title": "Reset Counters", "command": "reset-counters", "selection": true }]
+        },
+        "interface/wireless/registration-table": {
+            "columns": ["interface", "mac-address", "ap", "uptime", "signal-strength", "tx-rate", "rx-rate", "last-activity"],
+            "readonly": ["interface", "mac-address", "ap", "uptime", "signal-strength", "tx-rate", "rx-rate", "last-activity", "wds", "bridge"],
+            "quick": "interface"
+        },
+        "interface/wireless/security-profiles": {
+            "columns": ["name", "mode", "authentication-types", "unicast-ciphers", "group-ciphers"]
+        },
+        "interface/wireless/access-list": {
+            "columns": ["interface", "mac-address", "signal-range", "authentication", "forwarding", "ap-tx-limit"]
+        },
+        "interface/wireless/connect-list": {
+            "columns": ["interface", "mac-address", "ssid", "area-prefix", "signal-range", "connect"]
+        },
+        "interface/wireless/channels": {
+            "ordered": true,
+            "columns": ["list", "name", "frequency", "width", "band", "extension-channel"],
+            "quick": "list"
+        },
+        "interface/wireless/interworking-profiles": {
+            "columns": [
+                "name", "network-type", "venue", "hessid", "internet", "asra", "esr", "uesa", "authentication-types", "connection-capabilities",
+                "ipv4-availability", "ipv6-availability", "hotspot20"
+            ]
+        }
+    },
+    "forms": {
+        "wps-client": {
+            "tabs": [{ "title": "General", "fields": ["number", "ssid", "mac-address", "create-profile", "duration"] }]
+        },
+        "setup-repeater": {
+            "tabs": [{ "title": "General", "fields": ["number", "address", "ssid", "passphrase"] }]
+        },
+        "scan": {
+            "tabs": [{ "title": "General", "fields": ["number", "duration", "rounds", "background", "passive", "save-file"] }]
+        },
+        "frequency-monitor": {
+            "tabs": [{ "title": "General", "fields": ["number", "duration"] }]
+        }
+    },
+    "labels": {
+        "tx-bits-per-second": "Tx",
+        "rx-bits-per-second": "Rx",
+        "ap": "AP",
+        "number": "Interface"
+    }
+}

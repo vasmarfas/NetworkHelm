@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Services, SSH]
+window:
+  title: SSH
+  tabs:
+    - { title: SSH, path: service/ssh }

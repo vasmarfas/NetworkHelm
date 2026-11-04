@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [IPv6, DHCP Relay]
+until: 7.0
+window:
+  title: DHCPv6 Relay
+  tabs:
+    - { title: DHCPv6 Relay, path: ipv6/dhcp-relay }
+paths:
+  ipv6/dhcp-relay:
+    columns: [name, interface, dhcp-server]
+    readonly: [invalid]
+    form: relay
+    actions:
+      - { title: Reset Counters, command: reset-counters, selection: true }
+forms:
+  relay:
+    title: "DHCP Relay <{name}>"
+    tabs:
+      - title: General
+        fields: [name, interface, dhcp-server, link-address, "-", delay-threshold]

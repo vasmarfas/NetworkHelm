@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Tools, Ping Speed]
+until: 7.0
+window:
+  title: Ping Speed
+  tabs:
+    - { title: Ping Speed, path: tool/ping-speed }
+paths:
+  tool/ping-speed:
+    form: ping-speed
+forms:
+  ping-speed:
+    tabs:
+      - title: General
+        fields: [address, interval, "-", first-ping-size, second-ping-size, time-between-pings]

@@ -1,0 +1,28 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["MPLS", "Settings"],
+    "since": "7.0",
+    "window": {
+        "title": "MPLS Settings",
+        "tabs": [
+            { "title": "MPLS Settings", "path": "mpls/settings" }
+        ]
+    },
+    "paths": {
+        "mpls/settings": {
+            "readonly": ["mpls-fast-path-packets", "mpls-fast-path-bytes"],
+            "form": "settings"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "MPLS Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["dynamic-label-range", "propagate-ttl", "allow-fast-path", "-", "mpls-fast-path-packets", "mpls-fast-path-bytes"]
+                }
+            ]
+        }
+    }
+}

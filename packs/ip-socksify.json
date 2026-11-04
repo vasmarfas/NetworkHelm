@@ -1,0 +1,28 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Socksify"],
+    "window": {
+        "title": "Socksify",
+        "tabs": [
+            { "title": "Socksify", "path": "ip/socksify" }
+        ]
+    },
+    "paths": {
+        "ip/socksify": {
+            "columns": ["name", "connection-timeout", "port", "socks5-server", "socks5-port", "socks5-user"],
+            "sort": "name",
+            "form": "socksify"
+        }
+    },
+    "forms": {
+        "socksify": {
+            "title": "Socksify <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "connection-timeout", "port", "socks5-server", "socks5-port", "socks5-user", "socks5-password"]
+                }
+            ]
+        }
+    }
+}

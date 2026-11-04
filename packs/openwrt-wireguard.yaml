@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [WireGuard]
+window:
+  title: WireGuard
+  tabs:
+    - { title: WireGuard, path: network/interface }
+    - { title: Peers, path: status/wireguard }
+paths:
+  network/interface:
+    columns: [.name, listen_port, addresses, mtu, uptime]
+    join: status/interfaces
+    where: { proto: [wireguard] }
+  status/wireguard:
+    columns: [interface, name, endpoint, allowed-address, last-handshake, rx, tx]
+    quick: interface
+labels:
+  .name: Name

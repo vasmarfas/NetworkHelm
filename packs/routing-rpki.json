@@ -1,0 +1,33 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "RPKI"],
+    "since": "7.0",
+    "window": {
+        "title": "RPKI",
+        "tabs": [
+            { "title": "RPKI", "path": "routing/rpki" },
+            { "title": "Sessions", "path": "routing/rpki/session" }
+        ]
+    },
+    "paths": {
+        "routing/rpki": {
+            "columns": ["group", "vrf", "address", "port", "preference"],
+            "form": "rpki"
+        },
+        "routing/rpki/session": {
+            "columns": ["group", "address", "port", "state", "version", "session", "serial", "expires"],
+            "readonly": ["group", "address", "port", "state", "version", "session", "serial", "expires"]
+        }
+    },
+    "forms": {
+        "rpki": {
+            "title": "RPKI <{group}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["group", "vrf", "address", "port", "preference", "-", "refresh-interval", "retry-interval", "expire-interval"]
+                }
+            ]
+        }
+    }
+}

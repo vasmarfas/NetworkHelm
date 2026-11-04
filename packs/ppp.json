@@ -1,0 +1,318 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["PPP"],
+    "window": {
+        "title": "PPP",
+        "tabs": [
+            { "title": "Interface", "path": "interface" },
+            { "title": "PPPoE Servers", "path": "interface/pppoe-server/server" },
+            { "title": "OVPN Servers", "path": "interface/ovpn-server/server" },
+            { "title": "Secrets", "path": "ppp/secret" },
+            { "title": "Profiles", "path": "ppp/profile" },
+            { "title": "Active Connections", "path": "ppp/active" },
+            { "title": "L2TP Ethernet", "path": "interface/l2tp-ether" },
+            { "title": "L2TP Secrets", "path": "ppp/l2tp-secret" }
+        ]
+    },
+    "paths": {
+        "interface": {
+            "columns": [
+                "name", "type", "actual-mtu", "l2mtu", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second", "fp-tx-bits-per-second", "fp-rx-bits-per-second", "fp-tx-packets-per-second",
+                "fp-rx-packets-per-second"
+            ],
+            "readonly": [
+                "type", "actual-mtu", "running", "dynamic", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second", "fp-tx-bits-per-second", "fp-rx-bits-per-second", "fp-tx-packets-per-second",
+                "fp-rx-packets-per-second"
+            ],
+            "where": {
+                "type": [
+                    "pppoe-out", "pptp-out", "l2tp-out", "sstp-out", "ovpn-out", "ppp-out", "pppoe-in", "pptp-in", "l2tp-in",
+                    "sstp-in", "ovpn-in"
+                ]
+            },
+            "iconBy": "type",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "open": {
+                "by": "type",
+                "paths": {
+                    "pppoe-out": "interface/pppoe-client",
+                    "pptp-out": "interface/pptp-client",
+                    "l2tp-out": "interface/l2tp-client",
+                    "sstp-out": "interface/sstp-client",
+                    "ovpn-out": "interface/ovpn-client",
+                    "ppp-out": "interface/ppp-client"
+                }
+            },
+            "links": [
+                { "title": "PPP Scanner", "path": "interface/ppp-client/scan" },
+                { "title": "Import .ovpn", "path": "interface/ovpn-client/import-ovpn-configuration" },
+                { "title": "PPPoE Scan", "path": "interface/pppoe-client/scan" },
+                { "title": "PPTP Server", "path": "interface/pptp-server/server" },
+                { "title": "SSTP Server", "path": "interface/sstp-server/server" },
+                { "title": "L2TP Server", "path": "interface/l2tp-server/server" }
+            ]
+        },
+        "interface/ovpn-client/import-ovpn-configuration": { "form": "import-ovpn" },
+        "interface/pppoe-client/scan": { "form": "pppoe-scan" },
+        "interface/pppoe-server/server": {
+            "columns": [
+                "service-name", "interface", "max-mtu", "max-mru", "mrru", "default-profile", "authentication",
+                "pppoe-over-vlan-range"
+            ],
+            "form": "pppoe-server"
+        },
+        "interface/ovpn-server/server": {
+            "columns": [
+                "name", "port", "mode", "protocol", "netmask", "mac-address", "max-mtu", "default-profile", "certificate",
+                "require-client-certificate", "tls-version", "auth", "cipher"
+            ],
+            "form": "ovpn-server",
+            "links": [
+                { "title": "Export .ovpn", "path": "interface/ovpn-server/server/export-client-configuration", "argument": "server" }
+            ]
+        },
+        "interface/ovpn-server/server/export-client-configuration": { "form": "export-ovpn" },
+        "ppp/secret": {
+            "columns": [
+                "name", "service", "caller-id", "profile", "local-address", "remote-address", "routes", "last-logged-out",
+                "last-caller-id", "last-disconnect-reason"
+            ],
+            "readonly": ["last-logged-out", "last-caller-id", "last-disconnect-reason"],
+            "links": [
+                { "title": "PPP Authentication & Accounting", "path": "ppp/aaa" }
+            ],
+            "form": "secret"
+        },
+        "ppp/profile": {
+            "columns": ["name", "local-address", "remote-address", "bridge", "rate-limit", "only-one"],
+            "readonly": ["default"],
+            "form": "profile"
+        },
+        "ppp/active": {
+            "columns": ["name", "service", "caller-id", "encoding", "address", "uptime"],
+            "readonly": [
+                "name", "service", "caller-id", "encoding", "address", "uptime", "session-id", "limit-bytes-in",
+                "limit-bytes-out", "radius"
+            ]
+        },
+        "interface/l2tp-ether": {
+            "columns": [
+                "name", "type", "actual-mtu", "l2mtu", "mtu", "connect-to", "tx-bits-per-second", "rx-bits-per-second",
+                "tx-packets-per-second", "rx-packets-per-second"
+            ],
+            "readonly": [
+                "type", "actual-mtu", "running", "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second",
+                "rx-packets-per-second"
+            ],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" }
+        },
+        "ppp/l2tp-secret": {
+            "columns": ["address"]
+        },
+        "interface/pppoe-client": { "form": "client" },
+        "interface/pptp-client": { "form": "client" },
+        "interface/l2tp-client": { "form": "client" },
+        "interface/sstp-client": { "form": "client" },
+        "interface/ovpn-client": { "form": "client" },
+        "interface/ppp-client": { "form": "modem" },
+        "interface/l2tp-server/server": { "form": "l2tp-server" },
+        "interface/sstp-server/server": { "form": "sstp-server" },
+        "interface/pptp-server/server": { "form": "pptp-server" }
+    },
+    "forms": {
+        "import-ovpn": {
+            "tabs": [{ "title": "General", "fields": ["file-name", "skip-cert-import", "key-passphrase", "ovpn-user", "ovpn-password"] }]
+        },
+        "pppoe-scan": {
+            "tabs": [{ "title": "General", "fields": ["interface", "duration"] }]
+        },
+        "export-ovpn": {
+            "tabs": [{ "title": "General", "fields": ["server", "server-address", "ca-certificate", "client-certificate", "client-cert-key"] }]
+        },
+        "l2tp-server": {
+            "only": [{ "fields": ["ipsec-secret"], "where": { "use-ipsec": ["yes", "required"] } }],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "enabled", "accept-proto-version", "max-mtu", "max-mru", "mrru", "keepalive-timeout", "default-profile",
+                        "max-sessions", "authentication", "-",
+                        "use-ipsec", "ipsec-secret", "-",
+                        "caller-id-type", "one-session-per-host", "allow-fast-path"
+                    ]
+                },
+                {
+                    "title": "L2TPv3",
+                    "fields": [
+                        "l2tpv3-circuit-id", "l2tpv3-cookie-length", "l2tpv3-digest-hash", "l2tpv3-ether-interface-list",
+                        "accept-pseudowire-type"
+                    ]
+                }
+            ]
+        },
+        "sstp-server": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "enabled", "port", "max-mtu", "max-mru", "mrru", "keepalive-timeout", "default-profile", "authentication", "-",
+                        "certificate", "tls-version", "verify-client-certificate", "pfs", "ciphers"
+                    ]
+                }
+            ]
+        },
+        "pptp-server": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["enabled", "max-mtu", "max-mru", "mrru", "keepalive-timeout", "default-profile", "authentication"]
+                }
+            ]
+        },
+        "modem": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "port", "data-channel", "info-channel", "apn", "pin", "network-mode", "null-modem", "max-mtu", "max-mru", "mrru"]
+                },
+                {
+                    "title": "Dial Out",
+                    "fields": [
+                        "phone", "dial-command", "modem-init", "user", "password", "profile", "keepalive-timeout", "allow", "remote-address",
+                        "dial-on-demand", "add-default-route", "default-route-distance", "use-peer-dns"
+                    ]
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": [
+                        "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte",
+                        "tx-packet", "rx-packet"
+                    ],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "client": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "interface", "max-mtu", "max-mru", "mrru", "mac-address", "l2tp-proto-version", "l2tpv3-circuit-id",
+                        "l2tpv3-cookie-length", "l2tpv3-digest-hash"
+                    ]
+                },
+                {
+                    "title": "Dial Out",
+                    "fields": [
+                        "connect-to", "port", "service-name", "ac-name", "host-uniq", "src-address", "random-source-port", "mode",
+                        "protocol", "user", "password", "profile", "keepalive-timeout", "certificate", "verify-server-certificate",
+                        "verify-server-address-from-certificate", "add-sni", "tls-version", "auth", "cipher", "ciphers", "pfs",
+                        "http-proxy", "proxy-port", "use-ipsec", "ipsec-secret", "allow-fast-path", "authentication", "allow",
+                        "dial-on-demand", "add-default-route", "default-route-distance", "use-peer-dns", "route-nopull",
+                        "disconnect-notify"
+                    ]
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": [
+                        "tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte",
+                        "tx-packet", "rx-packet"
+                    ],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "pppoe-server": {
+            "title": "PPPoE Service <{service-name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "service-name", "interface", "max-mtu", "max-mru", "mrru", "keepalive-timeout", "default-profile",
+                        "accept-empty-service", "one-session-per-host", "max-sessions", "pado-delay", "authentication",
+                        "pppoe-over-vlan-range", "accept-untagged"
+                    ]
+                }
+            ]
+        },
+        "ovpn-server": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "enabled", "name", "port", "mode", "protocol", "netmask", "mac-address", "max-mtu", "keepalive-timeout", "default-profile",
+                        "certificate", "require-client-certificate", "tls-version", "auth", "cipher", "reneg-sec", "redirect-gateway",
+                        "push-routes", "vrf", "user-auth-method", "enable-tun-ipv6", "tun-server-ipv6", "ipv6-prefix-len",
+                        "push-routes-ipv6"
+                    ]
+                }
+            ]
+        },
+        "secret": {
+            "title": "PPP Secret <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "password", "service", "caller-id", "profile", "-",
+                        "local-address", "remote-address", "remote-ipv6-prefix", "-",
+                        "routes", "ipv6-routes", "-",
+                        "limit-bytes-in", "limit-bytes-out", "-",
+                        "last-logged-out", "last-caller-id", "last-disconnect-reason"
+                    ]
+                }
+            ]
+        },
+        "profile": {
+            "title": "PPP Profile <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "local-address", "remote-address", "remote-ipv6-prefix-pool", "remote-ipv6-prefix-reuse", "dhcpv6-pd-pool",
+                        "dhcpv6-use-radius", "dhcpv6-lease-time", "-",
+                        "bridge", "bridge-port-priority", "bridge-path-cost", "bridge-horizon", "bridge-learning", "bridge-port-vid",
+                        "bridge-port-trusted", "-",
+                        "incoming-filter", "outgoing-filter", "address-list", "interface-list", "-",
+                        "dns-server", "wins-server", "change-tcp-mss", "use-upnp"
+                    ]
+                },
+                { "title": "Protocols", "fields": ["use-ipv6", "use-mpls", "use-compression", "use-encryption"] },
+                { "title": "Limits", "fields": ["session-timeout", "idle-timeout", "rate-limit", "only-one"] },
+                { "title": "Queue", "fields": ["insert-queue-before", "parent-queue", "queue-type"] },
+                { "title": "Scripts", "fields": ["on-up", "on-down"] }
+            ]
+        }
+    },
+    "labels": {
+        "skip-cert-import": "Skip Certificate Import",
+        "key-passphrase": "Private Key Passphrase",
+        "ovpn-user": "OVPN Client User",
+        "ovpn-password": "OVPN Client Password",
+        "server-address": "Server Public Address (IP or DNS)",
+        "client-cert-key": "Client Certificate Key",
+        "tx-bits-per-second": "Tx",
+        "rx-bits-per-second": "Rx",
+        "tx-packets-per-second": "Tx Packet (p/s)",
+        "rx-packets-per-second": "Rx Packet (p/s)",
+        "fp-tx-bits-per-second": "FP Tx",
+        "fp-rx-bits-per-second": "FP Rx",
+        "fp-tx-packets-per-second": "FP Tx Packet (p/s)",
+        "fp-rx-packets-per-second": "FP Rx Packet (p/s)",
+        "mtu": "Max MTU",
+        "auth": "Authentication",
+        "reneg-sec": "Key Renegotiate Sec",
+        "user-auth-method": "User Authentication Method",
+        "ipv6-prefix-len": "Server IPv6 Prefix Length",
+        "accept-proto-version": "Protocol"
+    }
+}

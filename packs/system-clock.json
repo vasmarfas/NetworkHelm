@@ -1,0 +1,51 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Clock"],
+    "window": {
+        "title": "Clock",
+        "tabs": [
+            { "title": "Time", "path": "system/clock" },
+            { "title": "Manual Time Zone", "path": "system/clock/manual" }
+        ]
+    },
+    "paths": {
+        "system/clock": {
+            "readonly": ["gmt-offset", "dst-active"],
+            "form": "clock"
+        },
+        "system/clock/manual": { "form": "manual" }
+    },
+    "forms": {
+        "clock": {
+            "title": "Clock",
+            "tabs": [
+                {
+                    "title": "Time",
+                    "fields": [
+                        "time", "date", "time-zone-autodetect", "time-zone-name", "-",
+                        "gmt-offset", "dst-active"
+                    ]
+                }
+            ]
+        },
+        "manual": {
+            "title": "Manual Time Zone",
+            "tabs": [
+                {
+                    "title": "Manual Time Zone",
+                    "fields": [
+                        "time-zone", "-",
+                        "dst-delta", "dst-start", "dst-end"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "gmt-offset": "GMT Offset",
+        "dst-active": "DST Active",
+        "dst-delta": "DST Delta",
+        "dst-start": "DST Start",
+        "dst-end": "DST End"
+    }
+}

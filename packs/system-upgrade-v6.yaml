@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, Auto Upgrade]
+until: 7.0
+window:
+  title: Auto Upgrade
+  tabs:
+    - { title: Available Packages, path: system/upgrade }
+    - { title: Upgrade Package Sources, path: system/upgrade/upgrade-package-source }
+paths:
+  system/upgrade:
+    columns: [source, name, version, status, completed]
+    readonly: [source, name, version, status, completed]
+    actions:
+      - { title: Refresh, command: refresh }
+      - { title: Download, command: download, selection: true }
+      - { title: Download All, command: download-all }
+  system/upgrade/upgrade-package-source:
+    columns: [address, user]

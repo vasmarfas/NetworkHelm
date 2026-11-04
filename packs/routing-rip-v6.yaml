@@ -1,0 +1,108 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Routing, RIP]
+until: 7.0
+window:
+  title: RIP
+  tabs:
+    - { title: Interfaces, path: routing/rip/interface }
+    - { title: Networks, path: routing/rip/network }
+    - { title: Keys, path: routing/rip/keys }
+    - { title: Neighbours, path: routing/rip/neighbor }
+    - { title: Routes, path: routing/rip/route }
+paths:
+  routing/rip/interface:
+    columns: [interface, receive, send, authentication, authentication-key, key-chain, passive, in-prefix-list, out-prefix-list]
+    readonly: [updates-tx, updates-rx, bad-packets, bad-routes, invalid]
+    form: interface
+    links:
+      - { title: RIP Settings, path: routing/rip }
+  routing/rip/network:
+    columns: [network]
+    form: network
+  routing/rip/keys:
+    columns: [chain, key-id, key, from-date, to-date]
+    readonly: [active]
+    quick: chain
+    form: key
+  routing/rip/neighbor:
+    columns: [address]
+    form: neighbor
+  routing/rip/route:
+    columns: [dst-address, gateway, from, metric, timeout]
+    readonly: [dst-address, gateway, from, metric, timeout]
+  routing/rip:
+    form: settings
+forms:
+  interface:
+    title: "RIP Interface <{interface}>"
+    only:
+      - { fields: [authentication-key], where: { authentication: [simple] } }
+      - { fields: [key-chain], where: { authentication: [md5] } }
+    tabs:
+      - title: General
+        fields:
+          - interface
+          - receive
+          - send
+          - authentication
+          - authentication-key
+          - key-chain
+          - passive
+          - "-"
+          - in-prefix-list
+          - out-prefix-list
+          - "-"
+          - updates-tx
+          - updates-rx
+          - bad-packets
+          - bad-routes
+  network:
+    title: "RIP Network <{network}>"
+    tabs:
+      - title: General
+        fields: [network]
+  key:
+    title: "RIP Key <{chain}>"
+    tabs:
+      - title: General
+        fields: [chain, key-id, key, from-date, from-time, to-date, to-time]
+  neighbor:
+    title: "RIP Neighbor <{address}>"
+    tabs:
+      - title: General
+        fields: [address]
+  settings:
+    title: RIP Settings
+    tabs:
+      - title: General
+        fields:
+          - distribute-default
+          - redistribute-static
+          - redistribute-connected
+          - redistribute-ospf
+          - redistribute-bgp
+          - "-"
+          - metric-default
+          - metric-static
+          - metric-connected
+          - metric-ospf
+          - metric-bgp
+          - "-"
+          - update-timer
+          - timeout-timer
+          - garbage-timer
+          - "-"
+          - routing-table
+labels:
+  updates-tx: Tx Updates
+  updates-rx: Rx Updates
+  chain: Key Chain
+  redistribute-static: Redistribute Static Routes
+  redistribute-connected: Redistribute Connected Routes
+  redistribute-ospf: Redistribute OSPF Routes
+  redistribute-bgp: Redistribute BGP Routes
+  metric-default: Default Route Metric
+  metric-static: Static Routes Metric
+  metric-connected: Connected Routes Metric
+  metric-ospf: OSPF Routes Metric
+  metric-bgp: BGP Routes Metric

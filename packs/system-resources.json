@@ -1,0 +1,46 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Resources"],
+    "window": {
+        "title": "Resources",
+        "tabs": [
+            { "title": "Resources", "path": "system/resource" }
+        ]
+    },
+    "paths": {
+        "system/resource": {
+            "readonly": [
+                "uptime", "version", "build-time", "factory-software", "free-memory", "total-memory", "cpu", "cpu-count",
+                "cpu-frequency", "cpu-load", "free-hdd-space", "total-hdd-space", "write-sect-since-reboot", "write-sect-total",
+                "architecture-name", "board-name", "platform"
+            ],
+            "form": "resources"
+        }
+    },
+    "forms": {
+        "resources": {
+            "title": "Resources",
+            "tabs": [
+                {
+                    "title": "Resources",
+                    "readonly": true,
+                    "fields": [
+                        "uptime", "-",
+                        "free-memory", "total-memory", "-",
+                        "cpu", "cpu-count", "cpu-frequency", "cpu-load", "-",
+                        "free-hdd-space", "total-hdd-space", "-",
+                        "write-sect-since-reboot", "write-sect-total", "-",
+                        "architecture-name", "board-name", "version", "build-time", "factory-software", "platform"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "cpu": "CPU",
+        "free-hdd-space": "Free HDD Space",
+        "total-hdd-space": "Total HDD Space",
+        "write-sect-since-reboot": "Sector Writes Since Reboot",
+        "write-sect-total": "Total Sector Writes"
+    }
+}

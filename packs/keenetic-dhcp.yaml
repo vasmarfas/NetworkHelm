@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: keenetic
+menu: [IP, DHCP Bindings]
+window:
+  title: DHCP Bindings
+  tabs:
+    - { title: Bindings, path: ip/dhcp/bindings }
+labels:
+  ip: Address
+  mac: MAC Address
+  hostname: Host Name

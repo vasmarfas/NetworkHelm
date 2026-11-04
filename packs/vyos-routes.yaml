@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Routes]
+window:
+  title: Routes
+  tabs:
+    - { title: IPv4, path: protocols/static/route }
+    - { title: IPv6, path: protocols/static/route6 }
+    - { title: Routing Table, path: status/routes }
+paths:
+  protocols/static/route:
+    columns: [.name, next-hop, interface, blackhole, description]
+  protocols/static/route6:
+    columns: [.name, next-hop, interface, blackhole, description]
+  status/routes:
+    columns: [dst-address, gateway, interface, protocol, distance, metric, uptime, vrf]
+    quick: protocol
+labels:
+  .name: Dst. Address
+  next-hop: Gateway

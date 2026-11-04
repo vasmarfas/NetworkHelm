@@ -1,0 +1,46 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "ND"],
+    "window": {
+        "title": "IPv6 ND",
+        "tabs": [
+            { "title": "Interfaces", "path": "ipv6/nd" },
+            { "title": "Prefixes", "path": "ipv6/nd/prefix" },
+            { "title": "Prefix Defaults", "path": "ipv6/nd/prefix/default" },
+            { "title": "Proxy", "path": "ipv6/nd/proxy", "since": "7.20" },
+            { "title": "Settings", "path": "ipv6/nd/settings", "since": "7.23" }
+        ]
+    },
+    "paths": {
+        "ipv6/nd": {
+            "columns": [
+                "interface", "ra-interval", "ra-lifetime", "ra-preference", "hop-limit", "advertise-mac-address", "advertise-dns",
+                "managed-address-configuration", "other-configuration"
+            ],
+            "readonly": ["default", "invalid"],
+            "form": "nd"
+        },
+        "ipv6/nd/prefix": {
+            "columns": ["prefix", "interface", "valid-lifetime", "preferred-lifetime", "on-link", "autonomous", "6to4-interface"]
+        }
+    },
+    "forms": {
+        "nd": {
+            "title": "ND <{interface}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "interface", "ra-interval", "ra-delay", "ra-preference", "mtu", "reachable-time", "retransmit-interval",
+                        "ra-lifetime", "hop-limit", "dns", "pref64", "advertise-mac-address", "advertise-dns",
+                        "managed-address-configuration", "other-configuration"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "dns": "DNS Servers",
+        "pref64": "PREF64 Prefixes"
+    }
+}

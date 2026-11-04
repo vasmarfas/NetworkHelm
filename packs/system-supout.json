@@ -1,0 +1,23 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Make Supout.rif"],
+    "since": "7.0",
+    "window": {
+        "title": "Make Supout.rif",
+        "tabs": [
+            { "title": "Make Supout.rif", "path": "system/sup-output" }
+        ]
+    },
+    "paths": {
+        "system/sup-output": {
+            "form": "supout"
+        }
+    },
+    "forms": {
+        "supout": {
+            "tabs": [
+                { "title": "General", "fields": ["name", "duration"] }
+            ]
+        }
+    }
+}

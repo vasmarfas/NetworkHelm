@@ -1,0 +1,34 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Neighbors"],
+    "window": {
+        "title": "Neighbors",
+        "tabs": [
+            { "title": "Neighbors", "path": "ip/neighbor" }
+        ]
+    },
+    "paths": {
+        "ip/neighbor": {
+            "columns": [
+                "interface", "address", "address6", "mac-address", "identity", "platform", "version", "board", "ipv6", "age",
+                "uptime"
+            ],
+            "readonly": [
+                "interface", "address", "address6", "mac-address", "identity", "platform", "version", "board", "ipv6", "age",
+                "uptime", "software-id", "interface-name", "system-description", "system-caps", "system-caps-enabled",
+                "discovered-by"
+            ],
+            "quick": "interface",
+            "links": [
+                { "title": "Discovery Settings", "path": "ip/neighbor/discovery-settings" }
+            ]
+        }
+    },
+    "labels": {
+        "address": "IP Address",
+        "address6": "IPv6 Address",
+        "board": "Board Name",
+        "age": "Age (s)",
+        "ipv6": "IPv6"
+    }
+}

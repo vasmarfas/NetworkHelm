@@ -1,0 +1,65 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "DHCP Client"],
+    "window": {
+        "title": "DHCP Client",
+        "tabs": [
+            { "title": "DHCP Client", "path": "ip/dhcp-client" },
+            { "title": "DHCP Client Options", "path": "ip/dhcp-client/option" }
+        ]
+    },
+    "paths": {
+        "ip/dhcp-client": {
+            "columns": ["name", "interface", "use-peer-dns", "add-default-route", "address", "expires-after", "status"],
+            "readonly": [
+                "address", "expires-after", "status", "gateway", "dhcp-server", "primary-dns", "secondary-dns", "primary-ntp",
+                "secondary-ntp", "caps-managers", "reconfigure-key", "last-received-counter", "dynamic", "invalid"
+            ],
+            "actions": [
+                { "title": "Release", "command": "release", "selection": true },
+                { "title": "Renew", "command": "renew", "selection": true }
+            ],
+            "form": "client"
+        },
+        "ip/dhcp-client/option": {
+            "columns": ["name", "code", "value"]
+        }
+    },
+    "forms": {
+        "client": {
+            "title": "DHCP Client <{interface}>",
+            "tabs": [
+                {
+                    "title": "DHCP",
+                    "fields": [
+                        "name", "interface", "use-peer-dns", "use-peer-ntp", "-",
+                        "add-default-route"
+                    ]
+                },
+                {
+                    "title": "Advanced",
+                    "fields": [
+                        "dhcp-options", "allow-reconfigure", "-",
+                        "default-route-distance", "default-route-tables", "check-gateway", "vlan-priority", "dscp", "use-broadcast", "-",
+                        "script"
+                    ]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": [
+                        "address", "gateway", "dhcp-server", "expires-after", "-",
+                        "primary-dns", "secondary-dns", "-",
+                        "primary-ntp", "secondary-ntp", "-",
+                        "caps-managers", "-",
+                        "reconfigure-key", "last-received-counter"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "address": "IP Address",
+        "allow-reconfigure": "Allow Reconfigure Messages"
+    }
+}

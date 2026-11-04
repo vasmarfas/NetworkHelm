@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: keenetic
+menu: [IP, Hotspot]
+window:
+  title: Hotspot
+  tabs:
+    - { title: Hosts, path: ip/hotspot }
+paths:
+  ip/hotspot:
+    columns: [name, hostname, ip, mac, interface.name, active, rxbytes, txbytes, uptime]
+labels:
+  ip: Address
+  mac: MAC Address
+  hostname: Host Name
+  interface.name: Interface
+  rxbytes: Rx Bytes
+  txbytes: Tx Bytes

@@ -1,0 +1,20 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "ARP"],
+    "window": {
+        "title": "ARP",
+        "tabs": [
+            { "title": "ARP", "path": "ip/arp" }
+        ]
+    },
+    "paths": {
+        "ip/arp": {
+            "columns": ["address", "mac-address", "interface", "vrf", "bridge-port", "host-name", "status"],
+            "readonly": ["vrf", "bridge-port", "host-name", "status", "dynamic", "complete", "invalid", "dhcp"],
+            "quick": "interface"
+        }
+    },
+    "labels": {
+        "address": "IP Address"
+    }
+}

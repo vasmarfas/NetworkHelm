@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Bridge]
+window:
+  title: Bridge
+  tabs:
+    - { title: Bridge, path: network/device }
+    - { title: VLANs, path: network/bridge-vlan }
+paths:
+  network/device:
+    columns: [name, ports, vlan_filtering, stp, macaddr, mtu]
+    where: { type: [bridge] }
+  network/bridge-vlan:
+    columns: [device, vlan, ports]

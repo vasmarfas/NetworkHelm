@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: upnp
+menu: [IP, Firewall]
+window:
+  title: Firewall
+  tabs:
+    - { title: NAT, path: ip/firewall/nat }
+paths:
+  ip/firewall/nat:
+    columns: [chain, action, protocol, src-address, dst-port, to-addresses, to-ports, lease]

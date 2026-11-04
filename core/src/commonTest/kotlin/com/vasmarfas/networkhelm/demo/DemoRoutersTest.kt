@@ -1,0 +1,168 @@
+package com.vasmarfas.networkhelm.demo
+
+import com.vasmarfas.networkhelm.model.DeviceException
+import com.vasmarfas.networkhelm.model.ErrorCategory
+import com.vasmarfas.networkhelm.model.ListEvent
+import com.vasmarfas.networkhelm.model.MenuPath
+import com.vasmarfas.networkhelm.model.NodeKind
+import com.vasmarfas.networkhelm.model.ValueType
+import com.vasmarfas.networkhelm.packs.MenuEntry
+import com.vasmarfas.networkhelm.packs.bundledMenu
+import com.vasmarfas.networkhelm.packs.bundledPacks
+import com.vasmarfas.networkhelm.packs.packName
+import com.vasmarfas.networkhelm.session.DeviceSession
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+
+class DemoRoutersTest {
+
+    private fun router(host: String): DeviceSession = assertNotNull(demoRouter(host))
+
+    private suspend fun rows(session: DeviceSession, path: String) = (session.watch(MenuPath.parse(path)).first() as ListEvent.Snapshot).items
+
+    private fun flatten(entries: List<MenuEntry>): List<MenuEntry> = entries.flatMap { listOf(it) + flatten(it.items) }
+
+    private suspend fun leaves(session: DeviceSession, path: MenuPath = MenuPath.Root): List<MenuPath> {
+        val schema = session.describe(path)
+        val below = (schema.children + schema.commands - setOf("print", "add", "set", "remove", "move")).flatMap { name ->
+            try {
+                leaves(session, path.child(name))
+            } catch (e: DeviceException) {
+                emptyList()
+            }
+        }
+        return (if (schema.kind == NodeKind.Directory) emptyList() else listOf(path)) + below
+    }
+
+    @Test
+    fun everyPlatformHasItsRouterAndNothingElseDoes() {
+        for ((platform, host) in demoHosts) assertEquals(platform, router(host).device.platform)
+        assertEquals(6, demoHosts.size)
+        assertNull(demoRouter("router.example.com"))
+    }
+
+    @Test
+    fun theMenuOfEveryPlatformFindsEnoughToShow() = runTest {
+        for ((platform, host) in demoHosts) {
+            val session = router(host)
+            val paths = flatten(bundledMenu(platform).items).mapNotNull { it.path }
+            val shown = paths.count { path ->
+                try {
+                    session.describe(MenuPath.parse(path))
+                    true
+                } catch (e: DeviceException) {
+                    false
+                }
+            }
+            assertTrue(shown >= 7, "$platform shows $shown of ${paths.size} entries of its menu")
+        }
+    }
+
+    @Test
+    fun everyPathOfADemoRouterIsOneThePacksKnow() = runTest {
+        for ((platform, host) in demoHosts) {
+            val packs = bundledPacks().values.filter { it.platform == platform.packName }
+            val known = packs.flatMap { pack -> pack.paths.keys + pack.window.tabs.map { it.path } + pack.paths.values.mapNotNull { it.monitor?.command?.trimStart('/') } }.toSet() +
+                flatten(bundledMenu(platform).items).mapNotNull { it.path }
+            val unknown = leaves(router(host)).map { it.toString() }.filter { it !in known }
+            assertTrue(unknown.isEmpty(), "$platform: $unknown")
+        }
+    }
+
+    @Test
+    fun theRowsCarryTheColumnsOfTheirPacks() = runTest {
+        for ((platform, host) in demoHosts) {
+            val session = router(host)
+            for (pack in bundledPacks().values.filter { it.platform == platform.packName }) {
+                for ((path, shown) in pack.paths) {
+                    val schema = try {
+                        session.describe(MenuPath.parse(path))
+                    } catch (e: DeviceException) {
+                        continue
+                    }
+                    if (schema.kind != NodeKind.List || shown.columns.isEmpty()) continue
+                    val keys = rows(session, path).flatMap { it.values.keys }.toSet()
+                    val common = shown.columns.count { it in keys }
+                    assertTrue(common >= minOf(2, shown.columns.size), "$platform $path has $common of ${shown.columns}: $keys")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun changesStayUntilSafeModeTakesThemBack() = runTest {
+        val session = router("routeros.demo")
+        val path = MenuPath.parse("ip/dns/static")
+        val before = rows(session, "ip/dns/static")
+
+        val id = session.add(path, mapOf("name" to "test.lan", "address" to "10.0.0.9"))
+        session.set(path, id, mapOf("address" to "10.0.0.10", "ttl" to "1h"))
+        session.set(path, id, mapOf("ttl" to null))
+        val added = rows(session, "ip/dns/static").single { it.id == id }
+        assertEquals(mapOf("name" to "test.lan", "address" to "10.0.0.10"), added.values)
+
+        val safe = assertNotNull(session.safeMode)
+        assertTrue(safe.enter())
+        session.remove(path, listOf(id))
+        assertEquals(before.size, rows(session, "ip/dns/static").size)
+        assertEquals(1, safe.actions.first())
+        safe.rollback()
+        assertEquals(before.size + 1, rows(session, "ip/dns/static").size)
+        assertEquals(false, safe.active.first())
+    }
+
+    @Test
+    fun anOrderedListMovesItsRules() = runTest {
+        val session = router("routeros.demo")
+        val path = MenuPath.parse("ip/firewall/filter")
+        val ids = rows(session, "ip/firewall/filter").map { it.id }
+        session.move(path, listOf(ids.last()), ids.first())
+        assertEquals(listOf(ids.last()) + ids.dropLast(1), rows(session, "ip/firewall/filter").map { it.id })
+        session.move(path, listOf(ids.last()), null)
+        assertEquals(ids, rows(session, "ip/firewall/filter").map { it.id })
+    }
+
+    @Test
+    fun whatIsReadOnlyOrMissingIsRefused() = runTest {
+        val session = router("routeros.demo")
+        assertEquals(ErrorCategory.PermissionDenied, assertFailsWith<DeviceException> { session.add(MenuPath.parse("ip/firewall/connection"), emptyMap()) }.category)
+        assertEquals(ErrorCategory.MissingItem, assertFailsWith<DeviceException> { session.describe(MenuPath.parse("no/such/menu")) }.category)
+        assertEquals(ErrorCategory.MissingItem, assertFailsWith<DeviceException> { session.set(MenuPath.parse("ip/dns/static"), "*FF", mapOf("ttl" to "1h")) }.category)
+    }
+
+    @Test
+    fun switchesOfUciAreFlagsAndThoseOfRouterOsYesOrNo() = runTest {
+        val openWrt = router("openwrt.demo").describe(MenuPath.parse("firewall/rule"))
+        assertEquals(ValueType.Flag, openWrt.argument("enabled")?.type)
+        val routerOs = router("routeros.demo").describe(MenuPath.parse("ip/address"))
+        assertEquals(ValueType.YesNo, routerOs.argument("disabled")?.type)
+    }
+
+    @Test
+    fun commandsAnswerWithRows() = runTest {
+        val session = router("routeros.demo")
+        val replies = session.run(MenuPath.parse("tool"), "ping", mapOf("address" to "1.1.1.1", "count" to "3", "interval" to "1ms")).toList()
+        assertEquals(listOf("0", "1", "2"), replies.map { it["seq"] })
+        assertEquals("3", replies.last()["sent"])
+
+        val hops = session.run(MenuPath.parse("tool"), "traceroute", mapOf("address" to "1.1.1.1", "count" to "2")).toList()
+        assertEquals(12, hops.size)
+        assertEquals(setOf("1", "2"), hops.mapNotNull { it[".section"] }.toSet())
+
+        assertEquals("ether1", session.run(MenuPath.parse("interface"), "monitor-traffic", mapOf("interface" to "ether1")).first()["name"])
+    }
+
+    @Test
+    fun theExportListsTheConfigurationAsCommands() = runTest {
+        val text = router("routeros.demo").export()
+        assertTrue("/ip address\nadd address=192.168.88.1/24" in text, text.take(400))
+        assertTrue("/system identity\nset name=demo-hap" in text)
+    }
+}

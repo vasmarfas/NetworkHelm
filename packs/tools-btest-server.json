@@ -1,0 +1,21 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "BTest Server"],
+    "window": {
+        "title": "BTest Server",
+        "tabs": [
+            { "title": "Settings", "path": "tool/bandwidth-server" },
+            { "title": "Sessions", "path": "tool/bandwidth-server/session" }
+        ]
+    },
+    "paths": {
+        "tool/bandwidth-server/session": {
+            "columns": ["client", "protocol", "direction", "user", "tx-current", "rx-current", "tx-total-average", "rx-total-average", "tcp-connection-count"],
+            "readonly": [
+                "client", "protocol", "direction", "user", "random-data", "tx-current", "tx-10-second-average", "tx-total-average", "rx-current",
+                "rx-10-second-average", "rx-total-average", "tcp-connection-count"
+            ],
+            "bits": ["tx-current", "tx-10-second-average", "tx-total-average", "rx-current", "rx-10-second-average", "rx-total-average"]
+        }
+    }
+}

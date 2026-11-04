@@ -1,0 +1,52 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["WireGuard"],
+    "window": {
+        "title": "WireGuard",
+        "tabs": [
+            { "title": "WireGuard", "path": "interface/wireguard" },
+            { "title": "Peers", "path": "interface/wireguard/peers" }
+        ]
+    },
+    "paths": {
+        "interface/wireguard": {
+            "columns": ["name", "mtu", "listen-port", "public-key"],
+            "readonly": ["public-key", "running"],
+            "form": "wireguard"
+        },
+        "interface/wireguard/peers": {
+            "columns": [
+                "name", "interface", "public-key", "endpoint-address", "endpoint-port", "allowed-address",
+                "current-endpoint-address", "current-endpoint-port", "last-handshake", "rx", "tx"
+            ],
+            "readonly": ["current-endpoint-address", "current-endpoint-port", "last-handshake", "rx", "tx"],
+            "quick": "interface",
+            "form": "peer",
+            "actions": [{ "title": "Client Config", "command": "show-client-config", "selection": true, "argument": "number", "output": "conf" }]
+        }
+    },
+    "forms": {
+        "wireguard": {
+            "title": "WireGuard <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "mtu", "listen-port", "private-key", "public-key", "vrf"] }
+            ]
+        },
+        "peer": {
+            "title": "Peer <{name}>",
+            "renamed": { "is-responder": "responder" },
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "interface", "public-key", "private-key", "endpoint-address", "endpoint-port", "allowed-address",
+                        "preshared-key", "persistent-keepalive", "responder", "-",
+                        "current-endpoint-address", "current-endpoint-port", "rx", "tx", "last-handshake", "-",
+                        "client-address", "client-dns", "client-endpoint", "client-keepalive", "client-listen-port", "client-mtu",
+                        "client-allowed-address"
+                    ]
+                }
+            ]
+        }
+    }
+}

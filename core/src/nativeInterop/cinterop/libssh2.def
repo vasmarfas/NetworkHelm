@@ -1,0 +1,5 @@
+package = com.vasmarfas.networkhelm.ssh.libssh2
+headers = libssh2.h libssh2_sftp.h
+headerFilter = libssh2*.h
+staticLibraries = libssh2.a libssl.a libcrypto.a
+noStringConversion = libssh2_channel_write_ex libssh2_sftp_write libssh2_userauth_publickey_frommemory

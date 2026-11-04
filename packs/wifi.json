@@ -1,0 +1,398 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["WiFi"],
+    "window": {
+        "title": "WiFi",
+        "tabs": [
+            { "title": "WiFi", "path": "interface/wifi" },
+            { "title": "Network", "path": "interface/wifi/network", "since": "7.22rc4" },
+            { "title": "Configuration", "path": "interface/wifi/configuration" },
+            { "title": "Channel", "path": "interface/wifi/channel" },
+            { "title": "Security", "path": "interface/wifi/security" },
+            { "title": "AAA", "path": "interface/wifi/aaa" },
+            { "title": "Datapath", "path": "interface/wifi/datapath" },
+            { "title": "Interworking", "path": "interface/wifi/interworking" },
+            { "title": "Steering", "path": "interface/wifi/steering" },
+            { "title": "Registration", "path": "interface/wifi/registration-table" },
+            { "title": "Access List", "path": "interface/wifi/access-list" },
+            { "title": "Provisioning", "path": "interface/wifi/provisioning" },
+            { "title": "Radios", "path": "interface/wifi/radio" },
+            { "title": "Remote CAP", "path": "interface/wifi/capsman/remote-cap" }
+        ]
+    },
+    "paths": {
+        "interface/wifi": {
+            "columns": [
+                "name", "type", "actual-mtu", "l2mtu", "arp", "configuration.mode", "configuration.ssid", "channel.band",
+                "channel.width", "channel.frequency", "tx-bits-per-second", "rx-bits-per-second"
+            ],
+            "readonly": ["type", "actual-mtu", "running", "master", "bound", "inactive", "tx-bits-per-second", "rx-bits-per-second"],
+            "join": "interface",
+            "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+            "links": [
+                { "title": "CAP", "path": "interface/wifi/cap" },
+                { "title": "CAPsMAN", "path": "interface/wifi/capsman" },
+                { "title": "Scan", "path": "interface/wifi/scan", "argument": "number" },
+                { "title": "Frequency Scan", "path": "interface/wifi/frequency-scan", "argument": "number" },
+                { "title": "Spectral Scan", "path": "interface/wifi/spectral-scan", "argument": "number" },
+                { "title": "Sniffer", "path": "interface/wifi/sniffer", "argument": "number" },
+                { "title": "Flat Snoop", "path": "interface/wifi/flat-snoop", "argument": "number" }
+            ],
+            "actions": [
+                { "title": "WPS Push Button", "command": "wps-push-button", "selection": true }
+            ],
+            "form": "wifi"
+        },
+        "interface/wifi/scan": { "form": "scan" },
+        "interface/wifi/frequency-scan": { "form": "frequency-scan" },
+        "interface/wifi/spectral-scan": { "form": "spectral-scan" },
+        "interface/wifi/sniffer": { "form": "sniffer" },
+        "interface/wifi/flat-snoop": { "form": "flat-snoop" },
+        "interface/wifi/network": {
+            "columns": ["mlo", "labels", "ssid"],
+            "links": [
+                { "title": "Network Radios", "path": "interface/wifi/network/radio" }
+            ],
+            "form": "network"
+        },
+        "interface/wifi/network/radio": {},
+        "interface/wifi/configuration": {
+            "columns": ["name", "mode", "ssid", "country", "security", "channel", "datapath"],
+            "form": "configuration"
+        },
+        "interface/wifi/channel": {
+            "columns": ["name", "band", "width", "frequency", "skip-dfs-channels"]
+        },
+        "interface/wifi/security": {
+            "columns": ["name", "authentication-types", "encryption", "ft", "management-protection"],
+            "form": "security"
+        },
+        "interface/wifi/aaa": {
+            "columns": ["name", "mac-caching", "password-format", "username-format"]
+        },
+        "interface/wifi/datapath": {
+            "columns": ["name", "bridge", "vlan-id", "client-isolation"]
+        },
+        "interface/wifi/interworking": {
+            "columns": ["name", "internet", "network-type", "venue"]
+        },
+        "interface/wifi/steering": {
+            "columns": ["name", "neighbor-group", "rrm", "wnm"]
+        },
+        "interface/wifi/registration-table": {
+            "columns": ["interface", "ssid", "mac-address", "uptime", "last-activity", "signal", "auth-type", "band", "tx-rate", "rx-rate"],
+            "readonly": [
+                "interface", "ssid", "mac-address", "uptime", "signal", "tx-rate", "rx-rate", "band", "auth-type",
+                "last-activity", "packets", "bytes"
+            ],
+            "quick": "interface"
+        },
+        "interface/wifi/access-list": {
+            "columns": ["interface", "mac-address", "ssid-regexp", "action", "signal-range", "time"]
+        },
+        "interface/wifi/provisioning": {
+            "columns": ["action", "radio-mac", "supported-bands", "master-configuration", "slave-configurations"]
+        },
+        "interface/wifi/radio": {
+            "columns": ["cap", "radio-mac", "bands", "ciphers", "countries"],
+            "readonly": ["cap", "radio-mac", "bands", "ciphers", "countries", "interface"]
+        },
+        "interface/wifi/capsman/remote-cap": {
+            "columns": ["address", "identity", "board", "serial", "version", "state"],
+            "readonly": ["address", "identity", "board", "serial", "version", "state"],
+            "actions": [
+                { "title": "Provision", "command": "provision", "selection": true },
+                { "title": "Upgrade", "command": "upgrade", "selection": true, "confirm": true }
+            ]
+        },
+        "interface/wifi/cap": {},
+        "interface/wifi/capsman": {}
+    },
+    "forms": {
+        "network": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "ssid", "mlo", "labels", "mode", "hide-ssid", "max-clients", "beacon-interval", "dtim-period", "multicast-enhance",
+                        "qos-classifier", "station-roaming", "hw-protection-mode"
+                    ]
+                },
+                {
+                    "title": "Security",
+                    "fields": [
+                        "security.authentication-types", "security.passphrase", "security.encryption", "security.group-encryption",
+                        "security.management-protection", "security.management-encryption", "security.wps", "security.ft",
+                        "security.ft-over-ds", "security.ft-mobility-domain", "security.ft-nas-identifier", "security.ft-preserve-vlanid",
+                        "security.ft-r0-key-lifetime", "security.ft-reassociation-deadline", "security.connect-group",
+                        "security.connect-priority", "security.disable-pmkid", "security.group-key-update", "security.beacon-protection",
+                        "security.dh-groups", "security.sae-pwe", "security.sae-anti-clogging-threshold", "security.sae-max-failure-rate",
+                        "security.owe-transition-interface", "security.multi-passphrase-group", "security.eap-methods",
+                        "security.eap-username", "security.eap-password", "security.eap-anonymous-identity",
+                        "security.eap-certificate-mode", "security.eap-tls-certificate", "security.eap-accounting"
+                    ]
+                },
+                {
+                    "title": "Datapath",
+                    "fields": [
+                        "datapath.bridge", "datapath.vlan-id", "datapath.client-isolation", "datapath.interface-list",
+                        "datapath.bridge-cost", "datapath.bridge-horizon", "datapath.traffic-processing"
+                    ]
+                },
+                {
+                    "title": "Steering",
+                    "fields": [
+                        "steering.neighbor-group", "steering.rrm", "steering.wnm", "steering.2g-probe-delay",
+                        "steering.transition-threshold", "steering.transition-threshold-time", "steering.transition-time",
+                        "steering.transition-request-count", "steering.transition-request-period"
+                    ]
+                },
+                {
+                    "title": "AAA",
+                    "fields": [
+                        "aaa.called-format", "aaa.calling-format", "aaa.interim-update", "aaa.mac-caching", "aaa.nas-identifier",
+                        "aaa.password-format", "aaa.username-format"
+                    ]
+                },
+                {
+                    "title": "Interworking",
+                    "fields": [
+                        "interworking.internet", "interworking.network-type", "interworking.venue", "interworking.venue-names",
+                        "interworking.hessid", "interworking.esr", "interworking.uesa", "interworking.domain-names", "interworking.realms",
+                        "interworking.realms-raw", "interworking.roaming-ois", "interworking.operator-names", "interworking.3gpp-info",
+                        "interworking.3gpp-info-raw", "interworking.authentication-types", "interworking.ipv4-availability",
+                        "interworking.ipv6-availability", "interworking.hotspot20", "interworking.hotspot20-dgaf",
+                        "interworking.connection-capabilities", "interworking.operational-classes", "interworking.wan-status",
+                        "interworking.wan-symmetric", "interworking.wan-at-capacity", "interworking.wan-downlink",
+                        "interworking.wan-uplink", "interworking.wan-downlink-load", "interworking.wan-uplink-load",
+                        "interworking.wan-measurement-duration"
+                    ]
+                }
+            ]
+        },
+        "security": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "authentication-types", "passphrase", "encryption", "group-encryption", "management-protection",
+                        "management-encryption", "wps", "connect-group", "connect-priority", "disable-pmkid", "group-key-update",
+                        "beacon-protection", "multi-passphrase-group", "owe-transition-interface"
+                    ]
+                },
+                {
+                    "title": "FT",
+                    "fields": [
+                        "ft", "ft-over-ds", "ft-mobility-domain", "ft-nas-identifier", "ft-preserve-vlanid", "ft-r0-key-lifetime",
+                        "ft-reassociation-deadline"
+                    ]
+                },
+                { "title": "SAE", "fields": ["dh-groups", "sae-pwe", "sae-anti-clogging-threshold", "sae-max-failure-rate"] },
+                {
+                    "title": "EAP",
+                    "fields": [
+                        "eap-methods", "eap-username", "eap-password", "eap-anonymous-identity", "eap-certificate-mode",
+                        "eap-tls-certificate", "eap-accounting"
+                    ]
+                }
+            ]
+        },
+        "configuration": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "mode", "ssid", "country", "installation", "hide-ssid", "max-clients", "tx-power", "antenna-gain", "chains",
+                        "tx-chains", "distance", "beacon-interval", "dtim-period", "multicast-enhance", "qos-classifier", "station-roaming",
+                        "hw-protection-mode", "manager"
+                    ]
+                },
+                {
+                    "title": "Channel",
+                    "fields": [
+                        "channel", "channel.band", "channel.width", "channel.frequency", "channel.secondary-frequency",
+                        "channel.skip-dfs-channels", "channel.reselect-interval", "channel.reselect-time", "channel.deprioritize-unii-3-4",
+                        "channel.preamble-puncturing", "channel.afc"
+                    ]
+                },
+                {
+                    "title": "Security",
+                    "fields": [
+                        "security", "security.authentication-types", "security.passphrase", "security.encryption",
+                        "security.group-encryption", "security.management-protection", "security.management-encryption", "security.wps",
+                        "security.ft", "security.ft-over-ds", "security.ft-mobility-domain", "security.ft-nas-identifier",
+                        "security.ft-preserve-vlanid", "security.ft-r0-key-lifetime", "security.ft-reassociation-deadline",
+                        "security.connect-group", "security.connect-priority", "security.disable-pmkid", "security.group-key-update",
+                        "security.beacon-protection", "security.dh-groups", "security.sae-pwe", "security.sae-anti-clogging-threshold",
+                        "security.sae-max-failure-rate", "security.owe-transition-interface", "security.multi-passphrase-group",
+                        "security.eap-methods", "security.eap-username", "security.eap-password", "security.eap-anonymous-identity",
+                        "security.eap-certificate-mode", "security.eap-tls-certificate", "security.eap-accounting"
+                    ]
+                },
+                {
+                    "title": "Datapath",
+                    "fields": [
+                        "datapath", "datapath.bridge", "datapath.vlan-id", "datapath.client-isolation", "datapath.interface-list",
+                        "datapath.bridge-cost", "datapath.bridge-horizon", "datapath.traffic-processing"
+                    ]
+                },
+                {
+                    "title": "Steering",
+                    "fields": [
+                        "steering", "steering.neighbor-group", "steering.rrm", "steering.wnm", "steering.2g-probe-delay",
+                        "steering.transition-threshold", "steering.transition-threshold-time", "steering.transition-time",
+                        "steering.transition-request-count", "steering.transition-request-period"
+                    ]
+                },
+                {
+                    "title": "AAA",
+                    "fields": [
+                        "aaa", "aaa.called-format", "aaa.calling-format", "aaa.interim-update", "aaa.mac-caching", "aaa.nas-identifier",
+                        "aaa.password-format", "aaa.username-format"
+                    ]
+                },
+                {
+                    "title": "Interworking",
+                    "fields": [
+                        "interworking", "interworking.internet", "interworking.network-type", "interworking.venue",
+                        "interworking.venue-names", "interworking.hessid", "interworking.esr", "interworking.uesa",
+                        "interworking.domain-names", "interworking.realms", "interworking.realms-raw", "interworking.roaming-ois",
+                        "interworking.operator-names", "interworking.3gpp-info", "interworking.3gpp-info-raw",
+                        "interworking.authentication-types", "interworking.ipv4-availability", "interworking.ipv6-availability",
+                        "interworking.hotspot20", "interworking.hotspot20-dgaf", "interworking.connection-capabilities",
+                        "interworking.operational-classes", "interworking.wan-status", "interworking.wan-symmetric",
+                        "interworking.wan-at-capacity", "interworking.wan-downlink", "interworking.wan-uplink",
+                        "interworking.wan-downlink-load", "interworking.wan-uplink-load", "interworking.wan-measurement-duration"
+                    ]
+                }
+            ]
+        },
+        "scan": {
+            "tabs": [
+                { "title": "General", "fields": ["number", "duration", "frequency", "rounds", "save-file"] }
+            ]
+        },
+        "frequency-scan": {
+            "tabs": [
+                { "title": "General", "fields": ["number", "duration", "frequency", "rounds"] }
+            ]
+        },
+        "spectral-scan": {
+            "tabs": [
+                { "title": "General", "fields": ["number", "range", "resolution", "duration", "peak-mode", "peak-hold-duration", "show-interference", "data"] }
+            ]
+        },
+        "sniffer": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["number", "duration", "filter", "pcap-file", "pcap-size-limit", "stream-address", "stream-port", "stream-rate", "show-frame"]
+                }
+            ]
+        },
+        "flat-snoop": {
+            "tabs": [
+                { "title": "General", "fields": ["number", "duration", "filter-type"] }
+            ]
+        },
+        "wifi": {
+            "title": "WiFi <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "master-interface", "mtu", "l2mtu", "mac-address", "arp", "arp-timeout", "radio-mac", "disable-running-check",
+                        "mld-interface", "mld-name"
+                    ]
+                },
+                {
+                    "title": "Configuration",
+                    "fields": [
+                        "configuration", "configuration.mode", "configuration.ssid", "configuration.country", "configuration.installation",
+                        "configuration.hide-ssid", "configuration.max-clients", "configuration.tx-power", "configuration.antenna-gain",
+                        "configuration.chains", "configuration.tx-chains", "configuration.distance", "configuration.beacon-interval",
+                        "configuration.dtim-period", "configuration.multicast-enhance", "configuration.qos-classifier",
+                        "configuration.station-roaming", "configuration.hw-protection-mode", "configuration.manager"
+                    ]
+                },
+                {
+                    "title": "Channel",
+                    "fields": [
+                        "channel", "channel.band", "channel.width", "channel.frequency", "channel.secondary-frequency", "channel.skip-dfs-channels",
+                        "channel.reselect-interval", "channel.reselect-time", "channel.deprioritize-unii-3-4", "channel.preamble-puncturing",
+                        "channel.afc"
+                    ]
+                },
+                {
+                    "title": "Security",
+                    "fields": [
+                        "security", "security.authentication-types", "security.passphrase", "security.encryption", "security.group-encryption",
+                        "security.management-protection", "security.management-encryption", "security.wps", "security.ft", "security.ft-over-ds",
+                        "security.ft-mobility-domain", "security.ft-nas-identifier", "security.ft-preserve-vlanid", "security.ft-r0-key-lifetime",
+                        "security.ft-reassociation-deadline", "security.connect-group", "security.connect-priority", "security.disable-pmkid",
+                        "security.group-key-update", "security.beacon-protection", "security.dh-groups", "security.sae-pwe",
+                        "security.sae-anti-clogging-threshold", "security.sae-max-failure-rate", "security.owe-transition-interface",
+                        "security.multi-passphrase-group", "security.eap-methods", "security.eap-username", "security.eap-password",
+                        "security.eap-anonymous-identity", "security.eap-certificate-mode", "security.eap-tls-certificate", "security.eap-accounting"
+                    ]
+                },
+                {
+                    "title": "Datapath",
+                    "fields": [
+                        "datapath", "datapath.bridge", "datapath.vlan-id", "datapath.client-isolation", "datapath.interface-list", "datapath.bridge-cost",
+                        "datapath.bridge-horizon", "datapath.traffic-processing"
+                    ]
+                },
+                {
+                    "title": "Steering",
+                    "fields": [
+                        "steering", "steering.neighbor-group", "steering.rrm", "steering.wnm", "steering.2g-probe-delay", "steering.transition-threshold",
+                        "steering.transition-threshold-time", "steering.transition-time", "steering.transition-request-count",
+                        "steering.transition-request-period"
+                    ]
+                },
+                {
+                    "title": "AAA",
+                    "fields": [
+                        "aaa", "aaa.called-format", "aaa.calling-format", "aaa.interim-update", "aaa.mac-caching", "aaa.nas-identifier",
+                        "aaa.password-format", "aaa.username-format"
+                    ]
+                },
+                {
+                    "title": "Interworking",
+                    "fields": [
+                        "interworking", "interworking.internet", "interworking.network-type", "interworking.venue",
+                        "interworking.venue-names", "interworking.hessid", "interworking.esr", "interworking.uesa",
+                        "interworking.domain-names", "interworking.realms", "interworking.realms-raw", "interworking.roaming-ois",
+                        "interworking.operator-names", "interworking.3gpp-info", "interworking.3gpp-info-raw",
+                        "interworking.authentication-types", "interworking.ipv4-availability", "interworking.ipv6-availability",
+                        "interworking.hotspot20", "interworking.hotspot20-dgaf", "interworking.connection-capabilities",
+                        "interworking.operational-classes", "interworking.wan-status", "interworking.wan-symmetric",
+                        "interworking.wan-at-capacity", "interworking.wan-downlink", "interworking.wan-uplink",
+                        "interworking.wan-downlink-load", "interworking.wan-uplink-load", "interworking.wan-measurement-duration"
+                    ]
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second", "-", "tx-byte", "rx-byte", "tx-packet", "rx-packet"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        }
+    },
+    "labels": {
+        "number": "Interface",
+        "configuration.mode": "Mode",
+        "configuration.ssid": "SSID",
+        "channel.band": "Band",
+        "channel.width": "Channel Width",
+        "channel.frequency": "Frequency",
+        "tx-bits-per-second": "Tx",
+        "rx-bits-per-second": "Rx",
+        "tx-packets-per-second": "Tx Packet (p/s)",
+        "rx-packets-per-second": "Rx Packet (p/s)"
+    }
+}

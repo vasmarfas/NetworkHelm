@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: keenetic
+menu: [Log]
+window:
+  title: Log
+  tabs:
+    - { title: Log, path: log }

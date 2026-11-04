@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: vyos
+menu: [Log]
+window:
+  title: Log
+  tabs:
+    - { title: Log, path: status/log }
+paths:
+  status/log:
+    columns: [time, program, message]
+    follow: true
+labels:
+  text: Line

@@ -1,0 +1,212 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Firewall"],
+    "window": {
+        "title": "Firewall",
+        "tabs": [
+            { "title": "Filter Rules", "path": "ip/firewall/filter" },
+            { "title": "NAT", "path": "ip/firewall/nat" },
+            { "title": "Mangle", "path": "ip/firewall/mangle" },
+            { "title": "Raw", "path": "ip/firewall/raw" },
+            { "title": "Service Ports", "path": "ip/firewall/service-port" },
+            { "title": "Connections", "path": "ip/firewall/connection" },
+            { "title": "Address Lists", "path": "ip/firewall/address-list" },
+            { "title": "Layer7 Protocols", "path": "ip/firewall/layer7-protocol" }
+        ]
+    },
+    "paths": {
+        "ip/firewall/filter": {
+            "ordered": true,
+            "quick": "chain",
+            "category": "chain",
+            "columns": ["action", "chain", "src-address", "dst-address", "src-address-list", "dst-address-list", "protocol", "src-port", "dst-port", "port", "in-interface", "out-interface", "in-interface-list", "out-interface-list", "bytes", "packets"],
+            "readonly": ["bytes", "packets", "dynamic", "invalid"],
+            "form": "rule",
+            "defaults": { "action": "accept", "log": "false" },
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ]
+        },
+        "ip/firewall/nat": {
+            "ordered": true,
+            "element": "NAT Rule",
+            "quick": "chain",
+            "category": "chain",
+            "columns": ["action", "chain", "src-address", "dst-address", "src-address-list", "dst-address-list", "protocol", "src-port", "dst-port", "port", "in-interface", "out-interface", "in-interface-list", "out-interface-list", "to-addresses", "to-ports", "bytes", "packets"],
+            "readonly": ["bytes", "packets", "dynamic", "invalid"],
+            "form": "rule",
+            "defaults": { "action": "accept", "log": "false" },
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ]
+        },
+        "ip/firewall/mangle": {
+            "ordered": true,
+            "element": "Mangle Rule",
+            "quick": "chain",
+            "category": "chain",
+            "columns": ["action", "chain", "src-address", "dst-address", "src-address-list", "dst-address-list", "protocol", "src-port", "dst-port", "port", "in-interface", "out-interface", "in-interface-list", "out-interface-list", "new-packet-mark", "new-connection-mark", "new-routing-mark", "bytes", "packets"],
+            "readonly": ["bytes", "packets", "dynamic", "invalid"],
+            "form": "rule",
+            "defaults": { "action": "accept", "log": "false" },
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ]
+        },
+        "ip/firewall/raw": {
+            "ordered": true,
+            "element": "Raw Rule",
+            "quick": "chain",
+            "category": "chain",
+            "columns": ["action", "chain", "src-address", "dst-address", "src-address-list", "dst-address-list", "protocol", "src-port", "dst-port", "port", "in-interface", "out-interface", "in-interface-list", "out-interface-list", "bytes", "packets"],
+            "readonly": ["bytes", "packets", "dynamic", "invalid"],
+            "form": "rule",
+            "defaults": { "action": "accept", "log": "false" },
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ]
+        },
+        "ip/firewall/service-port": {
+            "columns": ["name", "ports"],
+            "readonly": ["name", "invalid"],
+            "form": "service-port"
+        },
+        "ip/firewall/connection": {
+            "columns": ["src-address", "src-port", "dst-address", "dst-port", "protocol", "connection-type", "timeout", "tcp-state", "orig-rate", "repl-rate", "orig-packets", "repl-packets", "orig-bytes", "repl-bytes"],
+            "bits": ["orig-rate", "repl-rate"],
+            "readonly": [
+                "src-address", "src-port", "dst-address", "dst-port", "protocol", "connection-type", "timeout", "tcp-state",
+                "orig-rate", "repl-rate", "orig-packets", "repl-packets", "orig-bytes", "repl-bytes",
+                "reply-src-address", "reply-src-port", "reply-dst-address", "reply-dst-port",
+                "assured", "confirmed", "dying", "fasttrack", "seen-reply", "srcnat", "dstnat"
+            ]
+        },
+        "ip/firewall/address-list": {
+            "columns": ["list", "address", "timeout", "creation-time"],
+            "readonly": ["creation-time"],
+            "form": "address-list"
+        },
+        "ip/firewall/layer7-protocol": {
+            "columns": ["name", "regexp"],
+            "form": "layer7-protocol"
+        }
+    },
+    "forms": {
+        "rule": {
+            "title": "Firewall Rule <{src-address}:{src-port}->{dst-address}:{dst-port}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "chain", "src-address", "dst-address", "src-address-list", "dst-address-list", "-",
+                        "protocol", "src-port", "dst-port", "port", "in-interface", "out-interface", "-",
+                        "in-interface-list", "out-interface-list", "-",
+                        "packet-mark", "connection-mark", "routing-mark", "realm", "-",
+                        "connection-type", "connection-state", "connection-nat-state"
+                    ]
+                },
+                {
+                    "title": "Advanced",
+                    "fields": [
+                        "layer7-protocol", "-",
+                        "content", "connection-bytes", "connection-rate", "per-connection-classifier", "src-mac-address", "-",
+                        "out-bridge-port", "in-bridge-port", "-",
+                        "in-bridge-port-list", "out-bridge-port-list", "-",
+                        "ipsec-policy", "tls-host", "-",
+                        "ingress-priority", "priority", "dscp", "tcp-mss", "tos", "packet-size", "random", "tcp-flags", "icmp-options",
+                        "ipv4-options", "ttl"
+                    ]
+                },
+                {
+                    "title": "Extra",
+                    "fields": ["nth", "connection-limit", "src-address-type", "dst-address-type", "hotspot", "fragment", "limit", "dst-limit", "time", "psd", "p2p"]
+                },
+                {
+                    "title": "Action",
+                    "fields": [
+                        "action", "-",
+                        "log", "log-prefix", "-",
+                        "jump-target", "reject-with", "address-list", "address-list-timeout", "to-addresses", "to-ports", "randomise-ports",
+                        "same-not-by-dst", "socksify-service", "socks5-server", "socks5-port", "new-packet-mark", "new-connection-mark",
+                        "new-routing-mark", "new-dscp", "new-mss", "new-priority", "new-ttl", "route-dst", "sniff-target", "sniff-target-port",
+                        "sniff-id", "hw-offload", "passthrough"
+                    ]
+                },
+                { "title": "Statistics", "fields": ["bytes", "packets"], "readonly": true }
+            ],
+            "only": [
+                {
+                    "fields": ["src-port", "dst-port", "port"],
+                    "where": { "protocol": ["tcp", "udp", "udp-lite", "dccp", "sctp", "6", "17", "136", "33", "132"] }
+                },
+                { "fields": ["tcp-flags", "tcp-mss", "tls-host"], "where": { "protocol": ["tcp", "6"] } },
+                { "fields": ["icmp-options"], "where": { "protocol": ["icmp", "1"] } },
+                { "fields": ["to-ports"], "where": { "protocol": ["tcp", "udp", "dccp", "sctp", "6", "17", "33", "132"] } },
+                { "fields": ["jump-target"], "where": { "action": ["jump"] }, "hide": true },
+                { "fields": ["reject-with"], "where": { "action": ["reject"] }, "hide": true },
+                {
+                    "fields": ["address-list", "address-list-timeout"],
+                    "where": { "action": ["add-src-to-address-list", "add-dst-to-address-list"] },
+                    "hide": true
+                },
+                {
+                    "fields": ["to-addresses"],
+                    "where": { "action": ["dst-nat", "src-nat", "netmap", "same", "endpoint-independent-nat"] },
+                    "hide": true
+                },
+                {
+                    "fields": ["to-ports"],
+                    "where": { "action": ["dst-nat", "src-nat", "netmap", "same", "redirect", "masquerade", "endpoint-independent-nat"] },
+                    "hide": true
+                },
+                { "fields": ["randomise-ports"], "where": { "action": ["endpoint-independent-nat"] }, "hide": true },
+                { "fields": ["same-not-by-dst"], "where": { "action": ["same"] }, "hide": true },
+                { "fields": ["socksify-service", "socks5-server", "socks5-port"], "where": { "action": ["socksify"] }, "hide": true },
+                { "fields": ["new-packet-mark"], "where": { "action": ["mark-packet"] }, "hide": true },
+                { "fields": ["new-connection-mark"], "where": { "action": ["mark-connection"] }, "hide": true },
+                { "fields": ["new-routing-mark"], "where": { "action": ["mark-routing"] }, "hide": true },
+                { "fields": ["new-dscp"], "where": { "action": ["change-dscp"] }, "hide": true },
+                { "fields": ["new-mss"], "where": { "action": ["change-mss"] }, "hide": true },
+                { "fields": ["new-priority"], "where": { "action": ["set-priority"] }, "hide": true },
+                { "fields": ["new-ttl"], "where": { "action": ["change-ttl"] }, "hide": true },
+                { "fields": ["route-dst"], "where": { "action": ["route"] }, "hide": true },
+                { "fields": ["sniff-target", "sniff-target-port"], "where": { "action": ["sniff-tzsp", "sniff-pc"] }, "hide": true },
+                { "fields": ["sniff-id"], "where": { "action": ["sniff-pc"] }, "hide": true },
+                { "fields": ["hw-offload"], "where": { "action": ["fasttrack-connection"] }, "hide": true },
+                {
+                    "fields": ["passthrough"],
+                    "where": {
+                        "action": [
+                            "change-dscp", "change-mss", "change-ttl", "clear-df", "mark-connection", "mark-packet", "mark-routing", "route",
+                            "set-priority", "strip-ipv4-options"
+                        ]
+                    },
+                    "hide": true
+                }
+            ]
+        },
+        "service-port": {
+            "title": "Service Port <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "ports", "sip-direct-media", "sip-timeout"] }]
+        },
+        "address-list": {
+            "title": "Firewall Address List <{address}>",
+            "tabs": [{ "title": "General", "fields": ["list", "address", "timeout", "dynamic", "creation-time"] }]
+        },
+        "layer7-protocol": {
+            "title": "Firewall L7 Protocol <{name}>",
+            "tabs": [{ "title": "General", "fields": ["name", "regexp"] }]
+        }
+    },
+    "labels": {
+        "port": "Any. Port",
+        "fragment": "IP Fragment",
+        "new-dscp": "New DSCP (TOS)",
+        "new-mss": "New TCP MSS",
+        "same-not-by-dst": "Not by Dst."
+    }
+}

@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [System, Special Login]
+until: 7.0
+window:
+  title: Special Login List
+  tabs:
+    - { title: Special Login, path: special-login }
+paths:
+  special-login:
+    columns: [user, port]
+    form: login
+forms:
+  login:
+    title: "Special Login <{user}>"
+    tabs:
+      - title: General
+        fields: [user, port]

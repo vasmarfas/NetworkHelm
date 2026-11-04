@@ -1,0 +1,303 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Bridge"],
+    "window": {
+        "title": "Bridge",
+        "tabs": [
+            { "title": "Bridge", "path": "interface/bridge" },
+            { "title": "Ports", "path": "interface/bridge/port" },
+            { "title": "VLANs", "path": "interface/bridge/vlan" },
+            { "title": "MSTIs", "path": "interface/bridge/msti" },
+            { "title": "Port MST Overrides", "path": "interface/bridge/port/mst-override" },
+            { "title": "Filters", "path": "interface/bridge/filter" },
+            { "title": "NAT", "path": "interface/bridge/nat" },
+            { "title": "Hosts", "path": "interface/bridge/host" },
+            { "title": "MDB", "path": "interface/bridge/mdb" }
+        ]
+    },
+    "paths": {
+        "interface/bridge": {
+            "columns": [
+                "name", "actual-mtu", "l2mtu", "mac-address", "protocol-mode", "priority", "port-cost-mode", "vlan-filtering",
+                "igmp-snooping", "dhcp-snooping", "add-dhcp-option82", "dhcpv6-snooping", "ra-guard"
+            ],
+            "readonly": ["actual-mtu", "l2mtu", "mac-address", "running"],
+            "form": "bridge",
+            "links": [
+                { "title": "Settings", "path": "interface/bridge/settings" }
+            ]
+        },
+        "interface/bridge/port": {
+            "ordered": true,
+            "columns": [
+                "interface", "bridge", "horizon", "fast-leave", "bpdu-guard", "pvid", "frame-types", "forwarding", "role", "edge-port",
+                "point-to-point-port", "actual-path-cost", "root-path-cost"
+            ],
+            "readonly": ["forwarding", "role", "edge-port", "point-to-point-port", "actual-path-cost", "root-path-cost", "inactive", "dynamic"],
+            "quick": "bridge",
+            "form": "port"
+        },
+        "interface/bridge/vlan": {
+            "columns": ["bridge", "vlan-ids", "current-tagged", "current-untagged"],
+            "readonly": ["current-tagged", "current-untagged", "dynamic"],
+            "quick": "bridge"
+        },
+        "interface/bridge/msti": {
+            "columns": ["bridge", "identifier", "priority", "vlan-mapping"]
+        },
+        "interface/bridge/port/mst-override": {
+            "columns": ["interface", "identifier", "priority", "internal-path-cost"]
+        },
+        "interface/bridge/filter": {
+            "ordered": true,
+            "form": "rule",
+            "columns": ["chain", "action", "in-interface", "out-interface", "src-mac-address", "dst-mac-address", "mac-protocol", "bytes", "packets"],
+            "readonly": ["bytes", "packets", "invalid", "dynamic"],
+            "quick": "chain",
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ]
+        },
+        "interface/bridge/nat": {
+            "ordered": true,
+            "form": "rule",
+            "columns": ["chain", "action", "in-interface", "out-interface", "src-mac-address", "dst-mac-address", "to-dst-mac-address", "bytes", "packets"],
+            "readonly": ["bytes", "packets", "invalid", "dynamic"],
+            "quick": "chain",
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true },
+                { "title": "Reset All Counters", "command": "reset-counters-all" }
+            ]
+        },
+        "interface/bridge/host": {
+            "columns": ["mac-address", "vid", "on-interface", "bridge"],
+            "readonly": ["on-interface", "dynamic", "local", "external"],
+            "quick": "bridge"
+        },
+        "interface/bridge/mdb": {
+            "columns": ["group", "vid", "ports", "bridge"],
+            "readonly": ["dynamic"]
+        }
+    },
+    "forms": {
+        "rule": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "chain", "-",
+                        "in-interface", "out-interface", "-",
+                        "in-interface-list", "out-interface-list", "-",
+                        "in-bridge", "out-bridge", "-",
+                        "in-bridge-list", "out-bridge-list", "-",
+                        "src-mac-address", "dst-mac-address", "mac-protocol", "-",
+                        "src-address", "src-port", "dst-address", "dst-port", "src-address6", "dst-address6",
+                        "ip-protocol", "tls-host", "-",
+                        "packet-mark", "ingress-priority"
+                    ]
+                },
+                {
+                    "title": "Advanced",
+                    "fields": [
+                        "vlan-id", "vlan-priority", "vlan-encap", "-",
+                        "802.3-sap", "802.3-type", "-",
+                        "packet-type", "-",
+                        "limit"
+                    ]
+                },
+                {
+                    "title": "ARP",
+                    "fields": [
+                        "arp-opcode", "arp-hardware-type", "arp-packet-type", "arp-src-address", "arp-dst-address", "arp-src-mac-address",
+                        "arp-dst-mac-address", "arp-gratuitous"
+                    ]
+                },
+                {
+                    "title": "STP",
+                    "fields": [
+                        "stp-type", "stp-flags", "stp-root-address", "stp-root-cost", "stp-sender-address", "stp-port", "stp-root-priority",
+                        "stp-sender-priority", "stp-msg-age", "stp-max-age", "stp-hello-time", "stp-forward-delay"
+                    ]
+                },
+                {
+                    "title": "Action",
+                    "fields": [
+                        "action", "-",
+                        "log", "log-prefix", "jump-target", "new-packet-mark", "new-priority", "passthrough", "to-dst-mac-address",
+                        "to-src-mac-address", "to-arp-reply-mac-address"
+                    ]
+                },
+                { "title": "Statistics", "fields": ["bytes", "packets"], "readonly": true }
+            ],
+            "only": [
+                { "fields": ["src-address", "dst-address"], "where": { "mac-protocol": ["ip", "0x800", "0x0800"] } },
+                { "fields": ["src-address6", "dst-address6"], "where": { "mac-protocol": ["ipv6", "0x86dd"] } },
+                { "fields": ["ip-protocol"], "where": { "mac-protocol": ["ip", "ipv6", "0x800", "0x0800", "0x86dd"] } },
+                {
+                    "fields": ["src-port", "dst-port"],
+                    "where": { "mac-protocol": ["ip", "ipv6", "0x800", "0x0800", "0x86dd"], "ip-protocol": ["tcp", "udp", "6", "17"] }
+                },
+                {
+                    "fields": ["tls-host"],
+                    "where": { "mac-protocol": ["ip", "ipv6", "0x800", "0x0800", "0x86dd"], "ip-protocol": ["tcp", "6"] }
+                },
+                {
+                    "fields": [
+                        "arp-opcode", "arp-hardware-type", "arp-packet-type", "arp-gratuitous", "arp-src-address", "arp-dst-address",
+                        "arp-src-mac-address", "arp-dst-mac-address"
+                    ],
+                    "where": { "mac-protocol": ["arp", "rarp", "0x806", "0x0806", "0x8035"] }
+                },
+                {
+                    "fields": ["vlan-id", "vlan-priority", "vlan-encap"],
+                    "where": { "mac-protocol": ["vlan", "service-vlan", "0x8100", "0x88a8"] }
+                },
+                {
+                    "fields": [
+                        "stp-type", "stp-flags", "stp-root-address", "stp-root-cost", "stp-root-priority", "stp-sender-address",
+                        "stp-sender-priority", "stp-port", "stp-msg-age", "stp-max-age", "stp-hello-time", "stp-forward-delay"
+                    ],
+                    "where": { "dst-mac-address": ["01:80:C2:00:00:00/FF:FF:FF:FF:FF:FF"] }
+                },
+                { "fields": ["jump-target"], "where": { "action": ["jump"] }, "hide": true },
+                { "fields": ["new-packet-mark"], "where": { "action": ["mark-packet"] }, "hide": true },
+                { "fields": ["new-priority"], "where": { "action": ["set-priority"] }, "hide": true },
+                { "fields": ["passthrough"], "where": { "action": ["mark-packet", "set-priority"] }, "hide": true },
+                { "fields": ["to-dst-mac-address"], "where": { "action": ["dst-nat"] }, "hide": true },
+                { "fields": ["to-src-mac-address"], "where": { "action": ["src-nat"] }, "hide": true },
+                { "fields": ["to-arp-reply-mac-address"], "where": { "action": ["arp-reply"] }, "hide": true }
+            ]
+        },
+        "bridge": {
+            "title": "Interface <{name}>",
+            "only": [
+                {
+                    "fields": ["ether-type", "pvid", "frame-types", "ingress-filtering", "mvrp"],
+                    "where": { "vlan-filtering": ["true", "yes"] },
+                    "hide": true
+                },
+                {
+                    "fields": [
+                        "igmp-version", "mld-version", "multicast-router", "multicast-querier", "querier-uses-bridge-address", "startup-query-count",
+                        "last-member-query-count", "last-member-interval", "last-member-query-interval", "membership-interval", "querier-interval",
+                        "query-interval", "query-response-interval", "startup-query-interval"
+                    ],
+                    "where": { "igmp-snooping": ["true", "yes"] },
+                    "hide": true
+                },
+                {
+                    "fields": [
+                        "dhcp-snooping-vlan-ids", "dhcp-agent-circuit-id", "dhcp-agent-remote-id", "add-dhcp-option82", "dhcp-snooping-option82-policy",
+                        "ip-source-guard", "arp-inspection"
+                    ],
+                    "where": { "dhcp-snooping": ["true", "yes"] },
+                    "hide": true
+                },
+                { "fields": ["dhcpv6-agent-circuit-id", "dhcpv6-agent-remote-id"], "where": { "dhcpv6-snooping": ["true", "yes"] }, "hide": true }
+            ],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "mtu", "actual-mtu", "l2mtu", "mac-address", "arp", "arp-timeout", "auto-mac", "admin-mac", "-",
+                        "ageing-time", "max-learned-entries", "forward-reserved-addresses", "-",
+                        "fast-forward"
+                    ]
+                },
+                {
+                    "title": "STP",
+                    "fields": [
+                        "protocol-mode", "priority", "port-cost-mode", "-",
+                        "region-name", "region-revision", "-",
+                        "max-message-age", "forward-delay", "transmit-hold-count", "max-hops"
+                    ]
+                },
+                { "title": "VLAN", "fields": ["vlan-filtering", "ether-type", "pvid", "frame-types", "ingress-filtering", "-", "mvrp"] },
+                {
+                    "title": "IGMP",
+                    "fields": [
+                        "igmp-snooping", "igmp-version", "mld-version", "multicast-router", "-",
+                        "multicast-querier", "querier-uses-bridge-address", "startup-query-count", "last-member-query-count", "last-member-interval",
+                        "last-member-query-interval", "membership-interval", "querier-interval", "query-interval", "query-response-interval",
+                        "startup-query-interval"
+                    ]
+                },
+                {
+                    "title": "Security",
+                    "fields": [
+                        "dhcp-snooping", "dhcp-snooping-vlan-ids", "dhcp-agent-circuit-id", "dhcp-agent-remote-id", "add-dhcp-option82",
+                        "dhcp-snooping-option82-policy", "ip-source-guard", "arp-inspection", "-",
+                        "dhcpv6-snooping", "dhcpv6-agent-circuit-id", "dhcpv6-agent-remote-id", "ra-guard"
+                    ]
+                },
+                { "title": "MLAG", "fields": ["mlag-peer-port", "mlag-priority", "mlag-heartbeat", "mlag-init-delay", "mlag-lacp-fallback"] },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "path": "interface",
+                    "fields": [
+                        "last-link-down-time", "last-link-up-time", "link-downs", "-",
+                        "state", "current-mac-address", "bridge-id", "root-bridge", "root-bridge-id", "regional-root-bridge-id", "root-path-cost",
+                        "root-port", "-",
+                        "port-count", "designated-port-count", "mst-config-digest"
+                    ],
+                    "monitor": { "command": "interface/bridge/monitor", "argument": "numbers" }
+                },
+                {
+                    "title": "Traffic",
+                    "readonly": true,
+                    "fields": ["tx-bits-per-second", "rx-bits-per-second", "tx-packets-per-second", "rx-packets-per-second"],
+                    "monitor": { "command": "interface/monitor-traffic", "argument": "interface" },
+                    "chart": true
+                }
+            ]
+        },
+        "port": {
+            "title": "Bridge Port <{interface}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "interface", "bridge", "-",
+                        "horizon", "learn", "unknown-unicast-flood", "unknown-multicast-flood", "broadcast-flood", "-",
+                        "hw", "-",
+                        "multicast-router", "fast-leave"
+                    ]
+                },
+                {
+                    "title": "STP",
+                    "fields": [
+                        "priority", "path-cost", "internal-path-cost", "-",
+                        "edge", "point-to-point", "-",
+                        "auto-isolate", "restricted-role", "restricted-tcn", "bpdu-guard"
+                    ]
+                },
+                { "title": "VLAN", "fields": ["pvid", "frame-types", "ingress-filtering", "tag-stacking", "-", "mvrp-registrar-state", "mvrp-applicant-state"] },
+                { "title": "Security", "fields": ["trusted", "trusted-arp", "-", "trusted-dhcpv6", "trusted-ra"] },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": [
+                        "status", "-",
+                        "external-fdb", "learning", "forwarding", "-",
+                        "port-id", "role", "edge-port", "edge-port-discovery", "point-to-point-port", "sending-rstp", "actual-path-cost",
+                        "designated-bridge-id", "designated-cost", "designated-port-id", "tx-rx-bpdu"
+                    ],
+                    "monitor": { "command": "interface/bridge/port/monitor", "argument": "numbers" }
+                }
+            ]
+        }
+    },
+    "labels": {
+        "admin-mac": "Admin. MAC Address",
+        "add-dhcp-option82": "Add DHCP Option 82",
+        "ether-type": "EtherType",
+        "hw": "Hardware Offload",
+        "tx-rx-bpdu": "Tx/Rx BPDUs",
+        "tx-bits-per-second": "Tx",
+        "rx-bits-per-second": "Rx",
+        "tx-packets-per-second": "Tx Packet (p/s)",
+        "rx-packets-per-second": "Rx Packet (p/s)"
+    }
+}

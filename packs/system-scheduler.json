@@ -1,0 +1,28 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Scheduler"],
+    "window": {
+        "title": "Scheduler",
+        "tabs": [
+            { "title": "Scheduler", "path": "system/scheduler" }
+        ]
+    },
+    "paths": {
+        "system/scheduler": {
+            "columns": ["name", "start-date", "start-time", "days", "interval", "owner", "run-count", "next-run", "on-event"],
+            "readonly": ["owner", "run-count", "next-run"],
+            "form": "schedule"
+        }
+    },
+    "forms": {
+        "schedule": {
+            "title": "Schedule <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "start-date", "start-time", "days", "interval", "-", "owner", "policy", "-", "run-count", "next-run", "-", "on-event"]
+                }
+            ]
+        }
+    }
+}

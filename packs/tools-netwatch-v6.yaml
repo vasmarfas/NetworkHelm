@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./pack.schema.json
+menu: [Tools, Netwatch]
+until: 7.0
+window:
+  title: Netwatch
+  tabs:
+    - { title: Netwatch, path: tool/netwatch }
+paths:
+  tool/netwatch:
+    columns: [host, interval, timeout, status, since]
+    readonly: [status, since]
+    form: netwatch
+forms:
+  netwatch:
+    title: "Netwatch Host <{host}>"
+    tabs:
+      - title: Host
+        fields: [host, interval, timeout, "-", status, since]
+      - title: Up
+        fields: [up-script]
+      - title: Down
+        fields: [down-script]
+labels:
+  up-script: On Up
+  down-script: On Down

@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./menu.schema.json
+platform: ssh
+items:
+  - { title: Interfaces, path: interface }
+  - title: IP
+    items:
+      - { title: Addresses, path: ip/address }
+      - { title: ARP, path: ip/arp }
+      - { title: Routes, path: ip/route }
+  - title: System
+    items:
+      - { title: Processes, path: system/process }
+      - { title: Resources, path: system/resource }
+      - { title: Services, path: system/service }
+      - { title: Storage, path: system/storage }
+  - { title: Files, path: file }
+  - { title: Log, path: log }
+  - { title: New Terminal, window: terminal }
+  - { title: SSH Tunnels, window: tunnels }

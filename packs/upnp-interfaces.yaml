@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: upnp
+menu: [Interfaces]
+window:
+  title: Interfaces
+  tabs:
+    - { title: Interface, path: interface }
+paths:
+  interface:
+    columns: [name, type, status, max-download, max-upload, tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    readonly: [tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+    monitor: { command: interface/monitor-traffic, argument: interface }
+    form: interface
+forms:
+  interface:
+    title: Interface
+    tabs:
+      - title: General
+        readonly: true
+        fields: [name, type, status, max-download, max-upload]
+      - title: Traffic
+        readonly: true
+        fields: [tx-bits-per-second, rx-bits-per-second, tx-packets-per-second, rx-packets-per-second]
+        monitor: { command: interface/monitor-traffic, argument: interface }
+        chart: true
+      - title: Statistics
+        readonly: true
+        fields: [tx-byte, rx-byte, tx-packet, rx-packet]

@@ -1,0 +1,44 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Device Mode"],
+    "since": "7.0",
+    "window": {
+        "title": "Device Mode",
+        "tabs": [
+            { "title": "Device Mode", "path": "system/device-mode" }
+        ]
+    },
+    "paths": {
+        "system/device-mode": {
+            "readonly": [
+                "mode", "allowed-versions", "flagged", "flagging-enabled", "scheduler", "socks", "fetch", "pptp", "l2tp", "bandwidth-test", "traffic-gen",
+                "sniffer", "ipsec", "romon", "proxy", "hotspot", "smb", "email", "zerotier", "container", "install-any-version", "partitions", "routerboard",
+                "attempt-count"
+            ],
+            "form": "device-mode",
+            "links": [
+                { "title": "Update", "path": "system/device-mode/update" }
+            ]
+        }
+    },
+    "forms": {
+        "device-mode": {
+            "title": "Device Mode",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "mode", "allowed-versions", "flagged", "flagging-enabled", "scheduler", "socks", "fetch", "pptp", "l2tp", "bandwidth-test",
+                        "traffic-gen", "sniffer", "ipsec", "romon", "proxy", "hotspot", "smb", "email", "zerotier", "container", "install-any-version",
+                        "partitions", "routerboard", "attempt-count"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "romon": "RoMON",
+        "zerotier": "ZeroTier",
+        "routerboard": "RouterBOARD"
+    }
+}

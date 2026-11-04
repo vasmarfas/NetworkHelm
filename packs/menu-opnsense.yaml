@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./menu.schema.json
+platform: opnsense
+items:
+  - { title: Interfaces, path: interfaces/overview }
+  - { title: Bridge, path: interfaces/bridge }
+  - { title: Firewall, path: firewall/filter }
+  - { title: Routes, path: routes/routes }
+  - { title: WireGuard, path: wireguard/server }
+  - title: Services
+    items:
+      - { title: DHCP Server (Dnsmasq), path: dnsmasq/range }
+      - { title: DHCP Server (Kea), path: kea/subnet }
+      - { title: DHCP Leases, path: services/kea-leases }
+      - { title: DHCP Leases (ISC), path: services/dhcp-leases }
+      - { title: DHCP Leases (Dnsmasq), path: services/dnsmasq-leases }
+      - { title: DNS Overrides, path: unbound/host-override }
+      - { title: Status, path: services/services }
+  - title: Diagnostics
+    items:
+      - { title: ARP, path: diagnostics/arp }
+  - title: System
+    items:
+      - { title: Resources, path: system/resources }
+      - { title: Gateways, path: system/gateways }
+      - { title: Firmware, path: system/firmware }
+      - { title: Cron, path: system/cron }
+      - { title: Tunables, path: system/tunables }
+      - { title: Users, path: system/users }
+      - { title: Certificates, path: system/certificates }
+  - { title: Log, path: log/system }

@@ -1,0 +1,45 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "DHCP Relay"],
+    "window": {
+        "title": "DHCP Relay",
+        "tabs": [
+            { "title": "DHCP Relay", "path": "ip/dhcp-relay" }
+        ]
+    },
+    "paths": {
+        "ip/dhcp-relay": {
+            "columns": ["name", "interface", "dhcp-server", "local-address"],
+            "sort": "name",
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true }
+            ],
+            "form": "relay"
+        }
+    },
+    "forms": {
+        "relay": {
+            "title": "DHCP Relay <{name}>",
+            "only": [{ "fields": ["relay-info-remote-id"], "where": { "add-relay-info": ["true", "yes"] } }],
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "interface", "dhcp-server-vrf", "dhcp-server", "-",
+                        "delay-threshold", "local-address", "local-address-as-src-ip", "-",
+                        "add-relay-info", "relay-info-remote-id"
+                    ]
+                },
+                {
+                    "title": "Status",
+                    "readonly": true,
+                    "fields": ["requests", "responses"],
+                    "monitor": { "command": "ip/dhcp-relay/monitor", "argument": "numbers" }
+                }
+            ]
+        }
+    },
+    "labels": {
+        "local-address-as-src-ip": "Local Address as Source IP"
+    }
+}

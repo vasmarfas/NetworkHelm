@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: pfsense
+menu: [System, Resources]
+window:
+  title: Resources
+  tabs:
+    - { title: Resources, path: system/resource }
+paths:
+  system/resource:
+    form: resources
+forms:
+  resources:
+    title: Resources
+    tabs:
+      - title: Resources
+        readonly: true
+        fields: [platform, cpu_model, cpu_count, cpu_usage, cpu_load_avg, mem_usage, swap_usage, disk_usage, temp_c, uptime, serial]
+labels:
+  cpu_model: CPU
+  cpu_count: CPU Count
+  cpu_usage: CPU Usage
+  cpu_load_avg: Load Average
+  mem_usage: Memory Usage
+  swap_usage: Swap Usage
+  disk_usage: Disk Usage
+  temp_c: Temperature

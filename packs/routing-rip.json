@@ -1,0 +1,85 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "RIP"],
+    "since": "7.0",
+    "window": {
+        "title": "RIP",
+        "tabs": [
+            { "title": "Instance", "path": "routing/rip/instance" },
+            { "title": "Interface Templates", "path": "routing/rip/interface-template" },
+            { "title": "Interface", "path": "routing/rip/interface" },
+            { "title": "Neighbors", "path": "routing/rip/neighbor" },
+            { "title": "Static Neighbors", "path": "routing/rip/static-neighbor" },
+            { "title": "Keys", "path": "routing/rip/keys" }
+        ]
+    },
+    "paths": {
+        "routing/rip/instance": {
+            "columns": ["name", "vrf", "afi", "in-filter-chain", "out-filter-chain", "out-filter-select"],
+            "sort": "name",
+            "form": "instance"
+        },
+        "routing/rip/interface-template": {
+            "columns": ["instance", "interfaces", "cost", "key-chain"],
+            "form": "template"
+        },
+        "routing/rip/interface": {
+            "columns": ["instance", "interface", "address"],
+            "readonly": ["instance", "interface", "address"]
+        },
+        "routing/rip/neighbor": {
+            "columns": ["instance", "address", "routes", "packets-total", "packets-bad", "entries-bad"],
+            "readonly": ["instance", "address", "routes", "packets-total", "packets-bad", "entries-bad"]
+        },
+        "routing/rip/static-neighbor": {
+            "columns": ["instance", "address"],
+            "form": "static-neighbor"
+        },
+        "routing/rip/keys": {
+            "columns": ["chain", "key-id", "key", "valid-from", "valid-till"],
+            "quick": "chain",
+            "form": "key"
+        }
+    },
+    "forms": {
+        "instance": {
+            "title": "RIP Instance <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "vrf", "afi", "-",
+                        "in-filter-chain", "out-filter-chain", "out-filter-select", "-",
+                        "redistribute", "originate-default", "routing-table", "-",
+                        "route-timeout", "route-gc-timeout", "update-interval"
+                    ]
+                }
+            ]
+        },
+        "template": {
+            "title": "RIP Interface <{interfaces}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "instance", "interfaces", "source-addresses", "cost", "split-horizon", "poison-reverse", "mode", "use-bfd", "-",
+                        "key-chain", "password"
+                    ]
+                }
+            ]
+        },
+        "static-neighbor": {
+            "title": "RIP Static Neighbor <{address}>",
+            "tabs": [{ "title": "General", "fields": ["instance", "address"] }]
+        },
+        "key": {
+            "title": "RIP Key <{chain}>",
+            "tabs": [{ "title": "General", "fields": ["chain", "key-id", "key", "valid-from", "valid-till"] }]
+        }
+    },
+    "labels": {
+        "in-filter-chain": "Input Filter",
+        "out-filter-chain": "Output Filter",
+        "out-filter-select": "Select Output Filter"
+    }
+}

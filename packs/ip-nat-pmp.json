@@ -1,0 +1,35 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "NAT PMP"],
+    "window": {
+        "title": "NAT PMP Settings",
+        "tabs": [
+            { "title": "NAT PMP Settings", "path": "ip/nat-pmp" }
+        ]
+    },
+    "paths": {
+        "ip/nat-pmp": {
+            "form": "settings",
+            "links": [
+                { "title": "Interfaces", "path": "ip/nat-pmp/interfaces" }
+            ]
+        },
+        "ip/nat-pmp/interfaces": {
+            "columns": ["interface", "type", "forced-ip"],
+            "form": "interface"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "NAT PMP Settings",
+            "tabs": [{ "title": "General", "fields": ["enabled"] }]
+        },
+        "interface": {
+            "title": "NAT PMP <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "type", "forced-ip"] }]
+        }
+    },
+    "labels": {
+        "forced-ip": "Forced External IP"
+    }
+}

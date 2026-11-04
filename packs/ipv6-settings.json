@@ -1,0 +1,42 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IPv6", "Settings"],
+    "window": {
+        "title": "IPv6 Settings",
+        "tabs": [
+            { "title": "Settings", "path": "ipv6/settings" }
+        ]
+    },
+    "paths": {
+        "ipv6/settings": {
+            "readonly": [
+                "ipv6-fast-path-active", "ipv6-fast-path-packets", "ipv6-fast-path-bytes", "ipv6-fasttrack-active", "ipv6-fasttrack-packets",
+                "ipv6-fasttrack-bytes"
+            ],
+            "form": "settings"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "IPv6 Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "disable-ipv6", "forward", "allow-fast-path", "-",
+                        "accept-redirects", "accept-router-advertisements", "accept-router-advertisements-on", "disable-link-local-address", "-",
+                        "stale-neighbor-detect-interval", "stale-neighbor-timeout", "min-neighbor-entries", "soft-max-neighbor-entries", "max-neighbor-entries", "-",
+                        "multipath-hash-policy", "-",
+                        "ipv6-fast-path-active", "ipv6-fast-path-packets", "ipv6-fast-path-bytes", "-",
+                        "ipv6-fasttrack-active", "ipv6-fasttrack-packets", "ipv6-fasttrack-bytes"
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "forward": "IPv6 Forward",
+        "disable-link-local-address": "Disable Link-Local Address",
+        "soft-max-neighbor-entries": "Soft-Max Neighbor Entries"
+    }
+}

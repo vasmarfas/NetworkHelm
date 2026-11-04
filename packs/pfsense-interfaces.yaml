@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: pfsense
+menu: [Interfaces]
+window:
+  title: Interfaces
+  tabs:
+    - { title: Overview, path: interfaces/overview }
+    - { title: Assigned, path: interfaces/assigned }
+    - { title: VLAN, path: interfaces/vlan }
+paths:
+  interfaces/overview:
+    columns: [name, descr, hwif, status, ipaddr, subnet, macaddr, mtu, media, inbytes, outbytes]
+  interfaces/assigned:
+    columns: [if, descr, enable, typev4, ipaddr, subnet, typev6, mtu]
+  interfaces/vlan:
+    columns: [vlanif, if, tag, pcp, descr]
+labels:
+  descr: Description
+  hwif: Device
+  macaddr: MAC Address
+  ipaddr: Address
+  if: Device
+  typev4: IPv4
+  typev6: IPv6
+  vlanif: VLAN
+  pcp: Priority

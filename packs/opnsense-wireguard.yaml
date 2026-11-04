@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [WireGuard]
+window:
+  title: WireGuard
+  tabs:
+    - { title: Instances, path: wireguard/server }
+    - { title: Peers, path: wireguard/client }
+paths:
+  wireguard/server:
+    columns: [name, interface, port, tunneladdress, pubkey, peers]
+  wireguard/client:
+    columns: [name, tunneladdress, serveraddress, serverport, pubkey, servers]
+labels:
+  tunneladdress: Tunnel Address
+  pubkey: Public Key
+  serveraddress: Endpoint Address
+  serverport: Endpoint Port
+  servers: Instances

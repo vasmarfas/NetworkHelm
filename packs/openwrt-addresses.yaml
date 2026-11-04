@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [IP, Addresses]
+window:
+  title: Addresses
+  tabs:
+    - { title: Addresses, path: status/addresses }
+paths:
+  status/addresses:
+    columns: [address, interface, device]
+    owner: { path: network/interface, by: interface, title: Interface }

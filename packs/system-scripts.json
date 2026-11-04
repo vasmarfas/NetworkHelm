@@ -1,0 +1,41 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Scripts"],
+    "window": {
+        "title": "Scripts",
+        "tabs": [
+            { "title": "Scripts", "path": "system/script" },
+            { "title": "Jobs", "path": "system/script/job" },
+            { "title": "Environment", "path": "system/script/environment" }
+        ]
+    },
+    "paths": {
+        "system/script": {
+            "columns": ["name", "owner", "last-started", "run-count"],
+            "readonly": ["last-started", "run-count", "invalid"],
+            "actions": [
+                { "title": "Run Script", "command": "run", "selection": true, "argument": "number" }
+            ],
+            "form": "script"
+        },
+        "system/script/job": {
+            "columns": ["script", "owner", "started", "type"],
+            "readonly": ["script", "owner"]
+        },
+        "system/script/environment": {
+            "columns": ["name", "value"],
+            "readonly": ["name"]
+        }
+    },
+    "forms": {
+        "script": {
+            "title": "Script <{name}>",
+            "tabs": [
+                { "title": "General", "fields": ["name", "owner", "dont-require-permissions", "policy", "-", "last-started", "run-count", "-", "source"] }
+            ]
+        }
+    },
+    "labels": {
+        "last-started": "Last Time Started"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "Reboot"],
+    "window": {
+        "title": "Reboot",
+        "tabs": [
+            { "title": "Reboot", "path": "system/reboot" }
+        ]
+    },
+    "paths": {
+        "system/reboot": { "confirm": true }
+    }
+}

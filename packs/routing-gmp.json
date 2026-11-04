@@ -1,0 +1,26 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "GMP"],
+    "since": "7.0",
+    "window": {
+        "title": "GMP",
+        "tabs": [
+            { "title": "GMP", "path": "routing/gmp" }
+        ]
+    },
+    "paths": {
+        "routing/gmp": {
+            "columns": ["interfaces", "groups"],
+            "form": "gmp"
+        }
+    },
+    "forms": {
+        "gmp": {
+            "title": "GMP <{interfaces}>",
+            "tabs": [{ "title": "General", "fields": ["interfaces", "groups", "exclude", "sources"] }]
+        }
+    },
+    "labels": {
+        "groups": "Group"
+    }
+}

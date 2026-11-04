@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [System, Gateways]
+window:
+  title: Gateways
+  tabs:
+    - { title: Gateways, path: system/gateways }
+paths:
+  system/gateways:
+    columns: [name, interface_descr, ipprotocol, gateway, status, delay, stddev, loss, priority, weight, defaultgw, descr]
+labels:
+  interface_descr: Interface
+  ipprotocol: IP Version
+  stddev: StdDev
+  defaultgw: Default
+  descr: Description

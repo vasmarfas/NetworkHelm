@@ -1,0 +1,49 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Graphing"],
+    "window": {
+        "title": "Graphing",
+        "tabs": [
+            { "title": "Interface Rules", "path": "tool/graphing/interface" },
+            { "title": "Queue Rules", "path": "tool/graphing/queue" },
+            { "title": "Resource Rules", "path": "tool/graphing/resource" }
+        ]
+    },
+    "paths": {
+        "tool/graphing/interface": {
+            "columns": ["interface", "allow-address", "store-on-disk"],
+            "form": "interface",
+            "links": [
+                { "title": "Graphing Settings", "path": "tool/graphing" }
+            ]
+        },
+        "tool/graphing/queue": {
+            "columns": ["simple-queue", "allow-address", "store-on-disk", "allow-target"],
+            "form": "queue",
+            "links": [
+                { "title": "Graphing Settings", "path": "tool/graphing" }
+            ]
+        },
+        "tool/graphing/resource": {
+            "columns": ["allow-address", "store-on-disk"],
+            "form": "resource",
+            "links": [
+                { "title": "Graphing Settings", "path": "tool/graphing" }
+            ]
+        }
+    },
+    "forms": {
+        "interface": {
+            "title": "Interface Graphing <{interface}>",
+            "tabs": [{ "title": "General", "fields": ["interface", "allow-address", "store-on-disk"] }]
+        },
+        "queue": {
+            "title": "Queue Graphing <{simple-queue}>",
+            "tabs": [{ "title": "General", "fields": ["simple-queue", "allow-address", "store-on-disk", "allow-target"] }]
+        },
+        "resource": {
+            "title": "Resource Graphing",
+            "tabs": [{ "title": "General", "fields": ["allow-address", "store-on-disk"] }]
+        }
+    }
+}

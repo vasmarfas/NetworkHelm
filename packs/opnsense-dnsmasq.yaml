@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: opnsense
+menu: [Services, DHCP Server (Dnsmasq)]
+window:
+  title: DHCP Server (Dnsmasq)
+  tabs:
+    - { title: Ranges, path: dnsmasq/range }
+    - { title: Hosts, path: dnsmasq/host }
+    - { title: Options, path: dnsmasq/option }
+paths:
+  dnsmasq/range:
+    columns: [interface, start_addr, end_addr, subnet_mask, prefix_len, lease_time, domain, ra_mode, description]
+    form: range
+  dnsmasq/host:
+    columns: [host, domain, ip, hwaddr, client_id, lease_time, ignore, descr]
+  dnsmasq/option:
+    columns: [type, option, option6, interface, value, force, description]
+forms:
+  range:
+    title: "Range <{start_addr}-{end_addr}>"
+    tabs:
+      - title: General
+        fields: [interface, start_addr, end_addr, subnet_mask, prefix_len, constructor, mode, lease_time, domain_type, domain, set_tag, nosync, description]
+      - title: Router Advertisements
+        fields: [ra_mode, ra_priority, ra_mtu, ra_interval, ra_router_lifetime]
+labels:
+  start_addr: Start Address
+  end_addr: End Address
+  prefix_len: Prefix Length
+  hwaddr: Hardware Address
+  descr: Description
+  nosync: Disable HA Sync
+  ra_mode: RA Mode
+  ra_priority: RA Priority
+  ra_mtu: RA MTU
+  ra_interval: RA Interval
+  ra_router_lifetime: RA Router Lifetime

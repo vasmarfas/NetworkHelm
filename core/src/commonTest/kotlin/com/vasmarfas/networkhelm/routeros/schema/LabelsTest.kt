@@ -1,0 +1,72 @@
+package com.vasmarfas.networkhelm.routeros.schema
+
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class LabelsTest {
+
+    @Test
+    fun propertyNamesBecomeLabels() {
+        val expected = mapOf(
+            "mac-address" to "MAC Address",
+            "arp-timeout" to "ARP Timeout",
+            "src-address" to "Src. Address",
+            "l2mtu" to "L2 MTU",
+            "comment" to "Comment",
+            "dst-port" to "Dst. Port",
+            "in-interface" to "In. Interface",
+            "out-bridge-port-list" to "Out. Bridge Port List",
+            "src-mac-address" to "Src. MAC Address",
+            "vlan-id" to "VLAN ID",
+            "tx-flow-control" to "Tx Flow Control",
+            "rx-byte" to "Rx Byte",
+            "connection-nat-state" to "Connection NAT State",
+            "cache-max-ttl" to "Cache Max TTL",
+            "max-udp-packet-size" to "Max UDP Packet Size",
+            "use-doh-server" to "Use DoH Server",
+            "dont-fragment" to "Don't Fragment",
+            "l2tpv3-digest-hash" to "L2TPv3 Digest Hash",
+            "sha1" to "SHA1",
+            "allow-remote-requests" to "Allow Remote Requests",
+            "address-list-timeout" to "Address List Timeout",
+            "sfp-shutdown-temperature" to "SFP Shutdown Temperature",
+            "dhcp-snooping-vlan-ids" to "DHCP Snooping VLAN IDs",
+            "use-ipv6" to "Use IPv6",
+            "dst-limit" to "Dst. Limit",
+            "mst-config-digest" to "MST Config Digest",
+            "mdns-repeat-ifaces" to "mDNS Repeat Ifaces",
+            "no-dad" to "No DAD",
+            "ignore-ia-na-bindings" to "Ignore IA NA Bindings",
+            "immediate-gw" to "Immediate GW",
+            "crl" to "CRL",
+            "scep-server" to "SCEP Server",
+            "remote.as" to "Remote AS",
+            "output.filter-chain" to "Output Filter Chain",
+            "mpls-te-address" to "MPLS TE Address",
+            "nssa-translator" to "NSSA Translator",
+            "security.ft-over-ds" to "Security FT Over DS",
+            "sae-anti-clogging-threshold" to "SAE Anti Clogging Threshold",
+            "ft-preserve-vlanid" to "FT Preserve VLAN ID",
+            "fq-codel-ce-threshold" to "FQ CoDel CE Threshold",
+            "dhcpv6-pd-pool" to "DHCPv6 PD Pool",
+            "ddns-enabled" to "DDNS Enabled",
+            "ap-tx-limit" to "AP Tx Limit",
+            "rp-filter" to "RP Filter",
+            "smtp-server" to "SMTP Server",
+            "hwmp-default-hoplimit" to "HWMP Default Hoplimit",
+            "rates.vht-basic-mcs" to "Rates VHT Basic MCS",
+            "radsec-timeout" to "RadSec Timeout",
+            "cef" to "CEF",
+            "iso8601" to "ISO8601",
+            "only-1.2" to "Only 1.2",
+            "listen_port" to "Listen Port",
+            "src_ip" to "Src. IP",
+            "ra_management" to "RA Management",
+            "BannerFile" to "Banner File",
+            "SSHKeepAlive" to "SSH Keep Alive",
+            "IPv4Address" to "IPv4 Address",
+            "mdns" to "mDNS",
+        )
+        assertEquals(expected, expected.keys.associateWith(::label))
+    }
+}

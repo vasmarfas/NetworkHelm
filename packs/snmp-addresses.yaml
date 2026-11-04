@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: snmp
+menu: [IP, Addresses]
+window:
+  title: Addresses
+  tabs:
+    - { title: IPv4, path: ip/address }
+    - { title: IPv6, path: ipv6/address }
+paths:
+  ip/address:
+    columns: [address, network, interface, origin, status]
+  ipv6/address:
+    columns: [address, interface, origin, status]

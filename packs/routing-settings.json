@@ -1,0 +1,32 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Routing", "Settings"],
+    "since": "7.0",
+    "window": {
+        "title": "Routing Settings",
+        "tabs": [
+            { "title": "Routing Settings", "path": "routing/settings" }
+        ]
+    },
+    "paths": {
+        "routing/settings": {
+            "form": "settings"
+        }
+    },
+    "forms": {
+        "settings": {
+            "title": "Routing Settings",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "single-process", "-",
+                        "check-gateway-ping-interval", "check-gateway-ping-timeout", "check-gateway-ping-count", "-",
+                        "policy-rules", "-",
+                        "connected-in-chain", "dynamic-in-chain"
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,135 @@
+package com.vasmarfas.networkhelm.ui.terminal
+
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.SkikoComposeUiTest
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.v2.runDesktopComposeUiTest
+import com.composeunstyled.Text
+import com.vasmarfas.networkhelm.app.LocalSnippets
+import com.vasmarfas.networkhelm.app.MemoryStorage
+import com.vasmarfas.networkhelm.app.Snippet
+import com.vasmarfas.networkhelm.app.Snippets
+import com.vasmarfas.networkhelm.ssh.ExecResult
+import com.vasmarfas.networkhelm.ssh.SftpClient
+import com.vasmarfas.networkhelm.ssh.ShellChannel
+import com.vasmarfas.networkhelm.ssh.SshSession
+import com.vasmarfas.networkhelm.transport.ByteStream
+import com.vasmarfas.networkhelm.ui.kit.LocalCompact
+import com.vasmarfas.networkhelm.ui.theme.NetworkHelmTheme
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.runBlocking
+import java.io.File
+import java.util.Locale
+import javax.imageio.ImageIO
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+@OptIn(ExperimentalTestApi::class)
+class SnippetsTest {
+
+    private class Console : ShellChannel {
+        val written = mutableListOf<String>()
+        override suspend fun read(buffer: ByteArray, offset: Int, length: Int): Int = awaitCancellation()
+        override suspend fun write(bytes: ByteArray) {
+            written += bytes.decodeToString()
+        }
+        override fun resize(columns: Int, rows: Int) = Unit
+        override fun close() = Unit
+    }
+
+    private class Ssh(private val console: Console) : SshSession {
+        override suspend fun exec(command: String): ExecResult = error("no exec")
+        override suspend fun process(command: String): ByteStream = error("no process")
+        override suspend fun shell(term: String, columns: Int, rows: Int): ShellChannel = console
+        override suspend fun sftp(): SftpClient = error("no sftp")
+        override suspend fun forward(host: String, port: Int): ByteStream = error("no forward")
+        override fun close() = Unit
+    }
+
+    private fun SkikoComposeUiTest.picture(name: String) {
+        val directory = File("build/screenshots").also { it.mkdirs() }
+        ImageIO.write(captureToImage().toAwtImage(), "png", File(directory, "$name.png"))
+    }
+
+    private fun SkikoComposeUiTest.showTerminal(console: Console, compact: Boolean) {
+        val snippets = Snippets(MemoryStorage())
+        setContent {
+            NetworkHelmTheme(dark = true) {
+                CompositionLocalProvider(LocalSnippets provides snippets, LocalCompact provides compact) {
+                    TerminalView(Ssh(console)) { _, modifier -> Text("console", modifier) }
+                }
+            }
+        }
+        waitUntil(timeoutMillis = 5_000) { onAllNodes(hasTestTag("snippets")).fetchSemanticsNodes().isNotEmpty() }
+    }
+
+    @Test
+    fun aSnippetIsTypedIntoTheConsoleAndTheEditorKeepsThem() = runDesktopComposeUiTest(1000, 700) {
+        Locale.setDefault(Locale.ENGLISH)
+        val storage = MemoryStorage()
+        val snippets = Snippets(storage)
+        runBlocking { snippets.save(listOf(Snippet("Interfaces", "/interface print\n"))) }
+        val console = Console()
+        setContent {
+            NetworkHelmTheme(dark = true) {
+                CompositionLocalProvider(LocalSnippets provides snippets) {
+                    TerminalView(Ssh(console)) { _, modifier -> Text("console", modifier) }
+                }
+            }
+        }
+        waitUntil(timeoutMillis = 5_000) { onAllNodes(hasTestTag("snippets")).fetchSemanticsNodes().isNotEmpty() }
+        onNodeWithTag("snippets").performClick()
+        onNodeWithText("Interfaces").performClick()
+        waitUntil(timeoutMillis = 5_000) { console.written.isNotEmpty() }
+        assertEquals(listOf("/interface print\r"), console.written)
+
+        onNodeWithTag("snippets").performClick()
+        onNodeWithText("Edit snippets…").performClick()
+        onNodeWithTag("snippet-add").performClick()
+        onAllNodesWithTag("snippet-name")[1].performTextInput("Routes")
+        onAllNodesWithTag("snippet-text")[1].performTextInput("/ip route print")
+        picture("snippets")
+        onNodeWithText("OK").performClick()
+        waitUntil(timeoutMillis = 5_000) { snippets.all.value.size == 2 }
+        assertEquals(Snippet("Routes", "/ip route print"), snippets.all.value[1])
+        assertTrue("Routes" in runBlocking { storage.read(Snippets.FILE) }.orEmpty())
+    }
+
+    @Test
+    fun theKeysBarOfAPhoneTypesTabEscapeArrowsAndInterruptIntoTheConsole() = runDesktopComposeUiTest(400, 700) {
+        Locale.setDefault(Locale.ENGLISH)
+        val console = Console()
+        showTerminal(console, compact = true)
+        picture("terminal-keys")
+        val keys = listOf(
+            Triple("key-tab", "Tab, complete the command", "\t"),
+            Triple("key-esc", "Escape", "\u001b"),
+            Triple("key-up", "Arrow up", "\u001b[A"),
+            Triple("key-down", "Arrow down", "\u001b[B"),
+            Triple("key-left", "Arrow left", "\u001b[D"),
+            Triple("key-right", "Arrow right", "\u001b[C"),
+            Triple("key-ctrl-c", "Ctrl+C, break the running command", "\u0003"),
+        )
+        for ((tag, description, _) in keys) onNodeWithTag(tag).assert(hasContentDescription(description))
+        for ((tag, _, _) in keys) onNodeWithTag(tag).performClick()
+        waitUntil(timeoutMillis = 5_000) { console.written.size == keys.size }
+        assertEquals(keys.map { it.third }, console.written)
+    }
+
+    @Test
+    fun aWideWindowHasNoKeysBar() = runDesktopComposeUiTest(1000, 700) {
+        Locale.setDefault(Locale.ENGLISH)
+        showTerminal(Console(), compact = false)
+        assertTrue(onAllNodes(hasTestTag("key-tab")).fetchSemanticsNodes().isEmpty())
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_view_winbox_hint">The configs of UCI the router keeps: a config, its sections, their options. Known services have windows of their own.</string>
+    <string name="main_view_native_hint">The menu and the forms of LuCI, as the web interface of the router shows them.</string>
+    <string name="main_view_routeros_hint">The menus and windows of RouterOS worked out over UCI: only what OpenWrt can do is there.</string>
+</resources>

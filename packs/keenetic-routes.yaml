@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: keenetic
+menu: [IP, Routes]
+window:
+  title: Routes
+  tabs:
+    - { title: Routes, path: ip/route }
+paths:
+  ip/route:
+    columns: [destination, gateway, interface, metric]

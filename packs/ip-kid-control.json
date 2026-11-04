@@ -1,0 +1,67 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["IP", "Kid Control"],
+    "window": {
+        "title": "Kid Control",
+        "tabs": [
+            { "title": "Kids", "path": "ip/kid-control" },
+            { "title": "Devices", "path": "ip/kid-control/device" }
+        ]
+    },
+    "paths": {
+        "ip/kid-control": {
+            "columns": ["name", "sun", "mon", "tue", "wed", "thu", "fri", "sat", "rate-limit"],
+            "readonly": ["paused"],
+            "actions": [
+                { "title": "Pause", "command": "pause", "selection": true },
+                { "title": "Resume", "command": "resume", "selection": true }
+            ],
+            "form": "kid"
+        },
+        "ip/kid-control/device": {
+            "columns": ["name", "mac-address", "user", "ip-address", "rate-up", "rate-down", "bytes-up", "bytes-down", "activity"],
+            "readonly": [
+                "ip-address", "rate-up", "rate-down", "bytes-up", "bytes-down", "activity", "dynamic", "blocked", "limited", "inactive"
+            ],
+            "bits": ["rate-up", "rate-down"],
+            "bytes": ["bytes-up", "bytes-down"],
+            "actions": [
+                { "title": "Reset Counters", "command": "reset-counters", "selection": true }
+            ],
+            "form": "device"
+        }
+    },
+    "forms": {
+        "kid": {
+            "title": "Kid <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": [
+                        "name", "sun", "mon", "tue", "wed", "thu", "fri", "sat", "-",
+                        "rate-limit", "tur-sun", "tur-mon", "tur-tue", "tur-wed", "tur-thu", "tur-fri", "tur-sat", "-",
+                        "paused"
+                    ]
+                }
+            ]
+        },
+        "device": {
+            "title": "Device <{name}>",
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["name", "mac-address", "user", "ip-address", "rate-up", "rate-down", "bytes-up", "bytes-down", "activity"]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "tur-sun": "Unlimited Rate Sun",
+        "tur-mon": "Unlimited Rate Mon",
+        "tur-tue": "Unlimited Rate Tue",
+        "tur-wed": "Unlimited Rate Wed",
+        "tur-thu": "Unlimited Rate Thu",
+        "tur-fri": "Unlimited Rate Fri",
+        "tur-sat": "Unlimited Rate Sat"
+    }
+}

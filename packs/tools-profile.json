@@ -1,0 +1,31 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["Tools", "Profile"],
+    "since": "7.0",
+    "window": {
+        "title": "Profile",
+        "tabs": [
+            { "title": "Profile", "path": "tool/profile" }
+        ]
+    },
+    "paths": {
+        "tool/profile": {
+            "form": "profile",
+            "columns": ["name", "cpu", "usage"],
+            "readonly": ["name", "cpu", "usage"],
+            "autostart": true,
+            "defaults": { "cpu": "all" },
+            "combos": { "cpu": { "names": ["all", "total"], "count": "system/resource:cpu-count", "label": "cpu#" } }
+        }
+    },
+    "forms": {
+        "profile": {
+            "tabs": [
+                {
+                    "title": "General",
+                    "fields": ["cpu"]
+                }
+            ]
+        }
+    }
+}

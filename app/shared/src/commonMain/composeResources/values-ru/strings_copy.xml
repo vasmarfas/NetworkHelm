@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="copy_done">Скопировано</string>
+    <plurals name="copy_done_rows">
+        <item quantity="one">Скопирована %1$d строка</item>
+        <item quantity="few">Скопировано %1$d строки</item>
+        <item quantity="many">Скопировано %1$d строк</item>
+        <item quantity="other">Скопировано %1$d строки</item>
+    </plurals>
+    <string name="copy_failed">Не удалось записать в буфер обмена.</string>
+    <string name="copy_command">Копировать как команду</string>
+    <string name="copy_script">Копировать как скрипт</string>
+    <string name="copy_text">Копировать как текст</string>
+    <string name="copy_cell">Копировать ячейку</string>
+    <string name="copy_csv">Копировать как CSV</string>
+    <string name="copy_json">Копировать как JSON</string>
+    <string name="copy_value">Копировать значение</string>
+    <string name="copy_list">Копировать весь список</string>
+    <string name="copy_item_command">Копировать команду</string>
+</resources>

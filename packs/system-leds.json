@@ -1,0 +1,29 @@
+{
+    "$schema": "./pack.schema.json",
+    "menu": ["System", "LEDs"],
+    "window": {
+        "title": "LEDs",
+        "tabs": [
+            { "title": "LEDs", "path": "system/leds" }
+        ]
+    },
+    "paths": {
+        "system/leds": {
+            "columns": ["type", "interface", "leds", "color"],
+            "form": "led",
+            "links": [
+                { "title": "Settings", "path": "system/leds/settings" }
+            ]
+        }
+    },
+    "forms": {
+        "led": {
+            "title": "LED Trigger <{type}>",
+            "only": [{ "fields": ["modem-signal-threshold"], "where": { "type": ["modem-signal"] } }],
+            "tabs": [{ "title": "General", "fields": ["type", "interface", "modem-signal-threshold", "leds", "color"] }]
+        }
+    },
+    "labels": {
+        "leds": "LEDs"
+    }
+}

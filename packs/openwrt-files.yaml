@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./pack.schema.json
+platform: openwrt
+menu: [Files]
+window:
+  title: Files
+  tabs:
+    - { title: Files, path: status/files }
+paths:
+  status/files:
+    columns: [name, type, size, last-modified]
+    bytes: [size]
+    files: true
+    uploads: tmp
+    actions:
+      - { title: Backup, command: backup }
+      - { title: Upgrade, command: upgrade, selection: true, confirm: true }
+      - { title: Install SFTP Server, command: sftp, confirm: true }
