@@ -1,0 +1,432 @@
+name: Deploy Desktop
+run-name: Deploy Desktop ${{ inputs.version_name }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'App versionName (e.g. 1.1.0, 1.2.0-rc1)'
+        required: true
+      version_code:
+        description: 'Build number (empty = from the version, 1.4.12 is 1041299, 1.4.12-rc2 is 1041202)'
+        required: false
+        default: ''
+      build_windows:
+        description: 'Windows (installer, portable EXE, MSI)'
+        type: boolean
+        default: true
+      build_linux:
+        description: 'Linux (DEB, RPM, AppImage)'
+        type: boolean
+        default: true
+      build_macos:
+        description: 'macOS (a DMG for Apple silicon and one for Intel, notarized where the secrets are set)'
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      version_name:
+        type: string
+        required: false
+        default: ''
+      version_code:
+        type: string
+        required: false
+        default: ''
+      build_windows:
+        type: boolean
+        required: false
+        default: true
+      build_linux:
+        type: boolean
+        required: false
+        default: true
+      build_macos:
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-desktop-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # the legacy flavour runs on Java 17 for Windows 7 and 8, the arm64 one is built on an ARM runner; the author has run neither on
+  # its target, so a failure of them leaves the x64 files alone and does not stop the release
+  windows:
+    name: Windows ${{ matrix.name }}
+    if: ${{ inputs.build_windows }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: x64
+            os: windows-latest
+            build: build
+            tasks: ':app:desktopApp:packageInnoSetup :app:desktopApp:packageMsi'
+          - name: legacy
+            os: windows-latest
+            build: build/legacy
+            flavor: -legacy
+            tasks: '-PlegacyJava=true :app:desktopApp:packageInnoSetup'
+            experimental: true
+          - name: arm64
+            os: windows-11-arm
+            build: build
+            flavor: -arm64
+            tasks: ':app:desktopApp:packageInnoSetup'
+            experimental: true
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental == true }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version_name }}
+          INPUT_CODE: ${{ inputs.version_code }}
+        run: |
+          set -eu
+          name="$INPUT_VERSION"
+          if [ -z "$name" ]; then
+            case "$GITHUB_REF" in
+              refs/tags/v*) name="${GITHUB_REF#refs/tags/v}" ;;
+              *) echo "::error::the version is not given"; exit 1 ;;
+            esac
+          fi
+          derived=$(printf '%s' "$name" | awk '{
+            split($0, part, "-")
+            split(part[1], v, ".")
+            stage = 99
+            if (index($0, "-")) { stage = 0; if (match($0, /[0-9]+$/)) stage = substr($0, RSTART) }
+            print ((v[1] * 100 + v[2]) * 100 + v[3]) * 100 + stage
+          }')
+          {
+            echo "name=$name"
+            echo "code=${INPUT_CODE:-$derived}"
+          } >> "$GITHUB_OUTPUT"
+
+      # the installer in the look of the app is made by Inno Setup, which packageInnoSetup finds where it installs; the image of
+      # Windows on ARM may come without Chocolatey, and the x86 compiler runs there under emulation
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          if (Get-Command choco -ErrorAction SilentlyContinue) {
+            choco install innosetup --no-progress -y
+          } else {
+            Invoke-WebRequest https://jrsoftware.org/download.php/is.exe -OutFile "$env:RUNNER_TEMP\is.exe"
+            Start-Process "$env:RUNNER_TEMP\is.exe" -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/CURRENTUSER' -Wait
+          }
+
+      - name: Package
+        env:
+          APP_VERSION_NAME: ${{ steps.version.outputs.name }}
+          APP_VERSION_CODE: ${{ steps.version.outputs.code }}
+        run: ./gradlew ${{ matrix.tasks }}
+
+      - name: Collect artifacts
+        env:
+          VERSION: ${{ steps.version.outputs.name }}
+          FLAVOR: ${{ matrix.flavor }}
+          BUILD: ${{ matrix.build }}
+        run: |
+          set -eu
+          mkdir -p out
+          binaries=app/desktopApp/$BUILD/compose/binaries/main
+          cp "$binaries/inno/NetworkHelm-$VERSION$FLAVOR-setup.exe" "out/NetworkHelm-$VERSION-windows$FLAVOR-setup.exe"
+          cp "$binaries/inno/NetworkHelm-$VERSION$FLAVOR-portable.exe" "out/NetworkHelm-$VERSION-windows$FLAVOR-portable.exe"
+          if [ -z "$FLAVOR" ]; then cp "$binaries"/msi/*.msi "out/NetworkHelm-$VERSION-windows.msi"; fi
+
+      - name: Sign installers
+        shell: pwsh
+        env:
+          WINDOWS_PFX_BASE64: ${{ secrets.WINDOWS_PFX_BASE64 }}
+          WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrEmpty($env:WINDOWS_PFX_BASE64)) {
+            Write-Output "::notice::WINDOWS_PFX_BASE64 is not set, installers stay unsigned"
+            exit 0
+          }
+          $pfx = Join-Path $env:RUNNER_TEMP 'signing.pfx'
+          [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:WINDOWS_PFX_BASE64))
+          $signtool = Get-ChildItem 'C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe' |
+            Sort-Object FullName -Descending | Select-Object -First 1
+          if (-not $signtool) { throw 'signtool.exe not found' }
+          Get-ChildItem out -Include *.msi, *.exe -Recurse | ForEach-Object {
+            & $signtool.FullName sign /f $pfx /p $env:WINDOWS_PFX_PASSWORD /fd SHA256 `
+              /tr http://timestamp.digicert.com /td SHA256 $_.FullName
+            if ($LASTEXITCODE -ne 0) { throw "signing failed for $($_.Name)" }
+          }
+          Remove-Item $pfx -Force
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-windows-${{ matrix.name }}
+          path: out/*
+          if-no-files-found: error
+
+  # the ARM runners are new to this pipeline: a failure there leaves the x86_64 files alone and does not stop the release
+  linux:
+    name: Linux ${{ matrix.arch }}
+    if: ${{ inputs.build_linux }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            os: ubuntu-latest
+            deb: amd64
+            rpm: x86_64
+          - arch: arm64
+            os: ubuntu-24.04-arm
+            deb: arm64
+            rpm: aarch64
+            experimental: true
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental == true }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version_name }}
+          INPUT_CODE: ${{ inputs.version_code }}
+        run: |
+          set -eu
+          name="$INPUT_VERSION"
+          if [ -z "$name" ]; then
+            case "$GITHUB_REF" in
+              refs/tags/v*) name="${GITHUB_REF#refs/tags/v}" ;;
+              *) echo "::error::the version is not given"; exit 1 ;;
+            esac
+          fi
+          derived=$(printf '%s' "$name" | awk '{
+            split($0, part, "-")
+            split(part[1], v, ".")
+            stage = 99
+            if (index($0, "-")) { stage = 0; if (match($0, /[0-9]+$/)) stage = substr($0, RSTART) }
+            print ((v[1] * 100 + v[2]) * 100 + v[3]) * 100 + stage
+          }')
+          {
+            echo "name=$name"
+            echo "code=${INPUT_CODE:-$derived}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Package
+        env:
+          APP_VERSION_NAME: ${{ steps.version.outputs.name }}
+          APP_VERSION_CODE: ${{ steps.version.outputs.code }}
+        run: ./gradlew :app:desktopApp:packageDeb :app:desktopApp:packageRpm :app:desktopApp:createDistributable
+
+      # Gradle reports only the exit code of jpackage, its own message stays in these files
+      - name: jpackage logs
+        if: failure()
+        run: cat app/desktopApp/build/compose/logs/*/*.txt || true
+
+      - name: Package dependencies
+        run: |
+          dpkg-deb -f app/desktopApp/build/compose/binaries/main/deb/*.deb Depends
+          rpm -qp --requires app/desktopApp/build/compose/binaries/main/rpm/*.rpm
+
+      - name: Collect artifacts
+        env:
+          VERSION: ${{ steps.version.outputs.name }}
+          DEB_ARCH: ${{ matrix.deb }}
+          RPM_ARCH: ${{ matrix.rpm }}
+        run: |
+          set -eu
+          mkdir -p out
+          cp app/desktopApp/build/compose/binaries/main/deb/*.deb "out/NetworkHelm-$VERSION-linux-$DEB_ARCH.deb"
+          cp app/desktopApp/build/compose/binaries/main/rpm/*.rpm "out/NetworkHelm-$VERSION-linux-$RPM_ARCH.rpm"
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-linux-${{ matrix.arch }}
+          path: out/*
+          if-no-files-found: error
+
+      # after the upload above, so a failure here does not take the DEB and RPM with it
+      - name: Package AppImage
+        env:
+          VERSION: ${{ steps.version.outputs.name }}
+        run: sh tools/linux/build-appimage.sh app/desktopApp/build/compose/binaries/main/app/NetworkHelm "$VERSION" out
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-linux-appimage-${{ matrix.arch }}
+          path: out/*.AppImage
+          if-no-files-found: error
+
+  # jpackage makes no universal binary and Skiko and the runtime are taken for the processor of the machine, so each DMG is built on its own
+  macos:
+    name: macOS ${{ matrix.arch }}
+    if: ${{ inputs.build_macos }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            os: macos-latest
+          - arch: x64
+            os: macos-15-intel
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version_name }}
+          INPUT_CODE: ${{ inputs.version_code }}
+        run: |
+          set -eu
+          name="$INPUT_VERSION"
+          if [ -z "$name" ]; then
+            case "$GITHUB_REF" in
+              refs/tags/v*) name="${GITHUB_REF#refs/tags/v}" ;;
+              *) echo "::error::the version is not given"; exit 1 ;;
+            esac
+          fi
+          derived=$(printf '%s' "$name" | awk '{
+            split($0, part, "-")
+            split(part[1], v, ".")
+            stage = 99
+            if (index($0, "-")) { stage = 0; if (match($0, /[0-9]+$/)) stage = substr($0, RSTART) }
+            print ((v[1] * 100 + v[2]) * 100 + v[3]) * 100 + stage
+          }')
+          {
+            echo "name=$name"
+            echo "code=${INPUT_CODE:-$derived}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Import signing certificate
+        id: certificate
+        env:
+          APPLE_DEVELOPER_ID_P12_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_P12_BASE64 }}
+          APPLE_DEVELOPER_ID_P12_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_P12_PASSWORD }}
+        run: |
+          set -eu
+          if [ -z "${APPLE_DEVELOPER_ID_P12_BASE64:-}" ]; then
+            echo "imported=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::APPLE_DEVELOPER_ID_P12_BASE64 is not set, the DMG stays unsigned and is not notarized"
+            exit 0
+          fi
+          umask 077
+          keychain="$RUNNER_TEMP/build.keychain-db"
+          password=$(openssl rand -hex 24)
+          echo "::add-mask::$password"
+          printf '%s' "$APPLE_DEVELOPER_ID_P12_BASE64" | tr -d '\n\r ' | openssl base64 -d -A > "$RUNNER_TEMP/developer_id.p12"
+          security create-keychain -p "$password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$password" "$keychain"
+          security import "$RUNNER_TEMP/developer_id.p12" -k "$keychain" -P "$APPLE_DEVELOPER_ID_P12_PASSWORD" \
+            -T /usr/bin/codesign -T /usr/bin/productbuild
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild: -s -k "$password" "$keychain" > /dev/null
+          security list-keychains -d user -s "$keychain" login.keychain-db
+          rm -f "$RUNNER_TEMP/developer_id.p12"
+          echo "imported=true" >> "$GITHUB_OUTPUT"
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Package DMG
+        env:
+          APP_VERSION_NAME: ${{ steps.version.outputs.name }}
+          APP_VERSION_CODE: ${{ steps.version.outputs.code }}
+          APPLE_DEVELOPER_ID_IDENTITY: ${{ steps.certificate.outputs.imported == 'true' && secrets.APPLE_DEVELOPER_ID_IDENTITY || '' }}
+        run: ./gradlew :app:desktopApp:packageDmg
+
+      - name: Collect artifacts
+        env:
+          VERSION: ${{ steps.version.outputs.name }}
+          ARCH: ${{ matrix.arch }}
+        run: |
+          set -eu
+          mkdir -p out
+          cp app/desktopApp/build/compose/binaries/main/dmg/*.dmg "out/NetworkHelm-$VERSION-macos-$ARCH.dmg"
+
+      - name: Notarize
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          SIGNED: ${{ steps.certificate.outputs.imported }}
+        run: |
+          set -eu
+          if [ "$SIGNED" != 'true' ] || [ -z "${ASC_KEY_ID:-}" ] || [ -z "${ASC_ISSUER_ID:-}" ] || [ -z "${ASC_KEY_P8:-}" ]; then
+            echo "::notice::ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_P8 are not set or the build is unsigned, skipping notarization"
+            echo 'macOS: DMG is not notarized.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          umask 077
+          key="$RUNNER_TEMP/asc_key.p8"
+          if printf '%s' "$ASC_KEY_P8" | grep -q 'BEGIN'; then
+            printf '%s\n' "$ASC_KEY_P8" > "$key"
+          else
+            printf '%s' "$ASC_KEY_P8" | tr -d '\n\r ' | openssl base64 -d -A > "$key"
+          fi
+          trap 'rm -f "$key"' EXIT
+          for dmg in out/*.dmg; do
+            result=$(xcrun notarytool submit "$dmg" --key "$key" --key-id "$ASC_KEY_ID" --issuer "$ASC_ISSUER_ID" --wait --output-format json)
+            echo "$result"
+            if [ "$(jq -r .status <<< "$result")" != 'Accepted' ]; then
+              xcrun notarytool log "$(jq -r .id <<< "$result")" --key "$key" --key-id "$ASC_KEY_ID" --issuer "$ASC_ISSUER_ID"
+              echo "::error::notarization of $(basename "$dmg") ended with status $(jq -r .status <<< "$result")"
+              exit 1
+            fi
+            xcrun stapler staple "$dmg"
+          done
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-macos-${{ matrix.arch }}
+          path: out/*
+          if-no-files-found: error
+
+      - name: Remove the temporary keychain
+        if: always()
+        run: |
+          security list-keychains -d user -s login.keychain-db
+          security delete-keychain "$RUNNER_TEMP/build.keychain-db" || true

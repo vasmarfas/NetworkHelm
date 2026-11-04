@@ -1,0 +1,242 @@
+name: Release
+run-name: Release ${{ inputs.version_name }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version (e.g. 1.1.0, 1.2.0-rc1; a hyphen makes a prerelease)'
+        required: true
+      notes_en:
+        description: 'What''s new in English: Google Play, GitHub. \n is a line break, Google Play takes up to 500 characters'
+        required: true
+      notes_ru:
+        description: 'Что нового по-русски: Google Play, RuStore, GitHub. \n — перенос строки, Google Play берёт до 500 знаков'
+        required: true
+      github_only:
+        description: 'GitHub only: no Google Play and no RuStore, the files go to the GitHub release alone'
+        type: boolean
+        default: true
+      submit_for_review:
+        description: 'Send to review in every store (unchecked = upload and leave the versions ready in the consoles)'
+        type: boolean
+        default: true
+      release_after_review:
+        description: 'Publish on RuStore as soon as review passes (Google Play follows its managed publishing setting)'
+        type: boolean
+        default: true
+      play_track:
+        description: 'Google Play track'
+        type: choice
+        options: [production, beta, alpha, internal]
+        default: production
+      publish_google_play:
+        description: 'Google Play'
+        type: boolean
+        default: true
+      publish_rustore:
+        description: 'RuStore'
+        type: boolean
+        default: true
+      push_gateway_image:
+        description: 'Push the gateway image to ghcr.io'
+        type: boolean
+        default: true
+      draft:
+        description: 'Leave the GitHub release as a draft'
+        type: boolean
+        default: false
+      version_code:
+        description: 'Android versionCode (empty = from the version, 1.4.12 is 1041299, 1.4.12-rc2 is 1041202)'
+        required: false
+        default: ''
+
+permissions:
+  actions: read
+  contents: write
+  packages: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  meta:
+    name: Release parameters
+    runs-on: ubuntu-latest
+    outputs:
+      version_name: ${{ steps.resolve.outputs.version_name }}
+      version_code: ${{ steps.resolve.outputs.version_code }}
+    steps:
+      # the stores get the build without a second test run, so the commit must already be green in CI
+      - name: Check CI on this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          run=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$GITHUB_SHA" \
+            --jq '.workflow_runs[0] // {} | "\(.status // "") \(.conclusion // "")"')
+          case "$run" in
+            'completed success') ;;
+            ' ') echo "::error::CI has not run on $GITHUB_SHA. Run the CI workflow manually on a branch or tag at this commit, wait for success, then start the release again"; exit 1 ;;
+            completed*) echo "::error::CI ended with '${run#completed }' on $GITHUB_SHA"; exit 1 ;;
+            *) echo "::error::CI is still running on $GITHUB_SHA, start the release after it finishes"; exit 1 ;;
+          esac
+
+      - name: Resolve
+        id: resolve
+        env:
+          INPUT_VERSION: ${{ inputs.version_name }}
+          INPUT_CODE: ${{ inputs.version_code }}
+        run: |
+          set -eu
+          derived=$(printf '%s' "$INPUT_VERSION" | awk '{
+            split($0, part, "-")
+            split(part[1], v, ".")
+            stage = 99
+            if (index($0, "-")) { stage = 0; if (match($0, /[0-9]+$/)) stage = substr($0, RSTART) }
+            print ((v[1] * 100 + v[2]) * 100 + v[3]) * 100 + stage
+          }')
+          {
+            echo "version_name=$INPUT_VERSION"
+            echo "version_code=${INPUT_CODE:-$derived}"
+          } >> "$GITHUB_OUTPUT"
+
+      # a long text would fail Google Play after the other stores already took the build
+      - name: Check release notes
+        if: inputs.publish_google_play && !inputs.github_only
+        env:
+          NOTES_EN: ${{ inputs.notes_en }}
+          NOTES_RU: ${{ inputs.notes_ru }}
+        run: |
+          set -eu
+          for name in NOTES_EN NOTES_RU; do
+            length=$(printf '%b' "${!name}" | LC_ALL=C.UTF-8 wc -m)
+            if [ "$length" -gt 500 ]; then
+              echo "::error::$name is $length characters, Google Play takes up to 500"
+              exit 1
+            fi
+          done
+
+      - name: Compose GitHub release notes
+        env:
+          NOTES_EN: ${{ inputs.notes_en }}
+          NOTES_RU: ${{ inputs.notes_ru }}
+        run: |
+          set -eu
+          {
+            printf '%b\n\n' "$NOTES_EN"
+            printf '%b\n' "$NOTES_RU"
+          } > notes.md
+          cat notes.md
+
+      - name: Upload release notes
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-notes
+          path: notes.md
+
+  android:
+    name: Android
+    needs: meta
+    uses: ./.github/workflows/deploy_android.yml
+    with:
+      version_name: ${{ needs.meta.outputs.version_name }}
+      version_code: ${{ needs.meta.outputs.version_code }}
+      notes_en: ${{ inputs.notes_en }}
+      notes_ru: ${{ inputs.notes_ru }}
+      publish_google_play: ${{ inputs.publish_google_play && !inputs.github_only }}
+      play_track: ${{ inputs.play_track }}
+      play_status: completed
+      play_send_for_review: ${{ inputs.submit_for_review }}
+      publish_rustore: ${{ inputs.publish_rustore && !inputs.github_only }}
+      rustore_artifact: apk
+      rustore_submit: ${{ inputs.submit_for_review }}
+      rustore_auto_publish: ${{ inputs.release_after_review }}
+    secrets: inherit
+
+  desktop:
+    name: Desktop
+    needs: meta
+    uses: ./.github/workflows/deploy_desktop.yml
+    with:
+      version_name: ${{ needs.meta.outputs.version_name }}
+      version_code: ${{ needs.meta.outputs.version_code }}
+    secrets: inherit
+
+  gateway:
+    name: Gateway
+    needs: meta
+    uses: ./.github/workflows/deploy_gateway.yml
+    with:
+      version_name: ${{ needs.meta.outputs.version_name }}
+      push_image: ${{ inputs.push_gateway_image }}
+    secrets: inherit
+
+  web:
+    name: Web
+    needs: meta
+    uses: ./.github/workflows/deploy_pages.yml
+    with:
+      version_name: ${{ needs.meta.outputs.version_name }}
+      publish: ${{ !contains(needs.meta.outputs.version_name, '-') }}
+    secrets: inherit
+
+  github_release:
+    name: GitHub release
+    needs: [meta, android, desktop, gateway, web]
+    if: ${{ !cancelled() && needs.meta.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          pattern: release-*
+          path: artifacts
+          merge-multiple: true
+
+      - name: List artifacts
+        run: ls -lh artifacts
+
+      # the body opens with the table of downloads, linked to the files that were built, and the notes follow it
+      - name: Compose the release body
+        env:
+          VERSION: ${{ needs.meta.outputs.version_name }}
+          IMAGE: ${{ inputs.push_gateway_image && format('ghcr.io/{0}/networkhelm-gateway', github.repository_owner) || '' }}
+        run: |
+          set -eu
+          {
+            python3 tools/release/downloads.py artifacts "$VERSION" "$GITHUB_REPOSITORY" "$IMAGE"
+            printf '\n'
+            cat artifacts/notes.md
+          } > body.md
+          cat body.md
+
+      - name: Publish
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ needs.meta.outputs.version_name }}
+          name: v${{ needs.meta.outputs.version_name }}
+          target_commitish: ${{ github.sha }}
+          body_path: body.md
+          generate_release_notes: true
+          # a failed platform leaves its files out, so such a release is only drafted
+          draft: ${{ inputs.draft || contains(needs.*.result, 'failure') }}
+          prerelease: ${{ contains(needs.meta.outputs.version_name, '-') }}
+          fail_on_unmatched_files: false
+          # the AAB stays in the run artifacts, it is for Google Play
+          files: |
+            artifacts/*.apk
+            artifacts/*.exe
+            artifacts/*.msi
+            artifacts/*.deb
+            artifacts/*.rpm
+            artifacts/*.AppImage
+            artifacts/*.dmg
+            artifacts/*.jar
+            artifacts/*.zip
+            artifacts/*.tar.gz

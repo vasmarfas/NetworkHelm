@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [master]
+    paths-ignore:
+      - '**.md'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  jvm:
+    name: Tests, Android, desktop, web, gateway
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # the tests against the lab routers need lab.properties, which CI has not, and are skipped
+      - name: Unit tests
+        run: ./gradlew :core:jvmTest :miknative:jvmTest :app:shared:jvmTest :server:test
+
+      - name: Build Android, desktop, web and the gateway
+        run: ./gradlew :app:androidApp:assembleDebug :app:desktopApp:compileKotlin :app:webApp:compileKotlinWasmJs :app:webApp:compileKotlinJs :server:compileKotlin
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports
+          path: |
+            core/build/reports/tests
+            miknative/build/reports/tests
+            app/shared/build/reports/tests
+            server/build/reports/tests
+          if-no-files-found: ignore
+
+  ios:
+    name: iOS app
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # OpenSSL and libssh2 for the SSH of iOS are built once for each version of their script
+      - name: Cache the SSH libraries
+        uses: actions/cache@v6
+        with:
+          path: build/ios-ssh
+          key: ios-ssh-${{ hashFiles('tools/ios/build-ssh.sh') }}
+
+      - name: Build the SSH libraries
+        run: sh tools/ios/build-ssh.sh
+
+      # the build plugin of SwiftTerm is trusted in Xcode once by hand; a build without a person needs the flags instead.
+      # -sdk is left out: with it the tool of the plugin, which runs on the Mac, is built for the simulator and not found
+      - name: Build the app for the simulator
+        run: >-
+          xcodebuild -project app/iosApp/iosApp.xcodeproj -scheme iosApp -configuration Debug
+          -destination 'generic/platform=iOS Simulator' -derivedDataPath build/xcode
+          -skipPackagePluginValidation -skipMacroValidation CODE_SIGNING_ALLOWED=NO build
+
+      - name: Run the Kotlin/Native tests on the simulator
+        run: ./gradlew :core:iosSimulatorArm64Test :miknative:iosSimulatorArm64Test :app:shared:iosSimulatorArm64Test
