@@ -1,6 +1,8 @@
 # NetworkHelm
 
-A program for managing routers. It follows WinBox from MikroTik: a menu tree on the left, tabbed windows in the workspace, tables that update while you look at them. The difference is that it runs on macOS, Linux, Android and in a browser as well as on Windows, and it handles more than MikroTik. The project is independent; MikroTik and the other router makers have nothing to do with it.
+A program for managing routers. It is modelled on WinBox: a menu tree on the left, tabbed windows on the right, tables that update while you look at them. It runs on Windows, macOS, Linux, Android and in a browser, and it talks to more than MikroTik: OpenWrt, OPNsense, pfSense and VyOS as well. The project is independent; MikroTik and the other router makers have nothing to do with it.
+
+Right now it is a release candidate, 1.0.0-rc1. I tested it mostly on virtual routers (the table below says which ones), so a real device may still surprise it. If something does not open or is awkward to use, please open an [issue](https://github.com/vasmarfas/networkhelm/issues).
 
 **Русский:** [README.ru.md](README.ru.md)
 
@@ -21,22 +23,22 @@ A program for managing routers. It follows WinBox from MikroTik: a menu tree on 
 | Linux over SSH | view only | the OpenWrt virtual machines |
 | SNMP, UPnP, TR-064 | view only | SNMP and UPnP on the Wi-Fi router, TR-064 not checked |
 
-"Not checked" means the driver passed its tests against answers built from the vendor's description, and the author never had the real device. If you have one, a report on how it went is welcome: [SUPPORT.md](SUPPORT.md).
+"Not checked" means the driver passed its tests against answers I built from the vendor's description, and I never had the real device. If you have one, tell me how it went: [SUPPORT.md](SUPPORT.md).
 
-For MikroTik the program connects over the WinBox port 8291 (it is picked first whenever the port answers), the API (encrypted or not), REST and SSH, and to a router that has no IP address yet over its MAC address. Which of these to switch on at the router itself is described in the [guide](GUIDE.md).
+For MikroTik the program connects over the WinBox port 8291 (it is tried first whenever the port answers), the API (encrypted or not), REST and SSH, and to a router that has no IP address yet over its MAC address. Which of these to turn on at the router itself is in the [guide](GUIDE.md).
 
 ## What it does
 
-- Shows the menus and windows of a router the way WinBox users know them: a menu tree with search (Alt+F), windows with tabs, dialogs with Apply and OK. The tabs, the order and labels of fields and the columns of tables come from the router itself, so the sections of a new RouterOS version appear without an update of the program.
+- Shows the menus and windows of a router the way WinBox users know them: a menu tree with search (Alt+F), windows with tabs, dialogs with Apply and OK. Tabs, the order and labels of fields and the columns of tables come from the router itself, so the sections of a new RouterOS version appear without updating the program.
 - Updates tables live. Rows can be filtered, sorted and shown in the columns you choose, and the selected ones copied as ready `add` commands, as text, CSV or JSON.
 - Shows the command an edit will run before you press Apply, marks a value the router would refuse, and keeps a journal of the edits of the session.
-- Turns on Safe Mode wherever the router has a way to take an edit back when the connection is lost. Where it has none, the program says so.
-- Tells in the toolbar when the router reports a newer RouterOS and when GitHub has a newer release of the program (the desktop and Android apps look once, at start). Without an answer nothing is shown. The window "Check For Updates" changes the channel at once and shows the list of changes of the offered version: over port 8291 the text comes from the router, otherwise the desktop and Android apps ask MikroTik's server while the window is open (the [privacy policy](privacy-policy.md) says what goes out).
-- Opens a terminal over SSH with ready-made commands and the files of a router over SFTP, with a viewer and an editor (highlighting, search and replace, saving back to the router). It also does SSH tunnels, connections through another router and keys from ssh-agent.
+- Turns on Safe Mode wherever the router can take an edit back when the connection drops. Where it cannot, the program says so.
+- Has a terminal over SSH with ready-made commands, and the files of a router over SFTP with a viewer and an editor (highlighting, search and replace, saving back to the router). SSH tunnels, connections through another router and keys from ssh-agent work too.
 - Shows the log of a router coloured by severity, and searches all connected routers at once by address, network, MAC address or text.
 - Opens a saved configuration without a router (`/export` of RouterOS, an OpenWrt backup, VyOS commands) in the same windows and compares it with another one.
-- Keeps an address book with groups, imports a CSV file or the address book of WinBox, and exports it sealed with a master password. It finds MikroTik routers on the local network by itself (the Neighbors tab) and can scan a subnet.
-- For RouterOS there are Ping, Torch, Traceroute, Packet Sniffer and traffic graphs.
+- Keeps an address book with groups, imports a CSV file or the address book of WinBox, and exports it under a master password. MikroTik routers on the local network show up by themselves (the Neighbors tab), and a subnet can be scanned.
+- For RouterOS there are Ping, Traceroute, Torch, Profile, Packet Sniffer and traffic graphs. Over port 8291 they open as the router's own windows and refresh by themselves.
+- Tells you in the toolbar when the router reports a newer RouterOS and when GitHub has a newer release of the program (the desktop and Android apps look once, at start). Without an answer nothing is shown. The "Check For Updates" window changes the channel at once and shows the list of changes of the offered version: over port 8291 the text comes from the router, otherwise the desktop and Android apps ask MikroTik's server while the window is open (the [privacy policy](privacy-policy.md) says what goes out).
 
 ![The firewall of VyOS](.github/screenshots/vyos-firewall.png)
 
@@ -44,18 +46,18 @@ For MikroTik the program connects over the WinBox port 8291 (it is picked first 
 
 ## Download
 
-The files are on the [releases](https://github.com/vasmarfas/networkhelm/releases) page. The description of each release opens with a table: processors in the rows, systems in the columns.
+Everything is on the [releases](https://github.com/vasmarfas/networkhelm/releases) page. The description of each release opens with a table, processors in the rows and systems in the columns. There are a lot of files, so here is what to take:
 
 - Windows: the installer (`windows-setup.exe`), the portable EXE (`windows-portable.exe`) or an MSI.
 - macOS: a DMG for Apple silicon (`macos-arm64`) or for Intel (`macos-x64`).
 - Linux: a DEB or RPM package, or an AppImage.
 - Android: the APK.
 - iOS: only an Xcode project in `app/iosApp` for now. There is no ready app in the App Store.
-- Browser: a page with made-up routers opens without any install, https://vasmarfas.github.io/networkhelm/. Your own routers are opened in a browser through a gateway, see below.
+- Browser: https://vasmarfas.github.io/networkhelm/ opens without any install and has made-up routers on it. It is there to show how the program looks; your own routers are opened in a browser through a gateway, see below.
 
 The portable EXE needs no install. On its first start it unpacks itself once into `%LOCALAPPDATA%\NetworkHelm\portable\<version>` (about 200 MB), starts from there afterwards and keeps its settings in the `NetworkHelm data` folder beside the file. The AppImage mounts itself through FUSE and needs `fusermount` from the `fuse3` or `fuse` package; without FUSE, start it with `--appimage-extract-and-run`.
 
-Files marked `legacy` are built for 64-bit Windows 7 SP1 and 8 (on Java 17), files marked `arm64` for Windows and Linux on ARM processors. The author has not been able to run them on such hardware yet. If the build of one of them failed, the release does not have that file. If you try one, tell us how it went.
+Files marked `legacy` are built for 64-bit Windows 7 SP1 and 8 (on Java 17), files marked `arm64` for Windows and Linux on ARM processors. I have not been able to run them on such hardware yet. If you try one, tell me how it went.
 
 ### What you need to run it
 
@@ -82,7 +84,9 @@ The gateway can also run on its own: as an archive with its own Java for Windows
 
 ## How it works
 
-The program talks to routers through the interfaces they publish themselves. Fields and their choices come from the router where it can describe them: `/console/inspect` on RouterOS 7, the OpenAPI of pfSense, the forms of LuCI on OpenWrt. The layout of RouterOS 7 windows (tabs, the order and labels of fields, the columns of lists) is read from the interface descriptions the router serves to its own clients; where it serves none, the interface packs in the `packs` folder are used. What the console and the API do not print and WinBox shows (the Resources tab, the dashboard of a controller, the columns of read-only tables) is read from the object model of port 8291, read only, where the router has WinBox turned on.
+The program talks to routers through the interfaces they publish themselves, and asks the router wherever it can. Fields and their choices come from `/console/inspect` on RouterOS 7, from the OpenAPI of pfSense, from the forms of LuCI on OpenWrt. The layout of RouterOS 7 windows (tabs, the order and labels of fields, the columns of lists) is read from the interface descriptions the router serves to its own clients; where it serves none, the interface packs from the `packs` folder are used.
+
+What the console and the API do not print and WinBox shows (the Resources tab, the dashboard of a controller, the columns of read-only tables) comes from the object model of port 8291, where the router has WinBox turned on. Windows that have no menu in the console are opened through the same port, and edited there too unless they are read-only.
 
 The client for port 8291 is written from public descriptions of the protocol. No code, file or recorded traffic of WinBox is used.
 

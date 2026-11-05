@@ -89,6 +89,15 @@ Jar весит около 31 МБ, нужна Java 17 или новее; веб-
 
 ## В Docker
 
+К каждому релизу есть готовый образ для amd64 и arm64 (тег `latest` указывает только на стабильные версии):
+
+```bash
+docker run -d --name networkhelm-gateway -p 8443:8443 -v networkhelm-gateway:/data -e NETWORKHELM_GATEWAY_PASSWORD=<пароль> ghcr.io/vasmarfas/networkhelm-gateway:1.0.0-rc1
+docker logs networkhelm-gateway
+```
+
+Чтобы собрать его самому:
+
 ```bash
 ./gradlew :server:buildFatJar
 docker build -t networkhelm-gateway server
