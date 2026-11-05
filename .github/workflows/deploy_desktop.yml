@@ -54,11 +54,60 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # the web app is the same on every system, so it is built once, on Linux: Windows on ARM has no Binaryen to optimize it with, and
+  # webpack ran out of memory on the macOS ARM runner
+  web:
+    name: Web bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version_name }}
+        run: |
+          set -eu
+          name="$INPUT_VERSION"
+          if [ -z "$name" ]; then
+            case "$GITHUB_REF" in
+              refs/tags/v*) name="${GITHUB_REF#refs/tags/v}" ;;
+              *) echo "::error::the version is not given"; exit 1 ;;
+            esac
+          fi
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build the web bundle
+        env:
+          APP_VERSION_NAME: ${{ steps.version.outputs.name }}
+        run: ./gradlew :app:webApp:webAppBundle
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-bundle-desktop
+          path: app/webApp/build/bundle
+          retention-days: 1
+          if-no-files-found: error
+
   # the legacy flavour runs on Java 17 for Windows 7 and 8, the arm64 one is built on an ARM runner; the author has run neither on
   # its target, so a failure of them leaves the x64 files alone and does not stop the release
   windows:
     name: Windows ${{ matrix.name }}
     if: ${{ inputs.build_windows }}
+    needs: web
     strategy:
       fail-fast: false
       matrix:
@@ -86,6 +135,12 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v7
+
+      - name: Download the web bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: web-bundle-desktop
+          path: app/webApp/build/bundle
 
       - name: Set up JDK 21
         uses: actions/setup-java@v6
@@ -138,7 +193,7 @@ jobs:
         env:
           APP_VERSION_NAME: ${{ steps.version.outputs.name }}
           APP_VERSION_CODE: ${{ steps.version.outputs.code }}
-        run: ./gradlew ${{ matrix.tasks }}
+        run: ./gradlew -x :app:webApp:webAppBundle ${{ matrix.tasks }}
 
       - name: Collect artifacts
         env:
@@ -186,6 +241,7 @@ jobs:
   linux:
     name: Linux ${{ matrix.arch }}
     if: ${{ inputs.build_linux }}
+    needs: web
     strategy:
       fail-fast: false
       matrix:
@@ -203,6 +259,12 @@ jobs:
     continue-on-error: ${{ matrix.experimental == true }}
     steps:
       - uses: actions/checkout@v7
+
+      - name: Download the web bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: web-bundle-desktop
+          path: app/webApp/build/bundle
 
       - name: Set up JDK 21
         uses: actions/setup-java@v6
@@ -246,7 +308,7 @@ jobs:
         env:
           APP_VERSION_NAME: ${{ steps.version.outputs.name }}
           APP_VERSION_CODE: ${{ steps.version.outputs.code }}
-        run: ./gradlew :app:desktopApp:packageDeb :app:desktopApp:packageRpm :app:desktopApp:createDistributable
+        run: ./gradlew -x :app:webApp:webAppBundle :app:desktopApp:packageDeb :app:desktopApp:packageRpm :app:desktopApp:createDistributable
 
       # Gradle reports only the exit code of jpackage, its own message stays in these files
       - name: jpackage logs
@@ -293,6 +355,7 @@ jobs:
   macos:
     name: macOS ${{ matrix.arch }}
     if: ${{ inputs.build_macos }}
+    needs: web
     strategy:
       fail-fast: false
       matrix:
@@ -304,6 +367,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
+
+      - name: Download the web bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: web-bundle-desktop
+          path: app/webApp/build/bundle
 
       - name: Set up JDK 21
         uses: actions/setup-java@v6
@@ -375,7 +444,7 @@ jobs:
           APP_VERSION_NAME: ${{ steps.version.outputs.name }}
           APP_VERSION_CODE: ${{ steps.version.outputs.code }}
           APPLE_DEVELOPER_ID_IDENTITY: ${{ steps.certificate.outputs.imported == 'true' && secrets.APPLE_DEVELOPER_ID_IDENTITY || '' }}
-        run: ./gradlew :app:desktopApp:packageDmg
+        run: ./gradlew -x :app:webApp:webAppBundle :app:desktopApp:packageDmg
 
       - name: Collect artifacts
         env:
