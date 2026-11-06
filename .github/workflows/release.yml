@@ -240,3 +240,13 @@ jobs:
             artifacts/*.jar
             artifacts/*.zip
             artifacts/*.tar.gz
+
+  # the scan only reports and runs once the release is public, so nothing waits for it; a drafted release is not scanned
+  virustotal:
+    name: VirusTotal
+    needs: [meta, android, desktop, gateway, web, github_release]
+    if: ${{ !cancelled() && needs.github_release.result == 'success' && !inputs.draft && !contains(needs.*.result, 'failure') }}
+    uses: ./.github/workflows/virustotal.yml
+    with:
+      tag: v${{ needs.meta.outputs.version_name }}
+    secrets: inherit

@@ -1,0 +1,44 @@
+name: VirusTotal
+run-name: VirusTotal ${{ inputs.tag }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag of the published release whose files are scanned (e.g. v1.0.0-rc2)'
+        required: true
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: Scan the release files
+    runs-on: ubuntu-latest
+    # four requests a minute on the free key: about a minute for every new file
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v7
+
+      # a report must never turn a run red: a failed step stays red in its own line and the job still passes
+      - name: Download the release files
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: gh release download "$TAG" --dir files
+
+      - name: Scan
+        continue-on-error: true
+        timeout-minutes: 170
+        env:
+          VT_API_KEY: ${{ secrets.VT_API_KEY }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -eu
+          { printf '## VirusTotal %s\n\n' "$TAG"; python3 tools/release/virustotal.py files; } | tee -a "$GITHUB_STEP_SUMMARY"
