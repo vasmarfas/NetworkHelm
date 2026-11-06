@@ -736,6 +736,7 @@ class RouterTab(
         fun visible(entry: MenuEntry): MenuEntry? {
             if (running?.within(entry.since, entry.until) == false) return null
             if (entry.window == "telnet" && session.ssh == null) return null
+            if (lacksPackage(entry.requires)) return null
             if (entry.items.isNotEmpty()) {
                 val children = entry.items.mapNotNull(::visible)
                 return if (children.isEmpty()) null else MenuEntry(entry.title, entry.path, children, entry.requires, prio = entry.prio)
@@ -773,9 +774,23 @@ class RouterTab(
             }
         }
         val configs = own.flatMap { pack -> pack.window.tabs.map { it.path.substringBefore('/') } }.toSet()
-        val wired = rewired(shown, null, own)
+        val moved = movedInto(made)
+        val wired = rewired(shown.filterNot { it.items.isEmpty() && it.title in moved }, null, own)
         val listed = flatten(wired).mapNotNull { it.path }.toSet()
         menu = withPacks(wired, own.filter { it.window.tabs.firstOrNull()?.path !in listed && !it.hidden }) + apart(extra.filter { it.path !in configs })
+    }
+
+    // /cmr stands in every RouterOS for its client, so the path of an entry does not tell whether the package it needs is installed
+    private fun lacksPackage(requires: String?): Boolean {
+        val name = requires?.removeSuffix(" package")?.takeIf { it != requires } ?: return false
+        return base.device.platform == Platform.RouterOs && name !in base.device.packages
+    }
+
+    // the router's description may put an entry of the bundled top level into a group, as CAPsMAN under Wireless, and it stands only there
+    private fun movedInto(made: List<Pack>): Set<String> {
+        val places = made.map { it.menu }
+        val groups = places.filter { it.size > 1 }.flatMap { it.dropLast(1) }.toSet()
+        return places.filter { it.size > 1 }.map { it.last() }.toSet() - places.filter { it.size == 1 }.map { it.first() }.toSet() - groups
     }
 
     // an entry of the bundled menu whose window the router describes as tables of the object model opens that window

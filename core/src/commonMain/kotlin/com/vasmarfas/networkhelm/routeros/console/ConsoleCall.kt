@@ -78,6 +78,7 @@ internal fun consoleCall(words: List<String>, yesNo: Set<String>, refused: Map<S
         verb == "export" -> ConsoleCall("$menu${given()}", Reply.Text)
         // :serialize cuts the time of a reply to whole seconds, :put keeps the microseconds
         menu == "/tool/ping" -> ConsoleCall(":put [$menu${given()} as-value]", Reply.Pairs)
+        menu == "/password" -> ConsoleCall("$menu${given()}", Reply.Nothing)
         else -> ConsoleCall(
             serialized("$menu${given()}$numbers$list as-value$select"), Reply.Rows, ConsoleCall("$menu$numbers${given()}", Reply.Text, changes = changes), changes,
         )
@@ -93,6 +94,7 @@ internal fun classicCall(words: List<String>, yesNo: Set<String>, refused: Map<S
     fun given() = named.joinToString("") { (name, value) -> " " + argument(name, value, name in yesNo, encoding) }
     val select = where(call.query, classic = true, encoding = encoding)
     return when {
+        call.command == "/password" -> ConsoleCall("/password${given()}", Reply.Nothing)
         verb == "print" && named.any { it.first == "count-only" } -> ConsoleCall("$menu print count-only$select", Reply.Count, probe = true, quick = true)
         verb == "print" -> {
             if (FIND in refused[menu].orEmpty()) ConsoleCall("\$rdrow [$menu get]", Reply.Records, proplist = call.proplist, quick = true)

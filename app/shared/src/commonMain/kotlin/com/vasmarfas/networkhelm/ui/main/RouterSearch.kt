@@ -1,7 +1,6 @@
 package com.vasmarfas.networkhelm.ui.main
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,6 +56,7 @@ import com.vasmarfas.networkhelm.search.places
 import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.TextField
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.hand
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.theme.Palette
@@ -123,7 +123,6 @@ class RouterSearch(private val scope: CoroutineScope) {
 @Composable
 fun RouterSearchDialog(search: RouterSearch, routers: List<RouterTab>, onOpen: (RouterTab, Finding.Hit) -> Unit, onClose: () -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { focus.requestFocus() }
     val text = search.query.text.toString().trim()
@@ -145,8 +144,7 @@ fun RouterSearchDialog(search: RouterSearch, routers: List<RouterTab>, onOpen: (
     val answered = text == search.searched && hits.isNotEmpty()
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 860.dp).fillMaxHeight(0.85f).padding(16.dp).background(palette.surface, shape).border(1.dp, palette.line, shape)
-                .padding(16.dp),
+            Modifier.widthIn(max = 860.dp).fillMaxHeight(0.85f).padding(16.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {

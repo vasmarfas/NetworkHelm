@@ -1,7 +1,5 @@
 package com.vasmarfas.networkhelm.ui.settings
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +39,7 @@ import com.vasmarfas.networkhelm.ui.kit.QrImage
 import com.vasmarfas.networkhelm.ui.kit.SecretField
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.Toggle
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.hand
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.theme.Theme
@@ -81,7 +79,6 @@ import networkhelm.app.shared.generated.resources.settings_close
 @Composable
 fun BrowserAccessDialog(access: BrowserAccess, onClose: () -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val scope = rememberCoroutineScope()
     val password = remember { TextFieldState() }
     val repeat = remember { TextFieldState() }
@@ -109,8 +106,7 @@ fun BrowserAccessDialog(access: BrowserAccess, onClose: () -> Unit) {
     }
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 640.dp).padding(16.dp).background(palette.surface, shape).border(1.dp, palette.line, shape)
-                .verticalScroll(rememberScrollState()).padding(16.dp),
+            Modifier.widthIn(max = 640.dp).padding(16.dp).dialogPanel(16.dp, rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(stringResource(Res.string.access_title), style = Theme.type.strong)

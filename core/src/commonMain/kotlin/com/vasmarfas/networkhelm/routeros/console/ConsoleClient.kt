@@ -56,6 +56,7 @@ class ConsoleClient internal constructor(
 
     private val refused = MutableStateFlow(emptyMap<String, Set<String>>())
     private val link = MutableStateFlow(LinkState.Up)
+    private val expired = MutableStateFlow(false)
 
     // Safe Mode is bound to the session that took it, so one console, kept out of the pool, makes every change
     private val held = MutableStateFlow<ConsoleTerminal?>(null)
@@ -63,6 +64,8 @@ class ConsoleClient internal constructor(
     private val mode = Mutex()
 
     override val status: Flow<LinkState> = link.asStateFlow()
+
+    override val passwordExpired: Boolean get() = expired.value
 
     override val safeMode: SafeMode = object : SafeMode {
         override val active: Flow<Boolean> = held.map { it != null }
@@ -279,7 +282,7 @@ class ConsoleClient internal constructor(
         }
         if (slot != null) return slot
         return try {
-            ConsoleTerminal.open(open, dialect, encoding)
+            ConsoleTerminal.open(open, dialect, encoding).also { if (it.expired) expired.value = true }
         } catch (e: Throwable) {
             slots.trySend(null)
             throw when {

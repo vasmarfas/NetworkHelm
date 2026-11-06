@@ -1,7 +1,9 @@
 package com.vasmarfas.networkhelm.session
 
 import com.vasmarfas.networkhelm.model.Capabilities
+import com.vasmarfas.networkhelm.model.DeviceException
 import com.vasmarfas.networkhelm.model.DeviceInfo
+import com.vasmarfas.networkhelm.model.ErrorCategory
 import com.vasmarfas.networkhelm.model.Filter
 import com.vasmarfas.networkhelm.model.Item
 import com.vasmarfas.networkhelm.model.LinkState
@@ -55,6 +57,11 @@ interface DeviceSession {
     suspend fun packs(store: TextStore? = null): List<Pack> = emptyList()
 
     suspend fun nativeMenu(): NativeMenu? = null
+
+    // the router asked for a new password at login; the session works until one is given
+    val passwordExpired: Boolean get() = false
+
+    suspend fun changePassword(old: String, new: String): Unit = throw DeviceException(ErrorCategory.Unsupported, "the password of this account cannot be changed here")
 
     val safeMode: SafeMode?
 

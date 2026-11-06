@@ -145,6 +145,7 @@ import com.vasmarfas.networkhelm.ui.kit.TabStrip
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.ToolbarButton
 import com.vasmarfas.networkhelm.ui.kit.copyClipboard
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.hand
 import com.vasmarfas.networkhelm.ui.kit.readText
 import com.vasmarfas.networkhelm.ui.kit.rememberCopier
@@ -1047,7 +1048,6 @@ internal fun Confirm(
     onConfirm: () -> Unit,
 ) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { focus.requestFocus() }
     val keys = Modifier.onKeyEvent { event ->
@@ -1061,7 +1061,7 @@ internal fun Confirm(
     }
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.5f)).then(keys).focusRequester(focus).focusable().testTag("confirm"), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 360.dp).background(palette.surface, shape).border(1.dp, palette.line, shape).padding(14.dp),
+            Modifier.widthIn(max = 360.dp).dialogPanel(14.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(question)

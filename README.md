@@ -2,7 +2,7 @@
 
 A program for managing routers. It is modelled on WinBox: a menu tree on the left, tabbed windows on the right, tables that update while you look at them. It runs on Windows, macOS, Linux, Android and in a browser, and it talks to more than MikroTik: OpenWrt, OPNsense, pfSense and VyOS as well. The project is independent; MikroTik and the other router makers have nothing to do with it.
 
-Right now it is a release candidate, 1.0.0-rc1. I tested it mostly on virtual routers (the table below says which ones), so a real device may still surprise it. If something does not open or is awkward to use, please open an [issue](https://github.com/vasmarfas/networkhelm/issues).
+Right now it is a release candidate, 1.0.0-rc2. I tested it mostly on virtual routers (the table below says which ones), so a real device may still surprise it. If something does not open or is awkward to use, please open an [issue](https://github.com/vasmarfas/networkhelm/issues).
 
 **Русский:** [README.ru.md](README.ru.md)
 
@@ -21,7 +21,8 @@ Right now it is a release candidate, 1.0.0-rc1. I tested it mostly on virtual ro
 | Teltonika RutOS | like OpenWrt, plus an LTE window | not checked |
 | Keenetic, Netcraze | view only | not checked |
 | Linux over SSH | view only | the OpenWrt virtual machines |
-| SNMP, UPnP, TR-064 | view only | SNMP and UPnP on the Wi-Fi router, TR-064 not checked |
+| SNMP | walk the agent to find what it has (a "MIB" group of windows with names from the standard MIBs), view it, change any writable value, create and remove rows of tables with RowStatus | reading on the Wi-Fi router, walking and writing on net-snmp in a virtual machine |
+| UPnP, TR-064 | view only | UPnP on the Wi-Fi router, TR-064 not checked |
 
 "Not checked" means the driver passed its tests against answers I built from the vendor's description, and I never had the real device. If you have one, tell me how it went: [SUPPORT.md](SUPPORT.md).
 
@@ -38,6 +39,7 @@ For MikroTik the program connects over the WinBox port 8291 (it is tried first w
 - Opens a saved configuration without a router (`/export` of RouterOS, an OpenWrt backup, VyOS commands) in the same windows and compares it with another one.
 - Keeps an address book with groups, imports a CSV file or the address book of WinBox, and exports it under a master password. MikroTik routers on the local network show up by themselves (the Neighbors tab), and a subnet can be scanned.
 - For RouterOS there are Ping, Traceroute, Torch, Profile, Packet Sniffer and traffic graphs. Over port 8291 they open as the router's own windows and refresh by themselves.
+- Has network tools that work on the device itself, whatever router is connected: ping with a chart and a path MTU search, traceroute with host names, port and LAN scanners, DNS lookup, Whois over RDAP and port 43, IP info, speed test, Wake-on-LAN, a subnet calculator that takes ranges, a subnet splitter, a transfer time calculator, a port reference and a MAC vendor lookup. The page in a browser keeps those that need no sockets.
 - Tells you in the toolbar when the router reports a newer RouterOS and when GitHub has a newer release of the program (the desktop and Android apps look once, at start). Without an answer nothing is shown. The "Check For Updates" window changes the channel at once and shows the list of changes of the offered version: over port 8291 the text comes from the router, otherwise the desktop and Android apps ask MikroTik's server while the window is open (the [privacy policy](privacy-policy.md) says what goes out).
 
 ![The firewall of VyOS](.github/screenshots/vyos-firewall.png)

@@ -19,6 +19,8 @@ interface RouterOsClient : RouterOsLink {
 
     val safeMode: SafeMode? get() = null
 
+    val passwordExpired: Boolean get() = false
+
     fun close()
 }
 

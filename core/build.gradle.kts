@@ -133,6 +133,13 @@ val bundleLuci = tasks.register<BundleText>("bundleLuci") {
     output.set(layout.buildDirectory.dir("generated/luci"))
 }
 
+val bundleMibs = tasks.register<BundleText>("bundleMibs") {
+    text.set(layout.projectDirectory.file("schema/snmp-mibs.tsv"))
+    packageName.set("com.vasmarfas.networkhelm.snmp")
+    constant.set("snmpMibs")
+    output.set(layout.buildDirectory.dir("generated/mibs"))
+}
+
 kotlin {
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     applyDefaultHierarchyTemplate {
@@ -194,6 +201,7 @@ kotlin {
             kotlin.srcDir(bundleLuci.flatMap { it.output })
             kotlin.srcDir(bundleFields.flatMap { it.output })
             kotlin.srcDir(bundleAbsent.flatMap { it.output })
+            kotlin.srcDir(bundleMibs.flatMap { it.output })
         }
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutinesCore)

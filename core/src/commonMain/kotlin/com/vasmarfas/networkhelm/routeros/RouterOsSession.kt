@@ -105,6 +105,14 @@ class RouterOsSession(
 
     override fun nativeStands(path: MenuPath) = nativeWindows.stands(path)
 
+    override var passwordExpired = client.passwordExpired
+        private set
+
+    override suspend fun changePassword(old: String, new: String) {
+        deviceErrors { client.call("/password", "=old-password=$old", "=new-password=$new", "=confirm-new-password=$new") }
+        passwordExpired = false
+    }
+
     private suspend fun nativeSchema(path: MenuPath, lists: Boolean): MenuSchema? =
         nativeWindows.takeIf { it.stands(path) }?.let { it.schema(path, it.spec(path) ?: throw DeviceException(ErrorCategory.MissingItem, "no window of the native channel at $path"), lists) }
 

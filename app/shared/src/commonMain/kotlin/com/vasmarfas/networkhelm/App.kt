@@ -43,6 +43,7 @@ import com.vasmarfas.networkhelm.ui.settings.BrowserAccessDialog
 import com.vasmarfas.networkhelm.ui.settings.SettingsDialog
 import com.vasmarfas.networkhelm.ui.theme.NetworkHelmTheme
 import com.vasmarfas.networkhelm.ui.theme.Theme
+import com.vasmarfas.networkhelm.ui.tools.ToolsDialog
 import org.jetbrains.compose.resources.stringResource
 import networkhelm.app.shared.generated.resources.Res
 import networkhelm.app.shared.generated.resources.main_connect_another
@@ -120,6 +121,7 @@ private fun Routers(shell: Shell, tabsInTitle: Boolean) {
                     shell.questions,
                     onAbout = { shell.about = true },
                     onSettings = { shell.settingsShown = true },
+                    onTools = { shell.toolsShown = true },
                     probe = shell.settings.current.probe,
                 ) { session, address, login ->
                     shell.add(session, address, login)
@@ -132,6 +134,7 @@ private fun Routers(shell: Shell, tabsInTitle: Boolean) {
                         onDetach = if (shell.canDetach) { window -> shell.detach(tab, window) } else null,
                         onAbout = { shell.about = true },
                         onSettings = { shell.settingsShown = true },
+                        onTools = { shell.toolsShown = true },
                         onSecure = if (tab.login != null) { { shell.secure(tab) } } else null,
                         onSearch = { shell.searchShown = true },
                         others = shell.routers.filter { it !== tab && it.session.device.platform == tab.session.device.platform },
@@ -148,6 +151,7 @@ private fun Routers(shell: Shell, tabsInTitle: Boolean) {
                 shell.accessShown = true
             }) { shell.settingsShown = false }
         }
+        if (shell.toolsShown) ToolsDialog { shell.toolsShown = false }
         if (shell.accessShown) shell.services.browserAccess?.let { BrowserAccessDialog(it) { shell.accessShown = false } }
         if (shell.searchShown) RouterSearchDialog(shell.search, shell.routers, shell::open) { shell.searchShown = false }
     }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,9 +45,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Download
 import com.composables.icons.lucide.FolderOpen
+import com.composables.icons.lucide.Info
 import com.composables.icons.lucide.Key
 import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Settings
 import com.composables.icons.lucide.Upload
+import com.composables.icons.lucide.Wrench
 import com.composables.icons.lucide.X
 import com.composeunstyled.Text
 import com.vasmarfas.networkhelm.app.Access
@@ -81,6 +86,7 @@ import com.vasmarfas.networkhelm.ui.kit.Select
 import com.vasmarfas.networkhelm.ui.kit.TabStrip
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.ToolbarButton
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.hand
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.table.DataTable
@@ -130,6 +136,11 @@ import networkhelm.app.shared.generated.resources.kind_other
 import networkhelm.app.shared.generated.resources.kind_pfsense
 import networkhelm.app.shared.generated.resources.kind_routeros
 import networkhelm.app.shared.generated.resources.kind_vyos
+import networkhelm.app.shared.generated.resources.renew_change
+import networkhelm.app.shared.generated.resources.renew_new
+import networkhelm.app.shared.generated.resources.renew_question
+import networkhelm.app.shared.generated.resources.renew_repeat
+import networkhelm.app.shared.generated.resources.renew_skip
 import networkhelm.app.shared.generated.resources.scan_done
 import networkhelm.app.shared.generated.resources.scan_hint
 import networkhelm.app.shared.generated.resources.scan_ports
@@ -137,15 +148,18 @@ import networkhelm.app.shared.generated.resources.scan_running
 import networkhelm.app.shared.generated.resources.scan_start
 import networkhelm.app.shared.generated.resources.scan_stop
 import networkhelm.app.shared.generated.resources.connect_browser_shut
+import networkhelm.app.shared.generated.resources.connect_community
 import networkhelm.app.shared.generated.resources.connect_open_file
 import networkhelm.app.shared.generated.resources.connect_open_file_hint
 import networkhelm.app.shared.generated.resources.connect_opnsense_key
 import networkhelm.app.shared.generated.resources.connect_pfsense_key
 import networkhelm.app.shared.generated.resources.connect_password
+import networkhelm.app.shared.generated.resources.connect_plain_community
 import networkhelm.app.shared.generated.resources.connect_plain_warning
 import networkhelm.app.shared.generated.resources.connect_probe_shut
 import networkhelm.app.shared.generated.resources.connect_protocol
 import networkhelm.app.shared.generated.resources.connect_remember
+import networkhelm.app.shared.generated.resources.connect_remember_community
 import networkhelm.app.shared.generated.resources.connect_remove
 import networkhelm.app.shared.generated.resources.connect_save
 import networkhelm.app.shared.generated.resources.connect_saved
@@ -174,6 +188,7 @@ import networkhelm.app.shared.generated.resources.error_book_file
 import networkhelm.app.shared.generated.resources.error_book_invalid
 import networkhelm.app.shared.generated.resources.error_book_password
 import networkhelm.app.shared.generated.resources.error_browser
+import networkhelm.app.shared.generated.resources.error_browser_routeros
 import networkhelm.app.shared.generated.resources.error_handshake
 import networkhelm.app.shared.generated.resources.error_local_network
 import networkhelm.app.shared.generated.resources.error_login
@@ -231,6 +246,7 @@ import networkhelm.app.shared.generated.resources.protocol_upnp
 import networkhelm.app.shared.generated.resources.protocol_vyos
 import networkhelm.app.shared.generated.resources.protocol_ssh
 import networkhelm.app.shared.generated.resources.settings_title
+import networkhelm.app.shared.generated.resources.tools_title
 import networkhelm.app.shared.generated.resources.trust_accept
 import networkhelm.app.shared.generated.resources.trust_changed_ssh
 import networkhelm.app.shared.generated.resources.trust_changed_tls
@@ -240,6 +256,9 @@ import networkhelm.app.shared.generated.resources.trust_new_tls
 import networkhelm.app.shared.generated.resources.trust_previous
 import networkhelm.app.shared.generated.resources.trust_reject
 
+private val FORM_GUESS = 470.dp
+private val LISTS_LEAST = 180.dp
+
 @Composable
 fun ConnectScreen(
     services: Services,
@@ -248,36 +267,45 @@ fun ConnectScreen(
     questions: TrustQuestions = remember { TrustQuestions() },
     onAbout: () -> Unit = {},
     onSettings: () -> Unit = {},
+    onTools: () -> Unit = {},
     probe: Boolean = false,
     onConnected: (DeviceSession, String, RouterOsLogin?) -> Unit,
 ) {
     val state = remember { ConnectState(services, saved, scope, questions) }
     LaunchedEffect(state, probe) { if (probe) state.probe() }
+    DisposableEffect(state) { onDispose { state.renewing?.skip() } }
     val ui = rememberCoroutineScope()
     val exchange = LocalFileExchange.current
     val palette = Theme.palette
     val compact = LocalCompact.current
-    Box(Modifier.fillMaxSize().background(palette.workspace).fileDrop { files -> ui.launch { state.openFiles(files, onConnected) } }, contentAlignment = Alignment.TopCenter) {
+    val density = LocalDensity.current
+    var above by remember { mutableStateOf(FORM_GUESS) }
+    BoxWithConstraints(Modifier.fillMaxSize().background(palette.workspace).fileDrop { files -> ui.launch { state.openFiles(files, onConnected) } }, contentAlignment = Alignment.TopCenter) {
+        val margin = if (compact) 8.dp else 16.dp
+        val window = maxHeight
         Column(
-            if (compact) Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(8.dp) else Modifier.widthIn(max = 760.dp).fillMaxSize().padding(16.dp),
+            (if (compact) Modifier.fillMaxSize() else Modifier.widthIn(max = 760.dp).fillMaxSize()).verticalScroll(rememberScrollState()).padding(margin),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Header(onAbout, onSettings)
-            Form(
-                state,
-                saved.routers.collectAsState().value.map { it.address }.distinct(),
-                onConnect = { state.connect(onConnected) },
-                onSave = { ui.launch { state.save() } },
-                onOpenFile = { ui.launch { state.openFiles(exchange.pick(), onConnected) } },
-                onKey = {
-                    ui.launch {
-                        exchange.pick().firstOrNull()?.let { file ->
-                            state.key = file.name to file.read()
-                            state.passphrase.clearText()
+            Column(Modifier.onSizeChanged { above = with(density) { it.height.toDp() } }, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Header(onAbout, onSettings, onTools)
+                Form(
+                    state,
+                    saved.routers.collectAsState().value.map { it.address }.distinct(),
+                    onConnect = { state.connect(onConnected) },
+                    onSave = { ui.launch { state.save() } },
+                    onOpenFile = { ui.launch { state.openFiles(exchange.pick(), onConnected) } },
+                    onKey = {
+                        ui.launch {
+                            exchange.pick().firstOrNull()?.let { file ->
+                                state.key = file.name to file.read()
+                                state.passphrase.clearText()
+                            }
                         }
-                    }
-                },
-            )
+                    },
+                )
+            }
+            // the lists take what the window has left below the form, and the page scrolls when that is less than they need
             Lists(
                 services,
                 saved,
@@ -286,7 +314,7 @@ fun ConnectScreen(
                 onRemove = { router -> ui.launch { state.remove(router) } },
                 onImport = { ui.launch { state.import(exchange.pick()) } },
                 onExport = { state.sealing = Sealing.Export },
-                if (compact) Modifier.fillMaxWidth().height(420.dp) else Modifier.fillMaxSize(),
+                Modifier.fillMaxWidth().height(if (compact) 420.dp else (window - margin * 2 - 10.dp - above).coerceAtLeast(LISTS_LEAST)),
             )
         }
         state.sealing?.let { sealing ->
@@ -300,20 +328,47 @@ fun ConnectScreen(
             }
         }
         state.winBox?.let { book -> WinBoxImportDialog(book, onCancel = { state.winBox = null }, onImport = { ui.launch { state.importWinBox(book) } }) }
+        state.renewing?.let { PasswordRenewal(it) }
         questions.question?.let { TrustDialog(it) }
+    }
+}
+
+@Composable
+private fun PasswordRenewal(renewal: Renewal) {
+    val palette = Theme.palette
+    val first = remember { TextFieldState() }
+    val second = remember { TextFieldState() }
+    val differ = first.text.toString() != second.text.toString()
+    val ready = first.text.isNotEmpty() && !differ && !renewal.busy
+    Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
+        Column(
+            Modifier.widthIn(max = 480.dp).dialogPanel(16.dp).testTag("renewal"),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(stringResource(Res.string.renew_question))
+            Labeled(stringResource(Res.string.renew_new)) { SecretField(first, Modifier.width(260.dp).testTag("renewal-new")) }
+            Labeled(stringResource(Res.string.renew_repeat)) {
+                SecretField(second, Modifier.width(260.dp).testTag("renewal-repeat"), onGo = { if (ready) renewal.change(first.text.toString()) })
+            }
+            if (differ && second.text.isNotEmpty()) Text(stringResource(Res.string.book_mismatch), color = palette.warning)
+            renewal.failure?.let { Text(it, color = palette.warning, modifier = Modifier.testTag("renewal-failure")) }
+            Row(Modifier.align(Alignment.End).padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(stringResource(Res.string.renew_skip), renewal::skip)
+                Button(stringResource(Res.string.renew_change), { renewal.change(first.text.toString()) }, enabled = ready, primary = true)
+            }
+        }
     }
 }
 
 @Composable
 private fun MasterPassword(export: Boolean, onCancel: () -> Unit, onDone: (String) -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val first = remember { TextFieldState() }
     val second = remember { TextFieldState() }
-    val differ = export && first.text.toString() != second.text.toString()
+    val differ = export &&first.text.toString() != second.text.toString()
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 480.dp).background(palette.surface, shape).border(1.dp, palette.line, shape).padding(16.dp),
+            Modifier.widthIn(max = 480.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(stringResource(if (export) Res.string.book_export_question else Res.string.book_open_question))
@@ -400,12 +455,14 @@ private fun Form(
             }
         }
         if (state.shut.isNotEmpty()) Labeled("") { Text(stringResource(if (state.standalone) Res.string.connect_browser_shut else Res.string.connect_probe_shut), color = palette.muted, style = Theme.type.small) }
-        Labeled(stringResource(Res.string.connect_user)) { TextField(state.user, field.testTag("user")) }
-        Labeled(stringResource(Res.string.connect_password)) {
+        val community = state.protocol == Access.Snmp
+        if (!community && state.protocol != Access.Vyos) Labeled(stringResource(Res.string.connect_user)) { TextField(state.user, field.testTag("user")) }
+        Labeled(stringResource(if (community) Res.string.connect_community else Res.string.connect_password)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                SecretField(state.password, (if (compact) Modifier.weight(1f) else field).testTag("password"), onGo = onConnect)
+                val box = (if (compact) Modifier.weight(1f) else field).testTag("password")
+                if (community) TextField(state.password, box) else SecretField(state.password, box, onGo = onConnect)
                 Checkbox(state.remember, { state.remember = it })
-                Text(stringResource(Res.string.connect_remember), Modifier.clickable { state.remember = !state.remember }.hand(), color = palette.muted)
+                Text(stringResource(if (community) Res.string.connect_remember_community else Res.string.connect_remember), Modifier.clickable { state.remember = !state.remember }.hand(), color = palette.muted)
             }
         }
         val ownSsh = state.protocol != Access.Tcp8291 && state.protocol != Access.MacTelnet
@@ -469,7 +526,7 @@ private fun Form(
         if (state.protocol == Access.Upnp) Labeled("") { Text(stringResource(Res.string.connect_upnp_port), color = palette.muted, style = Theme.type.small) }
         val plain = state.protocol == Access.Snmp || state.protocol == Access.Upnp || state.protocol == Access.Keenetic
         if (state.protocol.routerOs?.tls == false || state.protocol.openWrt?.encrypted == false || plain) {
-            Labeled("") { Text(stringResource(Res.string.connect_plain_warning), color = palette.warning) }
+            Labeled("") { Text(stringResource(if (community) Res.string.connect_plain_community else Res.string.connect_plain_warning), color = palette.warning) }
         }
         if (state.protocol.routerOs?.rest == false || state.protocol == Access.Tcp8291 || state.protocol == Access.MacTelnet) {
             Labeled(stringResource(Res.string.connect_encoding)) {
@@ -508,15 +565,25 @@ private fun Form(
 }
 
 @Composable
-private fun Header(onAbout: () -> Unit, onSettings: () -> Unit) {
+private fun Header(onAbout: () -> Unit, onSettings: () -> Unit, onTools: () -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         Image(appIcon(), null, Modifier.size(36.dp))
         Column(Modifier.weight(1f)) {
             Text("NetworkHelm", style = Theme.type.strong, maxLines = 1)
             Text(appVersion, color = Theme.palette.muted, style = Theme.type.small, maxLines = 1)
         }
-        Button(stringResource(Res.string.main_about), onAbout, Modifier.testTag("about"))
-        Button(stringResource(Res.string.settings_title), onSettings, Modifier.testTag("settings"))
+        val tools = stringResource(Res.string.tools_title)
+        val about = stringResource(Res.string.main_about)
+        val settings = stringResource(Res.string.settings_title)
+        if (LocalCompact.current) {
+            IconButton(Lucide.Wrench, tools, onTools, Modifier.testTag("tools"))
+            IconButton(Lucide.Info, about, onAbout, Modifier.testTag("about"))
+            IconButton(Lucide.Settings, settings, onSettings, Modifier.testTag("settings"))
+        } else {
+            Button(tools, onTools, Modifier.testTag("tools"))
+            Button(about, onAbout, Modifier.testTag("about"))
+            Button(settings, onSettings, Modifier.testTag("settings"))
+        }
     }
 }
 
@@ -787,7 +854,6 @@ private fun ScanTable(scan: (List<String>) -> Flow<Found>, services: Services, s
 @Composable
 internal fun TrustDialog(question: TrustQuestion) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val request = question.request
     val target = "${request.host}:${request.port}"
     val text = when {
@@ -798,7 +864,7 @@ internal fun TrustDialog(question: TrustQuestion) {
     }
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 560.dp).background(palette.surface, shape).border(1.dp, palette.line, shape).padding(16.dp).testTag("trust"),
+            Modifier.widthIn(max = 560.dp).dialogPanel(16.dp).testTag("trust"),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(text, color = if (request.previous == null) palette.text else palette.warning)
@@ -884,7 +950,7 @@ private fun problemText(problem: Problem): String = when (problem) {
     Problem.LocalNetwork -> stringResource(Res.string.error_local_network)
     is Problem.Handshake -> stringResource(Res.string.error_handshake, problem.host)
     is Problem.Unsupported -> stringResource(Res.string.error_unsupported, problem.message)
-    is Problem.Browser -> stringResource(Res.string.error_browser, problem.host)
+    is Problem.Browser -> stringResource(if (problem.routerOs) Res.string.error_browser_routeros else Res.string.error_browser, problem.host)
     Problem.MacTelnetUnsupported -> stringResource(Res.string.error_mac_telnet_unsupported)
     Problem.MacTelnetNoInterface -> stringResource(Res.string.error_mac_telnet_no_interface)
     Problem.Tcp8291Unsupported -> stringResource(Res.string.error_tcp_8291_unsupported)

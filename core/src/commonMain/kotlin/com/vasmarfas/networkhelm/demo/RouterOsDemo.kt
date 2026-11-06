@@ -12,7 +12,7 @@ private val rules = listOf(choice("chain", "input", "forward", "output"), choice
 
 internal fun routerOsDemo(): DemoSession = demoSession(
     DeviceInfo(
-        Platform.RouterOs, "demo-hap", "7.24.1", "arm64", "hAP ax^3", setOf("routeros", "wifi-qcom"),
+        Platform.RouterOs, "demo-hap", "7.24.1", "arm64", "hAP ax^3", setOf("routeros", "wifi-qcom", "container", "dude", "iot", "cmr", "openflow", "netinstall"),
         setOf("local", "telnet", "ssh", "ftp", "reboot", "read", "write", "policy", "test", "winbox", "password", "web", "sniff", "sensitive", "api", "romon", "rest-api"),
         id = "DEMO-ROUTEROS",
     ),
@@ -42,7 +42,12 @@ internal fun routerOsDemo(): DemoSession = demoSession(
     list("system/package", writable = false) {
         row("name=routeros", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
         row("name=wifi-qcom", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
-        row("name=container", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=true")
+        row("name=container", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
+        row("name=dude", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
+        row("name=iot", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
+        row("name=cmr", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
+        row("name=openflow", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
+        row("name=netinstall", "version=7.24.1", "build-time=2026-09-02 10:47:15", "disabled=false")
     }
     list("system/scheduler") {
         row("name=backup-weekly", "start-date=2026-01-04", "start-time=03:00:00", "interval=1w", "owner=admin", "run-count=43", "next-run=2026-11-01 03:00:00", "on-event=/system backup save name=weekly", "disabled=false")
@@ -68,41 +73,6 @@ internal fun routerOsDemo(): DemoSession = demoSession(
         row("name=full", "policy=local,telnet,ssh,ftp,reboot,read,write,policy,test,winbox,password,web,sniff,sensitive,api,romon,rest-api", "skin=default")
     }
 
-    list("interface", live = { row, tick -> interfaceRates(row["name"].orEmpty(), row["comment"] == "WAN", row["running"] != "false", tick) }) {
-        row("name=ether1", "default-name=ether1", "type=ether", "mtu=1500", "actual-mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:01", "running=true", "disabled=false", "slave=false", "comment=WAN")
-        row("name=ether2", "default-name=ether2", "type=ether", "mtu=1500", "actual-mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:02", "running=true", "disabled=false", "slave=true")
-        row("name=ether3", "default-name=ether3", "type=ether", "mtu=1500", "actual-mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:03", "running=true", "disabled=false", "slave=true")
-        row("name=ether4", "default-name=ether4", "type=ether", "mtu=1500", "actual-mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:04", "running=false", "disabled=false", "slave=true")
-        row("name=ether5", "default-name=ether5", "type=ether", "mtu=1500", "actual-mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:05", "running=true", "disabled=false", "slave=true")
-        row("name=wifi1", "default-name=wifi1", "type=wifi", "mtu=1500", "actual-mtu=1500", "l2mtu=1560", "mac-address=00:00:5E:00:53:06", "running=true", "disabled=false", "slave=true", "comment=2.4 GHz")
-        row("name=wifi2", "default-name=wifi2", "type=wifi", "mtu=1500", "actual-mtu=1500", "l2mtu=1560", "mac-address=00:00:5E:00:53:07", "running=true", "disabled=false", "slave=true", "comment=5 GHz")
-        row("name=bridge", "type=bridge", "mtu=1500", "actual-mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:02", "running=true", "disabled=false", "slave=false", "comment=LAN")
-        row("name=wg-home", "type=wg", "mtu=1420", "actual-mtu=1420", "running=true", "disabled=false", "slave=false", "comment=road warriors")
-    }
-    list("interface/ethernet") {
-        for (n in 1..5) {
-            row(
-                "name=ether$n", "default-name=ether$n", "mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:0$n", "orig-mac-address=00:00:5E:00:53:0$n", "arp=enabled",
-                "auto-negotiation=true", "speed=${if (n == 4) "10Mbps" else "1Gbps"}", "full-duplex=true", "tx-flow-control=off", "rx-flow-control=off",
-                "running=${n != 4}", "disabled=false", "slave=${n != 1}",
-            )
-        }
-    }
-    list("interface/bridge") {
-        row("name=bridge", "mtu=auto", "actual-mtu=1500", "l2mtu=1584", "mac-address=00:00:5E:00:53:02", "arp=enabled", "auto-mac=true", "protocol-mode=rstp", "priority=0x8000", "vlan-filtering=false", "igmp-snooping=false", "dhcp-snooping=false", "ageing-time=5m", "running=true", "disabled=false", "comment=LAN")
-    }
-    list("interface/bridge/port", ordered = true) {
-        for (name in listOf("ether2", "ether3", "ether4", "ether5", "wifi1", "wifi2")) {
-            row("interface=$name", "bridge=bridge", "pvid=1", "frame-types=admit-all", "horizon=none", "hw=true", "forwarding=${name != "ether4"}", "role=${if (name == "ether4") "disabled-port" else "designated-port"}", "inactive=false", "dynamic=false", "disabled=false")
-        }
-    }
-    list("interface/wireguard") {
-        row("name=wg-home", "mtu=1420", "listen-port=13231", "public-key=Xk3aPq9vN2mZr8Wc5LtH0eYdB7fUo1sGJiA4nKxVQhM=", "running=true", "disabled=false")
-    }
-    list("interface/wireguard/peers") {
-        row("name=phone-anna", "interface=wg-home", "public-key=r8Zq2m7oQ1wH0dYk5nLp9aVtB4cJfS6uEiGxM3zNhWA=", "allowed-address=10.66.66.2/32", "endpoint-port=0", "current-endpoint-address=198.51.100.77", "current-endpoint-port=51820", "last-handshake=1m12s", "rx=1843201", "tx=902211", "persistent-keepalive=25s", "disabled=false")
-        row("name=laptop-work", "interface=wg-home", "public-key=Hd5Tn0cYqK8vZb3JxW2sPm6eLr9aUo4FiGt1NzMkBvE=", "allowed-address=10.66.66.3/32", "endpoint-port=0", "current-endpoint-address=192.0.2.88", "current-endpoint-port=40412", "last-handshake=3h41m", "rx=88430211", "tx=12099871", "persistent-keepalive=25s", "disabled=false")
-    }
 
     list("ip/address") {
         row("address=192.168.88.1/24", "network=192.168.88.0", "interface=bridge", "actual-interface=bridge", "dynamic=false", "invalid=false", "disabled=false", "comment=defconf")
@@ -118,6 +88,9 @@ internal fun routerOsDemo(): DemoSession = demoSession(
         row("dst-address=203.0.113.0/24", "gateway=ether1", "immediate-gw=ether1", "distance=0", "routing-table=main", "pref-src=203.0.113.50", "local-address=203.0.113.50%ether1", "active=true", "dynamic=true", "connect=true")
         row("dst-address=10.66.66.0/24", "gateway=wg-home", "immediate-gw=wg-home", "distance=0", "routing-table=main", "pref-src=10.66.66.1", "local-address=10.66.66.1%wg-home", "active=true", "dynamic=true", "connect=true")
         row("dst-address=10.20.0.0/16", "gateway=192.168.88.254", "immediate-gw=192.168.88.254%bridge", "distance=1", "routing-table=main", "active=true", "static=true", "comment=office over the switch")
+        row("dst-address=10.30.0.0/16", "gateway=192.168.88.254", "immediate-gw=192.168.88.254%bridge", "distance=110", "routing-table=main", "active=true", "dynamic=true", "ospf=true")
+        row("dst-address=10.20.0.0/16", "gateway=192.168.88.254", "immediate-gw=192.168.88.254%bridge", "distance=110", "routing-table=main", "active=false", "dynamic=true", "ospf=true")
+        row("dst-address=10.50.0.0/24", "gateway=192.0.2.1", "immediate-gw=192.0.2.1%ether1", "distance=20", "routing-table=main", "active=true", "dynamic=true", "bgp=true")
     }
     list("ip/pool") {
         row("name=dhcp", "ranges=192.168.88.10-192.168.88.254", "total=245", "used=8", "available=237")
@@ -200,20 +173,15 @@ internal fun routerOsDemo(): DemoSession = demoSession(
         row("name=ftp", "port=21", "available-from=", "disabled=true", "max-sessions=20", "dynamic=false")
         row("name=www", "port=80", "available-from=192.168.88.0/24", "disabled=false", "max-sessions=20", "dynamic=false")
         row("name=ssh", "port=22", "available-from=192.168.88.0/24,10.66.66.0/24", "disabled=false", "max-sessions=20", "dynamic=false")
-        row("name=www-ssl", "port=443", "available-from=", "certificate=none", "tls-version=any", "disabled=true", "max-sessions=20", "dynamic=false")
+        row("name=www-ssl", "port=443", "available-from=", "certificate=router.lan", "tls-version=any", "disabled=true", "max-sessions=20", "dynamic=false")
         row("name=api", "port=8728", "available-from=", "disabled=true", "max-sessions=20", "dynamic=false")
         row("name=winbox", "port=8291", "available-from=192.168.88.0/24", "disabled=false", "max-sessions=20", "dynamic=false")
-        row("name=api-ssl", "port=8729", "available-from=", "certificate=none", "tls-version=any", "disabled=false", "max-sessions=20", "dynamic=false")
+        row("name=api-ssl", "port=8729", "available-from=", "certificate=router.lan", "tls-version=any", "disabled=false", "max-sessions=20", "dynamic=false")
     }
     list("ip/neighbor", writable = false) {
         row("interface=bridge/ether5", "address=192.168.88.2", "mac-address=00:00:5E:00:53:A2", "identity=switch-closet", "platform=MikroTik", "version=7.24.1 (stable)", "board=CSS610-8G-2S+", "age=24s", "uptime=41d2h")
         row("interface=bridge/wifi2", "address=192.168.88.3", "mac-address=00:00:5E:00:53:A3", "identity=cap-attic", "platform=MikroTik", "version=7.23.2 (stable)", "board=cAP ax", "age=11s", "uptime=12d9h")
         row("interface=ether1", "address=203.0.113.1", "mac-address=00:00:5E:00:53:FE", "identity=isp-edge", "platform=MikroTik", "version=7.18.2 (long-term)", "board=CCR2004-1G-12S+2XS", "age=33s", "uptime=102d14h")
-    }
-    list("queue/simple") {
-        row("name=guest", "target=192.168.89.0/24", "max-limit=10M/10M", "rate=0/0", "queued-bytes=0", "disabled=false", "dynamic=false", "invalid=false")
-        row("name=iot", "target=192.168.88.121/32", "max-limit=1M/1M", "rate=2304/1664", "queued-bytes=0", "disabled=false", "dynamic=false", "invalid=false")
-        row("name=ps5", "target=192.168.88.130/32", "max-limit=100M/300M", "rate=84000/410000", "queued-bytes=0", "disabled=false", "dynamic=false", "invalid=false", "comment=gaming")
     }
     list("tool/netwatch") {
         row("name=cloudflare", "host=1.1.1.1", "type=icmp", "interval=10s", "status=up", "since=2026-10-28 02:14:09", "done-tests=21644", "failed-tests=12", "disabled=false")
@@ -240,4 +208,12 @@ internal fun routerOsDemo(): DemoSession = demoSession(
         row("time=oct/28 02:13:57", "topics=netwatch,warning", "message=netwatch cloudflare is down")
         row("time=oct/27 22:01:43", "topics=system,info", "message=router rebooted")
     }
+    interfacesDemo()
+    ipDemo()
+    ipv6Demo()
+    routingDemo()
+    systemDemo()
+    toolsDemo()
+    controllerDemo()
+    packagesDemo()
 }

@@ -52,11 +52,12 @@ const val COUNTER64 = 0x46
 
 internal const val OCTETS = 0x04
 private const val NULL = 0x05
-private const val OID = 0x06
+internal const val OID = 0x06
 internal const val SEQUENCE = 0x30
-private const val IP_ADDRESS = 0x40
+internal const val IP_ADDRESS = 0x40
 internal const val GET = 0xA0
 private const val RESPONSE = 0xA2
+private const val SET = 0xA3
 private const val GET_BULK = 0xA5
 internal const val REPORT = 0xA8
 private const val TOO_BIG = 1
@@ -121,7 +122,7 @@ internal fun tlv(bytes: ByteArray, from: Int, until: Int): Tlv {
     return Tlv(tag, bytes, from, at, at + length)
 }
 
-private fun value(tlv: Tlv): SnmpValue = when (tlv.tag) {
+internal fun decoded(tlv: Tlv): SnmpValue = when (tlv.tag) {
     INTEGER -> SnmpValue.Number(INTEGER, tlv.signed())
     COUNTER32, GAUGE32, TIMETICKS, COUNTER64 -> SnmpValue.Number(tlv.tag, tlv.unsigned())
     OCTETS -> SnmpValue.Octets(tlv.content())
@@ -142,13 +143,13 @@ internal fun encoded(tag: Int, content: ByteArray): ByteArray {
     return byteArrayOf(tag.toByte()) + length + content
 }
 
-internal fun integer(value: Long): ByteArray {
+internal fun integer(value: Long, tag: Int = INTEGER): ByteArray {
     var size = 8
     while (size > 1 && (value shr (size * 8 - 9)).let { it == 0L || it == -1L }) size--
-    return encoded(INTEGER, ByteArray(size) { (value shr ((size - 1 - it) * 8)).toByte() })
+    return encoded(tag, ByteArray(size) { (value shr ((size - 1 - it) * 8)).toByte() })
 }
 
-private fun encoded(oid: Oid): ByteArray {
+internal fun encoded(oid: Oid): ByteArray {
     val body = mutableListOf<Byte>()
     for (subidentifier in listOf(oid.arcs[0] * 40 + oid.arcs[1]) + oid.arcs.drop(2)) {
         val chunk = ArrayDeque<Byte>()
@@ -167,6 +168,20 @@ internal fun pdu(type: Int, id: Int, a: Int, b: Int, oids: List<Oid>): ByteArray
     return encoded(type, integer(id.toLong()) + integer(a.toLong()) + integer(b.toLong()) + encoded(SEQUENCE, bindings))
 }
 
+internal fun setPdu(id: Int, values: List<Pair<Oid, SnmpValue>>): ByteArray {
+    val bindings = values.fold(ByteArray(0)) { all, (oid, value) -> all + encoded(SEQUENCE, encoded(oid) + encoded(value)) }
+    return encoded(SET, integer(id.toLong()) + integer(0) + integer(0) + encoded(SEQUENCE, bindings))
+}
+
+// a value of 64 bits above Long.MAX_VALUE comes only from Counter64, which is never written
+internal fun encoded(value: SnmpValue): ByteArray = when (value) {
+    is SnmpValue.Number -> integer(value.value, value.tag)
+    is SnmpValue.Octets -> encoded(OCTETS, value.bytes)
+    is SnmpValue.Address -> encoded(IP_ADDRESS, value.bytes)
+    is SnmpValue.Id -> encoded(value.oid)
+    else -> throw IllegalArgumentException("a $value cannot be written")
+}
+
 internal fun request(community: String, pdu: ByteArray): ByteArray = encoded(SEQUENCE, integer(1) + encoded(OCTETS, community.encodeToByteArray()) + pdu)
 
 internal class Response(val id: Int, val error: Int, val index: Int, val bindings: List<Binding>)
@@ -182,7 +197,7 @@ internal fun response(pdu: Tlv): Response {
     if (fields.size < 4) throw malformed("a Response of ${fields.size} fields")
     val bindings = fields[3].children().map { binding ->
         val (name, value) = binding.children().takeIf { it.size == 2 } ?: throw malformed("a variable binding of the wrong shape")
-        Binding(name.oid(), value(value))
+        Binding(name.oid(), decoded(value))
     }
     return Response(fields[0].signed().toInt(), fields[1].signed().toInt(), fields[2].signed().toInt(), bindings)
 }
@@ -200,17 +215,51 @@ class SnmpClient(
 
     val encrypted: Boolean get() = user?.priv != null
 
-    suspend fun get(oids: List<Oid>): List<Binding> = exchange(GET, 0, 0, oids)
+    suspend fun get(oids: List<Oid>): List<Binding> = exchange(oids) { pdu(GET, it, 0, 0, oids) }
 
-    suspend fun columns(columns: List<Oid>): Map<Oid, Map<List<Long>, SnmpValue>> {
+    suspend fun set(values: List<Pair<Oid, SnmpValue>>) {
+        exchange(values.map { it.first }, writing = true) { setPdu(it, values) }
+    }
+
+    // the objects after from in the agent's order, as many as one answer holds
+    suspend fun after(from: Oid): List<Binding> {
+        var repetitions = MAX_BINDINGS
+        while (true) {
+            try {
+                return exchange(listOf(from)) { pdu(GET_BULK, it, 0, repetitions, listOf(from)) }
+            } catch (e: TooBig) {
+                if (repetitions == 1) throw DeviceException(ErrorCategory.Api, "the SNMP agent cannot send even one object after $from")
+                repetitions = maxOf(1, repetitions / 2)
+            }
+        }
+    }
+
+    // an agent that answers an OID not past the last one would be walked forever, so the walk ends there
+    suspend fun subtree(root: Oid, most: Int): List<Binding> {
+        val found = mutableListOf<Binding>()
+        var at = root
+        while (found.size < most) {
+            val answer = after(at)
+            for (binding in answer) {
+                if (binding.value is SnmpValue.Missing || !binding.oid.under(root) || binding.oid <= at || found.size >= most) return found
+                found += binding
+                at = binding.oid
+            }
+            if (answer.isEmpty()) return found
+        }
+        return found
+    }
+
+    suspend fun columns(columns: List<Oid>, most: Int? = null): Map<Oid, Map<List<Long>, SnmpValue>> {
         val rows = columns.associateWith { linkedMapOf<List<Long>, SnmpValue>() }
         val at = columns.associateWithTo(mutableMapOf()) { it }
         var limit = MAX_BINDINGS
         while (at.isNotEmpty()) {
             val asked = at.keys.toList()
             val repetitions = maxOf(1, limit / asked.size)
+            val from = asked.map(at::getValue)
             val answer = try {
-                exchange(GET_BULK, 0, repetitions, asked.map(at::getValue))
+                exchange(from) { pdu(GET_BULK, it, 0, repetitions, from) }
             } catch (e: TooBig) {
                 if (limit == 1) throw DeviceException(ErrorCategory.Api, "the SNMP agent cannot send even one row of ${asked.first()}")
                 limit = maxOf(1, limit / 2)
@@ -226,6 +275,7 @@ class SnmpClient(
                     } else {
                         rows.getValue(column)[binding.oid.index(column)] = binding.value
                         at[column] = binding.oid
+                        if (most != null && rows.getValue(column).size >= most) at.remove(column)
                     }
                     moved = true
                     r++
@@ -241,9 +291,9 @@ class SnmpClient(
 
     private fun id(): Int = next.also { next = if (next == Int.MAX_VALUE) 1 else next + 1 }
 
-    private suspend fun exchange(type: Int, a: Int, b: Int, oids: List<Oid>): List<Binding> = mutex.withLock {
+    private suspend fun exchange(oids: List<Oid>, writing: Boolean = false, build: (Int) -> ByteArray): List<Binding> = mutex.withLock {
         val id = id()
-        val body = pdu(type, id, a, b, oids)
+        val body = build(id)
         var left = tries
         var resent = false
         while (left > 0) {
@@ -262,10 +312,11 @@ class SnmpClient(
                 continue
             }
             if (answer.error == TOO_BIG) throw TooBig()
-            if (answer.error != 0) throw DeviceException(ErrorCategory.Api, "the SNMP agent answered ${errors.getOrElse(answer.error) { "error ${answer.error}" }} for ${oids.getOrNull(answer.index - 1) ?: oids}")
+            if (answer.error != 0) throw SnmpError(answer.error, oids.getOrNull(answer.index - 1), oids)
             return answer.bindings
         }
-        throw DeviceException(ErrorCategory.ConnectionLost, "no SNMP answer in ${(tries * timeoutMillis).milliseconds}: a wrong community gets none either")
+        val silent = if (writing) "a community that may not write" else "a wrong community"
+        throw DeviceException(ErrorCategory.ConnectionLost, "no SNMP answer in ${(tries * timeoutMillis).milliseconds}: $silent gets none either")
     }
 
     private suspend fun answer(id: Int, security: Usm?): Response? {
@@ -313,6 +364,39 @@ class SnmpClient(
         // about 1400 bytes of answer for the columns of ifTable, under the MTU of Ethernet
         const val MAX_BINDINGS = 48
         const val MAX_ROWS = 100_000
-        val errors = listOf("noError", "tooBig", "noSuchName", "badValue", "readOnly", "genErr", "noAccess", "wrongType", "wrongLength", "wrongEncoding", "wrongValue", "noCreation", "inconsistentValue", "resourceUnavailable", "commitFailed", "undoFailed", "authorizationError", "notWritable", "inconsistentName")
     }
 }
+
+// the error status of an answer; the object is the one the agent pointed at, or null when it pointed at none
+class SnmpError(val status: Int, val oid: Oid?, oids: List<Oid>) : DeviceException(
+    ErrorCategory.Api,
+    "the SNMP agent answered ${statuses.getOrNull(status)?.first ?: "error $status"} for " +
+        (oid?.let { "${SnmpMib.standard.describe(it)} ($it)" } ?: oids.joinToString()) + (statuses.getOrNull(status)?.second?.let { ": $it" } ?: ""),
+) {
+    companion object {
+        const val WRONG_VALUE = 10
+        const val INCONSISTENT_VALUE = 12
+    }
+}
+
+private val statuses = listOf(
+    "noError" to null,
+    "tooBig" to "the answer does not fit one message",
+    "noSuchName" to "the agent has no such object or may not change it",
+    "badValue" to "the agent does not take this value",
+    "readOnly" to "the object is read-only",
+    "genErr" to "the agent failed to apply the change",
+    "noAccess" to "the community or user may not write this object",
+    "wrongType" to "the value has the wrong type for the object",
+    "wrongLength" to "the value has the wrong length for the object",
+    "wrongEncoding" to "the value is encoded wrongly",
+    "wrongValue" to "the agent does not take this value",
+    "noCreation" to "the agent cannot create this object",
+    "inconsistentValue" to "the value does not fit the other values of the row or the state of the agent",
+    "resourceUnavailable" to "the agent has no resources for the change",
+    "commitFailed" to "the agent failed to apply the change and undid it",
+    "undoFailed" to "the agent failed to apply the change and could not undo all of it",
+    "authorizationError" to "the community or user may not do this",
+    "notWritable" to "the object cannot be written",
+    "inconsistentName" to "the agent cannot create a row with this index now",
+)

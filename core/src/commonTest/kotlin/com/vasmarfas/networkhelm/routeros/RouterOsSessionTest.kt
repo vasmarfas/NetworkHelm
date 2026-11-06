@@ -207,10 +207,14 @@ class RouterOsSessionTest {
     private class Link : RouterOsClient {
         val state = MutableStateFlow(LinkState.Up)
         val calls = mutableListOf<String>()
+        val sent = mutableListOf<List<String>>()
+        var expired = false
         override val status: Flow<LinkState> = state
+        override val passwordExpired: Boolean get() = expired
 
         override suspend fun call(words: List<String>): ApiResult {
             calls += words.first()
+            sent += words
             return when (words.first()) {
                 "/safe-mode/take" -> ApiResult(emptyList(), mapOf("ret" to "true"))
                 "/safe-mode/print" -> ApiResult(listOf(mapOf("enabled" to "true", "current" to "false", "owner" to "api")), emptyMap())
@@ -263,6 +267,16 @@ class RouterOsSessionTest {
         safe.settle(keep = false)
         assertEquals("/safe-mode/unroll", link.calls.last())
         assertFalse(safe.stranded.first())
+    }
+
+    @Test
+    fun aPasswordThatExpiredIsChangedWithTheCommandOfTheRouterAndIsNotAskedAgain() = runTest {
+        val link = Link().apply { expired = true }
+        val session = RouterOsSession(link, device, capabilities)
+        assertTrue(session.passwordExpired)
+        session.changePassword("old", "new")
+        assertEquals(listOf("/password", "=old-password=old", "=new-password=new", "=confirm-new-password=new"), link.sent.last())
+        assertFalse(session.passwordExpired)
     }
 
     @Test

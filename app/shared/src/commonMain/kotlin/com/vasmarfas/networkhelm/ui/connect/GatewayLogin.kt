@@ -1,7 +1,6 @@
 package com.vasmarfas.networkhelm.ui.connect
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -38,6 +36,7 @@ import com.vasmarfas.networkhelm.ui.kit.Labeled
 import com.vasmarfas.networkhelm.ui.kit.QrImage
 import com.vasmarfas.networkhelm.ui.kit.SecretField
 import com.vasmarfas.networkhelm.ui.kit.TextField
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.theme.Theme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -68,7 +67,6 @@ sealed interface GatewayAnswer {
 @Composable
 fun GatewayLogin(page: LoginPage, onLogin: suspend (user: String, password: String, code: String) -> GatewayAnswer) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val scope = rememberCoroutineScope()
     val user = remember { TextFieldState("admin") }
     val password = remember { TextFieldState() }
@@ -96,7 +94,7 @@ fun GatewayLogin(page: LoginPage, onLogin: suspend (user: String, password: Stri
     }
     Box(Modifier.fillMaxSize().background(palette.workspace), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 480.dp).padding(16.dp).background(palette.surface, shape).border(1.dp, palette.line, shape).padding(16.dp)
+            Modifier.widthIn(max = 480.dp).padding(16.dp).dialogPanel(16.dp)
                 .onPreviewKeyEvent { event ->
                     if (event.type != KeyEventType.KeyDown || event.key != Key.Enter) return@onPreviewKeyEvent false
                     logIn()

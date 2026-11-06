@@ -44,6 +44,13 @@ class ConsoleClassicTest {
     }
 
     @Test
+    fun aPasswordIsChangedWithItsOwnCommand() {
+        val call = call("/password", "=old-password=old", "=new-password=Nw 1", "=confirm-new-password=Nw 1")
+        assertEquals("/password old-password=old new-password=\"Nw 1\" confirm-new-password=\"Nw 1\"", call.line)
+        assertEquals(Reply.Nothing, call.reply)
+    }
+
+    @Test
     fun theRatesOfSeveralInterfacesAreAskedForOneByOne() {
         val call = call("/interface/monitor-traffic", "=interface=ether1,lo", "=once=")
         assertEquals(":foreach n in={\"ether1\";\"lo\"} do={ \$rdrow [/interface monitor-traffic \$n once as-value] }", call.line)

@@ -59,7 +59,7 @@ class SettingsTest {
         val reread = AppSettings(storage).also { it.load() }
         assertEquals(Settings(theme = "Mine", scale = 1.25f, probe = false), reread.current)
         assertEquals(mine, reread.theme)
-        assertEquals(listOf("Modern", "Legacy", "Mine", "Modern *"), reread.all.map { it.name })
+        assertEquals(listOf("Modern", "Legacy", "Material", "Mine", "Modern *"), reread.all.map { it.name })
 
         reread.remove(mine)
         assertEquals(Modern, reread.theme)

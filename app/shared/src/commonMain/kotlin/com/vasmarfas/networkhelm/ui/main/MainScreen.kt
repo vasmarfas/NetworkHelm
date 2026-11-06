@@ -81,6 +81,7 @@ import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.Settings
 import com.composables.icons.lucide.Shield
 import com.composables.icons.lucide.Undo
+import com.composables.icons.lucide.Wrench
 import com.composables.icons.lucide.X
 import com.composeunstyled.AnchorAlignment
 import com.composeunstyled.AnchorSide
@@ -186,6 +187,7 @@ import networkhelm.app.shared.generated.resources.safe_stranded
 import networkhelm.app.shared.generated.resources.search_title
 import networkhelm.app.shared.generated.resources.settings_close
 import networkhelm.app.shared.generated.resources.settings_title
+import networkhelm.app.shared.generated.resources.tools_title
 import networkhelm.app.shared.generated.resources.update_app
 import networkhelm.app.shared.generated.resources.update_router
 import networkhelm.app.shared.generated.resources.update_router_changes
@@ -210,6 +212,7 @@ fun MainScreen(
     onDetach: ((WindowState) -> Unit)? = null,
     onAbout: () -> Unit = {},
     onSettings: () -> Unit = {},
+    onTools: () -> Unit = {},
     onSecure: (suspend () -> Unit)? = null,
     onSearch: () -> Unit = {},
     others: List<RouterTab> = emptyList(),
@@ -285,7 +288,7 @@ fun MainScreen(
         },
     ) {
         Column(Modifier.fillMaxSize().background(palette.workspace)) {
-            Toolbar(tab, problem, { problem = it }, onAbout, onSettings, onSearch, others, release, ::compare, { naming = it to TextFieldState(if (it == Naming.Rename) tab.workspaceName else "") }) { if (safe) leaving = true else onDisconnect() }
+            Toolbar(tab, problem, { problem = it }, onAbout, onSettings, onTools, onSearch, others, release, ::compare, { naming = it to TextFieldState(if (it == Naming.Rename) tab.workspaceName else "") }) { if (safe) leaving = true else onDisconnect() }
             if (link != LinkState.Up) {
                 Text(
                     stringResource(if (link == LinkState.Reconnecting) Res.string.link_lost else Res.string.link_closed),
@@ -414,6 +417,7 @@ private fun Toolbar(
     onProblem: (String?) -> Unit,
     onAbout: () -> Unit,
     onSettings: () -> Unit,
+    onTools: () -> Unit,
     onSearch: () -> Unit,
     others: List<RouterTab>,
     release: Release?,
@@ -572,6 +576,7 @@ private fun Toolbar(
         val search = stringResource(Res.string.search_title)
         val about = stringResource(Res.string.main_about)
         val settings = stringResource(Res.string.settings_title)
+        val tools = stringResource(Res.string.tools_title)
         val reload = stringResource(Res.string.main_reload_structure)
         val reloads = tab.session.device.platform == Platform.RouterOs
         if (compact) {
@@ -580,6 +585,7 @@ private fun Toolbar(
                 if (tab.session.capabilities.export) for (other in others + null) add("$compare: ${other?.title ?: file}" to { onCompare(other) })
                 if (reloads) add(reload to { act { tab.reloadStructure() } })
                 add(search to onSearch)
+                add(tools to onTools)
                 add(about to onAbout)
                 add(settings to onSettings)
             }
@@ -587,6 +593,7 @@ private fun Toolbar(
         } else {
             if (reloads) IconButton(Lucide.RefreshCw, reload, { act { tab.reloadStructure() } }, Modifier.testTag("reload-structure"))
             IconButton(Lucide.Search, search, onSearch, Modifier.testTag("router-search"))
+            IconButton(Lucide.Wrench, tools, onTools, Modifier.testTag("tools"))
             ToolbarButton(about, Lucide.Info, onAbout, Modifier.testTag("about"))
             ToolbarButton(settings, Lucide.Settings, onSettings, Modifier.testTag("settings"))
         }
@@ -841,9 +848,11 @@ private fun MenuItem(entry: MenuEntry, device: DeviceInfo, open: (MenuEntry) -> 
 private fun MenuRow(title: String, group: Boolean, active: Boolean = false, inner: Boolean = false, highlight: String = "", icon: ThemeIcon? = null, locked: String? = null, onClick: () -> Unit) {
     val palette = Theme.palette
     val divider = if (Theme.classic) Modifier.drawBehind { drawLine(palette.divider ?: palette.line, Offset(0f, size.height - 0.5f), Offset(size.width, size.height - 0.5f), 1.dp.toPx()) } else Modifier
+    val pill = if (Theme.material) Modifier.background(palette.raised).padding(horizontal = 8.dp).clip(RoundedCornerShape(50)) else Modifier
     Hint(locked.orEmpty(), enabled = locked != null) {
         Row(
             Modifier.fillMaxWidth().height(if (LocalCompact.current) 44.dp else Theme.metrics.menuItem)
+                .then(pill)
                 .background(if (active) palette.selection else palette.raised)
                 .then(divider)
                 .clickable(onClick = onClick).hand().padding(start = if (inner) 28.dp else if (icon != null) 10.dp else 14.dp, end = 14.dp),

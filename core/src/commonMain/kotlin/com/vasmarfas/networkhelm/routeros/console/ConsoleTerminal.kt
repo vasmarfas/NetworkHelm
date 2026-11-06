@@ -10,6 +10,7 @@ import kotlin.random.Random
 
 private val CONFIRM = Regex("\\[y/N\\]:? ?$")
 private val ARGUMENT = Regex("(?:^|\n)([A-Za-z][A-Za-z0-9-]*): ?$")
+private val NEW_PASSWORD = Regex("new password> ?$")
 private const val TAIL = 400
 private const val QUIET_MILLIS = 150L
 private const val ASK_MILLIS = 400L
@@ -17,6 +18,8 @@ private const val SAFE_MILLIS = 5_000L
 private const val SILENT_MILLIS = 10_000L
 private const val CTRL_C: Byte = 0x03
 private const val CTRL_X: Byte = 0x18
+
+private fun silence(said: String) = "the console of the router fell silent in the middle of a line" + if (said.isBlank()) "" else ": ${said.trim().takeLast(160)}"
 
 // the router prints log messages with action echo into every console and redraws the prompt after each,
 // so a prompt proves nothing: only the end marker, or the beginning one after a failure, ends a command
@@ -27,6 +30,9 @@ internal class ConsoleTerminal private constructor(private val channel: ShellCha
     private val cursor = Cursor(CONSOLE_ROWS, CONSOLE_COLUMNS)
 
     private var asked: String? = null
+
+    var expired = false
+        private set
 
     // RouterOS 6 now and then stops for good in the middle of an echo, so a quick line gives up a silent console
     suspend fun run(line: String, quick: Boolean = false): Answer {
@@ -61,7 +67,7 @@ internal class ConsoleTerminal private constructor(private val channel: ShellCha
             val size = when {
                 quiet || asking != null -> withTimeoutOrNull(if (quiet) QUIET_MILLIS else ASK_MILLIS) { channel.read(chunk, 0, chunk.size) }
                 quick -> withTimeoutOrNull(SILENT_MILLIS) { channel.read(chunk, 0, chunk.size) }
-                    ?: throw ApiConnectionClosedException("the console of the router fell silent in the middle of a line")
+                    ?: throw ApiConnectionClosedException(silence(plain))
                 else -> channel.read(chunk, 0, chunk.size)
             }
             if (size == null) {
@@ -76,6 +82,11 @@ internal class ConsoleTerminal private constructor(private val channel: ShellCha
             quiet = false
             for (answer in cursor.answers(decode(chunk, 0, size))) channel.write(answer.encodeToByteArray())
             plain = clean(received.text(maxOf(0, received.size - TAIL)))
+            if (quick && begin == null && !expired && NEW_PASSWORD.containsMatchIn(plain)) {
+                // a user whose password expired is asked for a new one in every console; Ctrl+C leaves the question
+                expired = true
+                channel.write(byteArrayOf(CTRL_C))
+            }
             when {
                 PROMPT.containsMatchIn(plain) -> {
                     val seen = if (begin == null) "" else clean(received.text())

@@ -446,4 +446,25 @@ class ConsoleClientTest {
         assertEquals(ErrorCategory.ArgumentValue, refusal.category)
         assertTrue(consoles.isEmpty())
     }
+
+    @Test
+    fun aRouterThatAsksForANewPasswordIsLeftWithCtrlCAndTheClientSaysSo() = runTest {
+        val client = ConsoleClient(1) {
+            FakeConsole(stale = "\r\nChange your password (Ctrl-C to skip)\r\nnew password> ") { """{"name":"CHR"}""" }.also { consoles += it }
+        }
+        assertFalse(client.passwordExpired)
+        assertEquals(listOf(mapOf("name" to "CHR")), client.call(listOf("/system/identity/print")).rows)
+        assertTrue(client.passwordExpired)
+    }
+
+    @Test
+    fun aPasswordIsChangedWithTheCommandOfTheConsole() = runTest {
+        val sent = mutableListOf<String>()
+        val client = client { command ->
+            sent += command
+            ""
+        }
+        client.call(listOf("/password", "=old-password=old", "=new-password=Nw 1", "=confirm-new-password=Nw 1"))
+        assertEquals(listOf("/password old-password=old new-password=\"Nw 1\" confirm-new-password=\"Nw 1\""), sent)
+    }
 }

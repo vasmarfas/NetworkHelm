@@ -99,7 +99,7 @@ sealed interface Problem {
     class Unsupported(val message: String) : Problem
 
     // a page in a browser got no answer it may read: the device is out of reach, or the browser refused it
-    class Browser(val host: String) : Problem
+    class Browser(val host: String, val routerOs: Boolean) : Problem
 
     data object MacTelnetUnsupported : Problem
 
@@ -150,6 +150,23 @@ class TrustQuestion(val request: TrustRequest, private val answer: CompletableDe
 }
 
 @Stable
+class Renewal {
+    var failure by mutableStateOf<String?>(null)
+        internal set
+    var busy by mutableStateOf(false)
+        internal set
+    internal var answer = CompletableDeferred<String?>()
+
+    fun change(password: String) {
+        answer.complete(password)
+    }
+
+    fun skip() {
+        answer.complete(null)
+    }
+}
+
+@Stable
 class TrustQuestions {
     private val lock = Mutex()
     var question by mutableStateOf<TrustQuestion?>(null)
@@ -194,9 +211,12 @@ class ConnectState(
         private set
     private var kindPicked = false
     private var protocolPicked = false
+    private var proposed = false
     var encoding by mutableStateOf(ApiEncoding.Utf8)
     var remember by mutableStateOf(false)
     var connecting by mutableStateOf<String?>(null)
+        private set
+    var renewing by mutableStateOf<Renewal?>(null)
         private set
     var problem by mutableStateOf<Problem?>(null)
     var imported by mutableStateOf<Pair<Int, Int>?>(null)
@@ -238,6 +258,20 @@ class ConnectState(
                     protocol = Access.MacTelnet
                 } else if (protocol == Access.MacTelnet && !isMac) {
                     protocol = firstOpen(DeviceKind.RouterOs)
+                }
+            }
+        }
+        scope.launch {
+            snapshotFlow { protocol }.collect { chosen ->
+                if (chosen == Access.Snmp) {
+                    if (password.text.isEmpty()) {
+                        password.setTextAndPlaceCursorAtEnd(DEFAULT_COMMUNITY)
+                        proposed = true
+                    }
+                } else if (proposed) {
+                    // the community that was put in is not a password for the other protocols
+                    if (password.text.toString() == DEFAULT_COMMUNITY) password.setTextAndPlaceCursorAtEnd("")
+                    proposed = false
                 }
             }
         }
@@ -418,7 +452,8 @@ class ConnectState(
                 val webPort = if (jump == null || routerOs == null) null else jump.tunnel(host, 80)
                 val nativePort = if (jump == null || routerOs == null) null else jump.tunnel(host, 8291)
                 val openWrt = access.openWrt
-                val login = routerOs?.let { RouterOsLogin(toHost, name, secret, it, toPort, encoding, chosen?.second, byAgent, sshPort, phrase, webPort, nativePort) }
+                fun loginWith(password: String) = routerOs?.let { RouterOsLogin(toHost, name, password, it, toPort, encoding, chosen?.second, byAgent, sshPort, phrase, webPort, nativePort) }
+                val login = loginWith(secret)
                 val session = when {
                     access == Access.MacTelnet -> {
                         val connector = services.connectMacTelnet
@@ -434,13 +469,15 @@ class ConnectState(
                     openWrt != null -> services.connectOpenWrt(OpenWrtLogin(toHost, name, secret, openWrt, toPort, chosen?.second, byAgent, sshPort, phrase), reach)
                     else -> services.connectLogin(other(access, toHost, toPort, name, secret, chosen?.second, byAgent, phrase, snmp), reach)
                 }
-                try {
-                    remembered(typed, name, secret, chosen, phrase, hidden)
+                val renewed = try {
+                    val new = if (session.passwordExpired) renew(session, secret) else null
+                    remembered(typed, name, new ?: secret, chosen, phrase, hidden)
+                    new
                 } catch (e: Throwable) {
                     session.close()
                     throw e
                 }
-                onConnected(jump?.let { JumpedSession(session, it) } ?: session, typed, login.takeIf { jump == null })
+                onConnected(jump?.let { JumpedSession(session, it) } ?: session, typed, (renewed?.let { loginWith(it) } ?: login).takeIf { jump == null })
             } catch (e: CancellationException) {
                 jump?.close()
                 throw e
@@ -453,6 +490,28 @@ class ConnectState(
         }
         attempt = job
         job.invokeOnCompletion { if (attempt === job) connecting = null }
+    }
+
+    private suspend fun renew(session: DeviceSession, old: String): String? {
+        val renewal = Renewal().also { renewing = it }
+        try {
+            while (true) {
+                renewal.busy = false
+                val new = renewal.answer.await() ?: return null
+                renewal.busy = true
+                renewal.failure = null
+                renewal.answer = CompletableDeferred()
+                try {
+                    session.changePassword(old, new)
+                    return new
+                } catch (e: DeviceException) {
+                    if (e.category == ErrorCategory.ConnectionLost) throw e
+                    renewal.failure = e.message
+                }
+            }
+        } finally {
+            renewing = null
+        }
     }
 
     // the job ends only when its socket call does, so the window does not wait for it
@@ -706,7 +765,7 @@ class ConnectState(
 
     private fun problemOf(e: Exception, access: Access, host: String, port: Int): Problem {
         if (access == Access.MacTelnet && services.connectMacTelnet == null) return Problem.MacTelnetUnsupported
-        if (generateSequence<Throwable>(e) { it.cause }.any { it is BrowserBlockedException }) return Problem.Browser(host)
+        if (generateSequence<Throwable>(e) { it.cause }.any { it is BrowserBlockedException }) return Problem.Browser(host, access.routerOs != null)
         // RouterOS 6 has no REST, and its web server answers a POST with 501
         if (access.routerOs?.rest == true && e is ApiTrapException) return Problem.NoRest
         if (e is DeviceException) {
@@ -737,5 +796,6 @@ class ConnectState(
 }
 
 private const val PROBE_TIMEOUT = 1_500
+private const val DEFAULT_COMMUNITY = "public"
 
 private val BROWSER_SHUT = setOf(8728, 8729, 8291, 20561, 22, 161, 1900)

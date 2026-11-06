@@ -14,6 +14,8 @@ import kotlinx.coroutines.withTimeout
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
 
@@ -88,6 +90,73 @@ class SnmpLabTest {
         assertTrue(session.rows("ip/arp").any { it["address"] == gateway && it["mac-address"].orEmpty().isNotEmpty() && it["interface"] == "eth0" })
         assertTrue(session.rows("system/storage").any { it["description"] == "/overlay" && (it["size"]?.toLongOrNull() ?: 0) > 0 })
         assertFailsWith<DeviceException> { session.describe(MenuPath.parse("ip/neighbor")) }
+    }
+
+    // net-snmp on a dummy interface with a community that writes and one that does not: .notes/lab/snmp-rw/ holds the scripts that start it
+    @Test
+    fun aWriteChangesAnInterfaceAndTheSystemOfARealAgentAndAReadingCommunityIsRefused() = runBlocking<Unit> {
+        val lab = Lab.require("snmprw.host", "snmprw.community", "snmprw.readCommunity", "snmprw.index")
+        val host = lab.getValue("snmprw.host")
+        val port = Lab.optional("snmprw.port")?.toInt() ?: 161
+        val index = lab.getValue("snmprw.index")
+        val interfaces = MenuPath.parse("interface")
+        val system = MenuPath.parse("system/resource")
+        withTimeout(60.seconds) {
+            val writer = connectSnmp(SnmpLogin(host, lab.getValue("snmprw.community"), port))
+            try {
+                writer.set(interfaces, index, mapOf("disabled" to "true", "comment" to "rd-test"))
+                val changed = assertNotNull(writer.get(interfaces, index))
+                assertEquals(listOf("true", "rd-test"), listOf(changed["disabled"], changed["comment"]))
+                writer.set(system, null, mapOf("contact" to "rd-test contact", "location" to "rd-test place"))
+                val resource = assertNotNull(writer.get(system, null))
+                assertEquals(listOf("rd-test contact", "rd-test place"), listOf(resource["contact"], resource["location"]))
+            } finally {
+                writer.set(interfaces, index, mapOf("disabled" to "false", "comment" to null))
+                writer.set(system, null, mapOf("contact" to null, "location" to null))
+                writer.close()
+            }
+            val reader = connectSnmp(SnmpLogin(host, lab.getValue("snmprw.readCommunity"), port))
+            try {
+                val refused = assertFailsWith<DeviceException> { reader.set(interfaces, index, mapOf("comment" to "rd-test")) }
+                assertTrue("noAccess" in refused.message.orEmpty() || refused.category == ErrorCategory.ConnectionLost, refused.message)
+            } finally {
+                reader.close()
+            }
+        }
+    }
+
+    // a volatile row of SNMP-TARGET-MIB, which net-snmp creates with RowStatus and does not keep past a restart
+    @Test
+    fun theWalkOfARealAgentOffersItsTablesAndARowIsCreatedAndDestroyed() = runBlocking<Unit> {
+        val lab = Lab.require("snmprw.host", "snmprw.community")
+        val port = Lab.optional("snmprw.port")?.toInt() ?: 161
+        withTimeout(90.seconds) {
+            val session = connectSnmp(SnmpLogin(lab.getValue("snmprw.host"), lab.getValue("snmprw.community"), port))
+            try {
+                val tabs = session.packs(null).flatMap { pack -> pack.window.tabs.map { it.path } }
+                assertTrue("mib/UCD-SNMP-MIB/laTable" in tabs, "$tabs")
+                val loads = session.rows("mib/UCD-SNMP-MIB/laTable")
+                assertTrue(loads.size == 3 && loads.all { it["laLoad"]?.toDoubleOrNull() != null }, "$loads")
+                val targets = MenuPath.parse("mib/SNMP-TARGET-MIB/snmpTargetAddrTable")
+                assertTrue("$targets" in tabs, "$tabs")
+                val id = session.add(targets, mapOf(
+                    "index" to "rd-test",
+                    "snmpTargetAddrTDomain" to "1.3.6.1.6.1.1",
+                    "snmpTargetAddrTAddress" to "7F:00:00:01:00:A2",
+                    "snmpTargetAddrParams" to "rd-test",
+                    "snmpTargetAddrStorageType" to "volatile",
+                ))
+                try {
+                    val row = assertNotNull(session.get(targets, id))
+                    assertEquals(listOf("rd-test", "active", "7F:00:00:01:00:A2"), listOf(row["index"], row["snmpTargetAddrRowStatus"], row["snmpTargetAddrTAddress"]))
+                } finally {
+                    session.remove(targets, listOf(id))
+                }
+                assertNull(session.get(targets, id))
+            } finally {
+                session.close()
+            }
+        }
     }
 
     @Test

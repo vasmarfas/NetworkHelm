@@ -5,6 +5,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SkikoComposeUiTest
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOff
@@ -19,6 +20,7 @@ import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.doubleClick
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
@@ -26,6 +28,8 @@ import androidx.compose.ui.test.performMouseInput
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.test.v2.runDesktopComposeUiTest
 import com.vasmarfas.networkhelm.app.Access
 import com.vasmarfas.networkhelm.app.DeviceKind
@@ -546,7 +550,7 @@ class ConnectScreenTest {
         onNodeWithTag("platform").performClick()
         onAllNodes(hasText("Other device: SSH, SNMP, UPnP")).onLast().performClick()
         onNodeWithTag("protocol").performClick()
-        onAllNodes(hasText("SNMP v3, read only (UDP 161)")).onLast().performClick()
+        onAllNodes(hasText("SNMP v3 (UDP 161)")).onLast().performClick()
         onNodeWithTag("address").performTextInput("192.0.2.44")
         onNodeWithTag("user").performTextClearance()
         onNodeWithTag("user").performTextInput("rd-test")
@@ -1078,5 +1082,26 @@ class ConnectScreenTest {
         waitUntil { onAllNodes(hasTestTag("problem")).fetchSemanticsNodes().isNotEmpty() }
         onNodeWithTag("problem").assertTextEquals("The port is a number from 1 to 65535.")
         assertFalse(tried)
+    }
+
+    @Test
+    fun theSavedListIsReachedByScrollingInAWindowTooShortForTheFormAndTheList() = runDesktopComposeUiTest(1100, 420) {
+        Locale.setDefault(Locale.ENGLISH)
+        val services = Services(MemoryStorage(), MemoryTrustStore(), null)
+        setContent { NetworkHelmTheme(dark = true) { ConnectScreen(services, SavedRouters(services.storage), rememberCoroutineScope()) { _, _, _ -> } } }
+        onRoot().performTouchInput { swipeUp() }
+        waitForIdle()
+        onNodeWithText("Saved").assertIsDisplayed()
+        picture("connect-short-window")
+    }
+
+    @Test
+    fun theFormAndTheListsBothShowInATallWindow() = runDesktopComposeUiTest(1100, 1300) {
+        Locale.setDefault(Locale.ENGLISH)
+        val services = Services(MemoryStorage(), MemoryTrustStore(), null)
+        setContent { NetworkHelmTheme(dark = true) { ConnectScreen(services, SavedRouters(services.storage), rememberCoroutineScope()) { _, _, _ -> } } }
+        onNodeWithText("Connect").assertIsDisplayed()
+        onNodeWithText("Saved").assertIsDisplayed()
+        picture("connect-tall-window")
     }
 }

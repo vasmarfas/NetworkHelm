@@ -124,7 +124,7 @@ class ControllerWindowsTest {
     )
 
     private fun tab() = MemoryStorage().let { storage ->
-        RouterTab(FakeRouter(rows, schemas = schemas, made = described), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+        RouterTab(FakeRouter(rows, schemas = schemas, made = described, packages = setOf("routeros", "cmr")), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
     }
 
     private fun SkikoComposeUiTest.openFromTheController(tab: RouterTab, entry: String) {
@@ -164,7 +164,7 @@ class ControllerWindowsTest {
         Locale.setDefault(Locale.ENGLISH)
         val storage = MemoryStorage()
         val alone = listOf(described.first())
-        val tab = RouterTab(FakeRouter(rows, schemas = schemas, made = alone), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+        val tab = RouterTab(FakeRouter(rows, schemas = schemas, made = alone, packages = setOf("routeros", "cmr")), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
         openFromTheController(tab, "Dashboard")
         waitUntil(timeoutMillis = 5_000) { onAllNodes(hasTestTag("dashboard-resource")).fetchSemanticsNodes().size == 2 }
         onAllNodes(hasText("Stations")).assertCountEquals(0)
@@ -216,7 +216,7 @@ class ControllerWindowsTest {
         val storage = MemoryStorage()
         fun items(vararg children: String): List<MenuEntryView> {
             val shape = mapOf(directory("", "cmr"), directory("cmr", *children)) + children.associate { list("cmr/$it") }
-            val tab = RouterTab(FakeRouter(schemas = shape), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+            val tab = RouterTab(FakeRouter(schemas = shape, packages = setOf("routeros", "cmr")), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
             runBlocking { tab.loadMenu(bundledMenu()) }
             return tab.menu.orEmpty().first { it.title == "Controller" }.items.map { MenuEntryView(it.title, it.window) }
         }

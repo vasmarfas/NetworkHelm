@@ -52,6 +52,7 @@ class FakeRouter(
     private val settings: Map<String, Item> = emptyMap(),
     private val refused: Set<String> = emptySet(),
     private val gone: Set<String> = emptySet(),
+    packages: Set<String> = setOf("routeros"),
 ) : DeviceSession {
     val ran = mutableListOf<Pair<String, Map<String, String>>>()
     val counted = MutableSharedFlow<Map<String, Map<String, String>>>(replay = 1)
@@ -63,7 +64,7 @@ class FakeRouter(
     val moved = mutableListOf<Pair<List<String>, String?>>()
     val fileText = fileTexts.toMutableMap()
 
-    override val device = DeviceInfo(platform, "rd-test", version, "x86_64", "CHR", setOf("routeros"), policies, deviceMode, id = id)
+    override val device = DeviceInfo(platform, "rd-test", version, "x86_64", "CHR", packages, policies, deviceMode, id = id)
     override val capabilities = Capabilities(true, true, true, SafeModeKind.ApiSession, terminal = false, files = false, export = true, encrypted = encrypted, nativeMenu = native != null)
 
     override suspend fun nativeMenu() = native

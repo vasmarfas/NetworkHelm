@@ -17,8 +17,10 @@ import com.vasmarfas.networkhelm.model.SafeModeKind
 import com.vasmarfas.networkhelm.model.ValueType
 import com.vasmarfas.networkhelm.model.duration
 import com.vasmarfas.networkhelm.model.matches
+import com.vasmarfas.networkhelm.packs.Pack
 import com.vasmarfas.networkhelm.session.DeviceSession
 import com.vasmarfas.networkhelm.session.SafeMode
+import com.vasmarfas.networkhelm.session.TextStore
 import com.vasmarfas.networkhelm.session.polled
 import com.vasmarfas.networkhelm.ssh.SshSession
 import com.vasmarfas.networkhelm.transport.openUdp
@@ -37,13 +39,25 @@ class SnmpLogin(val host: String, val community: String, val port: Int = 161, va
 suspend fun connectSnmp(login: SnmpLogin): SnmpSession {
     val client = SnmpClient(openUdp(login.host, login.port), login.community, user = login.user)
     try {
-        val system = client.get(listOf(SYS_NAME, SYS_DESCR)).associate { it.oid to it.value }
-        val board = text(system[SYS_DESCR]).lineSequence().first().take(80)
-        return SnmpSession(client, DeviceInfo(Platform.Snmp, text(system[SYS_NAME]).ifEmpty { login.host }, "", "", board, emptySet(), setOf("read")))
+        return openSnmp(client, login.host, v3 = login.user != null)
     } catch (e: Exception) {
         client.close()
         throw e
     }
+}
+
+internal suspend fun openSnmp(client: SnmpClient, host: String, v3: Boolean): SnmpSession {
+    var plain = false
+    val system = try {
+        client.get(listOf(SYS_NAME, SYS_DESCR))
+    } catch (e: DeviceException) {
+        // an agent may stay silent on a request that holds an object its community cannot write, so the one every community reads goes alone
+        if (e.category != ErrorCategory.ConnectionLost || v3) throw e
+        plain = true
+        client.get(listOf(SYS_DESCR))
+    }.associate { it.oid to it.value }
+    val board = text(system[SYS_DESCR]).lineSequence().first().take(80)
+    return SnmpSession(client, DeviceInfo(Platform.Snmp, text(system[SYS_NAME]).ifEmpty { host }, "", "", board, emptySet(), setOf("read", "write")), plain = plain)
 }
 
 class SnmpSession(
@@ -51,6 +65,7 @@ class SnmpSession(
     override val device: DeviceInfo,
     private val pollInterval: Duration = 3.seconds,
     private val time: TimeSource = TimeSource.Monotonic,
+    private var plain: Boolean = false,
 ) : DeviceSession {
     override val capabilities = Capabilities(
         subscriptions = false,
@@ -71,7 +86,13 @@ class SnmpSession(
 
     private var cpu: LongArray? = null
 
+    private val mib = MibWindows(client, SnmpMib.standard, WalkBudget(), time)
+
+    // the walk of the agent runs here, once, after the menu of the hand-made windows is shown
+    override suspend fun packs(store: TextStore?): List<Pack> = calls { mib.packs() }
+
     override suspend fun describe(path: MenuPath): MenuSchema = calls {
+        if (path.inMib) return@calls mib.describe(path)
         val children = schemas.keys.filter { it.parent == path }.map { it.segments.last() } +
             schemas.keys.mapNotNull { it.parent }.filter { it.parent == path && it !in schemas }.map { it.segments.last() }
         val arguments = schemas[path]
@@ -79,8 +100,9 @@ class SnmpSession(
             arguments != null -> {
                 if ((path == NEIGHBOR || path == STORAGE) && read(path).isEmpty()) throw DeviceException(ErrorCategory.MissingItem, "the SNMP agent has no rows of $path")
                 val kind = if (path in settings) NodeKind.Settings else NodeKind.List
-                val commands = if (path == INTERFACE) listOf("print", "monitor-traffic") else listOf("print")
-                MenuSchema(path, kind, emptyList(), commands, arguments.map { Argument(it, ValueType.Text(), readOnly = true) })
+                val written = writes[path].orEmpty()
+                val commands = (if (path == INTERFACE) listOf("print", "monitor-traffic") else listOf("print")) + listOfNotNull("set".takeIf { written.isNotEmpty() })
+                MenuSchema(path, kind, emptyList(), commands, arguments.map { Argument(it, if (it == "disabled") ValueType.Flag else ValueType.Text(), readOnly = it !in written) })
             }
             children.isNotEmpty() -> MenuSchema(path, NodeKind.Directory, children.distinct().sorted(), emptyList(), emptyList())
             else -> throw DeviceException(ErrorCategory.MissingItem, "SNMP has no $path here")
@@ -88,26 +110,41 @@ class SnmpSession(
     }
 
     override fun watch(path: MenuPath, filter: Filter?, properties: List<String>?): Flow<ListEvent> = flow {
-        if (path !in schemas) throw DeviceException(ErrorCategory.MissingItem, "SNMP has no $path here")
-        emitAll(polled(pollInterval) { calls { read(path) }.filter { filter?.matches(it) != false } })
+        if (path !in schemas && !path.inMib) throw DeviceException(ErrorCategory.MissingItem, "SNMP has no $path here")
+        emitAll(polled(if (path.inMib) maxOf(pollInterval, MIB_POLL) else pollInterval) { calls { read(path) }.filter { filter?.matches(it) != false } })
     }
 
     override suspend fun get(path: MenuPath, id: String?, properties: List<String>?): Item? = calls { read(path).firstOrNull { id == null || it.id == id } }
 
     override suspend fun count(path: MenuPath, filter: Filter?): Int = calls { read(path).count { filter?.matches(it) != false } }
 
-    override suspend fun add(path: MenuPath, values: Map<String, String>): String = throw readOnly()
+    override suspend fun add(path: MenuPath, values: Map<String, String>): String = if (path.inMib) calls { mib.add(path, values) } else throw unsupported()
 
+    // all the changes of one call go in one SET, which an agent applies whole or not at all
     override suspend fun set(path: MenuPath, id: String?, changes: Map<String, String?>) {
-        throw readOnly()
+        if (path.inMib) return calls { mib.set(path, id, changes) }
+        val written = writes[path] ?: throw unsupported()
+        val values = changes.map { (name, value) ->
+            if (name !in written) throw unsupported()
+            when (path) {
+                INTERFACE -> {
+                    val index = listOf(id?.toLongOrNull() ?: throw DeviceException(ErrorCategory.MissingItem, "an interface is named by its number"))
+                    if (name == "disabled") IF_ADMIN + index to SnmpValue.Number(INTEGER, if (value in ValueType.Flag.on) 2 else 1)
+                    else IF_ALIAS + index to SnmpValue.Octets(value.orEmpty().encodeToByteArray())
+                }
+                else -> systemTexts.getValue(name) to SnmpValue.Octets(value.orEmpty().encodeToByteArray())
+            }
+        }
+        calls { client.set(values) }
     }
 
     override suspend fun remove(path: MenuPath, ids: List<String>) {
-        throw readOnly()
+        if (path.inMib) return calls { mib.remove(path, ids) }
+        throw unsupported()
     }
 
     override suspend fun move(path: MenuPath, ids: List<String>, before: String?) {
-        throw readOnly()
+        throw DeviceException(ErrorCategory.Unsupported, "the rows of an SNMP table have no order, so they cannot be moved")
     }
 
     // agents hold their counters for some seconds, net-snmp for five, so a rate runs from where they last moved
@@ -138,11 +175,14 @@ class SnmpSession(
         }
     }
 
-    override suspend fun export(path: MenuPath): String = throw readOnly()
+    override suspend fun export(path: MenuPath): String = throw unsupported()
 
     override fun close() = client.close()
 
-    private fun readOnly() = DeviceException(ErrorCategory.Unsupported, "SNMP is only read here")
+    private fun unsupported() = DeviceException(
+        ErrorCategory.Unsupported,
+        "this window changes only the state and comment of an interface and the name, contact and location of the system; the rest the agent lets write is in the MIB menu",
+    )
 
     private suspend fun <T> calls(block: suspend () -> T): T = try {
         block()
@@ -154,7 +194,7 @@ class SnmpSession(
         throw DeviceException(ErrorCategory.ConnectionLost, e.message ?: e::class.simpleName.orEmpty(), e)
     }
 
-    private suspend fun read(path: MenuPath): List<Item> = when (path) {
+    private suspend fun read(path: MenuPath): List<Item> = if (path.inMib) mib.read(path) else when (path) {
         RESOURCE -> listOf(Item("", resource()))
         CLOCK -> listOf(Item("", clock()))
         INTERFACE -> interfaces()
@@ -179,9 +219,20 @@ class SnmpSession(
         return names
     }
 
+    // an agent that did not answer the first request is not asked for the objects a community may be unable to write
+    private suspend fun scalars(): Map<Oid, SnmpValue> {
+        if (!plain) {
+            try {
+                return client.get(listOf(SYS_NAME, SYS_DESCR, SYS_CONTACT, SYS_LOCATION, SYS_OBJECT_ID, SYS_UP_TIME, HR_SYSTEM_UPTIME)).associate { it.oid to it.value }
+            } catch (e: DeviceException) {
+                if (e.category != ErrorCategory.ConnectionLost) throw e
+            }
+        }
+        return client.get(listOf(SYS_DESCR, SYS_OBJECT_ID, SYS_UP_TIME, HR_SYSTEM_UPTIME)).associate { it.oid to it.value }.also { plain = true }
+    }
+
     private suspend fun resource(): Map<String, String> {
-        val scalars = client.get(listOf(SYS_NAME, SYS_DESCR, SYS_CONTACT, SYS_LOCATION, SYS_OBJECT_ID, SYS_UP_TIME, HR_SYSTEM_UPTIME))
-            .associate { it.oid to it.value }
+        val scalars = scalars()
         val uptime = (scalars[HR_SYSTEM_UPTIME] as? SnmpValue.Number ?: scalars[SYS_UP_TIME] as? SnmpValue.Number)?.value
         val storage = client.columns(listOf(HR_STORAGE_TYPE, HR_STORAGE_DESCR, HR_STORAGE_UNITS, HR_STORAGE_SIZE, HR_STORAGE_USED))
         val memory = storage.getValue(HR_STORAGE_TYPE).filterValues { (it as? SnmpValue.Id)?.oid == HR_STORAGE_RAM }.keys.firstOrNull()
@@ -431,6 +482,11 @@ class SnmpSession(
 
         val settings = setOf(RESOURCE, CLOCK)
 
+        // a window of the MIB menu may read a table of a thousand rows, which an agent should not be asked for every three seconds
+        val MIB_POLL = 10.seconds
+
+        val writes = mapOf(INTERFACE to setOf("disabled", "comment"), RESOURCE to setOf("name", "contact", "location"))
+
         val schemas = mapOf(
             RESOURCE to listOf("name", "description", "contact", "location", "object-id", "uptime", "cpu-load", "total-memory", "free-memory"),
             CLOCK to listOf("date", "time"),
@@ -529,7 +585,7 @@ internal fun text(value: SnmpValue?): String = when (value) {
 
 private fun readable(text: String) = '�' !in text && text.none { it.isISOControl() && it !in "\t\r\n" }
 
-private fun hex(bytes: ByteArray) = bytes.joinToString(":") { (it.toInt() and 0xFF).toString(16).uppercase().padStart(2, '0') }
+internal fun hex(bytes: ByteArray) = bytes.joinToString(":") { (it.toInt() and 0xFF).toString(16).uppercase().padStart(2, '0') }
 
 private val interfaceTypes = mapOf(
     1L to "other", 6L to "ether", 23L to "ppp", 24L to "loopback", 53L to "virtual", 62L to "ether", 71L to "wlan", 117L to "ether",
@@ -553,6 +609,7 @@ private val SYS_UP_TIME = oid("1.3.6.1.2.1.1.3.0")
 private val SYS_CONTACT = oid("1.3.6.1.2.1.1.4.0")
 private val SYS_NAME = oid("1.3.6.1.2.1.1.5.0")
 private val SYS_LOCATION = oid("1.3.6.1.2.1.1.6.0")
+private val systemTexts = mapOf("name" to SYS_NAME, "contact" to SYS_CONTACT, "location" to SYS_LOCATION)
 
 private val IF_DESCR = oid("1.3.6.1.2.1.2.2.1.2")
 private val IF_TYPE = oid("1.3.6.1.2.1.2.2.1.3")

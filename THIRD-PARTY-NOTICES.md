@@ -360,3 +360,11 @@ Bundled with the application as TTF files in `app/shared/src/commonMain/composeR
 | Component | Copyright |
 |---|---|
 | puff.c of zlib (contrib/puff): the inflater of the backups of OpenWrt in `core/src/commonMain/kotlin/com/vasmarfas/networkhelm/offline/Archive.kt` reads deflate its way, codes counted by length and read bit by bit; it is written anew in Kotlin, no code is copied | Copyright (C) 2002-2013 Mark Adler |
+
+## Other sources
+
+| Component | Source |
+|---|---|
+| The registry of MAC address blocks in `app/shared/src/commonMain/composeResources/files/mac-vendors.tsv`: prefix, organisation and country of every MA-L, MA-M, MA-S and IAB block of the public listings of the IEEE Registration Authority (https://standards-oui.ieee.org) of 25.09.2026, 58 623 blocks | IEEE Registration Authority |
+| The logic of the network tools in `core/src/commonMain/kotlin/com/vasmarfas/networkhelm/nettools/` (addresses and subnets, the DNS message, whois referrals, the port list, the MAC registry, the parsing of `ping` output) and the registry file above come from Mobitool, another application of the author of NetworkHelm | vasmarfas |
+| The dictionary of SNMP objects in `core/schema/snmp-mibs.tsv` (names, types, enumerations, access and indexes of 40 MIB modules, no descriptions), built by `tools/snmp-mibs/build.py` from the MIB modules in the texts of the RFCs of the IETF (the code components of an RFC, Revised BSD licence of the IETF Trust) and from the UCD-SNMP, NET-SNMP and LM-SENSORS modules of the Net-SNMP project (BSD-style licences of the project) | The IETF Trust, the Net-SNMP project |

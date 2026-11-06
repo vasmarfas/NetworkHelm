@@ -26,3 +26,4 @@ app/iosApp/Configuration/Local.xcconfig
 lab.properties
 hs_err_pid*.log
 replay_pid*.log
+__pycache__/

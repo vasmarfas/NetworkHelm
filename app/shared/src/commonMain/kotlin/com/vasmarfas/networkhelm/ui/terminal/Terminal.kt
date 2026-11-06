@@ -65,6 +65,7 @@ import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.ToolbarButton
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.main.ActionsMenu
 import com.vasmarfas.networkhelm.ui.theme.Theme
@@ -238,7 +239,7 @@ private fun SnippetEditor(snippets: Snippets, onClose: () -> Unit) {
     val unreadable = stringResource(Res.string.snippets_unreadable)
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 640.dp).fillMaxHeight(0.9f).padding(12.dp).background(palette.surface, shape).border(1.dp, palette.line, shape).padding(12.dp),
+            Modifier.widthIn(max = 640.dp).fillMaxHeight(0.9f).padding(12.dp).dialogPanel(12.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(stringResource(Res.string.snippets_title), style = Theme.type.strong)

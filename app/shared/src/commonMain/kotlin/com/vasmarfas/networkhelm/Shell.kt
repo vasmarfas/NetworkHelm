@@ -48,6 +48,7 @@ class Shell(val services: Services, val scope: CoroutineScope, val canDetach: Bo
     val settings = AppSettings(services.storage)
     var about by mutableStateOf(false)
     var settingsShown by mutableStateOf(false)
+    var toolsShown by mutableStateOf(false)
     var accessShown by mutableStateOf(false)
     val search = RouterSearch(scope)
     val snippets = Snippets(services.storage)

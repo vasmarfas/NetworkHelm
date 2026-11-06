@@ -1,7 +1,5 @@
 package com.vasmarfas.networkhelm.ui.settings
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,9 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,6 +41,7 @@ import com.vasmarfas.networkhelm.ui.kit.LocalCompact
 import com.vasmarfas.networkhelm.ui.kit.Select
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.Toggle
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.terminal.terminalScrollback
 import com.vasmarfas.networkhelm.ui.theme.BundledThemes
@@ -113,7 +110,6 @@ private val TerminalLines = listOf(1000, 5000, 10000, 50000, 100000)
 @Composable
 fun SettingsDialog(settings: AppSettings, access: BrowserAccess? = null, onBrowserAccess: () -> Unit = {}, onClose: () -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val scope = rememberCoroutineScope()
     val exchange = LocalFileExchange.current
     var editing by remember { mutableStateOf<ThemeFile?>(null) }
@@ -132,8 +128,7 @@ fun SettingsDialog(settings: AppSettings, access: BrowserAccess? = null, onBrows
     }
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 620.dp).padding(16.dp).background(palette.surface, shape).border(1.dp, palette.line, shape)
-                .verticalScroll(rememberScrollState()).padding(16.dp),
+            Modifier.widthIn(max = 620.dp).padding(16.dp).dialogPanel(16.dp, rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(stringResource(Res.string.settings_title), style = Theme.type.strong)

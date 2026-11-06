@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.ExternalLink
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Maximize2
@@ -68,9 +69,10 @@ internal fun InternalWindow(
 ) {
     val density = LocalDensity.current
     val palette = Theme.palette
-    val radius = Theme.metrics.radius
+    val material = Theme.material
+    val radius = if (material) 16.dp else Theme.metrics.radius
     val inactiveTitle = palette.inactiveTitle
-    val titleColor = if (active || inactiveTitle != null) palette.onAccent else palette.text
+    val titleColor = if (!material && (active || inactiveTitle != null)) palette.onAccent else palette.text
     val size = if (window.maximized) viewport else window.size
     Box(
         Modifier
@@ -85,7 +87,7 @@ internal fun InternalWindow(
             .size(size)
             .shadow(if (active) 8.dp else 2.dp, RoundedCornerShape(radius))
             .background(if (Theme.classic) palette.raised else palette.surface, RoundedCornerShape(radius))
-            .border(1.dp, palette.frame ?: if (active && palette.title == null) palette.accent else palette.line, RoundedCornerShape(radius))
+            .then(if (material) Modifier else Modifier.border(1.dp, palette.frame ?: if (active && palette.title == null) palette.accent else palette.line, RoundedCornerShape(radius)))
             .pointerInput(window) {
                 awaitEachGesture {
                     awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
@@ -110,11 +112,16 @@ internal fun InternalWindow(
                             window.position = DpOffset(moved.x.coerceAtLeast(0.dp), moved.y.coerceAtLeast(0.dp))
                         }
                     }
-                    .padding(start = 10.dp),
+                    .padding(start = if (material) 16.dp else 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 val titleWidth = if (inTitle == null) Modifier.weight(1f) else Modifier.padding(end = 8.dp).widthIn(max = size.width / 3)
-                DisableSelection { Text(window.title, titleWidth, style = if (Theme.classic) Theme.type.body else Theme.type.strong, color = titleColor, maxLines = 1, overflow = TextOverflow.Ellipsis) }
+                val titleStyle = when {
+                    Theme.classic -> Theme.type.body
+                    material -> Theme.type.strong.copy(fontSize = 16.sp, lineHeight = 24.sp)
+                    else -> Theme.type.strong
+                }
+                DisableSelection { Text(window.title, titleWidth, style = titleStyle, color = titleColor, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                 inTitle?.let { Row(Modifier.weight(1f).fillMaxHeight()) { DisableSelection { it(window, titleColor) } } }
                 onDetach?.let { TitleButton(Lucide.ExternalLink, titleColor, it) }
                 TitleButton(Lucide.Minus, titleColor, onMinimize)

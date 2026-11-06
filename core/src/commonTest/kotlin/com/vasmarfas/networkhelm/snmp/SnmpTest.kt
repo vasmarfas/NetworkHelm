@@ -2,6 +2,7 @@ package com.vasmarfas.networkhelm.snmp
 
 import com.vasmarfas.networkhelm.model.DeviceException
 import com.vasmarfas.networkhelm.model.DeviceInfo
+import com.vasmarfas.networkhelm.model.ErrorCategory
 import com.vasmarfas.networkhelm.model.Item
 import com.vasmarfas.networkhelm.model.ListEvent
 import com.vasmarfas.networkhelm.model.MenuPath
@@ -17,14 +18,24 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class SnmpTest {
 
-    private class Agent(private val community: String = "rd-test", private val answers: Int = 64) : UdpLink {
+    private class Agent(
+        private val community: String = "rd-test",
+        private val answers: Int = 64,
+        silentOn: Set<String> = emptySet(),
+        private val dropsSets: Boolean = false,
+        notWritable: Set<String> = emptySet(),
+    ) : UdpLink {
         val values = mutableMapOf<Oid, ByteArray>()
         var requests = 0
         private val replies = ArrayDeque<ByteArray>()
+        private val muted = silentOn.map(::oid).toSet()
+        private val locked = notWritable.map(::oid).toSet()
 
         operator fun set(name: String, value: ByteArray) {
             values[oid(name)] = value
@@ -36,9 +47,19 @@ class SnmpTest {
             val (_, communityTlv, pdu) = children(datagram, message.start, message.end)
             if (datagram.copyOfRange(communityTlv.start, communityTlv.end).decodeToString() != community) return
             val (id, _, b, list) = children(datagram, pdu.start, pdu.end)
-            val names = children(datagram, list.start, list.end).map { binding -> Oid(decode(datagram, children(datagram, binding.start, binding.end).first())) }
+            val bound = children(datagram, list.start, list.end).map { binding -> children(datagram, binding.start, binding.end) }
+            val names = bound.map { (name) -> Oid(decode(datagram, name)) }
+            if (names.any { it in muted }) return
+            var refused = 0
             val bindings = when (pdu.tag) {
                 0xA0 -> names.map { it to (values[it] ?: byteArrayOf(0x81.toByte(), 0)) }
+                0xA3 -> {
+                    if (dropsSets) return
+                    refused = names.indexOfFirst { it in locked } + 1
+                    val written = bound.map { (_, value) -> tlv(value.tag, datagram.copyOfRange(value.start, value.end)) }
+                    if (refused == 0) names.zip(written).forEach { (name, value) -> values[name] = value }
+                    names.zip(written)
+                }
                 else -> (0 until number(datagram, b).toInt()).flatMap { r ->
                     names.map { name ->
                         val next = values.keys.sorted().filter { it > name }.getOrNull(r)
@@ -46,7 +67,7 @@ class SnmpTest {
                     }
                 }.take(answers)
             }
-            val body = tlv(0x02, datagram.copyOfRange(id.start, id.end)) + tlv(0x02, byteArrayOf(0)) + tlv(0x02, byteArrayOf(0)) +
+            val body = tlv(0x02, datagram.copyOfRange(id.start, id.end)) + tlv(0x02, byteArrayOf(if (refused > 0) 17 else 0)) + tlv(0x02, byteArrayOf(refused.toByte())) +
                 tlv(0x30, bindings.fold(ByteArray(0)) { all, (name, value) -> all + tlv(0x30, tlv(0x06, encode(name)) + value) })
             replies += tlv(0x30, tlv(0x02, byteArrayOf(1)) + tlv(0x04, community.encodeToByteArray()) + tlv(0xA2, body))
         }
@@ -134,6 +155,114 @@ class SnmpTest {
         assertEquals(2, agent.requests)
     }
 
+    private fun Agent.system() {
+        this["1.3.6.1.2.1.1.1.0"] = text("SNR-S2982G-24T-POE Switch\nRelease 7.0")
+        this["1.3.6.1.2.1.1.2.0"] = id("1.3.6.1.4.1.40418.7.100")
+        this["1.3.6.1.2.1.1.3.0"] = number(0x43, 123_456)
+        this["1.3.6.1.2.1.1.4.0"] = text("noc")
+        this["1.3.6.1.2.1.1.5.0"] = text("snr-sw")
+        this["1.3.6.1.2.1.1.6.0"] = text("rack 3")
+    }
+
+    @Test
+    fun anAgentThatLeavesAnObjectItsCommunityCannotWriteUnansweredIsAskedForTheRestAlone() = runTest {
+        val agent = Agent(silentOn = setOf("1.3.6.1.2.1.1.5.0", "1.3.6.1.2.1.1.4.0", "1.3.6.1.2.1.1.6.0")).apply { system() }
+        val session = openSnmp(SnmpClient(agent, "rd-test"), "10.90.254.4", v3 = false)
+        assertEquals(3 + 1, agent.requests, "the first request is sent three times, then sysDescr goes alone")
+        assertEquals(listOf("10.90.254.4", "SNR-S2982G-24T-POE Switch"), listOf(session.device.identity, session.device.board))
+        val resource = assertNotNull(session.get(MenuPath.parse("system/resource"), null))
+        assertEquals(listOf("SNR-S2982G-24T-POE Switch\nRelease 7.0", "", "1.3.6.1.4.1.40418.7.100", "20m34s"), listOf("description", "name", "object-id", "uptime").map { resource[it] })
+        val before = agent.requests
+        session.get(MenuPath.parse("system/resource"), null)
+        assertTrue(agent.requests - before < 3 + 3, "the objects it left unanswered are not asked for again, ${agent.requests - before} requests")
+    }
+
+    @Test
+    fun theStateAndTheCommentOfAnInterfaceGoInOneSetAndAreReadBack() = runTest {
+        val agent = router()
+        val session = SnmpSession(SnmpClient(agent, "rd-test"), device)
+        val before = agent.requests
+        session.set(MenuPath.parse("interface"), "2", mapOf("disabled" to "true", "comment" to "uplink"))
+        assertEquals(1, agent.requests - before)
+        val eth0 = assertNotNull(session.get(MenuPath.parse("interface"), "2"))
+        assertEquals(listOf("true", "uplink"), listOf(eth0["disabled"], eth0["comment"]))
+        session.set(MenuPath.parse("interface"), "2", mapOf("disabled" to "false", "comment" to null))
+        val again = assertNotNull(session.get(MenuPath.parse("interface"), "2"))
+        assertEquals(listOf("false", ""), listOf(again["disabled"], again["comment"]))
+    }
+
+    @Test
+    fun theNameTheContactAndTheLocationOfTheSystemAreSet() = runTest {
+        val agent = Agent().apply { system() }
+        val session = SnmpSession(SnmpClient(agent, "rd-test"), device)
+        session.set(MenuPath.parse("system/resource"), null, mapOf("name" to "snr-edge", "contact" to "noc@example.net", "location" to null))
+        assertContentEquals(text("snr-edge"), agent.values.getValue(oid("1.3.6.1.2.1.1.5.0")))
+        assertContentEquals(text("noc@example.net"), agent.values.getValue(oid("1.3.6.1.2.1.1.4.0")))
+        assertContentEquals(text(""), agent.values.getValue(oid("1.3.6.1.2.1.1.6.0")))
+    }
+
+    @Test
+    fun anAgentThatDropsASetGivesTheMessageOfACommunityThatMayNotWrite() = runTest {
+        val agent = Agent(dropsSets = true).apply { system() }
+        val session = SnmpSession(SnmpClient(agent, "rd-test"), device)
+        val failure = assertFailsWith<DeviceException> { session.set(MenuPath.parse("system/resource"), null, mapOf("name" to "x")) }
+        assertEquals(ErrorCategory.ConnectionLost, failure.category)
+        assertTrue("may not write" in failure.message.orEmpty(), failure.message)
+        assertEquals(3, agent.requests)
+    }
+
+    @Test
+    fun anAgentThatRefusesAnObjectNamesTheErrorAndTheObjectAndChangesNothing() = runTest {
+        val agent = Agent(notWritable = setOf("1.3.6.1.2.1.1.5.0")).apply { system() }
+        val session = SnmpSession(SnmpClient(agent, "rd-test"), device)
+        val failure = assertFailsWith<DeviceException> { session.set(MenuPath.parse("system/resource"), null, mapOf("contact" to "other", "name" to "x")) }
+        assertTrue("notWritable" in failure.message.orEmpty() && "1.3.6.1.2.1.1.5.0" in failure.message.orEmpty(), failure.message)
+        assertContentEquals(text("noc"), agent.values.getValue(oid("1.3.6.1.2.1.1.4.0")))
+    }
+
+    @Test
+    fun whatSnmpCannotChangeIsRefusedBeforeAnythingIsSent() = runTest {
+        val agent = router()
+        val session = SnmpSession(SnmpClient(agent, "rd-test"), device)
+        val before = agent.requests
+        assertFailsWith<DeviceException> { session.set(MenuPath.parse("interface"), "2", mapOf("mtu" to "1400")) }
+        assertFailsWith<DeviceException> { session.set(MenuPath.parse("ip/address"), "1", mapOf("address" to "10.0.0.1/24")) }
+        assertFailsWith<DeviceException> { session.set(MenuPath.parse("interface"), null, mapOf("comment" to "x")) }
+        assertFailsWith<DeviceException> { session.add(MenuPath.parse("ip/address"), mapOf("address" to "10.0.0.1/24")) }
+        assertFailsWith<DeviceException> { session.remove(MenuPath.parse("ip/address"), listOf("1")) }
+        assertEquals(before, agent.requests)
+    }
+
+    @Test
+    fun onlyTheWritableFieldsAreOfferedForEditing() = runTest {
+        val session = SnmpSession(SnmpClient(router(), "rd-test"), device)
+        val interfaces = session.describe(MenuPath.parse("interface"))
+        assertEquals(setOf("disabled", "comment"), interfaces.arguments.filter { !it.readOnly }.map { it.name }.toSet())
+        assertTrue("set" in interfaces.commands)
+        assertEquals(setOf("name", "contact", "location"), session.describe(MenuPath.parse("system/resource")).arguments.filter { !it.readOnly }.map { it.name }.toSet())
+        val addresses = session.describe(MenuPath.parse("ip/address"))
+        assertTrue(addresses.arguments.all { it.readOnly })
+        assertFalse("set" in addresses.commands)
+    }
+
+    @Test
+    fun anAgentThatAnswersTheFirstRequestIsAskedForEverything() = runTest {
+        val agent = Agent().apply { system() }
+        val session = openSnmp(SnmpClient(agent, "rd-test"), "10.90.254.4", v3 = false)
+        assertEquals(1, agent.requests)
+        assertEquals("snr-sw", session.device.identity)
+        val resource = assertNotNull(session.get(MenuPath.parse("system/resource"), null))
+        assertEquals(listOf("snr-sw", "noc", "rack 3"), listOf("name", "contact", "location").map { resource[it] })
+    }
+
+    @Test
+    fun anAgentThatAnswersNothingGivesTheAnswerOfTheSecondRequest() = runTest {
+        val agent = Agent(community = "other").apply { system() }
+        val failure = assertFailsWith<DeviceException> { openSnmp(SnmpClient(agent, "rd-test"), "10.90.254.4", v3 = false) }
+        assertEquals(ErrorCategory.ConnectionLost, failure.category)
+        assertEquals(3 + 3, agent.requests)
+    }
+
     private fun router() = Agent().apply {
         for ((index, name, type, mac) in listOf(
             listOf("1", "lo", 24, ""),
@@ -196,10 +325,10 @@ class SnmpTest {
         val session = SnmpSession(SnmpClient(router(), "rd-test"), device)
         assertEquals(listOf("interface", "ip", "ipv6", "system"), session.describe(MenuPath.Root).children)
         assertEquals(NodeKind.Settings, session.describe(MenuPath.parse("system/resource")).kind)
-        assertEquals(listOf("print", "monitor-traffic"), session.describe(MenuPath.parse("interface")).commands)
+        assertEquals(listOf("print", "monitor-traffic", "set"), session.describe(MenuPath.parse("interface")).commands)
         assertFailsWith<DeviceException> { session.describe(MenuPath.parse("ip/neighbor")) }
         assertFailsWith<DeviceException> { session.describe(MenuPath.parse("system/storage")) }
-        assertFailsWith<DeviceException> { session.set(MenuPath.parse("interface"), "2", mapOf("comment" to "rd-test")) }
+        assertFailsWith<DeviceException> { session.set(MenuPath.parse("ip/address"), "1", mapOf("comment" to "rd-test")) }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

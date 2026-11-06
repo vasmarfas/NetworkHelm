@@ -11,6 +11,7 @@ import com.vasmarfas.networkhelm.model.ListEvent
 import com.vasmarfas.networkhelm.model.MenuPath
 import com.vasmarfas.networkhelm.model.MenuSchema
 import com.vasmarfas.networkhelm.model.NodeKind
+import com.vasmarfas.networkhelm.model.Platform
 import com.vasmarfas.networkhelm.model.SafeModeKind
 import com.vasmarfas.networkhelm.model.ValueType
 import com.vasmarfas.networkhelm.model.matches
@@ -78,7 +79,7 @@ class DemoSession internal constructor(
         return when {
             menu == null && below.isEmpty() -> throw DeviceException(ErrorCategory.MissingItem, "no such menu: $path")
             menu == null -> MenuSchema(path, NodeKind.Directory, children, commands, emptyList())
-            else -> MenuSchema(path, menu.kind, children, own(menu) + commands, arguments(path, menu))
+            else -> MenuSchema(path, menu.kind, children, (own(menu) + commands + actions(path)).distinct(), arguments(path, menu))
         }
     }
 
@@ -153,7 +154,7 @@ class DemoSession internal constructor(
     override suspend fun export(path: MenuPath): String = buildString {
         appendLine("# demo export of ${device.identity}, RouterOS ${device.version}")
         for ((menuPath, menu) in menus) {
-            if (menu.kind == NodeKind.Command || path.segments.size > menuPath.segments.size || menuPath.segments.take(path.segments.size) != path.segments) continue
+            if (menu.kind == NodeKind.Command || !menu.writable || path.segments.size > menuPath.segments.size || menuPath.segments.take(path.segments.size) != path.segments) continue
             val skipped = shown[menuPath]?.first?.readonly.orEmpty()
             val rows = lists.value[menuPath].orEmpty().filter { it["dynamic"] != "true" }
             if (rows.isEmpty()) continue
@@ -190,6 +191,10 @@ class DemoSession internal constructor(
         lists.update { all -> all + (path to edit(all[path].orEmpty())) }
         if (held.value) edits.update { it + 1 }
     }
+
+    // the buttons of a RouterOS pack are shown; a command the demo does not define does nothing
+    private fun actions(path: MenuPath): List<String> =
+        if (device.platform == Platform.RouterOs) shown[path]?.first?.actions.orEmpty().map { it.command } else emptyList()
 
     private fun own(menu: DemoMenu): List<String> = when (menu.kind) {
         NodeKind.List -> listOf("print") + if (menu.writable) listOf("add", "set", "remove") + listOfNotNull("move".takeIf { menu.ordered }) else emptyList()

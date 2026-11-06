@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +30,7 @@ import com.vasmarfas.networkhelm.ui.kit.Checkbox
 import com.vasmarfas.networkhelm.ui.kit.ListScrollBar
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
 import com.vasmarfas.networkhelm.ui.kit.Toggle
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.hand
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.theme.Theme
@@ -56,10 +56,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun WinBoxImportDialog(book: WinBoxBook, onCancel: () -> Unit, onImport: () -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)).testTag("winbox-import"), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.padding(12.dp).widthIn(max = 800.dp).heightIn(max = 560.dp).background(palette.surface, shape).border(1.dp, palette.line, shape).padding(16.dp),
+            Modifier.padding(12.dp).widthIn(max = 800.dp).heightIn(max = 560.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(stringResource(Res.string.winbox_title), style = Theme.type.strong)

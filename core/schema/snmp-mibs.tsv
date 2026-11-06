@@ -1,0 +1,1721 @@
+# oid	name	module	kind	type	tc	hint	enums	access	index	units
+0.0	zeroDotZero	SNMPv2-SMI	group							
+1.3	org	SNMPv2-SMI	group							
+1.3.6	dod	SNMPv2-SMI	group							
+1.3.6.1	internet	SNMPv2-SMI	group							
+1.3.6.1.1	directory	SNMPv2-SMI	group							
+1.3.6.1.2	mgmt	SNMPv2-SMI	group							
+1.3.6.1.2.1	mib-2	SNMPv2-SMI	group							
+1.3.6.1.2.1.1	system	SNMPv2-MIB	group							
+1.3.6.1.2.1.1.1	sysDescr	SNMPv2-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.2.1.1.2	sysObjectID	SNMPv2-MIB	scalar	ObjectIdentifier				read-only		
+1.3.6.1.2.1.1.3	sysUpTime	SNMPv2-MIB	scalar	TimeTicks				read-only		
+1.3.6.1.2.1.1.4	sysContact	SNMPv2-MIB	scalar	OctetString	DisplayString	255a		read-write		
+1.3.6.1.2.1.1.5	sysName	SNMPv2-MIB	scalar	OctetString	DisplayString	255a		read-write		
+1.3.6.1.2.1.1.6	sysLocation	SNMPv2-MIB	scalar	OctetString	DisplayString	255a		read-write		
+1.3.6.1.2.1.1.7	sysServices	SNMPv2-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.1.8	sysORLastChange	SNMPv2-MIB	scalar	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.1.9	sysORTable	SNMPv2-MIB	table					not-accessible		
+1.3.6.1.2.1.1.9.1	sysOREntry	SNMPv2-MIB	entry					not-accessible	sysORIndex	
+1.3.6.1.2.1.1.9.1.1	sysORIndex	SNMPv2-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.1.9.1.2	sysORID	SNMPv2-MIB	column	ObjectIdentifier				read-only		
+1.3.6.1.2.1.1.9.1.3	sysORDescr	SNMPv2-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.2.1.1.9.1.4	sysORUpTime	SNMPv2-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.2	interfaces	IF-MIB	group							
+1.3.6.1.2.1.2.1	ifNumber	IF-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.2.2	ifTable	IF-MIB	table					not-accessible		
+1.3.6.1.2.1.2.2.1	ifEntry	IF-MIB	entry					not-accessible	ifIndex	
+1.3.6.1.2.1.2.2.1.1	ifIndex	IF-MIB	column	Integer32	InterfaceIndex	d		read-only		
+1.3.6.1.2.1.2.2.1.2	ifDescr	IF-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.2.1.2.2.1.3	ifType	IF-MIB	column	Integer32	IANAifType		other(1),regular1822(2),hdh1822(3),ddnX25(4),rfc877x25(5),ethernetCsmacd(6),iso88023Csmacd(7),iso88024TokenBus(8),iso88025TokenRing(9),iso88026Man(10),starLan(11),proteon10Mbit(12),proteon80Mbit(13),hyperchannel(14),fddi(15),lapb(16),sdlc(17),ds1(18),e1(19),basicISDN(20),primaryISDN(21),propPointToPointSerial(22),ppp(23),softwareLoopback(24),eon(25),ethernet3Mbit(26),nsip(27),slip(28),ultra(29),ds3(30),sip(31),frameRelay(32),rs232(33),para(34),arcnet(35),arcnetPlus(36),atm(37),miox25(38),sonet(39),x25ple(40),iso88022llc(41),localTalk(42),smdsDxi(43),frameRelayService(44),v35(45),hssi(46),hippi(47),modem(48),aal5(49),sonetPath(50),sonetVT(51),smdsIcip(52),propVirtual(53),propMultiplexor(54)	read-only		
+1.3.6.1.2.1.2.2.1.4	ifMtu	IF-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.2.2.1.5	ifSpeed	IF-MIB	column	Gauge32				read-only		
+1.3.6.1.2.1.2.2.1.6	ifPhysAddress	IF-MIB	column	OctetString	PhysAddress	1x:		read-only		
+1.3.6.1.2.1.2.2.1.7	ifAdminStatus	IF-MIB	column	Integer32			up(1),down(2),testing(3)	read-write		
+1.3.6.1.2.1.2.2.1.8	ifOperStatus	IF-MIB	column	Integer32			up(1),down(2),testing(3),unknown(4),dormant(5),notPresent(6),lowerLayerDown(7)	read-only		
+1.3.6.1.2.1.2.2.1.9	ifLastChange	IF-MIB	column	TimeTicks				read-only		
+1.3.6.1.2.1.2.2.1.10	ifInOctets	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.11	ifInUcastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.12	ifInNUcastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.13	ifInDiscards	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.14	ifInErrors	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.15	ifInUnknownProtos	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.16	ifOutOctets	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.17	ifOutUcastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.18	ifOutNUcastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.19	ifOutDiscards	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.20	ifOutErrors	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.2.2.1.21	ifOutQLen	IF-MIB	column	Gauge32				read-only		
+1.3.6.1.2.1.2.2.1.22	ifSpecific	IF-MIB	column	ObjectIdentifier				read-only		
+1.3.6.1.2.1.3	at	RFC1213-MIB	group							
+1.3.6.1.2.1.3.1	atTable	RFC1213-MIB	table					not-accessible		
+1.3.6.1.2.1.3.1.1	atEntry	RFC1213-MIB	entry					not-accessible	atIfIndex,atNetAddress	
+1.3.6.1.2.1.3.1.1.1	atIfIndex	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.3.1.1.2	atPhysAddress	RFC1213-MIB	column	OctetString	PhysAddress	1x:		read-write		
+1.3.6.1.2.1.3.1.1.3	atNetAddress	RFC1213-MIB	column	IpAddress				read-write		
+1.3.6.1.2.1.4	ip	IP-MIB	group							
+1.3.6.1.2.1.4.1	ipForwarding	IP-MIB	scalar	Integer32			forwarding(1),notForwarding(2)	read-write		
+1.3.6.1.2.1.4.2	ipDefaultTTL	IP-MIB	scalar	Integer32				read-write		
+1.3.6.1.2.1.4.3	ipInReceives	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.4	ipInHdrErrors	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.5	ipInAddrErrors	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.6	ipForwDatagrams	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.7	ipInUnknownProtos	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.8	ipInDiscards	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.9	ipInDelivers	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.10	ipOutRequests	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.11	ipOutDiscards	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.12	ipOutNoRoutes	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.13	ipReasmTimeout	IP-MIB	scalar	Integer32				read-only		seconds
+1.3.6.1.2.1.4.14	ipReasmReqds	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.15	ipReasmOKs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.16	ipReasmFails	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.17	ipFragOKs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.18	ipFragFails	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.19	ipFragCreates	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.20	ipAddrTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.20.1	ipAddrEntry	IP-MIB	entry					not-accessible	ipAdEntAddr	
+1.3.6.1.2.1.4.20.1.1	ipAdEntAddr	IP-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.4.20.1.2	ipAdEntIfIndex	IP-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.20.1.3	ipAdEntNetMask	IP-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.4.20.1.4	ipAdEntBcastAddr	IP-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.20.1.5	ipAdEntReasmMaxSize	IP-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.21	ipRouteTable	RFC1213-MIB	table					not-accessible		
+1.3.6.1.2.1.4.21.1	ipRouteEntry	RFC1213-MIB	entry					not-accessible	ipRouteDest	
+1.3.6.1.2.1.4.21.1.1	ipRouteDest	RFC1213-MIB	column	IpAddress				read-write		
+1.3.6.1.2.1.4.21.1.2	ipRouteIfIndex	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.4.21.1.3	ipRouteMetric1	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.4.21.1.4	ipRouteMetric2	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.4.21.1.5	ipRouteMetric3	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.4.21.1.6	ipRouteMetric4	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.4.21.1.7	ipRouteNextHop	RFC1213-MIB	column	IpAddress				read-write		
+1.3.6.1.2.1.4.21.1.8	ipRouteType	RFC1213-MIB	column	Integer32			other(1),invalid(2),direct(3),indirect(4)	read-write		
+1.3.6.1.2.1.4.21.1.9	ipRouteProto	RFC1213-MIB	column	Integer32			other(1),local(2),netmgmt(3),icmp(4),egp(5),ggp(6),hello(7),rip(8),is-is(9),es-is(10),ciscoIgrp(11),bbnSpfIgp(12),ospf(13),bgp(14)	read-only		
+1.3.6.1.2.1.4.21.1.10	ipRouteAge	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.4.21.1.11	ipRouteMask	RFC1213-MIB	column	IpAddress				read-write		
+1.3.6.1.2.1.4.21.1.12	ipRouteMetric5	RFC1213-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.4.21.1.13	ipRouteInfo	RFC1213-MIB	column	ObjectIdentifier				read-only		
+1.3.6.1.2.1.4.22	ipNetToMediaTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.22.1	ipNetToMediaEntry	IP-MIB	entry					not-accessible	ipNetToMediaIfIndex,ipNetToMediaNetAddress	
+1.3.6.1.2.1.4.22.1.1	ipNetToMediaIfIndex	IP-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.22.1.2	ipNetToMediaPhysAddress	IP-MIB	column	OctetString	PhysAddress	1x:		read-create		
+1.3.6.1.2.1.4.22.1.3	ipNetToMediaNetAddress	IP-MIB	column	IpAddress				read-create		
+1.3.6.1.2.1.4.22.1.4	ipNetToMediaType	IP-MIB	column	Integer32			other(1),invalid(2),dynamic(3),static(4)	read-create		
+1.3.6.1.2.1.4.23	ipRoutingDiscards	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.24	ipForward	IP-FORWARD-MIB	group							
+1.3.6.1.2.1.4.24.1	ipForwardNumber	IP-FORWARD-MIB	scalar	Gauge32				read-only		
+1.3.6.1.2.1.4.24.2	ipForwardTable	IP-FORWARD-MIB	table					not-accessible		
+1.3.6.1.2.1.4.24.2.1	ipForwardEntry	IP-FORWARD-MIB	entry					not-accessible	ipForwardDest,ipForwardProto,ipForwardPolicy,ipForwardNextHop	
+1.3.6.1.2.1.4.24.2.1.1	ipForwardDest	IP-FORWARD-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.4.24.2.1.2	ipForwardMask	IP-FORWARD-MIB	column	IpAddress				read-create		
+1.3.6.1.2.1.4.24.2.1.3	ipForwardPolicy	IP-FORWARD-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.24.2.1.4	ipForwardNextHop	IP-FORWARD-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.4.24.2.1.5	ipForwardIfIndex	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.2.1.6	ipForwardType	IP-FORWARD-MIB	column	Integer32			other(1),invalid(2),local(3),remote(4)	read-create		
+1.3.6.1.2.1.4.24.2.1.7	ipForwardProto	IP-FORWARD-MIB	column	Integer32			other(1),local(2),netmgmt(3),icmp(4),egp(5),ggp(6),hello(7),rip(8),is-is(9),es-is(10),ciscoIgrp(11),bbnSpfIgp(12),ospf(13),bgp(14),idpr(15)	read-only		
+1.3.6.1.2.1.4.24.2.1.8	ipForwardAge	IP-FORWARD-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.24.2.1.9	ipForwardInfo	IP-FORWARD-MIB	column	ObjectIdentifier				read-create		
+1.3.6.1.2.1.4.24.2.1.10	ipForwardNextHopAS	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.2.1.11	ipForwardMetric1	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.2.1.12	ipForwardMetric2	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.2.1.13	ipForwardMetric3	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.2.1.14	ipForwardMetric4	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.2.1.15	ipForwardMetric5	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.3	ipCidrRouteNumber	IP-FORWARD-MIB	scalar	Gauge32				read-only		
+1.3.6.1.2.1.4.24.4	ipCidrRouteTable	IP-FORWARD-MIB	table					not-accessible		
+1.3.6.1.2.1.4.24.4.1	ipCidrRouteEntry	IP-FORWARD-MIB	entry					not-accessible	ipCidrRouteDest,ipCidrRouteMask,ipCidrRouteTos,ipCidrRouteNextHop	
+1.3.6.1.2.1.4.24.4.1.1	ipCidrRouteDest	IP-FORWARD-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.4.24.4.1.2	ipCidrRouteMask	IP-FORWARD-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.4.24.4.1.3	ipCidrRouteTos	IP-FORWARD-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.24.4.1.4	ipCidrRouteNextHop	IP-FORWARD-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.4.24.4.1.5	ipCidrRouteIfIndex	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.4.1.6	ipCidrRouteType	IP-FORWARD-MIB	column	Integer32			other(1),reject(2),local(3),remote(4)	read-create		
+1.3.6.1.2.1.4.24.4.1.7	ipCidrRouteProto	IP-FORWARD-MIB	column	Integer32			other(1),local(2),netmgmt(3),icmp(4),egp(5),ggp(6),hello(7),rip(8),isIs(9),esIs(10),ciscoIgrp(11),bbnSpfIgp(12),ospf(13),bgp(14),idpr(15),ciscoEigrp(16)	read-only		
+1.3.6.1.2.1.4.24.4.1.8	ipCidrRouteAge	IP-FORWARD-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.24.4.1.9	ipCidrRouteInfo	IP-FORWARD-MIB	column	ObjectIdentifier				read-create		
+1.3.6.1.2.1.4.24.4.1.10	ipCidrRouteNextHopAS	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.4.1.11	ipCidrRouteMetric1	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.4.1.12	ipCidrRouteMetric2	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.4.1.13	ipCidrRouteMetric3	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.4.1.14	ipCidrRouteMetric4	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.4.1.15	ipCidrRouteMetric5	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.4.1.16	ipCidrRouteStatus	IP-FORWARD-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.4.24.5	ipForwardConformance	IP-FORWARD-MIB	group							
+1.3.6.1.2.1.4.24.5.1	ipForwardGroups	IP-FORWARD-MIB	group							
+1.3.6.1.2.1.4.24.5.2	ipForwardCompliances	IP-FORWARD-MIB	group							
+1.3.6.1.2.1.4.24.6	inetCidrRouteNumber	IP-FORWARD-MIB	scalar	Gauge32				read-only		
+1.3.6.1.2.1.4.24.7	inetCidrRouteTable	IP-FORWARD-MIB	table					not-accessible		
+1.3.6.1.2.1.4.24.7.1	inetCidrRouteEntry	IP-FORWARD-MIB	entry					not-accessible	inetCidrRouteDestType,inetCidrRouteDest,inetCidrRoutePfxLen,inetCidrRoutePolicy,inetCidrRouteNextHopType,inetCidrRouteNextHop	
+1.3.6.1.2.1.4.24.7.1.1	inetCidrRouteDestType	IP-FORWARD-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.4.24.7.1.2	inetCidrRouteDest	IP-FORWARD-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.4.24.7.1.3	inetCidrRoutePfxLen	IP-FORWARD-MIB	column	Unsigned32	InetAddressPrefixLength	d		not-accessible		
+1.3.6.1.2.1.4.24.7.1.4	inetCidrRoutePolicy	IP-FORWARD-MIB	column	ObjectIdentifier				not-accessible		
+1.3.6.1.2.1.4.24.7.1.5	inetCidrRouteNextHopType	IP-FORWARD-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.4.24.7.1.6	inetCidrRouteNextHop	IP-FORWARD-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.4.24.7.1.7	inetCidrRouteIfIndex	IP-FORWARD-MIB	column	Integer32	InterfaceIndexOrZero	d		read-create		
+1.3.6.1.2.1.4.24.7.1.8	inetCidrRouteType	IP-FORWARD-MIB	column	Integer32			other(1),reject(2),local(3),remote(4),blackhole(5)	read-create		
+1.3.6.1.2.1.4.24.7.1.9	inetCidrRouteProto	IP-FORWARD-MIB	column	Integer32	IANAipRouteProtocol			read-only		
+1.3.6.1.2.1.4.24.7.1.10	inetCidrRouteAge	IP-FORWARD-MIB	column	Gauge32				read-only		
+1.3.6.1.2.1.4.24.7.1.11	inetCidrRouteNextHopAS	IP-FORWARD-MIB	column	Unsigned32	InetAutonomousSystemNumber	d		read-create		
+1.3.6.1.2.1.4.24.7.1.12	inetCidrRouteMetric1	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.7.1.13	inetCidrRouteMetric2	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.7.1.14	inetCidrRouteMetric3	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.7.1.15	inetCidrRouteMetric4	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.7.1.16	inetCidrRouteMetric5	IP-FORWARD-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.4.24.7.1.17	inetCidrRouteStatus	IP-FORWARD-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.4.24.8	inetCidrRouteDiscards	IP-FORWARD-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.4.25	ipv6IpForwarding	IP-MIB	scalar	Integer32			forwarding(1),notForwarding(2)	read-write		
+1.3.6.1.2.1.4.26	ipv6IpDefaultHopLimit	IP-MIB	scalar	Integer32				read-write		
+1.3.6.1.2.1.4.27	ipv4InterfaceTableLastChange	IP-MIB	scalar	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.28	ipv4InterfaceTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.28.1	ipv4InterfaceEntry	IP-MIB	entry					not-accessible	ipv4InterfaceIfIndex	
+1.3.6.1.2.1.4.28.1.1	ipv4InterfaceIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.28.1.2	ipv4InterfaceReasmMaxSize	IP-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.4.28.1.3	ipv4InterfaceEnableStatus	IP-MIB	column	Integer32			up(1),down(2)	read-write		
+1.3.6.1.2.1.4.28.1.4	ipv4InterfaceRetransmitTime	IP-MIB	column	Unsigned32				read-only		milliseconds
+1.3.6.1.2.1.4.29	ipv6InterfaceTableLastChange	IP-MIB	scalar	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.30	ipv6InterfaceTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.30.1	ipv6InterfaceEntry	IP-MIB	entry					not-accessible	ipv6InterfaceIfIndex	
+1.3.6.1.2.1.4.30.1.1	ipv6InterfaceIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.30.1.2	ipv6InterfaceReasmMaxSize	IP-MIB	column	Unsigned32				read-only		octets
+1.3.6.1.2.1.4.30.1.3	ipv6InterfaceIdentifier	IP-MIB	column	OctetString	Ipv6AddressIfIdentifierTC	2x:		read-only		
+1.3.6.1.2.1.4.30.1.5	ipv6InterfaceEnableStatus	IP-MIB	column	Integer32			up(1),down(2)	read-write		
+1.3.6.1.2.1.4.30.1.6	ipv6InterfaceReachableTime	IP-MIB	column	Unsigned32				read-only		milliseconds
+1.3.6.1.2.1.4.30.1.7	ipv6InterfaceRetransmitTime	IP-MIB	column	Unsigned32				read-only		milliseconds
+1.3.6.1.2.1.4.30.1.8	ipv6InterfaceForwarding	IP-MIB	column	Integer32			forwarding(1),notForwarding(2)	read-write		
+1.3.6.1.2.1.4.31	ipTrafficStats	IP-MIB	group							
+1.3.6.1.2.1.4.31.1	ipSystemStatsTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.31.1.1	ipSystemStatsEntry	IP-MIB	entry					not-accessible	ipSystemStatsIPVersion	
+1.3.6.1.2.1.4.31.1.1.1	ipSystemStatsIPVersion	IP-MIB	column	Integer32	InetVersion		unknown(0),ipv4(1),ipv6(2)	not-accessible		
+1.3.6.1.2.1.4.31.1.1.3	ipSystemStatsInReceives	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.4	ipSystemStatsHCInReceives	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.5	ipSystemStatsInOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.6	ipSystemStatsHCInOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.7	ipSystemStatsInHdrErrors	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.8	ipSystemStatsInNoRoutes	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.9	ipSystemStatsInAddrErrors	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.10	ipSystemStatsInUnknownProtos	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.11	ipSystemStatsInTruncatedPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.12	ipSystemStatsInForwDatagrams	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.13	ipSystemStatsHCInForwDatagrams	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.14	ipSystemStatsReasmReqds	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.15	ipSystemStatsReasmOKs	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.16	ipSystemStatsReasmFails	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.17	ipSystemStatsInDiscards	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.18	ipSystemStatsInDelivers	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.19	ipSystemStatsHCInDelivers	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.20	ipSystemStatsOutRequests	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.21	ipSystemStatsHCOutRequests	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.22	ipSystemStatsOutNoRoutes	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.23	ipSystemStatsOutForwDatagrams	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.24	ipSystemStatsHCOutForwDatagrams	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.25	ipSystemStatsOutDiscards	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.26	ipSystemStatsOutFragReqds	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.27	ipSystemStatsOutFragOKs	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.28	ipSystemStatsOutFragFails	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.29	ipSystemStatsOutFragCreates	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.30	ipSystemStatsOutTransmits	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.31	ipSystemStatsHCOutTransmits	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.32	ipSystemStatsOutOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.33	ipSystemStatsHCOutOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.34	ipSystemStatsInMcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.35	ipSystemStatsHCInMcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.36	ipSystemStatsInMcastOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.37	ipSystemStatsHCInMcastOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.38	ipSystemStatsOutMcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.39	ipSystemStatsHCOutMcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.40	ipSystemStatsOutMcastOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.41	ipSystemStatsHCOutMcastOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.42	ipSystemStatsInBcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.43	ipSystemStatsHCInBcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.44	ipSystemStatsOutBcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.1.1.45	ipSystemStatsHCOutBcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.1.1.46	ipSystemStatsDiscontinuityTime	IP-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.31.1.1.47	ipSystemStatsRefreshRate	IP-MIB	column	Unsigned32				read-only		milli-seconds
+1.3.6.1.2.1.4.31.2	ipIfStatsTableLastChange	IP-MIB	scalar	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.31.3	ipIfStatsTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.31.3.1	ipIfStatsEntry	IP-MIB	entry					not-accessible	ipIfStatsIPVersion,ipIfStatsIfIndex	
+1.3.6.1.2.1.4.31.3.1.1	ipIfStatsIPVersion	IP-MIB	column	Integer32	InetVersion		unknown(0),ipv4(1),ipv6(2)	not-accessible		
+1.3.6.1.2.1.4.31.3.1.2	ipIfStatsIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.31.3.1.3	ipIfStatsInReceives	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.4	ipIfStatsHCInReceives	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.5	ipIfStatsInOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.6	ipIfStatsHCInOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.7	ipIfStatsInHdrErrors	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.8	ipIfStatsInNoRoutes	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.9	ipIfStatsInAddrErrors	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.10	ipIfStatsInUnknownProtos	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.11	ipIfStatsInTruncatedPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.12	ipIfStatsInForwDatagrams	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.13	ipIfStatsHCInForwDatagrams	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.14	ipIfStatsReasmReqds	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.15	ipIfStatsReasmOKs	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.16	ipIfStatsReasmFails	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.17	ipIfStatsInDiscards	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.18	ipIfStatsInDelivers	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.19	ipIfStatsHCInDelivers	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.20	ipIfStatsOutRequests	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.21	ipIfStatsHCOutRequests	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.23	ipIfStatsOutForwDatagrams	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.24	ipIfStatsHCOutForwDatagrams	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.25	ipIfStatsOutDiscards	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.26	ipIfStatsOutFragReqds	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.27	ipIfStatsOutFragOKs	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.28	ipIfStatsOutFragFails	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.29	ipIfStatsOutFragCreates	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.30	ipIfStatsOutTransmits	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.31	ipIfStatsHCOutTransmits	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.32	ipIfStatsOutOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.33	ipIfStatsHCOutOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.34	ipIfStatsInMcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.35	ipIfStatsHCInMcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.36	ipIfStatsInMcastOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.37	ipIfStatsHCInMcastOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.38	ipIfStatsOutMcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.39	ipIfStatsHCOutMcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.40	ipIfStatsOutMcastOctets	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.41	ipIfStatsHCOutMcastOctets	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.42	ipIfStatsInBcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.43	ipIfStatsHCInBcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.44	ipIfStatsOutBcastPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.4.31.3.1.45	ipIfStatsHCOutBcastPkts	IP-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.4.31.3.1.46	ipIfStatsDiscontinuityTime	IP-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.31.3.1.47	ipIfStatsRefreshRate	IP-MIB	column	Unsigned32				read-only		milli-seconds
+1.3.6.1.2.1.4.32	ipAddressPrefixTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.32.1	ipAddressPrefixEntry	IP-MIB	entry					not-accessible	ipAddressPrefixIfIndex,ipAddressPrefixType,ipAddressPrefixPrefix,ipAddressPrefixLength	
+1.3.6.1.2.1.4.32.1.1	ipAddressPrefixIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.32.1.2	ipAddressPrefixType	IP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.4.32.1.3	ipAddressPrefixPrefix	IP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.4.32.1.4	ipAddressPrefixLength	IP-MIB	column	Unsigned32	InetAddressPrefixLength	d		not-accessible		
+1.3.6.1.2.1.4.32.1.5	ipAddressPrefixOrigin	IP-MIB	column	Integer32	IpAddressPrefixOriginTC		other(1),manual(2),wellknown(3),dhcp(4),routeradv(5)	read-only		
+1.3.6.1.2.1.4.32.1.6	ipAddressPrefixOnLinkFlag	IP-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.4.32.1.7	ipAddressPrefixAutonomousFlag	IP-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.4.32.1.8	ipAddressPrefixAdvPreferredLifetime	IP-MIB	column	Unsigned32				read-only		seconds
+1.3.6.1.2.1.4.32.1.9	ipAddressPrefixAdvValidLifetime	IP-MIB	column	Unsigned32				read-only		seconds
+1.3.6.1.2.1.4.33	ipAddressSpinLock	IP-MIB	scalar	Integer32	TestAndIncr			read-write		
+1.3.6.1.2.1.4.34	ipAddressTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.34.1	ipAddressEntry	IP-MIB	entry					not-accessible	ipAddressAddrType,ipAddressAddr	
+1.3.6.1.2.1.4.34.1.1	ipAddressAddrType	IP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.4.34.1.2	ipAddressAddr	IP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.4.34.1.3	ipAddressIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		read-create		
+1.3.6.1.2.1.4.34.1.4	ipAddressType	IP-MIB	column	Integer32			unicast(1),anycast(2),broadcast(3)	read-create		
+1.3.6.1.2.1.4.34.1.5	ipAddressPrefix	IP-MIB	column	ObjectIdentifier	RowPointer			read-only		
+1.3.6.1.2.1.4.34.1.6	ipAddressOrigin	IP-MIB	column	Integer32	IpAddressOriginTC		other(1),manual(2),dhcp(4),linklayer(5),random(6)	read-only		
+1.3.6.1.2.1.4.34.1.7	ipAddressStatus	IP-MIB	column	Integer32	IpAddressStatusTC		preferred(1),deprecated(2),invalid(3),inaccessible(4),unknown(5),tentative(6),duplicate(7),optimistic(8)	read-create		
+1.3.6.1.2.1.4.34.1.8	ipAddressCreated	IP-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.34.1.9	ipAddressLastChanged	IP-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.34.1.10	ipAddressRowStatus	IP-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.4.34.1.11	ipAddressStorageType	IP-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.2.1.4.35	ipNetToPhysicalTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.35.1	ipNetToPhysicalEntry	IP-MIB	entry					not-accessible	ipNetToPhysicalIfIndex,ipNetToPhysicalNetAddressType,ipNetToPhysicalNetAddress	
+1.3.6.1.2.1.4.35.1.1	ipNetToPhysicalIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.35.1.2	ipNetToPhysicalNetAddressType	IP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.4.35.1.3	ipNetToPhysicalNetAddress	IP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.4.35.1.4	ipNetToPhysicalPhysAddress	IP-MIB	column	OctetString	PhysAddress	1x:		read-create		
+1.3.6.1.2.1.4.35.1.5	ipNetToPhysicalLastUpdated	IP-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.4.35.1.6	ipNetToPhysicalType	IP-MIB	column	Integer32			other(1),invalid(2),dynamic(3),static(4),local(5)	read-create		
+1.3.6.1.2.1.4.35.1.7	ipNetToPhysicalState	IP-MIB	column	Integer32			reachable(1),stale(2),delay(3),probe(4),invalid(5),unknown(6),incomplete(7)	read-only		
+1.3.6.1.2.1.4.35.1.8	ipNetToPhysicalRowStatus	IP-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.4.36	ipv6ScopeZoneIndexTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.36.1	ipv6ScopeZoneIndexEntry	IP-MIB	entry					not-accessible	ipv6ScopeZoneIndexIfIndex	
+1.3.6.1.2.1.4.36.1.1	ipv6ScopeZoneIndexIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.36.1.2	ipv6ScopeZoneIndexLinkLocal	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.3	ipv6ScopeZoneIndex3	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.4	ipv6ScopeZoneIndexAdminLocal	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.5	ipv6ScopeZoneIndexSiteLocal	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.6	ipv6ScopeZoneIndex6	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.7	ipv6ScopeZoneIndex7	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.8	ipv6ScopeZoneIndexOrganizationLocal	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.9	ipv6ScopeZoneIndex9	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.10	ipv6ScopeZoneIndexA	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.11	ipv6ScopeZoneIndexB	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.12	ipv6ScopeZoneIndexC	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.36.1.13	ipv6ScopeZoneIndexD	IP-MIB	column	Unsigned32	InetZoneIndex	d		read-only		
+1.3.6.1.2.1.4.37	ipDefaultRouterTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.37.1	ipDefaultRouterEntry	IP-MIB	entry					not-accessible	ipDefaultRouterAddressType,ipDefaultRouterAddress,ipDefaultRouterIfIndex	
+1.3.6.1.2.1.4.37.1.1	ipDefaultRouterAddressType	IP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.4.37.1.2	ipDefaultRouterAddress	IP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.4.37.1.3	ipDefaultRouterIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.37.1.4	ipDefaultRouterLifetime	IP-MIB	column	Unsigned32				read-only		seconds
+1.3.6.1.2.1.4.37.1.5	ipDefaultRouterPreference	IP-MIB	column	Integer32			reserved(-2),low(-1),medium(0),high(1)	read-only		
+1.3.6.1.2.1.4.38	ipv6RouterAdvertSpinLock	IP-MIB	scalar	Integer32	TestAndIncr			read-write		
+1.3.6.1.2.1.4.39	ipv6RouterAdvertTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.4.39.1	ipv6RouterAdvertEntry	IP-MIB	entry					not-accessible	ipv6RouterAdvertIfIndex	
+1.3.6.1.2.1.4.39.1.1	ipv6RouterAdvertIfIndex	IP-MIB	column	Integer32	InterfaceIndex	d		not-accessible		
+1.3.6.1.2.1.4.39.1.2	ipv6RouterAdvertSendAdverts	IP-MIB	column	Integer32	TruthValue		true(1),false(2)	read-create		
+1.3.6.1.2.1.4.39.1.3	ipv6RouterAdvertMaxInterval	IP-MIB	column	Unsigned32				read-create		seconds
+1.3.6.1.2.1.4.39.1.4	ipv6RouterAdvertMinInterval	IP-MIB	column	Unsigned32				read-create		seconds
+1.3.6.1.2.1.4.39.1.5	ipv6RouterAdvertManagedFlag	IP-MIB	column	Integer32	TruthValue		true(1),false(2)	read-create		
+1.3.6.1.2.1.4.39.1.6	ipv6RouterAdvertOtherConfigFlag	IP-MIB	column	Integer32	TruthValue		true(1),false(2)	read-create		
+1.3.6.1.2.1.4.39.1.7	ipv6RouterAdvertLinkMTU	IP-MIB	column	Unsigned32				read-create		
+1.3.6.1.2.1.4.39.1.8	ipv6RouterAdvertReachableTime	IP-MIB	column	Unsigned32				read-create		milliseconds
+1.3.6.1.2.1.4.39.1.9	ipv6RouterAdvertRetransmitTime	IP-MIB	column	Unsigned32				read-create		milliseconds
+1.3.6.1.2.1.4.39.1.10	ipv6RouterAdvertCurHopLimit	IP-MIB	column	Unsigned32				read-create		
+1.3.6.1.2.1.4.39.1.11	ipv6RouterAdvertDefaultLifetime	IP-MIB	column	Unsigned32				read-create		seconds
+1.3.6.1.2.1.4.39.1.12	ipv6RouterAdvertRowStatus	IP-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.5	icmp	IP-MIB	group							
+1.3.6.1.2.1.5.1	icmpInMsgs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.2	icmpInErrors	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.3	icmpInDestUnreachs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.4	icmpInTimeExcds	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.5	icmpInParmProbs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.6	icmpInSrcQuenchs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.7	icmpInRedirects	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.8	icmpInEchos	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.9	icmpInEchoReps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.10	icmpInTimestamps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.11	icmpInTimestampReps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.12	icmpInAddrMasks	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.13	icmpInAddrMaskReps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.14	icmpOutMsgs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.15	icmpOutErrors	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.16	icmpOutDestUnreachs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.17	icmpOutTimeExcds	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.18	icmpOutParmProbs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.19	icmpOutSrcQuenchs	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.20	icmpOutRedirects	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.21	icmpOutEchos	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.22	icmpOutEchoReps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.23	icmpOutTimestamps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.24	icmpOutTimestampReps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.25	icmpOutAddrMasks	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.26	icmpOutAddrMaskReps	IP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.5.29	icmpStatsTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.5.29.1	icmpStatsEntry	IP-MIB	entry					not-accessible	icmpStatsIPVersion	
+1.3.6.1.2.1.5.29.1.1	icmpStatsIPVersion	IP-MIB	column	Integer32	InetVersion		unknown(0),ipv4(1),ipv6(2)	not-accessible		
+1.3.6.1.2.1.5.29.1.2	icmpStatsInMsgs	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.5.29.1.3	icmpStatsInErrors	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.5.29.1.4	icmpStatsOutMsgs	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.5.29.1.5	icmpStatsOutErrors	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.5.30	icmpMsgStatsTable	IP-MIB	table					not-accessible		
+1.3.6.1.2.1.5.30.1	icmpMsgStatsEntry	IP-MIB	entry					not-accessible	icmpMsgStatsIPVersion,icmpMsgStatsType	
+1.3.6.1.2.1.5.30.1.1	icmpMsgStatsIPVersion	IP-MIB	column	Integer32	InetVersion		unknown(0),ipv4(1),ipv6(2)	not-accessible		
+1.3.6.1.2.1.5.30.1.2	icmpMsgStatsType	IP-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.5.30.1.3	icmpMsgStatsInPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.5.30.1.4	icmpMsgStatsOutPkts	IP-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.6	tcp	TCP-MIB	group							
+1.3.6.1.2.1.6.1	tcpRtoAlgorithm	TCP-MIB	scalar	Integer32			other(1),constant(2),rsre(3),vanj(4),rfc2988(5)	read-only		
+1.3.6.1.2.1.6.2	tcpRtoMin	TCP-MIB	scalar	Integer32				read-only		milliseconds
+1.3.6.1.2.1.6.3	tcpRtoMax	TCP-MIB	scalar	Integer32				read-only		milliseconds
+1.3.6.1.2.1.6.4	tcpMaxConn	TCP-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.6.5	tcpActiveOpens	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.6	tcpPassiveOpens	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.7	tcpAttemptFails	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.8	tcpEstabResets	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.9	tcpCurrEstab	TCP-MIB	scalar	Gauge32				read-only		
+1.3.6.1.2.1.6.10	tcpInSegs	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.11	tcpOutSegs	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.12	tcpRetransSegs	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.13	tcpConnTable	TCP-MIB	table					not-accessible		
+1.3.6.1.2.1.6.13.1	tcpConnEntry	TCP-MIB	entry					not-accessible	tcpConnLocalAddress,tcpConnLocalPort,tcpConnRemAddress,tcpConnRemPort	
+1.3.6.1.2.1.6.13.1.1	tcpConnState	TCP-MIB	column	Integer32			closed(1),listen(2),synSent(3),synReceived(4),established(5),finWait1(6),finWait2(7),closeWait(8),lastAck(9),closing(10),timeWait(11),deleteTCB(12)	read-write		
+1.3.6.1.2.1.6.13.1.2	tcpConnLocalAddress	TCP-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.6.13.1.3	tcpConnLocalPort	TCP-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.6.13.1.4	tcpConnRemAddress	TCP-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.6.13.1.5	tcpConnRemPort	TCP-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.6.14	tcpInErrs	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.15	tcpOutRsts	TCP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.6.17	tcpHCInSegs	TCP-MIB	scalar	Counter64				read-only		
+1.3.6.1.2.1.6.18	tcpHCOutSegs	TCP-MIB	scalar	Counter64				read-only		
+1.3.6.1.2.1.6.19	tcpConnectionTable	TCP-MIB	table					not-accessible		
+1.3.6.1.2.1.6.19.1	tcpConnectionEntry	TCP-MIB	entry					not-accessible	tcpConnectionLocalAddressType,tcpConnectionLocalAddress,tcpConnectionLocalPort,tcpConnectionRemAddressType,tcpConnectionRemAddress,tcpConnectionRemPort	
+1.3.6.1.2.1.6.19.1.1	tcpConnectionLocalAddressType	TCP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.6.19.1.2	tcpConnectionLocalAddress	TCP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.6.19.1.3	tcpConnectionLocalPort	TCP-MIB	column	Unsigned32	InetPortNumber	d		not-accessible		
+1.3.6.1.2.1.6.19.1.4	tcpConnectionRemAddressType	TCP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.6.19.1.5	tcpConnectionRemAddress	TCP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.6.19.1.6	tcpConnectionRemPort	TCP-MIB	column	Unsigned32	InetPortNumber	d		not-accessible		
+1.3.6.1.2.1.6.19.1.7	tcpConnectionState	TCP-MIB	column	Integer32			closed(1),listen(2),synSent(3),synReceived(4),established(5),finWait1(6),finWait2(7),closeWait(8),lastAck(9),closing(10),timeWait(11),deleteTCB(12)	read-write		
+1.3.6.1.2.1.6.19.1.8	tcpConnectionProcess	TCP-MIB	column	Unsigned32				read-only		
+1.3.6.1.2.1.6.20	tcpListenerTable	TCP-MIB	table					not-accessible		
+1.3.6.1.2.1.6.20.1	tcpListenerEntry	TCP-MIB	entry					not-accessible	tcpListenerLocalAddressType,tcpListenerLocalAddress,tcpListenerLocalPort	
+1.3.6.1.2.1.6.20.1.1	tcpListenerLocalAddressType	TCP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.6.20.1.2	tcpListenerLocalAddress	TCP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.6.20.1.3	tcpListenerLocalPort	TCP-MIB	column	Unsigned32	InetPortNumber	d		not-accessible		
+1.3.6.1.2.1.6.20.1.4	tcpListenerProcess	TCP-MIB	column	Unsigned32				read-only		
+1.3.6.1.2.1.7	udp	UDP-MIB	group							
+1.3.6.1.2.1.7.1	udpInDatagrams	UDP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.7.2	udpNoPorts	UDP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.7.3	udpInErrors	UDP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.7.4	udpOutDatagrams	UDP-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.7.5	udpTable	UDP-MIB	table					not-accessible		
+1.3.6.1.2.1.7.5.1	udpEntry	UDP-MIB	entry					not-accessible	udpLocalAddress,udpLocalPort	
+1.3.6.1.2.1.7.5.1.1	udpLocalAddress	UDP-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.7.5.1.2	udpLocalPort	UDP-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.7.7	udpEndpointTable	UDP-MIB	table					not-accessible		
+1.3.6.1.2.1.7.7.1	udpEndpointEntry	UDP-MIB	entry					not-accessible	udpEndpointLocalAddressType,udpEndpointLocalAddress,udpEndpointLocalPort,udpEndpointRemoteAddressType,udpEndpointRemoteAddress,udpEndpointRemotePort,udpEndpointInstance	
+1.3.6.1.2.1.7.7.1.1	udpEndpointLocalAddressType	UDP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.7.7.1.2	udpEndpointLocalAddress	UDP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.7.7.1.3	udpEndpointLocalPort	UDP-MIB	column	Unsigned32	InetPortNumber	d		not-accessible		
+1.3.6.1.2.1.7.7.1.4	udpEndpointRemoteAddressType	UDP-MIB	column	Integer32	InetAddressType		unknown(0),ipv4(1),ipv6(2),ipv4z(3),ipv6z(4),dns(16)	not-accessible		
+1.3.6.1.2.1.7.7.1.5	udpEndpointRemoteAddress	UDP-MIB	column	OctetString	InetAddress			not-accessible		
+1.3.6.1.2.1.7.7.1.6	udpEndpointRemotePort	UDP-MIB	column	Unsigned32	InetPortNumber	d		not-accessible		
+1.3.6.1.2.1.7.7.1.7	udpEndpointInstance	UDP-MIB	column	Unsigned32				not-accessible		
+1.3.6.1.2.1.7.7.1.8	udpEndpointProcess	UDP-MIB	column	Unsigned32				read-only		
+1.3.6.1.2.1.7.8	udpHCInDatagrams	UDP-MIB	scalar	Counter64				read-only		
+1.3.6.1.2.1.7.9	udpHCOutDatagrams	UDP-MIB	scalar	Counter64				read-only		
+1.3.6.1.2.1.8	egp	RFC1213-MIB	group							
+1.3.6.1.2.1.8.1	egpInMsgs	RFC1213-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.8.2	egpInErrors	RFC1213-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.8.3	egpOutMsgs	RFC1213-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.8.4	egpOutErrors	RFC1213-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.8.5	egpNeighTable	RFC1213-MIB	table					not-accessible		
+1.3.6.1.2.1.8.5.1	egpNeighEntry	RFC1213-MIB	entry					not-accessible	egpNeighAddr	
+1.3.6.1.2.1.8.5.1.1	egpNeighState	RFC1213-MIB	column	Integer32			idle(1),acquisition(2),down(3),up(4),cease(5)	read-only		
+1.3.6.1.2.1.8.5.1.2	egpNeighAddr	RFC1213-MIB	column	IpAddress				read-only		
+1.3.6.1.2.1.8.5.1.3	egpNeighAs	RFC1213-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.8.5.1.4	egpNeighInMsgs	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.5	egpNeighInErrs	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.6	egpNeighOutMsgs	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.7	egpNeighOutErrs	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.8	egpNeighInErrMsgs	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.9	egpNeighOutErrMsgs	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.10	egpNeighStateUps	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.11	egpNeighStateDowns	RFC1213-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.8.5.1.12	egpNeighIntervalHello	RFC1213-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.8.5.1.13	egpNeighIntervalPoll	RFC1213-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.8.5.1.14	egpNeighMode	RFC1213-MIB	column	Integer32			active(1),passive(2)	read-only		
+1.3.6.1.2.1.8.5.1.15	egpNeighEventTrigger	RFC1213-MIB	column	Integer32			start(1),stop(2)	read-write		
+1.3.6.1.2.1.8.6	egpAs	RFC1213-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.10	transmission	SNMPv2-SMI	group							
+1.3.6.1.2.1.10.7	dot3	EtherLike-MIB	group							
+1.3.6.1.2.1.10.7.2	dot3StatsTable	EtherLike-MIB	table					not-accessible		
+1.3.6.1.2.1.10.7.2.1	dot3StatsEntry	EtherLike-MIB	entry					not-accessible	dot3StatsIndex	
+1.3.6.1.2.1.10.7.2.1.1	dot3StatsIndex	EtherLike-MIB	column	Integer32	InterfaceIndex	d		read-only		
+1.3.6.1.2.1.10.7.2.1.2	dot3StatsAlignmentErrors	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.3	dot3StatsFCSErrors	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.4	dot3StatsSingleCollisionFrames	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.5	dot3StatsMultipleCollisionFrames	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.6	dot3StatsSQETestErrors	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.7	dot3StatsDeferredTransmissions	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.8	dot3StatsLateCollisions	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.9	dot3StatsExcessiveCollisions	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.10	dot3StatsInternalMacTransmitErrors	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.11	dot3StatsCarrierSenseErrors	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.13	dot3StatsFrameTooLongs	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.16	dot3StatsInternalMacReceiveErrors	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.17	dot3StatsEtherChipSet	EtherLike-MIB	column	ObjectIdentifier				read-only		
+1.3.6.1.2.1.10.7.2.1.18	dot3StatsSymbolErrors	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.2.1.19	dot3StatsDuplexStatus	EtherLike-MIB	column	Integer32			unknown(1),halfDuplex(2),fullDuplex(3)	read-only		
+1.3.6.1.2.1.10.7.2.1.20	dot3StatsRateControlAbility	EtherLike-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.10.7.2.1.21	dot3StatsRateControlStatus	EtherLike-MIB	column	Integer32			rateControlOff(1),rateControlOn(2),unknown(3)	read-only		
+1.3.6.1.2.1.10.7.5	dot3CollTable	EtherLike-MIB	table					not-accessible		
+1.3.6.1.2.1.10.7.5.1	dot3CollEntry	EtherLike-MIB	entry					not-accessible	ifIndex,dot3CollCount	
+1.3.6.1.2.1.10.7.5.1.2	dot3CollCount	EtherLike-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.10.7.5.1.3	dot3CollFrequencies	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.6	dot3Tests	EtherLike-MIB	group							
+1.3.6.1.2.1.10.7.6.1	dot3TestTdr	EtherLike-MIB	group							
+1.3.6.1.2.1.10.7.6.2	dot3TestLoopBack	EtherLike-MIB	group							
+1.3.6.1.2.1.10.7.7	dot3Errors	EtherLike-MIB	group							
+1.3.6.1.2.1.10.7.7.1	dot3ErrorInitError	EtherLike-MIB	group							
+1.3.6.1.2.1.10.7.7.2	dot3ErrorLoopbackError	EtherLike-MIB	group							
+1.3.6.1.2.1.10.7.9	dot3ControlTable	EtherLike-MIB	table					not-accessible		
+1.3.6.1.2.1.10.7.9.1	dot3ControlEntry	EtherLike-MIB	entry					not-accessible	dot3StatsIndex	
+1.3.6.1.2.1.10.7.9.1.1	dot3ControlFunctionsSupported	EtherLike-MIB	column	Bits			pause(0)	read-only		
+1.3.6.1.2.1.10.7.9.1.2	dot3ControlInUnknownOpcodes	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.9.1.3	dot3HCControlInUnknownOpcodes	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.10	dot3PauseTable	EtherLike-MIB	table					not-accessible		
+1.3.6.1.2.1.10.7.10.1	dot3PauseEntry	EtherLike-MIB	entry					not-accessible	dot3StatsIndex	
+1.3.6.1.2.1.10.7.10.1.1	dot3PauseAdminMode	EtherLike-MIB	column	Integer32			disabled(1),enabledXmit(2),enabledRcv(3),enabledXmitAndRcv(4)	read-write		
+1.3.6.1.2.1.10.7.10.1.2	dot3PauseOperMode	EtherLike-MIB	column	Integer32			disabled(1),enabledXmit(2),enabledRcv(3),enabledXmitAndRcv(4)	read-only		
+1.3.6.1.2.1.10.7.10.1.3	dot3InPauseFrames	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.10.1.4	dot3OutPauseFrames	EtherLike-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.10.7.10.1.5	dot3HCInPauseFrames	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.10.1.6	dot3HCOutPauseFrames	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.11	dot3HCStatsTable	EtherLike-MIB	table					not-accessible		
+1.3.6.1.2.1.10.7.11.1	dot3HCStatsEntry	EtherLike-MIB	entry					not-accessible	dot3StatsIndex	
+1.3.6.1.2.1.10.7.11.1.1	dot3HCStatsAlignmentErrors	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.11.1.2	dot3HCStatsFCSErrors	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.11.1.3	dot3HCStatsInternalMacTransmitErrors	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.11.1.4	dot3HCStatsFrameTooLongs	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.11.1.5	dot3HCStatsInternalMacReceiveErrors	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.10.7.11.1.6	dot3HCStatsSymbolErrors	EtherLike-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.11	snmp	SNMPv2-MIB	group							
+1.3.6.1.2.1.11.1	snmpInPkts	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.2	snmpOutPkts	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.3	snmpInBadVersions	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.4	snmpInBadCommunityNames	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.5	snmpInBadCommunityUses	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.6	snmpInASNParseErrs	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.8	snmpInTooBigs	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.9	snmpInNoSuchNames	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.10	snmpInBadValues	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.11	snmpInReadOnlys	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.12	snmpInGenErrs	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.13	snmpInTotalReqVars	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.14	snmpInTotalSetVars	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.15	snmpInGetRequests	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.16	snmpInGetNexts	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.17	snmpInSetRequests	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.18	snmpInGetResponses	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.19	snmpInTraps	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.20	snmpOutTooBigs	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.21	snmpOutNoSuchNames	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.22	snmpOutBadValues	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.24	snmpOutGenErrs	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.25	snmpOutGetRequests	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.26	snmpOutGetNexts	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.27	snmpOutSetRequests	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.28	snmpOutGetResponses	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.29	snmpOutTraps	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.30	snmpEnableAuthenTraps	SNMPv2-MIB	scalar	Integer32			enabled(1),disabled(2)	read-write		
+1.3.6.1.2.1.11.31	snmpSilentDrops	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.11.32	snmpProxyDrops	SNMPv2-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.17	dot1dBridge	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.0	dot1dNotifications	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.1	dot1dBase	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.1.1	dot1dBaseBridgeAddress	BRIDGE-MIB	scalar	OctetString	MacAddress	1x:		read-only		
+1.3.6.1.2.1.17.1.2	dot1dBaseNumPorts	BRIDGE-MIB	scalar	Integer32				read-only		ports
+1.3.6.1.2.1.17.1.3	dot1dBaseType	BRIDGE-MIB	scalar	Integer32			unknown(1),transparent-only(2),sourceroute-only(3),srt(4)	read-only		
+1.3.6.1.2.1.17.1.4	dot1dBasePortTable	BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.1.4.1	dot1dBasePortEntry	BRIDGE-MIB	entry					not-accessible	dot1dBasePort	
+1.3.6.1.2.1.17.1.4.1.1	dot1dBasePort	BRIDGE-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.17.1.4.1.2	dot1dBasePortIfIndex	BRIDGE-MIB	column	Integer32	InterfaceIndex	d		read-only		
+1.3.6.1.2.1.17.1.4.1.3	dot1dBasePortCircuit	BRIDGE-MIB	column	ObjectIdentifier				read-only		
+1.3.6.1.2.1.17.1.4.1.4	dot1dBasePortDelayExceededDiscards	BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.1.4.1.5	dot1dBasePortMtuExceededDiscards	BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.2	dot1dStp	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.2.1	dot1dStpProtocolSpecification	BRIDGE-MIB	scalar	Integer32			unknown(1),decLb100(2),ieee8021d(3)	read-only		
+1.3.6.1.2.1.17.2.2	dot1dStpPriority	BRIDGE-MIB	scalar	Integer32				read-write		
+1.3.6.1.2.1.17.2.3	dot1dStpTimeSinceTopologyChange	BRIDGE-MIB	scalar	TimeTicks				read-only		centi-seconds
+1.3.6.1.2.1.17.2.4	dot1dStpTopChanges	BRIDGE-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.17.2.5	dot1dStpDesignatedRoot	BRIDGE-MIB	scalar	OctetString	BridgeId			read-only		
+1.3.6.1.2.1.17.2.6	dot1dStpRootCost	BRIDGE-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.17.2.7	dot1dStpRootPort	BRIDGE-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.17.2.8	dot1dStpMaxAge	BRIDGE-MIB	scalar	Integer32	Timeout	d		read-only		centi-seconds
+1.3.6.1.2.1.17.2.9	dot1dStpHelloTime	BRIDGE-MIB	scalar	Integer32	Timeout	d		read-only		centi-seconds
+1.3.6.1.2.1.17.2.10	dot1dStpHoldTime	BRIDGE-MIB	scalar	Integer32				read-only		centi-seconds
+1.3.6.1.2.1.17.2.11	dot1dStpForwardDelay	BRIDGE-MIB	scalar	Integer32	Timeout	d		read-only		centi-seconds
+1.3.6.1.2.1.17.2.12	dot1dStpBridgeMaxAge	BRIDGE-MIB	scalar	Integer32	Timeout	d		read-write		centi-seconds
+1.3.6.1.2.1.17.2.13	dot1dStpBridgeHelloTime	BRIDGE-MIB	scalar	Integer32	Timeout	d		read-write		centi-seconds
+1.3.6.1.2.1.17.2.14	dot1dStpBridgeForwardDelay	BRIDGE-MIB	scalar	Integer32	Timeout	d		read-write		centi-seconds
+1.3.6.1.2.1.17.2.15	dot1dStpPortTable	BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.2.15.1	dot1dStpPortEntry	BRIDGE-MIB	entry					not-accessible	dot1dStpPort	
+1.3.6.1.2.1.17.2.15.1.1	dot1dStpPort	BRIDGE-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.17.2.15.1.2	dot1dStpPortPriority	BRIDGE-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.17.2.15.1.3	dot1dStpPortState	BRIDGE-MIB	column	Integer32			disabled(1),blocking(2),listening(3),learning(4),forwarding(5),broken(6)	read-only		
+1.3.6.1.2.1.17.2.15.1.4	dot1dStpPortEnable	BRIDGE-MIB	column	Integer32			enabled(1),disabled(2)	read-write		
+1.3.6.1.2.1.17.2.15.1.5	dot1dStpPortPathCost	BRIDGE-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.17.2.15.1.6	dot1dStpPortDesignatedRoot	BRIDGE-MIB	column	OctetString	BridgeId			read-only		
+1.3.6.1.2.1.17.2.15.1.7	dot1dStpPortDesignatedCost	BRIDGE-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.17.2.15.1.8	dot1dStpPortDesignatedBridge	BRIDGE-MIB	column	OctetString	BridgeId			read-only		
+1.3.6.1.2.1.17.2.15.1.9	dot1dStpPortDesignatedPort	BRIDGE-MIB	column	OctetString				read-only		
+1.3.6.1.2.1.17.2.15.1.10	dot1dStpPortForwardTransitions	BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.2.15.1.11	dot1dStpPortPathCost32	BRIDGE-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.17.3	dot1dSr	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.4	dot1dTp	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.4.1	dot1dTpLearnedEntryDiscards	BRIDGE-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.17.4.2	dot1dTpAgingTime	BRIDGE-MIB	scalar	Integer32				read-write		seconds
+1.3.6.1.2.1.17.4.3	dot1dTpFdbTable	BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.4.3.1	dot1dTpFdbEntry	BRIDGE-MIB	entry					not-accessible	dot1dTpFdbAddress	
+1.3.6.1.2.1.17.4.3.1.1	dot1dTpFdbAddress	BRIDGE-MIB	column	OctetString	MacAddress	1x:		read-only		
+1.3.6.1.2.1.17.4.3.1.2	dot1dTpFdbPort	BRIDGE-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.17.4.3.1.3	dot1dTpFdbStatus	BRIDGE-MIB	column	Integer32			other(1),invalid(2),learned(3),self(4),mgmt(5)	read-only		
+1.3.6.1.2.1.17.4.4	dot1dTpPortTable	BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.4.4.1	dot1dTpPortEntry	BRIDGE-MIB	entry					not-accessible	dot1dTpPort	
+1.3.6.1.2.1.17.4.4.1.1	dot1dTpPort	BRIDGE-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.17.4.4.1.2	dot1dTpPortMaxInfo	BRIDGE-MIB	column	Integer32				read-only		bytes
+1.3.6.1.2.1.17.4.4.1.3	dot1dTpPortInFrames	BRIDGE-MIB	column	Counter32				read-only		frames
+1.3.6.1.2.1.17.4.4.1.4	dot1dTpPortOutFrames	BRIDGE-MIB	column	Counter32				read-only		frames
+1.3.6.1.2.1.17.4.4.1.5	dot1dTpPortInDiscards	BRIDGE-MIB	column	Counter32				read-only		frames
+1.3.6.1.2.1.17.4.5	dot1dTpHCPortTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.4.5.1	dot1dTpHCPortEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dTpPort	
+1.3.6.1.2.1.17.4.5.1.1	dot1dTpHCPortInFrames	P-BRIDGE-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.17.4.5.1.2	dot1dTpHCPortOutFrames	P-BRIDGE-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.17.4.5.1.3	dot1dTpHCPortInDiscards	P-BRIDGE-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.17.4.6	dot1dTpPortOverflowTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.4.6.1	dot1dTpPortOverflowEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dTpPort	
+1.3.6.1.2.1.17.4.6.1.1	dot1dTpPortInOverflowFrames	P-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.4.6.1.2	dot1dTpPortOutOverflowFrames	P-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.4.6.1.3	dot1dTpPortInOverflowDiscards	P-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.5	dot1dStatic	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.5.1	dot1dStaticTable	BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.5.1.1	dot1dStaticEntry	BRIDGE-MIB	entry					not-accessible	dot1dStaticAddress,dot1dStaticReceivePort	
+1.3.6.1.2.1.17.5.1.1.1	dot1dStaticAddress	BRIDGE-MIB	column	OctetString	MacAddress	1x:		read-create		
+1.3.6.1.2.1.17.5.1.1.2	dot1dStaticReceivePort	BRIDGE-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.17.5.1.1.3	dot1dStaticAllowedToGoTo	BRIDGE-MIB	column	OctetString				read-create		
+1.3.6.1.2.1.17.5.1.1.4	dot1dStaticStatus	BRIDGE-MIB	column	Integer32			other(1),invalid(2),permanent(3),deleteOnReset(4),deleteOnTimeout(5)	read-create		
+1.3.6.1.2.1.17.6	pBridgeMIB	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.1	pBridgeMIBObjects	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.1.1	dot1dExtBase	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.1.1.1	dot1dDeviceCapabilities	P-BRIDGE-MIB	scalar	Bits			dot1dExtendedFilteringServices(0),dot1dTrafficClasses(1),dot1qStaticEntryIndividualPort(2),dot1qIVLCapable(3),dot1qSVLCapable(4),dot1qHybridCapable(5),dot1qConfigurablePvidTagging(6),dot1dLocalVlanCapable(7)	read-only		
+1.3.6.1.2.1.17.6.1.1.2	dot1dTrafficClassesEnabled	P-BRIDGE-MIB	scalar	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.2.1.17.6.1.1.3	dot1dGmrpStatus	P-BRIDGE-MIB	scalar	Integer32	EnabledStatus		enabled(1),disabled(2)	read-write		
+1.3.6.1.2.1.17.6.1.1.4	dot1dPortCapabilitiesTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.6.1.1.4.1	dot1dPortCapabilitiesEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dBasePort	
+1.3.6.1.2.1.17.6.1.1.4.1.1	dot1dPortCapabilities	P-BRIDGE-MIB	column	Bits			dot1qDot1qTagging(0),dot1qConfigurableAcceptableFrameTypes(1),dot1qIngressFiltering(2)	read-only		
+1.3.6.1.2.1.17.6.1.2	dot1dPriority	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.1.2.1	dot1dPortPriorityTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.6.1.2.1.1	dot1dPortPriorityEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dBasePort	
+1.3.6.1.2.1.17.6.1.2.1.1.1	dot1dPortDefaultUserPriority	P-BRIDGE-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.17.6.1.2.1.1.2	dot1dPortNumTrafficClasses	P-BRIDGE-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.17.6.1.2.2	dot1dUserPriorityRegenTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.6.1.2.2.1	dot1dUserPriorityRegenEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dBasePort,dot1dUserPriority	
+1.3.6.1.2.1.17.6.1.2.2.1.1	dot1dUserPriority	P-BRIDGE-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.17.6.1.2.2.1.2	dot1dRegenUserPriority	P-BRIDGE-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.17.6.1.2.3	dot1dTrafficClassTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.6.1.2.3.1	dot1dTrafficClassEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dBasePort,dot1dTrafficClassPriority	
+1.3.6.1.2.1.17.6.1.2.3.1.1	dot1dTrafficClassPriority	P-BRIDGE-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.17.6.1.2.3.1.2	dot1dTrafficClass	P-BRIDGE-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.17.6.1.2.4	dot1dPortOutboundAccessPriorityTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.6.1.2.4.1	dot1dPortOutboundAccessPriorityEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dBasePort,dot1dRegenUserPriority	
+1.3.6.1.2.1.17.6.1.2.4.1.1	dot1dPortOutboundAccessPriority	P-BRIDGE-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.17.6.1.3	dot1dGarp	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.1.3.1	dot1dPortGarpTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.6.1.3.1.1	dot1dPortGarpEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dBasePort	
+1.3.6.1.2.1.17.6.1.3.1.1.1	dot1dPortGarpJoinTime	P-BRIDGE-MIB	column	Integer32	TimeInterval			read-write		
+1.3.6.1.2.1.17.6.1.3.1.1.2	dot1dPortGarpLeaveTime	P-BRIDGE-MIB	column	Integer32	TimeInterval			read-write		
+1.3.6.1.2.1.17.6.1.3.1.1.3	dot1dPortGarpLeaveAllTime	P-BRIDGE-MIB	column	Integer32	TimeInterval			read-write		
+1.3.6.1.2.1.17.6.1.4	dot1dGmrp	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.1.4.1	dot1dPortGmrpTable	P-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.6.1.4.1.1	dot1dPortGmrpEntry	P-BRIDGE-MIB	entry					not-accessible	dot1dBasePort	
+1.3.6.1.2.1.17.6.1.4.1.1.1	dot1dPortGmrpStatus	P-BRIDGE-MIB	column	Integer32	EnabledStatus		enabled(1),disabled(2)	read-write		
+1.3.6.1.2.1.17.6.1.4.1.1.2	dot1dPortGmrpFailedRegistrations	P-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.6.1.4.1.1.3	dot1dPortGmrpLastPduOrigin	P-BRIDGE-MIB	column	OctetString	MacAddress	1x:		read-only		
+1.3.6.1.2.1.17.6.1.4.1.1.4	dot1dPortRestrictedGroupRegistration	P-BRIDGE-MIB	column	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.2.1.17.6.2	pBridgeConformance	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.2.1	pBridgeGroups	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.6.2.2	pBridgeCompliances	P-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7	qBridgeMIB	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.1	qBridgeMIBObjects	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.1.1	dot1qBase	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.1.1.1	dot1qVlanVersionNumber	Q-BRIDGE-MIB	scalar	Integer32			version1(1)	read-only		
+1.3.6.1.2.1.17.7.1.1.2	dot1qMaxVlanId	Q-BRIDGE-MIB	scalar	Integer32	VlanId	d		read-only		
+1.3.6.1.2.1.17.7.1.1.3	dot1qMaxSupportedVlans	Q-BRIDGE-MIB	scalar	Unsigned32				read-only		
+1.3.6.1.2.1.17.7.1.1.4	dot1qNumVlans	Q-BRIDGE-MIB	scalar	Unsigned32				read-only		
+1.3.6.1.2.1.17.7.1.1.5	dot1qGvrpStatus	Q-BRIDGE-MIB	scalar	Integer32	EnabledStatus		enabled(1),disabled(2)	read-write		
+1.3.6.1.2.1.17.7.1.2	dot1qTp	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.1.2.1	dot1qFdbTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.2.1.1	dot1qFdbEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qFdbId	
+1.3.6.1.2.1.17.7.1.2.1.1.1	dot1qFdbId	Q-BRIDGE-MIB	column	Unsigned32				not-accessible		
+1.3.6.1.2.1.17.7.1.2.1.1.2	dot1qFdbDynamicCount	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.2.2	dot1qTpFdbTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.2.2.1	dot1qTpFdbEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qFdbId,dot1qTpFdbAddress	
+1.3.6.1.2.1.17.7.1.2.2.1.1	dot1qTpFdbAddress	Q-BRIDGE-MIB	column	OctetString	MacAddress	1x:		not-accessible		
+1.3.6.1.2.1.17.7.1.2.2.1.2	dot1qTpFdbPort	Q-BRIDGE-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.17.7.1.2.2.1.3	dot1qTpFdbStatus	Q-BRIDGE-MIB	column	Integer32			other(1),invalid(2),learned(3),self(4),mgmt(5)	read-only		
+1.3.6.1.2.1.17.7.1.2.3	dot1qTpGroupTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.2.3.1	dot1qTpGroupEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qVlanIndex,dot1qTpGroupAddress	
+1.3.6.1.2.1.17.7.1.2.3.1.1	dot1qTpGroupAddress	Q-BRIDGE-MIB	column	OctetString	MacAddress	1x:		not-accessible		
+1.3.6.1.2.1.17.7.1.2.3.1.2	dot1qTpGroupEgressPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-only		
+1.3.6.1.2.1.17.7.1.2.3.1.3	dot1qTpGroupLearnt	Q-BRIDGE-MIB	column	OctetString	PortList			read-only		
+1.3.6.1.2.1.17.7.1.2.4	dot1qForwardAllTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.2.4.1	dot1qForwardAllEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qVlanIndex	
+1.3.6.1.2.1.17.7.1.2.4.1.1	dot1qForwardAllPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-only		
+1.3.6.1.2.1.17.7.1.2.4.1.2	dot1qForwardAllStaticPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-write		
+1.3.6.1.2.1.17.7.1.2.4.1.3	dot1qForwardAllForbiddenPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-write		
+1.3.6.1.2.1.17.7.1.2.5	dot1qForwardUnregisteredTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.2.5.1	dot1qForwardUnregisteredEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qVlanIndex	
+1.3.6.1.2.1.17.7.1.2.5.1.1	dot1qForwardUnregisteredPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-only		
+1.3.6.1.2.1.17.7.1.2.5.1.2	dot1qForwardUnregisteredStaticPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-write		
+1.3.6.1.2.1.17.7.1.2.5.1.3	dot1qForwardUnregisteredForbiddenPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-write		
+1.3.6.1.2.1.17.7.1.3	dot1qStatic	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.1.3.1	dot1qStaticUnicastTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.3.1.1	dot1qStaticUnicastEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qFdbId,dot1qStaticUnicastAddress,dot1qStaticUnicastReceivePort	
+1.3.6.1.2.1.17.7.1.3.1.1.1	dot1qStaticUnicastAddress	Q-BRIDGE-MIB	column	OctetString	MacAddress	1x:		not-accessible		
+1.3.6.1.2.1.17.7.1.3.1.1.2	dot1qStaticUnicastReceivePort	Q-BRIDGE-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.17.7.1.3.1.1.3	dot1qStaticUnicastAllowedToGoTo	Q-BRIDGE-MIB	column	OctetString	PortList			read-write		
+1.3.6.1.2.1.17.7.1.3.1.1.4	dot1qStaticUnicastStatus	Q-BRIDGE-MIB	column	Integer32			other(1),invalid(2),permanent(3),deleteOnReset(4),deleteOnTimeout(5)	read-write		
+1.3.6.1.2.1.17.7.1.3.2	dot1qStaticMulticastTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.3.2.1	dot1qStaticMulticastEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qVlanIndex,dot1qStaticMulticastAddress,dot1qStaticMulticastReceivePort	
+1.3.6.1.2.1.17.7.1.3.2.1.1	dot1qStaticMulticastAddress	Q-BRIDGE-MIB	column	OctetString	MacAddress	1x:		not-accessible		
+1.3.6.1.2.1.17.7.1.3.2.1.2	dot1qStaticMulticastReceivePort	Q-BRIDGE-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.17.7.1.3.2.1.3	dot1qStaticMulticastStaticEgressPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-write		
+1.3.6.1.2.1.17.7.1.3.2.1.4	dot1qStaticMulticastForbiddenEgressPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-write		
+1.3.6.1.2.1.17.7.1.3.2.1.5	dot1qStaticMulticastStatus	Q-BRIDGE-MIB	column	Integer32			other(1),invalid(2),permanent(3),deleteOnReset(4),deleteOnTimeout(5)	read-write		
+1.3.6.1.2.1.17.7.1.4	dot1qVlan	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.1.4.1	dot1qVlanNumDeletes	Q-BRIDGE-MIB	scalar	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.2	dot1qVlanCurrentTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.4.2.1	dot1qVlanCurrentEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qVlanTimeMark,dot1qVlanIndex	
+1.3.6.1.2.1.17.7.1.4.2.1.1	dot1qVlanTimeMark	Q-BRIDGE-MIB	column	TimeTicks	TimeFilter			not-accessible		
+1.3.6.1.2.1.17.7.1.4.2.1.2	dot1qVlanIndex	Q-BRIDGE-MIB	column	Unsigned32	VlanIndex	d		not-accessible		
+1.3.6.1.2.1.17.7.1.4.2.1.3	dot1qVlanFdbId	Q-BRIDGE-MIB	column	Unsigned32				read-only		
+1.3.6.1.2.1.17.7.1.4.2.1.4	dot1qVlanCurrentEgressPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-only		
+1.3.6.1.2.1.17.7.1.4.2.1.5	dot1qVlanCurrentUntaggedPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-only		
+1.3.6.1.2.1.17.7.1.4.2.1.6	dot1qVlanStatus	Q-BRIDGE-MIB	column	Integer32			other(1),permanent(2),dynamicGvrp(3)	read-only		
+1.3.6.1.2.1.17.7.1.4.2.1.7	dot1qVlanCreationTime	Q-BRIDGE-MIB	column	TimeTicks				read-only		
+1.3.6.1.2.1.17.7.1.4.3	dot1qVlanStaticTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.4.3.1	dot1qVlanStaticEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qVlanIndex	
+1.3.6.1.2.1.17.7.1.4.3.1.1	dot1qVlanStaticName	Q-BRIDGE-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.2.1.17.7.1.4.3.1.2	dot1qVlanStaticEgressPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-create		
+1.3.6.1.2.1.17.7.1.4.3.1.3	dot1qVlanForbiddenEgressPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-create		
+1.3.6.1.2.1.17.7.1.4.3.1.4	dot1qVlanStaticUntaggedPorts	Q-BRIDGE-MIB	column	OctetString	PortList			read-create		
+1.3.6.1.2.1.17.7.1.4.3.1.5	dot1qVlanStaticRowStatus	Q-BRIDGE-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.17.7.1.4.4	dot1qNextFreeLocalVlanIndex	Q-BRIDGE-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.17.7.1.4.5	dot1qPortVlanTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.4.5.1	dot1qPortVlanEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1dBasePort	
+1.3.6.1.2.1.17.7.1.4.5.1.1	dot1qPvid	Q-BRIDGE-MIB	column	Unsigned32	VlanIndex	d		read-write		
+1.3.6.1.2.1.17.7.1.4.5.1.2	dot1qPortAcceptableFrameTypes	Q-BRIDGE-MIB	column	Integer32			admitAll(1),admitOnlyVlanTagged(2)	read-write		
+1.3.6.1.2.1.17.7.1.4.5.1.3	dot1qPortIngressFiltering	Q-BRIDGE-MIB	column	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.2.1.17.7.1.4.5.1.4	dot1qPortGvrpStatus	Q-BRIDGE-MIB	column	Integer32	EnabledStatus		enabled(1),disabled(2)	read-write		
+1.3.6.1.2.1.17.7.1.4.5.1.5	dot1qPortGvrpFailedRegistrations	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.5.1.6	dot1qPortGvrpLastPduOrigin	Q-BRIDGE-MIB	column	OctetString	MacAddress	1x:		read-only		
+1.3.6.1.2.1.17.7.1.4.5.1.7	dot1qPortRestrictedVlanRegistration	Q-BRIDGE-MIB	column	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.2.1.17.7.1.4.6	dot1qPortVlanStatisticsTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.4.6.1	dot1qPortVlanStatisticsEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1dBasePort,dot1qVlanIndex	
+1.3.6.1.2.1.17.7.1.4.6.1.1	dot1qTpVlanPortInFrames	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.6.1.2	dot1qTpVlanPortOutFrames	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.6.1.3	dot1qTpVlanPortInDiscards	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.6.1.4	dot1qTpVlanPortInOverflowFrames	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.6.1.5	dot1qTpVlanPortOutOverflowFrames	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.6.1.6	dot1qTpVlanPortInOverflowDiscards	Q-BRIDGE-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.17.7.1.4.7	dot1qPortVlanHCStatisticsTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.4.7.1	dot1qPortVlanHCStatisticsEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1dBasePort,dot1qVlanIndex	
+1.3.6.1.2.1.17.7.1.4.7.1.1	dot1qTpVlanPortHCInFrames	Q-BRIDGE-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.17.7.1.4.7.1.2	dot1qTpVlanPortHCOutFrames	Q-BRIDGE-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.17.7.1.4.7.1.3	dot1qTpVlanPortHCInDiscards	Q-BRIDGE-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.17.7.1.4.8	dot1qLearningConstraintsTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.4.8.1	dot1qLearningConstraintsEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1qConstraintVlan,dot1qConstraintSet	
+1.3.6.1.2.1.17.7.1.4.8.1.1	dot1qConstraintVlan	Q-BRIDGE-MIB	column	Unsigned32	VlanIndex	d		not-accessible		
+1.3.6.1.2.1.17.7.1.4.8.1.2	dot1qConstraintSet	Q-BRIDGE-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.17.7.1.4.8.1.3	dot1qConstraintType	Q-BRIDGE-MIB	column	Integer32			independent(1),shared(2)	read-create		
+1.3.6.1.2.1.17.7.1.4.8.1.4	dot1qConstraintStatus	Q-BRIDGE-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.17.7.1.4.9	dot1qConstraintSetDefault	Q-BRIDGE-MIB	scalar	Integer32				read-write		
+1.3.6.1.2.1.17.7.1.4.10	dot1qConstraintTypeDefault	Q-BRIDGE-MIB	scalar	Integer32			independent(1),shared(2)	read-write		
+1.3.6.1.2.1.17.7.1.5	dot1vProtocol	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.1.5.1	dot1vProtocolGroupTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.5.1.1	dot1vProtocolGroupEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1vProtocolTemplateFrameType,dot1vProtocolTemplateProtocolValue	
+1.3.6.1.2.1.17.7.1.5.1.1.1	dot1vProtocolTemplateFrameType	Q-BRIDGE-MIB	column	Integer32			ethernet(1),rfc1042(2),snap8021H(3),snapOther(4),llcOther(5)	not-accessible		
+1.3.6.1.2.1.17.7.1.5.1.1.2	dot1vProtocolTemplateProtocolValue	Q-BRIDGE-MIB	column	OctetString				not-accessible		
+1.3.6.1.2.1.17.7.1.5.1.1.3	dot1vProtocolGroupId	Q-BRIDGE-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.17.7.1.5.1.1.4	dot1vProtocolGroupRowStatus	Q-BRIDGE-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.17.7.1.5.2	dot1vProtocolPortTable	Q-BRIDGE-MIB	table					not-accessible		
+1.3.6.1.2.1.17.7.1.5.2.1	dot1vProtocolPortEntry	Q-BRIDGE-MIB	entry					not-accessible	dot1dBasePort,dot1vProtocolPortGroupId	
+1.3.6.1.2.1.17.7.1.5.2.1.1	dot1vProtocolPortGroupId	Q-BRIDGE-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.17.7.1.5.2.1.2	dot1vProtocolPortGroupVid	Q-BRIDGE-MIB	column	Integer32				read-create		
+1.3.6.1.2.1.17.7.1.5.2.1.3	dot1vProtocolPortRowStatus	Q-BRIDGE-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.17.7.2	qBridgeConformance	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.2.1	qBridgeGroups	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.7.2.2	qBridgeCompliances	Q-BRIDGE-MIB	group							
+1.3.6.1.2.1.17.8	dot1dConformance	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.8.1	dot1dGroups	BRIDGE-MIB	group							
+1.3.6.1.2.1.17.8.2	dot1dCompliances	BRIDGE-MIB	group							
+1.3.6.1.2.1.25	host	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.1	hrSystem	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.1.1	hrSystemUptime	HOST-RESOURCES-MIB	scalar	TimeTicks				read-only		
+1.3.6.1.2.1.25.1.2	hrSystemDate	HOST-RESOURCES-MIB	scalar	OctetString	DateAndTime	2d-1d-1d,1d:1d:1d.1d,1a1d:1d		read-write		
+1.3.6.1.2.1.25.1.3	hrSystemInitialLoadDevice	HOST-RESOURCES-MIB	scalar	Integer32				read-write		
+1.3.6.1.2.1.25.1.4	hrSystemInitialLoadParameters	HOST-RESOURCES-MIB	scalar	OctetString	InternationalDisplayString			read-write		
+1.3.6.1.2.1.25.1.5	hrSystemNumUsers	HOST-RESOURCES-MIB	scalar	Gauge32				read-only		
+1.3.6.1.2.1.25.1.6	hrSystemProcesses	HOST-RESOURCES-MIB	scalar	Gauge32				read-only		
+1.3.6.1.2.1.25.1.7	hrSystemMaxProcesses	HOST-RESOURCES-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.25.2	hrStorage	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.2.1	hrStorageTypes	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.1	hrStorageOther	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.2	hrStorageRam	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.3	hrStorageVirtualMemory	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.4	hrStorageFixedDisk	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.5	hrStorageRemovableDisk	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.6	hrStorageFloppyDisk	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.7	hrStorageCompactDisc	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.8	hrStorageRamDisk	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.9	hrStorageFlashMemory	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.1.10	hrStorageNetworkDisk	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.2.2	hrMemorySize	HOST-RESOURCES-MIB	scalar	Integer32	KBytes			read-only		KBytes
+1.3.6.1.2.1.25.2.3	hrStorageTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.2.3.1	hrStorageEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrStorageIndex	
+1.3.6.1.2.1.25.2.3.1.1	hrStorageIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.2.3.1.2	hrStorageType	HOST-RESOURCES-MIB	column	ObjectIdentifier	AutonomousType			read-only		
+1.3.6.1.2.1.25.2.3.1.3	hrStorageDescr	HOST-RESOURCES-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.2.1.25.2.3.1.4	hrStorageAllocationUnits	HOST-RESOURCES-MIB	column	Integer32				read-only		Bytes
+1.3.6.1.2.1.25.2.3.1.5	hrStorageSize	HOST-RESOURCES-MIB	column	Integer32				read-write		
+1.3.6.1.2.1.25.2.3.1.6	hrStorageUsed	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.2.3.1.7	hrStorageAllocationFailures	HOST-RESOURCES-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.25.3	hrDevice	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.3.1	hrDeviceTypes	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.1	hrDeviceOther	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.2	hrDeviceUnknown	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.3	hrDeviceProcessor	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.4	hrDeviceNetwork	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.5	hrDevicePrinter	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.6	hrDeviceDiskStorage	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.10	hrDeviceVideo	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.11	hrDeviceAudio	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.12	hrDeviceCoprocessor	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.13	hrDeviceKeyboard	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.14	hrDeviceModem	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.15	hrDeviceParallelPort	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.16	hrDevicePointing	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.17	hrDeviceSerialPort	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.18	hrDeviceTape	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.19	hrDeviceClock	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.20	hrDeviceVolatileMemory	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.1.21	hrDeviceNonVolatileMemory	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.2	hrDeviceTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.3.2.1	hrDeviceEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrDeviceIndex	
+1.3.6.1.2.1.25.3.2.1.1	hrDeviceIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.3.2.1.2	hrDeviceType	HOST-RESOURCES-MIB	column	ObjectIdentifier	AutonomousType			read-only		
+1.3.6.1.2.1.25.3.2.1.3	hrDeviceDescr	HOST-RESOURCES-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.2.1.25.3.2.1.4	hrDeviceID	HOST-RESOURCES-MIB	column	ObjectIdentifier	ProductID			read-only		
+1.3.6.1.2.1.25.3.2.1.5	hrDeviceStatus	HOST-RESOURCES-MIB	column	Integer32			unknown(1),running(2),warning(3),testing(4),down(5)	read-only		
+1.3.6.1.2.1.25.3.2.1.6	hrDeviceErrors	HOST-RESOURCES-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.25.3.3	hrProcessorTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.3.3.1	hrProcessorEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrDeviceIndex	
+1.3.6.1.2.1.25.3.3.1.1	hrProcessorFrwID	HOST-RESOURCES-MIB	column	ObjectIdentifier	ProductID			read-only		
+1.3.6.1.2.1.25.3.3.1.2	hrProcessorLoad	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.3.4	hrNetworkTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.3.4.1	hrNetworkEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrDeviceIndex	
+1.3.6.1.2.1.25.3.4.1.1	hrNetworkIfIndex	HOST-RESOURCES-MIB	column	Integer32	InterfaceIndexOrZero	d		read-only		
+1.3.6.1.2.1.25.3.5	hrPrinterTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.3.5.1	hrPrinterEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrDeviceIndex	
+1.3.6.1.2.1.25.3.5.1.1	hrPrinterStatus	HOST-RESOURCES-MIB	column	Integer32			other(1),unknown(2),idle(3),printing(4),warmup(5)	read-only		
+1.3.6.1.2.1.25.3.5.1.2	hrPrinterDetectedErrorState	HOST-RESOURCES-MIB	column	OctetString				read-only		
+1.3.6.1.2.1.25.3.6	hrDiskStorageTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.3.6.1	hrDiskStorageEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrDeviceIndex	
+1.3.6.1.2.1.25.3.6.1.1	hrDiskStorageAccess	HOST-RESOURCES-MIB	column	Integer32			readWrite(1),readOnly(2)	read-only		
+1.3.6.1.2.1.25.3.6.1.2	hrDiskStorageMedia	HOST-RESOURCES-MIB	column	Integer32			other(1),unknown(2),hardDisk(3),floppyDisk(4),opticalDiskROM(5),opticalDiskWORM(6),opticalDiskRW(7),ramDisk(8)	read-only		
+1.3.6.1.2.1.25.3.6.1.3	hrDiskStorageRemoveble	HOST-RESOURCES-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.25.3.6.1.4	hrDiskStorageCapacity	HOST-RESOURCES-MIB	column	Integer32	KBytes			read-only		KBytes
+1.3.6.1.2.1.25.3.7	hrPartitionTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.3.7.1	hrPartitionEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrDeviceIndex,hrPartitionIndex	
+1.3.6.1.2.1.25.3.7.1.1	hrPartitionIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.3.7.1.2	hrPartitionLabel	HOST-RESOURCES-MIB	column	OctetString	InternationalDisplayString			read-only		
+1.3.6.1.2.1.25.3.7.1.3	hrPartitionID	HOST-RESOURCES-MIB	column	OctetString				read-only		
+1.3.6.1.2.1.25.3.7.1.4	hrPartitionSize	HOST-RESOURCES-MIB	column	Integer32	KBytes			read-only		KBytes
+1.3.6.1.2.1.25.3.7.1.5	hrPartitionFSIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.3.8	hrFSTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.3.8.1	hrFSEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrFSIndex	
+1.3.6.1.2.1.25.3.8.1.1	hrFSIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.3.8.1.2	hrFSMountPoint	HOST-RESOURCES-MIB	column	OctetString	InternationalDisplayString			read-only		
+1.3.6.1.2.1.25.3.8.1.3	hrFSRemoteMountPoint	HOST-RESOURCES-MIB	column	OctetString	InternationalDisplayString			read-only		
+1.3.6.1.2.1.25.3.8.1.4	hrFSType	HOST-RESOURCES-MIB	column	ObjectIdentifier	AutonomousType			read-only		
+1.3.6.1.2.1.25.3.8.1.5	hrFSAccess	HOST-RESOURCES-MIB	column	Integer32			readWrite(1),readOnly(2)	read-only		
+1.3.6.1.2.1.25.3.8.1.6	hrFSBootable	HOST-RESOURCES-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.25.3.8.1.7	hrFSStorageIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.3.8.1.8	hrFSLastFullBackupDate	HOST-RESOURCES-MIB	column	OctetString	DateAndTime	2d-1d-1d,1d:1d:1d.1d,1a1d:1d		read-write		
+1.3.6.1.2.1.25.3.8.1.9	hrFSLastPartialBackupDate	HOST-RESOURCES-MIB	column	OctetString	DateAndTime	2d-1d-1d,1d:1d:1d.1d,1a1d:1d		read-write		
+1.3.6.1.2.1.25.3.9	hrFSTypes	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.1	hrFSOther	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.2	hrFSUnknown	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.3	hrFSBerkeleyFFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.4	hrFSSys5FS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.5	hrFSFat	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.6	hrFSHPFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.7	hrFSHFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.8	hrFSMFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.9	hrFSNTFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.10	hrFSVNode	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.11	hrFSJournaled	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.12	hrFSiso9660	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.13	hrFSRockRidge	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.14	hrFSNFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.15	hrFSNetware	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.16	hrFSAFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.17	hrFSDFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.18	hrFSAppleshare	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.19	hrFSRFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.20	hrFSDGCFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.21	hrFSBFS	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.22	hrFSFAT32	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.3.9.23	hrFSLinuxExt2	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.25.4	hrSWRun	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.4.1	hrSWOSIndex	HOST-RESOURCES-MIB	scalar	Integer32				read-only		
+1.3.6.1.2.1.25.4.2	hrSWRunTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.4.2.1	hrSWRunEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrSWRunIndex	
+1.3.6.1.2.1.25.4.2.1.1	hrSWRunIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.4.2.1.2	hrSWRunName	HOST-RESOURCES-MIB	column	OctetString	InternationalDisplayString			read-only		
+1.3.6.1.2.1.25.4.2.1.3	hrSWRunID	HOST-RESOURCES-MIB	column	ObjectIdentifier	ProductID			read-only		
+1.3.6.1.2.1.25.4.2.1.4	hrSWRunPath	HOST-RESOURCES-MIB	column	OctetString	InternationalDisplayString			read-only		
+1.3.6.1.2.1.25.4.2.1.5	hrSWRunParameters	HOST-RESOURCES-MIB	column	OctetString	InternationalDisplayString			read-only		
+1.3.6.1.2.1.25.4.2.1.6	hrSWRunType	HOST-RESOURCES-MIB	column	Integer32			unknown(1),operatingSystem(2),deviceDriver(3),application(4)	read-only		
+1.3.6.1.2.1.25.4.2.1.7	hrSWRunStatus	HOST-RESOURCES-MIB	column	Integer32			running(1),runnable(2),notRunnable(3),invalid(4)	read-write		
+1.3.6.1.2.1.25.5	hrSWRunPerf	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.5.1	hrSWRunPerfTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.5.1.1	hrSWRunPerfEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrSWRunIndex	
+1.3.6.1.2.1.25.5.1.1.1	hrSWRunPerfCPU	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.5.1.1.2	hrSWRunPerfMem	HOST-RESOURCES-MIB	column	Integer32	KBytes			read-only		KBytes
+1.3.6.1.2.1.25.6	hrSWInstalled	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.6.1	hrSWInstalledLastChange	HOST-RESOURCES-MIB	scalar	TimeTicks				read-only		
+1.3.6.1.2.1.25.6.2	hrSWInstalledLastUpdateTime	HOST-RESOURCES-MIB	scalar	TimeTicks				read-only		
+1.3.6.1.2.1.25.6.3	hrSWInstalledTable	HOST-RESOURCES-MIB	table					not-accessible		
+1.3.6.1.2.1.25.6.3.1	hrSWInstalledEntry	HOST-RESOURCES-MIB	entry					not-accessible	hrSWInstalledIndex	
+1.3.6.1.2.1.25.6.3.1.1	hrSWInstalledIndex	HOST-RESOURCES-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.25.6.3.1.2	hrSWInstalledName	HOST-RESOURCES-MIB	column	OctetString	InternationalDisplayString			read-only		
+1.3.6.1.2.1.25.6.3.1.3	hrSWInstalledID	HOST-RESOURCES-MIB	column	ObjectIdentifier	ProductID			read-only		
+1.3.6.1.2.1.25.6.3.1.4	hrSWInstalledType	HOST-RESOURCES-MIB	column	Integer32			unknown(1),operatingSystem(2),deviceDriver(3),application(4)	read-only		
+1.3.6.1.2.1.25.6.3.1.5	hrSWInstalledDate	HOST-RESOURCES-MIB	column	OctetString	DateAndTime	2d-1d-1d,1d:1d:1d.1d,1a1d:1d		read-only		
+1.3.6.1.2.1.25.7	hrMIBAdminInfo	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.7.1	hostResourcesMibModule	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.7.2	hrMIBCompliances	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.7.3	hrMIBGroups	HOST-RESOURCES-MIB	group							
+1.3.6.1.2.1.25.7.4	hostResourcesTypesModule	HOST-RESOURCES-TYPES	group							
+1.3.6.1.2.1.30	ianaifType	IANAifType-MIB	group							
+1.3.6.1.2.1.31	ifMIB	IF-MIB	group							
+1.3.6.1.2.1.31.1	ifMIBObjects	IF-MIB	group							
+1.3.6.1.2.1.31.1.1	ifXTable	IF-MIB	table					not-accessible		
+1.3.6.1.2.1.31.1.1.1	ifXEntry	IF-MIB	entry					not-accessible	ifIndex	
+1.3.6.1.2.1.31.1.1.1.1	ifName	IF-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.2.1.31.1.1.1.2	ifInMulticastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.31.1.1.1.3	ifInBroadcastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.31.1.1.1.4	ifOutMulticastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.31.1.1.1.5	ifOutBroadcastPkts	IF-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.31.1.1.1.6	ifHCInOctets	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.7	ifHCInUcastPkts	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.8	ifHCInMulticastPkts	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.9	ifHCInBroadcastPkts	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.10	ifHCOutOctets	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.11	ifHCOutUcastPkts	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.12	ifHCOutMulticastPkts	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.13	ifHCOutBroadcastPkts	IF-MIB	column	Counter64				read-only		
+1.3.6.1.2.1.31.1.1.1.14	ifLinkUpDownTrapEnable	IF-MIB	column	Integer32			enabled(1),disabled(2)	read-write		
+1.3.6.1.2.1.31.1.1.1.15	ifHighSpeed	IF-MIB	column	Gauge32				read-only		
+1.3.6.1.2.1.31.1.1.1.16	ifPromiscuousMode	IF-MIB	column	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.2.1.31.1.1.1.17	ifConnectorPresent	IF-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.31.1.1.1.18	ifAlias	IF-MIB	column	OctetString	DisplayString	255a		read-write		
+1.3.6.1.2.1.31.1.1.1.19	ifCounterDiscontinuityTime	IF-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.31.1.2	ifStackTable	IF-MIB	table					not-accessible		
+1.3.6.1.2.1.31.1.2.1	ifStackEntry	IF-MIB	entry					not-accessible	ifStackHigherLayer,ifStackLowerLayer	
+1.3.6.1.2.1.31.1.2.1.1	ifStackHigherLayer	IF-MIB	column	Integer32	InterfaceIndexOrZero	d		not-accessible		
+1.3.6.1.2.1.31.1.2.1.2	ifStackLowerLayer	IF-MIB	column	Integer32	InterfaceIndexOrZero	d		not-accessible		
+1.3.6.1.2.1.31.1.2.1.3	ifStackStatus	IF-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.31.1.3	ifTestTable	IF-MIB	table					not-accessible		
+1.3.6.1.2.1.31.1.3.1	ifTestEntry	IF-MIB	entry					not-accessible	ifIndex	
+1.3.6.1.2.1.31.1.3.1.1	ifTestId	IF-MIB	column	Integer32	TestAndIncr			read-write		
+1.3.6.1.2.1.31.1.3.1.2	ifTestStatus	IF-MIB	column	Integer32			notInUse(1),inUse(2)	read-write		
+1.3.6.1.2.1.31.1.3.1.3	ifTestType	IF-MIB	column	ObjectIdentifier	AutonomousType			read-write		
+1.3.6.1.2.1.31.1.3.1.4	ifTestResult	IF-MIB	column	Integer32			none(1),success(2),inProgress(3),notSupported(4),unAbleToRun(5),aborted(6),failed(7)	read-only		
+1.3.6.1.2.1.31.1.3.1.5	ifTestCode	IF-MIB	column	ObjectIdentifier				read-only		
+1.3.6.1.2.1.31.1.3.1.6	ifTestOwner	IF-MIB	column	OctetString	OwnerString	255a		read-write		
+1.3.6.1.2.1.31.1.4	ifRcvAddressTable	IF-MIB	table					not-accessible		
+1.3.6.1.2.1.31.1.4.1	ifRcvAddressEntry	IF-MIB	entry					not-accessible	ifIndex,ifRcvAddressAddress	
+1.3.6.1.2.1.31.1.4.1.1	ifRcvAddressAddress	IF-MIB	column	OctetString	PhysAddress	1x:		not-accessible		
+1.3.6.1.2.1.31.1.4.1.2	ifRcvAddressStatus	IF-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.2.1.31.1.4.1.3	ifRcvAddressType	IF-MIB	column	Integer32			other(1),volatile(2),nonVolatile(3)	read-create		
+1.3.6.1.2.1.31.1.5	ifTableLastChange	IF-MIB	scalar	TimeTicks				read-only		
+1.3.6.1.2.1.31.1.6	ifStackLastChange	IF-MIB	scalar	TimeTicks				read-only		
+1.3.6.1.2.1.31.2	ifConformance	IF-MIB	group							
+1.3.6.1.2.1.31.2.1	ifGroups	IF-MIB	group							
+1.3.6.1.2.1.31.2.2	ifCompliances	IF-MIB	group							
+1.3.6.1.2.1.35	etherMIB	EtherLike-MIB	group							
+1.3.6.1.2.1.35.1	etherMIBObjects	EtherLike-MIB	group							
+1.3.6.1.2.1.35.2	etherConformance	EtherLike-MIB	group							
+1.3.6.1.2.1.35.2.1	etherGroups	EtherLike-MIB	group							
+1.3.6.1.2.1.35.2.2	etherCompliances	EtherLike-MIB	group							
+1.3.6.1.2.1.47	entityMIB	ENTITY-MIB	group							
+1.3.6.1.2.1.47.1	entityMIBObjects	ENTITY-MIB	group							
+1.3.6.1.2.1.47.1.1	entityPhysical	ENTITY-MIB	group							
+1.3.6.1.2.1.47.1.1.1	entPhysicalTable	ENTITY-MIB	table					not-accessible		
+1.3.6.1.2.1.47.1.1.1.1	entPhysicalEntry	ENTITY-MIB	entry					not-accessible	entPhysicalIndex	
+1.3.6.1.2.1.47.1.1.1.1.1	entPhysicalIndex	ENTITY-MIB	column	Integer32	PhysicalIndex	d		not-accessible		
+1.3.6.1.2.1.47.1.1.1.1.2	entPhysicalDescr	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.1.1.1.3	entPhysicalVendorType	ENTITY-MIB	column	ObjectIdentifier	AutonomousType			read-only		
+1.3.6.1.2.1.47.1.1.1.1.4	entPhysicalContainedIn	ENTITY-MIB	column	Integer32	PhysicalIndexOrZero	d		read-only		
+1.3.6.1.2.1.47.1.1.1.1.5	entPhysicalClass	ENTITY-MIB	column	Integer32	IANAPhysicalClass		other(1),unknown(2),chassis(3),backplane(4),container(5),powerSupply(6),fan(7),sensor(8),module(9),port(10),stack(11),cpu(12),energyObject(13),battery(14)	read-only		
+1.3.6.1.2.1.47.1.1.1.1.6	entPhysicalParentRelPos	ENTITY-MIB	column	Integer32				read-only		
+1.3.6.1.2.1.47.1.1.1.1.7	entPhysicalName	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.1.1.1.8	entPhysicalHardwareRev	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.1.1.1.9	entPhysicalFirmwareRev	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.1.1.1.10	entPhysicalSoftwareRev	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.1.1.1.11	entPhysicalSerialNum	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-write		
+1.3.6.1.2.1.47.1.1.1.1.12	entPhysicalMfgName	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.1.1.1.13	entPhysicalModelName	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.1.1.1.14	entPhysicalAlias	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-write		
+1.3.6.1.2.1.47.1.1.1.1.15	entPhysicalAssetID	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-write		
+1.3.6.1.2.1.47.1.1.1.1.16	entPhysicalIsFRU	ENTITY-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.47.1.1.1.1.17	entPhysicalMfgDate	ENTITY-MIB	column	OctetString	DateAndTime	2d-1d-1d,1d:1d:1d.1d,1a1d:1d		read-only		
+1.3.6.1.2.1.47.1.1.1.1.18	entPhysicalUris	ENTITY-MIB	column	OctetString				read-write		
+1.3.6.1.2.1.47.1.1.1.1.19	entPhysicalUUID	ENTITY-MIB	column	OctetString	UUIDorZero	4x-2x-2x-1x1x-6x		read-only		
+1.3.6.1.2.1.47.1.2	entityLogical	ENTITY-MIB	group							
+1.3.6.1.2.1.47.1.2.1	entLogicalTable	ENTITY-MIB	table					not-accessible		
+1.3.6.1.2.1.47.1.2.1.1	entLogicalEntry	ENTITY-MIB	entry					not-accessible	entLogicalIndex	
+1.3.6.1.2.1.47.1.2.1.1.1	entLogicalIndex	ENTITY-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.47.1.2.1.1.2	entLogicalDescr	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.2.1.1.3	entLogicalType	ENTITY-MIB	column	ObjectIdentifier	AutonomousType			read-only		
+1.3.6.1.2.1.47.1.2.1.1.4	entLogicalCommunity	ENTITY-MIB	column	OctetString				read-only		
+1.3.6.1.2.1.47.1.2.1.1.5	entLogicalTAddress	ENTITY-MIB	column	OctetString	TAddress			read-only		
+1.3.6.1.2.1.47.1.2.1.1.6	entLogicalTDomain	ENTITY-MIB	column	ObjectIdentifier	TDomain			read-only		
+1.3.6.1.2.1.47.1.2.1.1.7	entLogicalContextEngineID	ENTITY-MIB	column	OctetString	SnmpEngineIdOrNone			read-only		
+1.3.6.1.2.1.47.1.2.1.1.8	entLogicalContextName	ENTITY-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.47.1.3	entityMapping	ENTITY-MIB	group							
+1.3.6.1.2.1.47.1.3.1	entLPMappingTable	ENTITY-MIB	table					not-accessible		
+1.3.6.1.2.1.47.1.3.1.1	entLPMappingEntry	ENTITY-MIB	entry					not-accessible	entLogicalIndex,entLPPhysicalIndex	
+1.3.6.1.2.1.47.1.3.1.1.1	entLPPhysicalIndex	ENTITY-MIB	column	Integer32	PhysicalIndex	d		read-only		
+1.3.6.1.2.1.47.1.3.2	entAliasMappingTable	ENTITY-MIB	table					not-accessible		
+1.3.6.1.2.1.47.1.3.2.1	entAliasMappingEntry	ENTITY-MIB	entry					not-accessible	entPhysicalIndex,entAliasLogicalIndexOrZero	
+1.3.6.1.2.1.47.1.3.2.1.1	entAliasLogicalIndexOrZero	ENTITY-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.47.1.3.2.1.2	entAliasMappingIdentifier	ENTITY-MIB	column	ObjectIdentifier	RowPointer			read-only		
+1.3.6.1.2.1.47.1.3.3	entPhysicalContainsTable	ENTITY-MIB	table					not-accessible		
+1.3.6.1.2.1.47.1.3.3.1	entPhysicalContainsEntry	ENTITY-MIB	entry					not-accessible	entPhysicalIndex,entPhysicalChildIndex	
+1.3.6.1.2.1.47.1.3.3.1.1	entPhysicalChildIndex	ENTITY-MIB	column	Integer32	PhysicalIndex	d		read-only		
+1.3.6.1.2.1.47.1.4	entityGeneral	ENTITY-MIB	group							
+1.3.6.1.2.1.47.1.4.1	entLastChangeTime	ENTITY-MIB	scalar	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.47.2	entityMIBTraps	ENTITY-MIB	group							
+1.3.6.1.2.1.47.2.0	entityMIBTrapPrefix	ENTITY-MIB	group							
+1.3.6.1.2.1.47.3	entityConformance	ENTITY-MIB	group							
+1.3.6.1.2.1.47.3.1	entityCompliances	ENTITY-MIB	group							
+1.3.6.1.2.1.47.3.2	entityGroups	ENTITY-MIB	group							
+1.3.6.1.2.1.48	ipMIB	IP-MIB	group							
+1.3.6.1.2.1.48.2	ipMIBConformance	IP-MIB	group							
+1.3.6.1.2.1.48.2.1	ipMIBCompliances	IP-MIB	group							
+1.3.6.1.2.1.48.2.2	ipMIBGroups	IP-MIB	group							
+1.3.6.1.2.1.49	tcpMIB	TCP-MIB	group							
+1.3.6.1.2.1.49.2	tcpMIBConformance	TCP-MIB	group							
+1.3.6.1.2.1.49.2.1	tcpMIBCompliances	TCP-MIB	group							
+1.3.6.1.2.1.49.2.2	tcpMIBGroups	TCP-MIB	group							
+1.3.6.1.2.1.50	udpMIB	UDP-MIB	group							
+1.3.6.1.2.1.50.2	udpMIBConformance	UDP-MIB	group							
+1.3.6.1.2.1.50.2.1	udpMIBCompliances	UDP-MIB	group							
+1.3.6.1.2.1.50.2.2	udpMIBGroups	UDP-MIB	group							
+1.3.6.1.2.1.76	inetAddressMIB	INET-ADDRESS-MIB	group							
+1.3.6.1.2.1.99	entitySensorMIB	ENTITY-SENSOR-MIB	group							
+1.3.6.1.2.1.99.1	entitySensorObjects	ENTITY-SENSOR-MIB	group							
+1.3.6.1.2.1.99.1.1	entPhySensorTable	ENTITY-SENSOR-MIB	table					not-accessible		
+1.3.6.1.2.1.99.1.1.1	entPhySensorEntry	ENTITY-SENSOR-MIB	entry					not-accessible	entPhysicalIndex	
+1.3.6.1.2.1.99.1.1.1.1	entPhySensorType	ENTITY-SENSOR-MIB	column	Integer32	EntitySensorDataType		other(1),unknown(2),voltsAC(3),voltsDC(4),amperes(5),watts(6),hertz(7),celsius(8),percentRH(9),rpm(10),cmm(11),truthvalue(12)	read-only		
+1.3.6.1.2.1.99.1.1.1.2	entPhySensorScale	ENTITY-SENSOR-MIB	column	Integer32	EntitySensorDataScale		yocto(1),zepto(2),atto(3),femto(4),pico(5),nano(6),micro(7),milli(8),units(9),kilo(10),mega(11),giga(12),tera(13),exa(14),peta(15),zetta(16),yotta(17)	read-only		
+1.3.6.1.2.1.99.1.1.1.3	entPhySensorPrecision	ENTITY-SENSOR-MIB	column	Integer32	EntitySensorPrecision			read-only		
+1.3.6.1.2.1.99.1.1.1.4	entPhySensorValue	ENTITY-SENSOR-MIB	column	Integer32	EntitySensorValue			read-only		
+1.3.6.1.2.1.99.1.1.1.5	entPhySensorOperStatus	ENTITY-SENSOR-MIB	column	Integer32	EntitySensorStatus		ok(1),unavailable(2),nonoperational(3)	read-only		
+1.3.6.1.2.1.99.1.1.1.6	entPhySensorUnitsDisplay	ENTITY-SENSOR-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.2.1.99.1.1.1.7	entPhySensorValueTimeStamp	ENTITY-SENSOR-MIB	column	TimeTicks	TimeStamp			read-only		
+1.3.6.1.2.1.99.1.1.1.8	entPhySensorValueUpdateRate	ENTITY-SENSOR-MIB	column	Unsigned32				read-only		milliseconds
+1.3.6.1.2.1.99.3	entitySensorConformance	ENTITY-SENSOR-MIB	group							
+1.3.6.1.2.1.99.3.1	entitySensorCompliances	ENTITY-SENSOR-MIB	group							
+1.3.6.1.2.1.99.3.2	entitySensorGroups	ENTITY-SENSOR-MIB	group							
+1.3.6.1.2.1.105	powerEthernetMIB	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.105.0	pethNotifications	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.105.1	pethObjects	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.105.1.1	pethPsePortTable	POWER-ETHERNET-MIB	table					not-accessible		
+1.3.6.1.2.1.105.1.1.1	pethPsePortEntry	POWER-ETHERNET-MIB	entry					not-accessible	pethPsePortGroupIndex,pethPsePortIndex	
+1.3.6.1.2.1.105.1.1.1.1	pethPsePortGroupIndex	POWER-ETHERNET-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.105.1.1.1.2	pethPsePortIndex	POWER-ETHERNET-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.105.1.1.1.3	pethPsePortAdminEnable	POWER-ETHERNET-MIB	column	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.2.1.105.1.1.1.4	pethPsePortPowerPairsControlAbility	POWER-ETHERNET-MIB	column	Integer32	TruthValue		true(1),false(2)	read-only		
+1.3.6.1.2.1.105.1.1.1.5	pethPsePortPowerPairs	POWER-ETHERNET-MIB	column	Integer32			signal(1),spare(2)	read-write		
+1.3.6.1.2.1.105.1.1.1.6	pethPsePortDetectionStatus	POWER-ETHERNET-MIB	column	Integer32			disabled(1),searching(2),deliveringPower(3),fault(4),test(5),otherFault(6)	read-only		
+1.3.6.1.2.1.105.1.1.1.7	pethPsePortPowerPriority	POWER-ETHERNET-MIB	column	Integer32			critical(1),high(2),low(3)	read-write		
+1.3.6.1.2.1.105.1.1.1.8	pethPsePortMPSAbsentCounter	POWER-ETHERNET-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.105.1.1.1.9	pethPsePortType	POWER-ETHERNET-MIB	column	OctetString	SnmpAdminString	255t		read-write		
+1.3.6.1.2.1.105.1.1.1.10	pethPsePortPowerClassifications	POWER-ETHERNET-MIB	column	Integer32			class0(1),class1(2),class2(3),class3(4),class4(5)	read-only		
+1.3.6.1.2.1.105.1.1.1.11	pethPsePortInvalidSignatureCounter	POWER-ETHERNET-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.105.1.1.1.12	pethPsePortPowerDeniedCounter	POWER-ETHERNET-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.105.1.1.1.13	pethPsePortOverLoadCounter	POWER-ETHERNET-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.105.1.1.1.14	pethPsePortShortCounter	POWER-ETHERNET-MIB	column	Counter32				read-only		
+1.3.6.1.2.1.105.1.3	pethMainPseObjects	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.105.1.3.1	pethMainPseTable	POWER-ETHERNET-MIB	table					not-accessible		
+1.3.6.1.2.1.105.1.3.1.1	pethMainPseEntry	POWER-ETHERNET-MIB	entry					not-accessible	pethMainPseGroupIndex	
+1.3.6.1.2.1.105.1.3.1.1.1	pethMainPseGroupIndex	POWER-ETHERNET-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.105.1.3.1.1.2	pethMainPsePower	POWER-ETHERNET-MIB	column	Gauge32				read-only		Watts
+1.3.6.1.2.1.105.1.3.1.1.3	pethMainPseOperStatus	POWER-ETHERNET-MIB	column	Integer32			on(1),off(2),faulty(3)	read-only		
+1.3.6.1.2.1.105.1.3.1.1.4	pethMainPseConsumptionPower	POWER-ETHERNET-MIB	column	Gauge32				read-only		Watts
+1.3.6.1.2.1.105.1.3.1.1.5	pethMainPseUsageThreshold	POWER-ETHERNET-MIB	column	Integer32				read-write		%
+1.3.6.1.2.1.105.1.4	pethNotificationControl	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.105.1.4.1	pethNotificationControlTable	POWER-ETHERNET-MIB	table					not-accessible		
+1.3.6.1.2.1.105.1.4.1.1	pethNotificationControlEntry	POWER-ETHERNET-MIB	entry					not-accessible	pethNotificationControlGroupIndex	
+1.3.6.1.2.1.105.1.4.1.1.1	pethNotificationControlGroupIndex	POWER-ETHERNET-MIB	column	Integer32				not-accessible		
+1.3.6.1.2.1.105.1.4.1.1.2	pethNotificationControlEnable	POWER-ETHERNET-MIB	column	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.2.1.105.2	pethConformance	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.105.2.1	pethCompliances	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.105.2.2	pethGroups	POWER-ETHERNET-MIB	group							
+1.3.6.1.2.1.216	ianaEntityMIB	IANA-ENTITY-MIB	group							
+1.3.6.1.2.1.217	uuidTCMIB	UUID-TC-MIB	group							
+1.3.6.1.3	experimental	SNMPv2-SMI	group							
+1.3.6.1.4	private	SNMPv2-SMI	group							
+1.3.6.1.4.1	enterprises	SNMPv2-SMI	group							
+1.3.6.1.4.1.2021	ucdavis	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.2	prTable	UCD-SNMP-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.2.1	prEntry	UCD-SNMP-MIB	entry					not-accessible	prIndex	
+1.3.6.1.4.1.2021.2.1.1	prIndex	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.2.1.2	prNames	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.2.1.3	prMin	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.2.1.4	prMax	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.2.1.5	prCount	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.2.1.100	prErrorFlag	UCD-SNMP-MIB	column	Integer32	UCDErrorFlag		noError(0),error(1)	read-only		
+1.3.6.1.4.1.2021.2.1.101	prErrMessage	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.2.1.102	prErrFix	UCD-SNMP-MIB	column	Integer32	UCDErrorFix		noError(0),runFix(1)	read-write		
+1.3.6.1.4.1.2021.2.1.103	prErrFixCmd	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.4	memory	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.4.1	memIndex	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.4.2	memErrorName	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.4.3	memTotalSwap	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.4	memAvailSwap	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.5	memTotalReal	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.6	memAvailReal	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.7	memTotalSwapTXT	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.8	memAvailSwapTXT	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.9	memTotalRealTXT	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.10	memAvailRealTXT	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.11	memTotalFree	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.12	memMinimumSwap	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.13	memShared	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.14	memBuffer	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.15	memCached	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.16	memUsedSwapTXT	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.17	memUsedRealTXT	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.4.18	memTotalSwapX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.19	memAvailSwapX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.20	memTotalRealX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.21	memAvailRealX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.22	memTotalFreeX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.23	memMinimumSwapX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.24	memSharedX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.25	memBufferX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.26	memCachedX	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.27	memSysAvail	UCD-SNMP-MIB	scalar	Counter64	CounterBasedGauge64			read-only		kB
+1.3.6.1.4.1.2021.4.100	memSwapError	UCD-SNMP-MIB	scalar	Integer32	UCDErrorFlag		noError(0),error(1)	read-only		
+1.3.6.1.4.1.2021.4.101	memSwapErrorMsg	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.8	extTable	UCD-SNMP-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.8.1	extEntry	UCD-SNMP-MIB	entry					not-accessible	extIndex	
+1.3.6.1.4.1.2021.8.1.1	extIndex	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.8.1.2	extNames	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.8.1.3	extCommand	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.8.1.100	extResult	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.8.1.101	extOutput	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.8.1.102	extErrFix	UCD-SNMP-MIB	column	Integer32	UCDErrorFix		noError(0),runFix(1)	read-write		
+1.3.6.1.4.1.2021.8.1.103	extErrFixCmd	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.9	dskTable	UCD-SNMP-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.9.1	dskEntry	UCD-SNMP-MIB	entry					not-accessible	dskIndex	
+1.3.6.1.4.1.2021.9.1.1	dskIndex	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.2	dskPath	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.9.1.3	dskDevice	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.9.1.4	dskMinimum	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.5	dskMinPercent	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.6	dskTotal	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.7	dskAvail	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.8	dskUsed	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.9	dskPercent	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.10	dskPercentNode	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.9.1.11	dskTotalLow	UCD-SNMP-MIB	column	Unsigned32				read-only		
+1.3.6.1.4.1.2021.9.1.12	dskTotalHigh	UCD-SNMP-MIB	column	Unsigned32				read-only		
+1.3.6.1.4.1.2021.9.1.13	dskAvailLow	UCD-SNMP-MIB	column	Unsigned32				read-only		
+1.3.6.1.4.1.2021.9.1.14	dskAvailHigh	UCD-SNMP-MIB	column	Unsigned32				read-only		
+1.3.6.1.4.1.2021.9.1.15	dskUsedLow	UCD-SNMP-MIB	column	Unsigned32				read-only		
+1.3.6.1.4.1.2021.9.1.16	dskUsedHigh	UCD-SNMP-MIB	column	Unsigned32				read-only		
+1.3.6.1.4.1.2021.9.1.100	dskErrorFlag	UCD-SNMP-MIB	column	Integer32	UCDErrorFlag		noError(0),error(1)	read-only		
+1.3.6.1.4.1.2021.9.1.101	dskErrorMsg	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.10	laTable	UCD-SNMP-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.10.1	laEntry	UCD-SNMP-MIB	entry					not-accessible	laIndex	
+1.3.6.1.4.1.2021.10.1.1	laIndex	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.10.1.2	laNames	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.10.1.3	laLoad	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.10.1.4	laConfig	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-write		
+1.3.6.1.4.1.2021.10.1.5	laLoadInt	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.10.1.6	laLoadFloat	UCD-SNMP-MIB	column	Opaque	Float			read-only		
+1.3.6.1.4.1.2021.10.1.100	laErrorFlag	UCD-SNMP-MIB	column	Integer32	UCDErrorFlag		noError(0),error(1)	read-only		
+1.3.6.1.4.1.2021.10.1.101	laErrMessage	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.11	systemStats	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.11.1	ssIndex	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.11.2	ssErrorName	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.11.3	ssSwapIn	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.11.4	ssSwapOut	UCD-SNMP-MIB	scalar	Integer32				read-only		kB
+1.3.6.1.4.1.2021.11.5	ssIOSent	UCD-SNMP-MIB	scalar	Integer32				read-only		blocks/s
+1.3.6.1.4.1.2021.11.6	ssIOReceive	UCD-SNMP-MIB	scalar	Integer32				read-only		blocks/s
+1.3.6.1.4.1.2021.11.7	ssSysInterrupts	UCD-SNMP-MIB	scalar	Integer32				read-only		interrupts/s
+1.3.6.1.4.1.2021.11.8	ssSysContext	UCD-SNMP-MIB	scalar	Integer32				read-only		switches/s
+1.3.6.1.4.1.2021.11.9	ssCpuUser	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.11.10	ssCpuSystem	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.11.11	ssCpuIdle	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.11.50	ssCpuRawUser	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.51	ssCpuRawNice	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.52	ssCpuRawSystem	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.53	ssCpuRawIdle	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.54	ssCpuRawWait	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.55	ssCpuRawKernel	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.56	ssCpuRawInterrupt	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.57	ssIORawSent	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.58	ssIORawReceived	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.59	ssRawInterrupts	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.60	ssRawContexts	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.61	ssCpuRawSoftIRQ	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.62	ssRawSwapIn	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.63	ssRawSwapOut	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.64	ssCpuRawSteal	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.65	ssCpuRawGuest	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.66	ssCpuRawGuestNice	UCD-SNMP-MIB	scalar	Counter32				read-only		
+1.3.6.1.4.1.2021.11.67	ssCpuNumCpus	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.12	ucdInternal	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.13	ucdExperimental	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.13.1	ucdIpFwAccMIB	UCD-IPFWACC-MIB	group							
+1.3.6.1.4.1.2021.13.1.1	ipFwAccTable	UCD-IPFWACC-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.13.1.1.1	ipFwAccEntry	UCD-IPFWACC-MIB	entry					not-accessible	ipFwAccIndex	
+1.3.6.1.4.1.2021.13.1.1.1.1	ipFwAccIndex	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.2	ipFwAccSrcAddr	UCD-IPFWACC-MIB	column	IpAddress				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.3	ipFwAccSrcNetMask	UCD-IPFWACC-MIB	column	IpAddress				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.4	ipFwAccDstAddr	UCD-IPFWACC-MIB	column	IpAddress				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.5	ipFwAccDstNetMask	UCD-IPFWACC-MIB	column	IpAddress				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.6	ipFwAccViaName	UCD-IPFWACC-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.13.1.1.1.7	ipFwAccViaAddr	UCD-IPFWACC-MIB	column	IpAddress				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.8	ipFwAccProto	UCD-IPFWACC-MIB	column	Integer32			other(1),all(2),tcp(3),udp(4),icmp(5)	read-only		
+1.3.6.1.4.1.2021.13.1.1.1.9	ipFwAccBidir	UCD-IPFWACC-MIB	column	Integer32			unidirectional(1),bidirectional(2)	read-only		
+1.3.6.1.4.1.2021.13.1.1.1.10	ipFwAccDir	UCD-IPFWACC-MIB	column	Integer32			both(1),in(2),out(3)	read-only		
+1.3.6.1.4.1.2021.13.1.1.1.11	ipFwAccBytes	UCD-IPFWACC-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.12	ipFwAccPackets	UCD-IPFWACC-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.13	ipFwAccNrSrcPorts	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.14	ipFwAccNrDstPorts	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.15	ipFwAccSrcIsRange	UCD-IPFWACC-MIB	column	Integer32			srchasrange(1),srchasnorange(2)	read-only		
+1.3.6.1.4.1.2021.13.1.1.1.16	ipFwAccDstIsRange	UCD-IPFWACC-MIB	column	Integer32			dsthasrange(1),dsthasnorange(2)	read-only		
+1.3.6.1.4.1.2021.13.1.1.1.17	ipFwAccPort1	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.18	ipFwAccPort2	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.19	ipFwAccPort3	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.20	ipFwAccPort4	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.21	ipFwAccPort5	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.22	ipFwAccPort6	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.23	ipFwAccPort7	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.24	ipFwAccPort8	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.25	ipFwAccPort9	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.1.1.1.26	ipFwAccPort10	UCD-IPFWACC-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.14	ucdDlmodMIB	UCD-DLMOD-MIB	group							
+1.3.6.1.4.1.2021.13.14.1	dlmodNextIndex	UCD-DLMOD-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.13.14.2	dlmodTable	UCD-DLMOD-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.13.14.2.1	dlmodEntry	UCD-DLMOD-MIB	entry					not-accessible	dlmodIndex	
+1.3.6.1.4.1.2021.13.14.2.1.1	dlmodIndex	UCD-DLMOD-MIB	column	Integer32				not-accessible		
+1.3.6.1.4.1.2021.13.14.2.1.2	dlmodName	UCD-DLMOD-MIB	column	OctetString	DisplayString	255a		read-write		
+1.3.6.1.4.1.2021.13.14.2.1.3	dlmodPath	UCD-DLMOD-MIB	column	OctetString	DisplayString	255a		read-write		
+1.3.6.1.4.1.2021.13.14.2.1.4	dlmodError	UCD-DLMOD-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.13.14.2.1.5	dlmodStatus	UCD-DLMOD-MIB	column	Integer32			loaded(1),unloaded(2),error(3),load(4),unload(5),create(6),delete(7)	read-write		
+1.3.6.1.4.1.2021.13.15	ucdDiskIOMIB	UCD-DISKIO-MIB	group							
+1.3.6.1.4.1.2021.13.15.1	diskIOTable	UCD-DISKIO-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.13.15.1.1	diskIOEntry	UCD-DISKIO-MIB	entry					not-accessible	diskIOIndex	
+1.3.6.1.4.1.2021.13.15.1.1.1	diskIOIndex	UCD-DISKIO-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.2	diskIODevice	UCD-DISKIO-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.13.15.1.1.3	diskIONRead	UCD-DISKIO-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.4	diskIONWritten	UCD-DISKIO-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.5	diskIOReads	UCD-DISKIO-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.6	diskIOWrites	UCD-DISKIO-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.9	diskIOLA1	UCD-DISKIO-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.10	diskIOLA5	UCD-DISKIO-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.11	diskIOLA15	UCD-DISKIO-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.12	diskIONReadX	UCD-DISKIO-MIB	column	Counter64				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.13	diskIONWrittenX	UCD-DISKIO-MIB	column	Counter64				read-only		
+1.3.6.1.4.1.2021.13.15.1.1.14	diskIOBusyTime	UCD-DISKIO-MIB	column	Counter64				read-only		
+1.3.6.1.4.1.2021.13.16	lmSensors	LM-SENSORS-MIB	group							
+1.3.6.1.4.1.2021.13.16.1	lmSensorsMIB	LM-SENSORS-MIB	group							
+1.3.6.1.4.1.2021.13.16.2	lmTempSensorsTable	LM-SENSORS-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.13.16.2.1	lmTempSensorsEntry	LM-SENSORS-MIB	entry					not-accessible	lmTempSensorsIndex	
+1.3.6.1.4.1.2021.13.16.2.1.1	lmTempSensorsIndex	LM-SENSORS-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.16.2.1.2	lmTempSensorsDevice	LM-SENSORS-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.13.16.2.1.3	lmTempSensorsValue	LM-SENSORS-MIB	column	Gauge32				read-only		
+1.3.6.1.4.1.2021.13.16.3	lmFanSensorsTable	LM-SENSORS-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.13.16.3.1	lmFanSensorsEntry	LM-SENSORS-MIB	entry					not-accessible	lmFanSensorsIndex	
+1.3.6.1.4.1.2021.13.16.3.1.1	lmFanSensorsIndex	LM-SENSORS-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.16.3.1.2	lmFanSensorsDevice	LM-SENSORS-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.13.16.3.1.3	lmFanSensorsValue	LM-SENSORS-MIB	column	Gauge32				read-only		
+1.3.6.1.4.1.2021.13.16.4	lmVoltSensorsTable	LM-SENSORS-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.13.16.4.1	lmVoltSensorsEntry	LM-SENSORS-MIB	entry					not-accessible	lmVoltSensorsIndex	
+1.3.6.1.4.1.2021.13.16.4.1.1	lmVoltSensorsIndex	LM-SENSORS-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.16.4.1.2	lmVoltSensorsDevice	LM-SENSORS-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.13.16.4.1.3	lmVoltSensorsValue	LM-SENSORS-MIB	column	Gauge32				read-only		
+1.3.6.1.4.1.2021.13.16.5	lmMiscSensorsTable	LM-SENSORS-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.13.16.5.1	lmMiscSensorsEntry	LM-SENSORS-MIB	entry					not-accessible	lmMiscSensorsIndex	
+1.3.6.1.4.1.2021.13.16.5.1.1	lmMiscSensorsIndex	LM-SENSORS-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.13.16.5.1.2	lmMiscSensorsDevice	LM-SENSORS-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.13.16.5.1.3	lmMiscSensorsValue	LM-SENSORS-MIB	column	Gauge32				read-only		
+1.3.6.1.4.1.2021.15	fileTable	UCD-SNMP-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.15.1	fileEntry	UCD-SNMP-MIB	entry					not-accessible	fileIndex	
+1.3.6.1.4.1.2021.15.1.1	fileIndex	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.15.1.2	fileName	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.15.1.3	fileSize	UCD-SNMP-MIB	column	Integer32				read-only		kB
+1.3.6.1.4.1.2021.15.1.4	fileMax	UCD-SNMP-MIB	column	Integer32				read-only		kB
+1.3.6.1.4.1.2021.15.1.100	fileErrorFlag	UCD-SNMP-MIB	column	Integer32	UCDErrorFlag		noError(0),error(1)	read-only		
+1.3.6.1.4.1.2021.15.1.101	fileErrorMsg	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.16	logMatch	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.16.1	logMatchMaxEntries	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.16.2	logMatchTable	UCD-SNMP-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.16.2.1	logMatchEntry	UCD-SNMP-MIB	entry					not-accessible	logMatchIndex	
+1.3.6.1.4.1.2021.16.2.1.1	logMatchIndex	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.16.2.1.2	logMatchName	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.16.2.1.3	logMatchFilename	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.16.2.1.4	logMatchRegEx	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.16.2.1.5	logMatchGlobalCounter	UCD-SNMP-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.16.2.1.6	logMatchGlobalCount	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.16.2.1.7	logMatchCurrentCounter	UCD-SNMP-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.16.2.1.8	logMatchCurrentCount	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.16.2.1.9	logMatchCounter	UCD-SNMP-MIB	column	Counter32				read-only		
+1.3.6.1.4.1.2021.16.2.1.10	logMatchCount	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.16.2.1.11	logMatchCycle	UCD-SNMP-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.2021.16.2.1.100	logMatchErrorFlag	UCD-SNMP-MIB	column	Integer32	UCDErrorFlag		noError(0),error(1)	read-only		
+1.3.6.1.4.1.2021.16.2.1.101	logMatchRegExCompilation	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.100	version	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.100.1	versionIndex	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.100.2	versionTag	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.100.3	versionDate	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.100.4	versionCDate	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.100.5	versionIdent	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.100.6	versionConfigureOptions	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.100.10	versionClearCache	UCD-SNMP-MIB	scalar	Integer32				read-write		
+1.3.6.1.4.1.2021.100.11	versionUpdateConfig	UCD-SNMP-MIB	scalar	Integer32				read-write		
+1.3.6.1.4.1.2021.100.12	versionRestartAgent	UCD-SNMP-MIB	scalar	Integer32				read-write		
+1.3.6.1.4.1.2021.100.13	versionSavePersistentData	UCD-SNMP-MIB	scalar	Integer32				read-write		
+1.3.6.1.4.1.2021.100.20	versionDoDebugging	UCD-SNMP-MIB	scalar	Integer32				read-write		
+1.3.6.1.4.1.2021.101	snmperrs	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.101.1	snmperrIndex	UCD-SNMP-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.2021.101.2	snmperrNames	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.101.100	snmperrErrorFlag	UCD-SNMP-MIB	scalar	Integer32	UCDErrorFlag		noError(0),error(1)	read-only		
+1.3.6.1.4.1.2021.101.101	snmperrErrMessage	UCD-SNMP-MIB	scalar	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.102	mrTable	UCD-SNMP-MIB	table					not-accessible		
+1.3.6.1.4.1.2021.102.1	mrEntry	UCD-SNMP-MIB	entry					not-accessible	*mrIndex	
+1.3.6.1.4.1.2021.102.1.1	mrIndex	UCD-SNMP-MIB	column	ObjectIdentifier				read-only		
+1.3.6.1.4.1.2021.102.1.2	mrModuleName	UCD-SNMP-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.2021.250	ucdSnmpAgent	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.1	hpux9	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.2	sunos4	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.3	solaris	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.4	osf	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.5	ultrix	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.6	hpux10	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.7	netbsd1	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.8	freebsd	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.9	irix	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.10	linux	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.11	bsdi	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.12	openbsd	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.13	win32	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.14	hpux11	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.15	aix	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.16	macosx	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.17	dragonfly	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.250.255	unknown	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.2021.251	ucdTraps	UCD-SNMP-MIB	group							
+1.3.6.1.4.1.8072	netSnmp	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.1	netSnmpObjects	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.1.1	nsVersion	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.2	nsMibRegistry	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.2.1	nsModuleTable	NET-SNMP-AGENT-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.2.1.1	nsModuleEntry	NET-SNMP-AGENT-MIB	entry					not-accessible	nsmContextName,nsmRegistrationPoint,nsmRegistrationPriority	
+1.3.6.1.4.1.8072.1.2.1.1.1	nsmContextName	NET-SNMP-AGENT-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.4.1.8072.1.2.1.1.2	nsmRegistrationPoint	NET-SNMP-AGENT-MIB	column	ObjectIdentifier				not-accessible		
+1.3.6.1.4.1.8072.1.2.1.1.3	nsmRegistrationPriority	NET-SNMP-AGENT-MIB	column	Integer32				not-accessible		
+1.3.6.1.4.1.8072.1.2.1.1.4	nsModuleName	NET-SNMP-AGENT-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.8072.1.2.1.1.5	nsModuleModes	NET-SNMP-AGENT-MIB	column	Bits			getAndGetNext(0),set(1),getBulk(2)	read-only		
+1.3.6.1.4.1.8072.1.2.1.1.6	nsModuleTimeout	NET-SNMP-AGENT-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.8072.1.3	nsExtensions	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.3.1	netSnmpExtendMIB	NET-SNMP-EXTEND-MIB	group							
+1.3.6.1.4.1.8072.1.3.2	nsExtendObjects	NET-SNMP-EXTEND-MIB	group							
+1.3.6.1.4.1.8072.1.3.2.1	nsExtendNumEntries	NET-SNMP-EXTEND-MIB	scalar	Integer32				read-only		
+1.3.6.1.4.1.8072.1.3.2.2	nsExtendConfigTable	NET-SNMP-EXTEND-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.3.2.2.1	nsExtendConfigEntry	NET-SNMP-EXTEND-MIB	entry					not-accessible	nsExtendToken	
+1.3.6.1.4.1.8072.1.3.2.2.1.1	nsExtendToken	NET-SNMP-EXTEND-MIB	column	OctetString	DisplayString	255a		not-accessible		
+1.3.6.1.4.1.8072.1.3.2.2.1.2	nsExtendCommand	NET-SNMP-EXTEND-MIB	column	OctetString	DisplayString	255a		read-create		
+1.3.6.1.4.1.8072.1.3.2.2.1.3	nsExtendArgs	NET-SNMP-EXTEND-MIB	column	OctetString	DisplayString	255a		read-create		
+1.3.6.1.4.1.8072.1.3.2.2.1.4	nsExtendInput	NET-SNMP-EXTEND-MIB	column	OctetString	DisplayString	255a		read-create		
+1.3.6.1.4.1.8072.1.3.2.2.1.5	nsExtendCacheTime	NET-SNMP-EXTEND-MIB	column	Integer32				read-create		
+1.3.6.1.4.1.8072.1.3.2.2.1.6	nsExtendExecType	NET-SNMP-EXTEND-MIB	column	Integer32			exec(1),shell(2)	read-create		
+1.3.6.1.4.1.8072.1.3.2.2.1.7	nsExtendRunType	NET-SNMP-EXTEND-MIB	column	Integer32			run-on-read(1),run-on-set(2),run-command(3)	read-create		
+1.3.6.1.4.1.8072.1.3.2.2.1.20	nsExtendStorage	NET-SNMP-EXTEND-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.4.1.8072.1.3.2.2.1.21	nsExtendStatus	NET-SNMP-EXTEND-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.4.1.8072.1.3.2.3	nsExtendOutput1Table	NET-SNMP-EXTEND-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.3.2.3.1	nsExtendOutput1Entry	NET-SNMP-EXTEND-MIB	entry					not-accessible	nsExtendToken	
+1.3.6.1.4.1.8072.1.3.2.3.1.1	nsExtendOutput1Line	NET-SNMP-EXTEND-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.8072.1.3.2.3.1.2	nsExtendOutputFull	NET-SNMP-EXTEND-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.8072.1.3.2.3.1.3	nsExtendOutNumLines	NET-SNMP-EXTEND-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.8072.1.3.2.3.1.4	nsExtendResult	NET-SNMP-EXTEND-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.8072.1.3.2.4	nsExtendOutput2Table	NET-SNMP-EXTEND-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.3.2.4.1	nsExtendOutput2Entry	NET-SNMP-EXTEND-MIB	entry					not-accessible	nsExtendToken,nsExtendLineIndex	
+1.3.6.1.4.1.8072.1.3.2.4.1.1	nsExtendLineIndex	NET-SNMP-EXTEND-MIB	column	Integer32				not-accessible		
+1.3.6.1.4.1.8072.1.3.2.4.1.2	nsExtendOutLine	NET-SNMP-EXTEND-MIB	column	OctetString	DisplayString	255a		read-only		
+1.3.6.1.4.1.8072.1.3.3	nsExtendGroups	NET-SNMP-EXTEND-MIB	group							
+1.3.6.1.4.1.8072.1.4	nsDLMod	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.5	nsCache	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.5.1	nsCacheDefaultTimeout	NET-SNMP-AGENT-MIB	scalar	Integer32				read-write		
+1.3.6.1.4.1.8072.1.5.2	nsCacheEnabled	NET-SNMP-AGENT-MIB	scalar	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.4.1.8072.1.5.3	nsCacheTable	NET-SNMP-AGENT-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.5.3.1	nsCacheEntry	NET-SNMP-AGENT-MIB	entry					not-accessible	*nsCachedOID	
+1.3.6.1.4.1.8072.1.5.3.1.1	nsCachedOID	NET-SNMP-AGENT-MIB	column	ObjectIdentifier				not-accessible		
+1.3.6.1.4.1.8072.1.5.3.1.2	nsCacheTimeout	NET-SNMP-AGENT-MIB	column	Integer32				read-write		
+1.3.6.1.4.1.8072.1.5.3.1.3	nsCacheStatus	NET-SNMP-AGENT-MIB	column	Integer32	NetsnmpCacheStatus		enabled(1),disabled(2),empty(3),cached(4),expired(5)	read-write		
+1.3.6.1.4.1.8072.1.6	nsErrorHistory	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.7	nsConfiguration	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.7.1	nsConfigDebug	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.7.1.1	nsDebugEnabled	NET-SNMP-AGENT-MIB	scalar	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.4.1.8072.1.7.1.2	nsDebugOutputAll	NET-SNMP-AGENT-MIB	scalar	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.4.1.8072.1.7.1.3	nsDebugDumpPdu	NET-SNMP-AGENT-MIB	scalar	Integer32	TruthValue		true(1),false(2)	read-write		
+1.3.6.1.4.1.8072.1.7.1.4	nsDebugTokenTable	NET-SNMP-AGENT-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.7.1.4.1	nsDebugTokenEntry	NET-SNMP-AGENT-MIB	entry					not-accessible	*nsDebugTokenPrefix	
+1.3.6.1.4.1.8072.1.7.1.4.1.2	nsDebugTokenPrefix	NET-SNMP-AGENT-MIB	column	OctetString	DisplayString	255a		not-accessible		
+1.3.6.1.4.1.8072.1.7.1.4.1.4	nsDebugTokenStatus	NET-SNMP-AGENT-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.4.1.8072.1.7.2	nsConfigLogging	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.7.2.1	nsLoggingTable	NET-SNMP-AGENT-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.7.2.1.1	nsLoggingEntry	NET-SNMP-AGENT-MIB	entry					not-accessible	nsLogLevel,*nsLogToken	
+1.3.6.1.4.1.8072.1.7.2.1.1.1	nsLogLevel	NET-SNMP-AGENT-MIB	column	Integer32			emergency(0),alert(1),critical(2),error(3),warning(4),notice(5),info(6),debug(7)	not-accessible		
+1.3.6.1.4.1.8072.1.7.2.1.1.2	nsLogToken	NET-SNMP-AGENT-MIB	column	OctetString	DisplayString	255a		not-accessible		
+1.3.6.1.4.1.8072.1.7.2.1.1.3	nsLogType	NET-SNMP-AGENT-MIB	column	Integer32			stdout(1),stderr(2),file(3),syslog(4),callback(5)	read-create		
+1.3.6.1.4.1.8072.1.7.2.1.1.4	nsLogMaxLevel	NET-SNMP-AGENT-MIB	column	Integer32			emergency(0),alert(1),critical(2),error(3),warning(4),notice(5),info(6),debug(7)	read-create		
+1.3.6.1.4.1.8072.1.7.2.1.1.5	nsLogStatus	NET-SNMP-AGENT-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.4.1.8072.1.8	nsTransactions	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.1.8.1	nsTransactionTable	NET-SNMP-AGENT-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.8.1.1	nsTransactionEntry	NET-SNMP-AGENT-MIB	entry					not-accessible	nsTransactionID	
+1.3.6.1.4.1.8072.1.8.1.1.1	nsTransactionID	NET-SNMP-AGENT-MIB	column	Unsigned32				not-accessible		
+1.3.6.1.4.1.8072.1.8.1.1.2	nsTransactionMode	NET-SNMP-AGENT-MIB	column	Integer32				read-only		
+1.3.6.1.4.1.8072.1.9	netSnmpVacmMIB	NET-SNMP-VACM-MIB	group							
+1.3.6.1.4.1.8072.1.9.1	nsVacmAccessTable	NET-SNMP-VACM-MIB	table					not-accessible		
+1.3.6.1.4.1.8072.1.9.1.1	nsVacmAccessEntry	NET-SNMP-VACM-MIB	entry					not-accessible	vacmGroupName,vacmAccessContextPrefix,vacmAccessSecurityModel,vacmAccessSecurityLevel,nsVacmAuthType	
+1.3.6.1.4.1.8072.1.9.1.1.1	nsVacmAuthType	NET-SNMP-VACM-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.4.1.8072.1.9.1.1.2	nsVacmContextMatch	NET-SNMP-VACM-MIB	column	Integer32			exact(1),prefix(2)	read-create		
+1.3.6.1.4.1.8072.1.9.1.1.3	nsVacmViewName	NET-SNMP-VACM-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.4.1.8072.1.9.1.1.4	nsVacmStorageType	NET-SNMP-VACM-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.4.1.8072.1.9.1.1.5	nsVacmStatus	NET-SNMP-VACM-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.4.1.8072.3	netSnmpEnumerations	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.3.1	netSnmpModuleIDs	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.3.1.1	netSnmpTCs	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.1.2	netSnmpAgentMIB	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.3.2	netSnmpAgentOIDs	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.3.2.1	hpux9	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.2	sunos4	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.3	solaris	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.4	osf	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.5	ultrix	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.6	hpux10	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.7	netbsd	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.8	freebsd	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.9	irix	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.10	linux	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.11	bsdi	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.12	openbsd	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.13	win32	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.14	hpux11	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.15	aix	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.16	macosx	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.17	dragonfly	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.2.255	unknown	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3	netSnmpDomains	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.3.3.1	netSnmpTCPDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.2	netSnmpUnixDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.3	netSnmpAAL5PVCDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.4	netSnmpUDPIPv6Domain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.5	netSnmpTCPIPv6Domain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.6	netSnmpCallbackDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.7	netSnmpAliasDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.8	netSnmpDTLSUDPDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.9	netSnmpDTLSSCTPDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.3.3.10	netSnmpTLSTCPDomain	NET-SNMP-TC	group							
+1.3.6.1.4.1.8072.4	netSnmpNotificationPrefix	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.4.0	netSnmpNotifications	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.4.1	netSnmpNotificationObjects	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.5	netSnmpConformance	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.5.1	netSnmpCompliances	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.5.2	netSnmpGroups	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.5.2.7	nsConfigGroups	NET-SNMP-AGENT-MIB	group							
+1.3.6.1.4.1.8072.9999	netSnmpExperimental	NET-SNMP-MIB	group							
+1.3.6.1.4.1.8072.9999.9999	netSnmpPlaypen	NET-SNMP-MIB	group							
+1.3.6.1.5	security	SNMPv2-SMI	group							
+1.3.6.1.6	snmpV2	SNMPv2-SMI	group							
+1.3.6.1.6.1	snmpDomains	SNMPv2-SMI	group							
+1.3.6.1.6.2	snmpProxys	SNMPv2-SMI	group							
+1.3.6.1.6.3	snmpModules	SNMPv2-SMI	group							
+1.3.6.1.6.3.1	snmpMIB	SNMPv2-MIB	group							
+1.3.6.1.6.3.1.1	snmpMIBObjects	SNMPv2-MIB	group							
+1.3.6.1.6.3.1.1.4	snmpTrap	SNMPv2-MIB	group							
+1.3.6.1.6.3.1.1.4.1	snmpTrapOID	SNMPv2-MIB	scalar	ObjectIdentifier				accessible-for-notify		
+1.3.6.1.6.3.1.1.4.3	snmpTrapEnterprise	SNMPv2-MIB	scalar	ObjectIdentifier				accessible-for-notify		
+1.3.6.1.6.3.1.1.5	snmpTraps	SNMPv2-MIB	group							
+1.3.6.1.6.3.1.1.6	snmpSet	SNMPv2-MIB	group							
+1.3.6.1.6.3.1.1.6.1	snmpSetSerialNo	SNMPv2-MIB	scalar	Integer32	TestAndIncr			read-write		
+1.3.6.1.6.3.1.2	snmpMIBConformance	SNMPv2-MIB	group							
+1.3.6.1.6.3.1.2.1	snmpMIBCompliances	SNMPv2-MIB	group							
+1.3.6.1.6.3.1.2.2	snmpMIBGroups	SNMPv2-MIB	group							
+1.3.6.1.6.3.10	snmpFrameworkMIB	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.1	snmpFrameworkAdmin	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.1.1	snmpAuthProtocols	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.1.1.1	usmNoAuthProtocol	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.10.1.1.2	usmHMACMD5AuthProtocol	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.10.1.1.3	usmHMACSHAAuthProtocol	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.10.1.2	snmpPrivProtocols	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.1.2.1	usmNoPrivProtocol	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.10.1.2.2	usmDESPrivProtocol	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.10.2	snmpFrameworkMIBObjects	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.2.1	snmpEngine	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.2.1.1	snmpEngineID	SNMP-FRAMEWORK-MIB	scalar	OctetString	SnmpEngineID			read-only		
+1.3.6.1.6.3.10.2.1.2	snmpEngineBoots	SNMP-FRAMEWORK-MIB	scalar	Integer32				read-only		
+1.3.6.1.6.3.10.2.1.3	snmpEngineTime	SNMP-FRAMEWORK-MIB	scalar	Integer32				read-only		seconds
+1.3.6.1.6.3.10.2.1.4	snmpEngineMaxMessageSize	SNMP-FRAMEWORK-MIB	scalar	Integer32				read-only		
+1.3.6.1.6.3.10.3	snmpFrameworkMIBConformance	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.3.1	snmpFrameworkMIBCompliances	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.10.3.2	snmpFrameworkMIBGroups	SNMP-FRAMEWORK-MIB	group							
+1.3.6.1.6.3.11	snmpMPDMIB	SNMP-MPD-MIB	group							
+1.3.6.1.6.3.11.1	snmpMPDAdmin	SNMP-MPD-MIB	group							
+1.3.6.1.6.3.11.2	snmpMPDMIBObjects	SNMP-MPD-MIB	group							
+1.3.6.1.6.3.11.2.1	snmpMPDStats	SNMP-MPD-MIB	group							
+1.3.6.1.6.3.11.2.1.1	snmpUnknownSecurityModels	SNMP-MPD-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.11.2.1.2	snmpInvalidMsgs	SNMP-MPD-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.11.2.1.3	snmpUnknownPDUHandlers	SNMP-MPD-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.11.3	snmpMPDMIBConformance	SNMP-MPD-MIB	group							
+1.3.6.1.6.3.11.3.1	snmpMPDMIBCompliances	SNMP-MPD-MIB	group							
+1.3.6.1.6.3.11.3.2	snmpMPDMIBGroups	SNMP-MPD-MIB	group							
+1.3.6.1.6.3.12	snmpTargetMIB	SNMP-TARGET-MIB	group							
+1.3.6.1.6.3.12.1	snmpTargetObjects	SNMP-TARGET-MIB	group							
+1.3.6.1.6.3.12.1.1	snmpTargetSpinLock	SNMP-TARGET-MIB	scalar	Integer32	TestAndIncr			read-write		
+1.3.6.1.6.3.12.1.2	snmpTargetAddrTable	SNMP-TARGET-MIB	table					not-accessible		
+1.3.6.1.6.3.12.1.2.1	snmpTargetAddrEntry	SNMP-TARGET-MIB	entry					not-accessible	*snmpTargetAddrName	
+1.3.6.1.6.3.12.1.2.1.1	snmpTargetAddrName	SNMP-TARGET-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.12.1.2.1.2	snmpTargetAddrTDomain	SNMP-TARGET-MIB	column	ObjectIdentifier	TDomain			read-create		
+1.3.6.1.6.3.12.1.2.1.3	snmpTargetAddrTAddress	SNMP-TARGET-MIB	column	OctetString	TAddress			read-create		
+1.3.6.1.6.3.12.1.2.1.4	snmpTargetAddrTimeout	SNMP-TARGET-MIB	column	Integer32	TimeInterval			read-create		
+1.3.6.1.6.3.12.1.2.1.5	snmpTargetAddrRetryCount	SNMP-TARGET-MIB	column	Integer32				read-create		
+1.3.6.1.6.3.12.1.2.1.6	snmpTargetAddrTagList	SNMP-TARGET-MIB	column	OctetString	SnmpTagList	255t		read-create		
+1.3.6.1.6.3.12.1.2.1.7	snmpTargetAddrParams	SNMP-TARGET-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.12.1.2.1.8	snmpTargetAddrStorageType	SNMP-TARGET-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.12.1.2.1.9	snmpTargetAddrRowStatus	SNMP-TARGET-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.12.1.3	snmpTargetParamsTable	SNMP-TARGET-MIB	table					not-accessible		
+1.3.6.1.6.3.12.1.3.1	snmpTargetParamsEntry	SNMP-TARGET-MIB	entry					not-accessible	*snmpTargetParamsName	
+1.3.6.1.6.3.12.1.3.1.1	snmpTargetParamsName	SNMP-TARGET-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.12.1.3.1.2	snmpTargetParamsMPModel	SNMP-TARGET-MIB	column	Integer32	SnmpMessageProcessingModel			read-create		
+1.3.6.1.6.3.12.1.3.1.3	snmpTargetParamsSecurityModel	SNMP-TARGET-MIB	column	Integer32	SnmpSecurityModel			read-create		
+1.3.6.1.6.3.12.1.3.1.4	snmpTargetParamsSecurityName	SNMP-TARGET-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.12.1.3.1.5	snmpTargetParamsSecurityLevel	SNMP-TARGET-MIB	column	Integer32	SnmpSecurityLevel		noAuthNoPriv(1),authNoPriv(2),authPriv(3)	read-create		
+1.3.6.1.6.3.12.1.3.1.6	snmpTargetParamsStorageType	SNMP-TARGET-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.12.1.3.1.7	snmpTargetParamsRowStatus	SNMP-TARGET-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.12.1.4	snmpUnavailableContexts	SNMP-TARGET-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.12.1.5	snmpUnknownContexts	SNMP-TARGET-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.12.3	snmpTargetConformance	SNMP-TARGET-MIB	group							
+1.3.6.1.6.3.12.3.1	snmpTargetCompliances	SNMP-TARGET-MIB	group							
+1.3.6.1.6.3.12.3.2	snmpTargetGroups	SNMP-TARGET-MIB	group							
+1.3.6.1.6.3.13	snmpNotificationMIB	SNMP-NOTIFICATION-MIB	group							
+1.3.6.1.6.3.13.1	snmpNotifyObjects	SNMP-NOTIFICATION-MIB	group							
+1.3.6.1.6.3.13.1.1	snmpNotifyTable	SNMP-NOTIFICATION-MIB	table					not-accessible		
+1.3.6.1.6.3.13.1.1.1	snmpNotifyEntry	SNMP-NOTIFICATION-MIB	entry					not-accessible	*snmpNotifyName	
+1.3.6.1.6.3.13.1.1.1.1	snmpNotifyName	SNMP-NOTIFICATION-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.13.1.1.1.2	snmpNotifyTag	SNMP-NOTIFICATION-MIB	column	OctetString	SnmpTagValue	255t		read-create		
+1.3.6.1.6.3.13.1.1.1.3	snmpNotifyType	SNMP-NOTIFICATION-MIB	column	Integer32			trap(1),inform(2)	read-create		
+1.3.6.1.6.3.13.1.1.1.4	snmpNotifyStorageType	SNMP-NOTIFICATION-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.13.1.1.1.5	snmpNotifyRowStatus	SNMP-NOTIFICATION-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.13.1.2	snmpNotifyFilterProfileTable	SNMP-NOTIFICATION-MIB	table					not-accessible		
+1.3.6.1.6.3.13.1.2.1	snmpNotifyFilterProfileEntry	SNMP-NOTIFICATION-MIB	entry					not-accessible	*snmpTargetParamsName	
+1.3.6.1.6.3.13.1.2.1.1	snmpNotifyFilterProfileName	SNMP-NOTIFICATION-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.13.1.2.1.2	snmpNotifyFilterProfileStorType	SNMP-NOTIFICATION-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.13.1.2.1.3	snmpNotifyFilterProfileRowStatus	SNMP-NOTIFICATION-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.13.1.3	snmpNotifyFilterTable	SNMP-NOTIFICATION-MIB	table					not-accessible		
+1.3.6.1.6.3.13.1.3.1	snmpNotifyFilterEntry	SNMP-NOTIFICATION-MIB	entry					not-accessible	snmpNotifyFilterProfileName,*snmpNotifyFilterSubtree	
+1.3.6.1.6.3.13.1.3.1.1	snmpNotifyFilterSubtree	SNMP-NOTIFICATION-MIB	column	ObjectIdentifier				not-accessible		
+1.3.6.1.6.3.13.1.3.1.2	snmpNotifyFilterMask	SNMP-NOTIFICATION-MIB	column	OctetString				read-create		
+1.3.6.1.6.3.13.1.3.1.3	snmpNotifyFilterType	SNMP-NOTIFICATION-MIB	column	Integer32			included(1),excluded(2)	read-create		
+1.3.6.1.6.3.13.1.3.1.4	snmpNotifyFilterStorageType	SNMP-NOTIFICATION-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.13.1.3.1.5	snmpNotifyFilterRowStatus	SNMP-NOTIFICATION-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.13.3	snmpNotifyConformance	SNMP-NOTIFICATION-MIB	group							
+1.3.6.1.6.3.13.3.1	snmpNotifyCompliances	SNMP-NOTIFICATION-MIB	group							
+1.3.6.1.6.3.13.3.2	snmpNotifyGroups	SNMP-NOTIFICATION-MIB	group							
+1.3.6.1.6.3.14	snmpProxyMIB	SNMP-PROXY-MIB	group							
+1.3.6.1.6.3.14.1	snmpProxyObjects	SNMP-PROXY-MIB	group							
+1.3.6.1.6.3.14.1.2	snmpProxyTable	SNMP-PROXY-MIB	table					not-accessible		
+1.3.6.1.6.3.14.1.2.1	snmpProxyEntry	SNMP-PROXY-MIB	entry					not-accessible	*snmpProxyName	
+1.3.6.1.6.3.14.1.2.1.1	snmpProxyName	SNMP-PROXY-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.14.1.2.1.2	snmpProxyType	SNMP-PROXY-MIB	column	Integer32			read(1),write(2),trap(3),inform(4)	read-create		
+1.3.6.1.6.3.14.1.2.1.3	snmpProxyContextEngineID	SNMP-PROXY-MIB	column	OctetString	SnmpEngineID			read-create		
+1.3.6.1.6.3.14.1.2.1.4	snmpProxyContextName	SNMP-PROXY-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.14.1.2.1.5	snmpProxyTargetParamsIn	SNMP-PROXY-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.14.1.2.1.6	snmpProxySingleTargetOut	SNMP-PROXY-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.14.1.2.1.7	snmpProxyMultipleTargetOut	SNMP-PROXY-MIB	column	OctetString	SnmpTagValue	255t		read-create		
+1.3.6.1.6.3.14.1.2.1.8	snmpProxyStorageType	SNMP-PROXY-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.14.1.2.1.9	snmpProxyRowStatus	SNMP-PROXY-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.14.3	snmpProxyConformance	SNMP-PROXY-MIB	group							
+1.3.6.1.6.3.14.3.1	snmpProxyCompliances	SNMP-PROXY-MIB	group							
+1.3.6.1.6.3.14.3.2	snmpProxyGroups	SNMP-PROXY-MIB	group							
+1.3.6.1.6.3.15	snmpUsmMIB	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.15.1	usmMIBObjects	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.15.1.1	usmStats	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.15.1.1.1	usmStatsUnsupportedSecLevels	SNMP-USER-BASED-SM-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.15.1.1.2	usmStatsNotInTimeWindows	SNMP-USER-BASED-SM-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.15.1.1.3	usmStatsUnknownUserNames	SNMP-USER-BASED-SM-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.15.1.1.4	usmStatsUnknownEngineIDs	SNMP-USER-BASED-SM-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.15.1.1.5	usmStatsWrongDigests	SNMP-USER-BASED-SM-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.15.1.1.6	usmStatsDecryptionErrors	SNMP-USER-BASED-SM-MIB	scalar	Counter32				read-only		
+1.3.6.1.6.3.15.1.2	usmUser	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.15.1.2.1	usmUserSpinLock	SNMP-USER-BASED-SM-MIB	scalar	Integer32	TestAndIncr			read-write		
+1.3.6.1.6.3.15.1.2.2	usmUserTable	SNMP-USER-BASED-SM-MIB	table					not-accessible		
+1.3.6.1.6.3.15.1.2.2.1	usmUserEntry	SNMP-USER-BASED-SM-MIB	entry					not-accessible	usmUserEngineID,usmUserName	
+1.3.6.1.6.3.15.1.2.2.1.1	usmUserEngineID	SNMP-USER-BASED-SM-MIB	column	OctetString	SnmpEngineID			not-accessible		
+1.3.6.1.6.3.15.1.2.2.1.2	usmUserName	SNMP-USER-BASED-SM-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.15.1.2.2.1.3	usmUserSecurityName	SNMP-USER-BASED-SM-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.6.3.15.1.2.2.1.4	usmUserCloneFrom	SNMP-USER-BASED-SM-MIB	column	ObjectIdentifier	RowPointer			read-create		
+1.3.6.1.6.3.15.1.2.2.1.5	usmUserAuthProtocol	SNMP-USER-BASED-SM-MIB	column	ObjectIdentifier	AutonomousType			read-create		
+1.3.6.1.6.3.15.1.2.2.1.6	usmUserAuthKeyChange	SNMP-USER-BASED-SM-MIB	column	OctetString	KeyChange			read-create		
+1.3.6.1.6.3.15.1.2.2.1.7	usmUserOwnAuthKeyChange	SNMP-USER-BASED-SM-MIB	column	OctetString	KeyChange			read-create		
+1.3.6.1.6.3.15.1.2.2.1.8	usmUserPrivProtocol	SNMP-USER-BASED-SM-MIB	column	ObjectIdentifier	AutonomousType			read-create		
+1.3.6.1.6.3.15.1.2.2.1.9	usmUserPrivKeyChange	SNMP-USER-BASED-SM-MIB	column	OctetString	KeyChange			read-create		
+1.3.6.1.6.3.15.1.2.2.1.10	usmUserOwnPrivKeyChange	SNMP-USER-BASED-SM-MIB	column	OctetString	KeyChange			read-create		
+1.3.6.1.6.3.15.1.2.2.1.11	usmUserPublic	SNMP-USER-BASED-SM-MIB	column	OctetString				read-create		
+1.3.6.1.6.3.15.1.2.2.1.12	usmUserStorageType	SNMP-USER-BASED-SM-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.15.1.2.2.1.13	usmUserStatus	SNMP-USER-BASED-SM-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.15.2	usmMIBConformance	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.15.2.1	usmMIBCompliances	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.15.2.2	usmMIBGroups	SNMP-USER-BASED-SM-MIB	group							
+1.3.6.1.6.3.16	snmpVacmMIB	SNMP-VIEW-BASED-ACM-MIB	group							
+1.3.6.1.6.3.16.1	vacmMIBObjects	SNMP-VIEW-BASED-ACM-MIB	group							
+1.3.6.1.6.3.16.1.1	vacmContextTable	SNMP-VIEW-BASED-ACM-MIB	table					not-accessible		
+1.3.6.1.6.3.16.1.1.1	vacmContextEntry	SNMP-VIEW-BASED-ACM-MIB	entry					not-accessible	vacmContextName	
+1.3.6.1.6.3.16.1.1.1.1	vacmContextName	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		read-only		
+1.3.6.1.6.3.16.1.2	vacmSecurityToGroupTable	SNMP-VIEW-BASED-ACM-MIB	table					not-accessible		
+1.3.6.1.6.3.16.1.2.1	vacmSecurityToGroupEntry	SNMP-VIEW-BASED-ACM-MIB	entry					not-accessible	vacmSecurityModel,vacmSecurityName	
+1.3.6.1.6.3.16.1.2.1.1	vacmSecurityModel	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	SnmpSecurityModel			not-accessible		
+1.3.6.1.6.3.16.1.2.1.2	vacmSecurityName	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.16.1.2.1.3	vacmGroupName	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.16.1.2.1.4	vacmSecurityToGroupStorageType	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.16.1.2.1.5	vacmSecurityToGroupStatus	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.16.1.4	vacmAccessTable	SNMP-VIEW-BASED-ACM-MIB	table					not-accessible		
+1.3.6.1.6.3.16.1.4.1	vacmAccessEntry	SNMP-VIEW-BASED-ACM-MIB	entry					not-accessible	vacmGroupName,vacmAccessContextPrefix,vacmAccessSecurityModel,vacmAccessSecurityLevel	
+1.3.6.1.6.3.16.1.4.1.1	vacmAccessContextPrefix	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.16.1.4.1.2	vacmAccessSecurityModel	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	SnmpSecurityModel			not-accessible		
+1.3.6.1.6.3.16.1.4.1.3	vacmAccessSecurityLevel	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	SnmpSecurityLevel		noAuthNoPriv(1),authNoPriv(2),authPriv(3)	not-accessible		
+1.3.6.1.6.3.16.1.4.1.4	vacmAccessContextMatch	SNMP-VIEW-BASED-ACM-MIB	column	Integer32			exact(1),prefix(2)	read-create		
+1.3.6.1.6.3.16.1.4.1.5	vacmAccessReadViewName	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.16.1.4.1.6	vacmAccessWriteViewName	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.16.1.4.1.7	vacmAccessNotifyViewName	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.16.1.4.1.8	vacmAccessStorageType	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.16.1.4.1.9	vacmAccessStatus	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.16.1.5	vacmMIBViews	SNMP-VIEW-BASED-ACM-MIB	group							
+1.3.6.1.6.3.16.1.5.1	vacmViewSpinLock	SNMP-VIEW-BASED-ACM-MIB	scalar	Integer32	TestAndIncr			read-write		
+1.3.6.1.6.3.16.1.5.2	vacmViewTreeFamilyTable	SNMP-VIEW-BASED-ACM-MIB	table					not-accessible		
+1.3.6.1.6.3.16.1.5.2.1	vacmViewTreeFamilyEntry	SNMP-VIEW-BASED-ACM-MIB	entry					not-accessible	vacmViewTreeFamilyViewName,vacmViewTreeFamilySubtree	
+1.3.6.1.6.3.16.1.5.2.1.1	vacmViewTreeFamilyViewName	SNMP-VIEW-BASED-ACM-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.16.1.5.2.1.2	vacmViewTreeFamilySubtree	SNMP-VIEW-BASED-ACM-MIB	column	ObjectIdentifier				not-accessible		
+1.3.6.1.6.3.16.1.5.2.1.3	vacmViewTreeFamilyMask	SNMP-VIEW-BASED-ACM-MIB	column	OctetString				read-create		
+1.3.6.1.6.3.16.1.5.2.1.4	vacmViewTreeFamilyType	SNMP-VIEW-BASED-ACM-MIB	column	Integer32			included(1),excluded(2)	read-create		
+1.3.6.1.6.3.16.1.5.2.1.5	vacmViewTreeFamilyStorageType	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.16.1.5.2.1.6	vacmViewTreeFamilyStatus	SNMP-VIEW-BASED-ACM-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.16.2	vacmMIBConformance	SNMP-VIEW-BASED-ACM-MIB	group							
+1.3.6.1.6.3.16.2.1	vacmMIBCompliances	SNMP-VIEW-BASED-ACM-MIB	group							
+1.3.6.1.6.3.16.2.2	vacmMIBGroups	SNMP-VIEW-BASED-ACM-MIB	group							
+1.3.6.1.6.3.18	snmpCommunityMIB	SNMP-COMMUNITY-MIB	group							
+1.3.6.1.6.3.18.1	snmpCommunityMIBObjects	SNMP-COMMUNITY-MIB	group							
+1.3.6.1.6.3.18.1.1	snmpCommunityTable	SNMP-COMMUNITY-MIB	table					not-accessible		
+1.3.6.1.6.3.18.1.1.1	snmpCommunityEntry	SNMP-COMMUNITY-MIB	entry					not-accessible	*snmpCommunityIndex	
+1.3.6.1.6.3.18.1.1.1.1	snmpCommunityIndex	SNMP-COMMUNITY-MIB	column	OctetString	SnmpAdminString	255t		not-accessible		
+1.3.6.1.6.3.18.1.1.1.2	snmpCommunityName	SNMP-COMMUNITY-MIB	column	OctetString				read-create		
+1.3.6.1.6.3.18.1.1.1.3	snmpCommunitySecurityName	SNMP-COMMUNITY-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.18.1.1.1.4	snmpCommunityContextEngineID	SNMP-COMMUNITY-MIB	column	OctetString	SnmpEngineID			read-create		
+1.3.6.1.6.3.18.1.1.1.5	snmpCommunityContextName	SNMP-COMMUNITY-MIB	column	OctetString	SnmpAdminString	255t		read-create		
+1.3.6.1.6.3.18.1.1.1.6	snmpCommunityTransportTag	SNMP-COMMUNITY-MIB	column	OctetString	SnmpTagValue	255t		read-create		
+1.3.6.1.6.3.18.1.1.1.7	snmpCommunityStorageType	SNMP-COMMUNITY-MIB	column	Integer32	StorageType		other(1),volatile(2),nonVolatile(3),permanent(4),readOnly(5)	read-create		
+1.3.6.1.6.3.18.1.1.1.8	snmpCommunityStatus	SNMP-COMMUNITY-MIB	column	Integer32	RowStatus		active(1),notInService(2),notReady(3),createAndGo(4),createAndWait(5),destroy(6)	read-create		
+1.3.6.1.6.3.18.1.2	snmpTargetAddrExtTable	SNMP-COMMUNITY-MIB	table					not-accessible		
+1.3.6.1.6.3.18.1.2.1	snmpTargetAddrExtEntry	SNMP-COMMUNITY-MIB	entry					not-accessible	*snmpTargetAddrName	
+1.3.6.1.6.3.18.1.2.1.1	snmpTargetAddrTMask	SNMP-COMMUNITY-MIB	column	OctetString				read-create		
+1.3.6.1.6.3.18.1.2.1.2	snmpTargetAddrMMS	SNMP-COMMUNITY-MIB	column	Integer32				read-create		
+1.3.6.1.6.3.18.1.3	snmpTrapAddress	SNMP-COMMUNITY-MIB	scalar	IpAddress				accessible-for-notify		
+1.3.6.1.6.3.18.1.4	snmpTrapCommunity	SNMP-COMMUNITY-MIB	scalar	OctetString				accessible-for-notify		
+1.3.6.1.6.3.18.2	snmpCommunityMIBConformance	SNMP-COMMUNITY-MIB	group							
+1.3.6.1.6.3.18.2.1	snmpCommunityMIBCompliances	SNMP-COMMUNITY-MIB	group							
+1.3.6.1.6.3.18.2.2	snmpCommunityMIBGroups	SNMP-COMMUNITY-MIB	group							
+1.3.6.1.4.1.9	Cisco		vendor							
+1.3.6.1.4.1.11	HP		vendor							
+1.3.6.1.4.1.43	3Com		vendor							
+1.3.6.1.4.1.171	D-Link		vendor							
+1.3.6.1.4.1.674	Dell		vendor							
+1.3.6.1.4.1.890	ZyXEL		vendor							
+1.3.6.1.4.1.1916	Extreme Networks		vendor							
+1.3.6.1.4.1.1991	Brocade		vendor							
+1.3.6.1.4.1.2011	Huawei		vendor							
+1.3.6.1.4.1.2021	UCD-SNMP		vendor							
+1.3.6.1.4.1.2620	Check Point		vendor							
+1.3.6.1.4.1.2636	Juniper		vendor							
+1.3.6.1.4.1.3375	F5		vendor							
+1.3.6.1.4.1.3902	ZTE		vendor							
+1.3.6.1.4.1.3955	Linksys		vendor							
+1.3.6.1.4.1.4413	Broadcom		vendor							
+1.3.6.1.4.1.4526	Netgear		vendor							
+1.3.6.1.4.1.6027	Force10		vendor							
+1.3.6.1.4.1.6486	Alcatel-Lucent		vendor							
+1.3.6.1.4.1.6527	Nokia		vendor							
+1.3.6.1.4.1.8072	Net-SNMP		vendor							
+1.3.6.1.4.1.8741	SonicWall		vendor							
+1.3.6.1.4.1.10002	Frogfoot		vendor							
+1.3.6.1.4.1.11863	TP-Link		vendor							
+1.3.6.1.4.1.12356	Fortinet		vendor							
+1.3.6.1.4.1.14823	Aruba		vendor							
+1.3.6.1.4.1.14988	MikroTik		vendor							
+1.3.6.1.4.1.17713	Cambium		vendor							
+1.3.6.1.4.1.25053	Ruckus		vendor							
+1.3.6.1.4.1.25461	Palo Alto Networks		vendor							
+1.3.6.1.4.1.25506	H3C		vendor							
+1.3.6.1.4.1.30065	Arista		vendor							
+1.3.6.1.4.1.40418	SNR		vendor							
+1.3.6.1.4.1.41112	Ubiquiti		vendor							

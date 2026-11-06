@@ -1,7 +1,5 @@
 package com.vasmarfas.networkhelm.ui.main
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -41,6 +38,7 @@ import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.QrImage
 import com.vasmarfas.networkhelm.ui.kit.copyClipboard
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.kit.writeText
 import com.vasmarfas.networkhelm.ui.theme.Theme
@@ -60,7 +58,6 @@ internal suspend fun DeviceSession.output(path: MenuPath, action: PackAction, id
 @Composable
 internal fun Output(title: String, text: String, onClose: () -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val clipboard = copyClipboard()
     val scope = rememberCoroutineScope()
     val hiding = LocalSettings.current.hidePasswords && masked(text) != text
@@ -75,8 +72,7 @@ internal fun Output(title: String, text: String, onClose: () -> Unit) {
     BoxWithConstraints(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.5f)), contentAlignment = Alignment.Center) {
         val wide = maxWidth >= 600.dp
         Column(
-            Modifier.widthIn(max = 720.dp).heightIn(max = maxHeight - 16.dp).background(palette.surface, shape).border(1.dp, palette.line, shape)
-                .padding(14.dp).testTag("output"),
+            Modifier.widthIn(max = 720.dp).heightIn(max = maxHeight - 16.dp).dialogPanel(14.dp).testTag("output"),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(title, style = Theme.type.strong)

@@ -2,7 +2,6 @@ package com.vasmarfas.networkhelm.ui.about
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -35,6 +33,7 @@ import com.vasmarfas.networkhelm.aboutTexts
 import com.vasmarfas.networkhelm.appVersion
 import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.TabStrip
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.theme.Theme
 import org.jetbrains.compose.resources.painterResource
@@ -60,13 +59,11 @@ fun appIcon(): Painter = painterResource(Res.drawable.networkhelm)
 @Composable
 fun AboutDialog(onClose: () -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val links = LocalUriHandler.current
     var shown by remember { mutableIntStateOf(0) }
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 760.dp).heightIn(max = 640.dp).padding(16.dp).background(palette.surface, shape).border(1.dp, palette.line, shape)
-                .verticalScroll(rememberScrollState()).padding(16.dp),
+            Modifier.widthIn(max = 760.dp).heightIn(max = 640.dp).padding(16.dp).dialogPanel(16.dp, rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {

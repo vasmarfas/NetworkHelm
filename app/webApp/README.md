@@ -21,6 +21,8 @@ On the first visit the list of the connection window holds six routers, one for 
 
 They exist in the memory of the page, any password opens them, and a new connection starts from the data given in `core/.../demo/`: what one connection changed, the next does not find. Lists take add, set, remove and move; Safe Mode of the RouterOS demo takes the changes back; ping, traceroute and the traffic of an interface answer with rows. The addresses are those of documentation (192.0.2.0/24, 198.51.100.0/24, 203.0.113.0/24) and the MAC addresses 00:00:5E:00:53:xx, the range RFC 7042 sets aside for it. The rows of each platform carry the columns of its packs, so the windows look as they do on a real device; menus the demo has no data for are not shown.
 
+The RouterOS demo has rows or settings for every entry of the menu of RouterOS 7.24 on a hAP ax^3 with all optional packages (container, dude, iot, cmr, openflow, netinstall), except the legacy Wireless and CAPsMAN menus, and for every tab of their windows. The buttons that run a command on the router (Reset Counters, Release, Make Static) are shown and do nothing here.
+
 ## Real devices
 
 The page sends the HTTP of the drivers through `fetch`, so the REST of RouterOS, `/ubus` of OpenWrt and the APIs of OPNsense, pfSense, VyOS and Keenetic go the way they go from the desktop app. What the browser lets through is another matter, and it does not tell which of the limits it applied:

@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -71,6 +72,7 @@ import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.ChevronRight
 import com.composables.icons.lucide.Lucide
 import com.composeunstyled.DropdownMenuScope
+import com.composeunstyled.LocalTextStyle
 import com.composeunstyled.Text
 import com.composeunstyled.UnstyledButton
 import com.composeunstyled.UnstyledDropdownMenu
@@ -91,21 +93,30 @@ import networkhelm.app.shared.generated.resources.tabs_later
 @Composable
 fun <T> Segments(value: T, choices: List<T>, label: @Composable (T) -> String, onSelect: (T) -> Unit, modifier: Modifier = Modifier) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
-    Row(modifier.height(Theme.metrics.control).clip(shape).border(1.dp, palette.line, shape)) {
+    val material = Theme.material
+    val shape = if (material) RoundedCornerShape(50) else RoundedCornerShape(Theme.metrics.radius)
+    val edge = if (material) palette.faint else palette.line
+    Row(modifier.height(Theme.metrics.control).clip(shape).border(1.dp, edge, shape)) {
         choices.forEachIndexed { index, choice ->
             val chosen = choice == value
-            if (index > 0) Box(Modifier.width(1.dp).fillMaxHeight().background(palette.line))
+            if (index > 0) Box(Modifier.width(1.dp).fillMaxHeight().background(edge))
             Box(
                 Modifier
                     .fillMaxHeight()
-                    .background(if (chosen) palette.accent else palette.surface)
+                    .background(if (!chosen) palette.surface else if (material) palette.selection else palette.accent)
                     .selectable(selected = chosen, interactionSource = null, indication = LocalIndication.current, role = Role.RadioButton, onClick = { onSelect(choice) })
                     .hand()
-                    .padding(horizontal = 10.dp),
+                    .padding(horizontal = if (material) 16.dp else 10.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                DisableSelection { Text(label(choice), color = if (chosen) palette.onAccent else palette.text, singleLine = true) }
+                DisableSelection {
+                    Text(
+                        label(choice),
+                        style = if (material) Theme.type.strong else LocalTextStyle.current,
+                        color = if (chosen && !material) palette.onAccent else palette.text,
+                        singleLine = true,
+                    )
+                }
             }
         }
     }
@@ -115,16 +126,22 @@ fun <T> Segments(value: T, choices: List<T>, label: @Composable (T) -> String, o
 fun <T> Radios(value: T, choices: List<T>, label: @Composable (T) -> String, onSelect: (T) -> Unit, modifier: Modifier = Modifier) {
     val palette = Theme.palette
     val dot = if (Theme.classic) palette.text else palette.accent
+    val material = Theme.material
+    val edge = if (material) palette.muted else palette.line
     FlowRow(modifier, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
         for (choice in choices) {
             val chosen = choice == value
             Row(
                 Modifier.height(Theme.metrics.control).selectable(selected = chosen, interactionSource = null, indication = null, role = Role.RadioButton, onClick = { onSelect(choice) }).hand(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                horizontalArrangement = Arrangement.spacedBy(if (material) 8.dp else 5.dp),
             ) {
-                Box(Modifier.size(16.dp).clip(CircleShape).background(palette.surface).border(1.dp, if (chosen && !Theme.classic) palette.accent else palette.line, CircleShape), contentAlignment = Alignment.Center) {
-                    if (chosen) Box(Modifier.size(8.dp).clip(CircleShape).background(dot))
+                Box(
+                    Modifier.size(if (material) 20.dp else 16.dp).clip(CircleShape).background(palette.surface)
+                        .border(if (material) 2.dp else 1.dp, if (chosen && !Theme.classic) palette.accent else edge, CircleShape),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (chosen) Box(Modifier.size(if (material) 10.dp else 8.dp).clip(CircleShape).background(dot))
                 }
                 DisableSelection { Text(label(choice), color = palette.text, singleLine = true) }
             }
@@ -225,6 +242,7 @@ fun <T> Select(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val palette = Theme.palette
+    val material = Theme.material
     val shape = RoundedCornerShape(Theme.metrics.radius)
     UnstyledDropdownMenu(
         expanded = expanded,
@@ -239,8 +257,8 @@ fun <T> Select(
         anchor = {
             UnstyledButton(
                 onClick = { expanded = true },
-                contentPadding = PaddingValues(start = 8.dp, end = 6.dp),
-                modifier = Modifier.height(Theme.metrics.control).clip(shape).background(palette.surface).border(1.dp, palette.line, shape).hand(),
+                contentPadding = PaddingValues(start = if (material) 12.dp else 8.dp, end = if (material) 8.dp else 6.dp),
+                modifier = Modifier.height(Theme.metrics.control).clip(shape).background(palette.surface).border(1.dp, if (material) palette.faint else palette.line, shape).hand(),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     DisableSelection { Text(label(value), Modifier.weight(1f), color = if (dimmed(value)) palette.faint else palette.text, singleLine = true, overflow = TextOverflow.Ellipsis) }
@@ -340,6 +358,7 @@ fun TabStrip(
 ) {
     val palette = Theme.palette
     val classic = Theme.classic
+    val material = Theme.material
     val boxed = !classic && (titleText != null || under != null)
     val chosenBox = under ?: palette.raised
     val otherBox = if (titleText != null) palette.surface else palette.line
@@ -391,15 +410,20 @@ fun TabStrip(
                                 drawLine(palette.line, Offset(size.width - px / 2, 0f), Offset(size.width - px / 2, size.height), px)
                                 drawLine(palette.lit, Offset(px * 1.5f, px), Offset(px * 1.5f, size.height), px)
                                 if (!active) drawLine(palette.line, Offset(0f, size.height - px / 2), Offset(size.width, size.height - px / 2), px)
+                            } else if (active && material) {
+                                val thick = 3.dp.toPx()
+                                val inset = if (boxed) 0f else 16.dp.toPx()
+                                drawRoundRect(palette.accent, Offset(inset, if (boxed) 0f else size.height - thick), Size(size.width - inset * 2, thick), CornerRadius(thick))
                             } else if (active) {
                                 val top = if (boxed) 0f else size.height - 2.dp.toPx()
                                 drawRect(palette.accent, Offset(0f, top), Size(size.width, 2.dp.toPx()))
                             }
                         }
-                        .padding(horizontal = if (classic) 6.dp else 12.dp),
+                        .padding(horizontal = if (classic) 6.dp else if (material) 16.dp else 12.dp),
                     contentAlignment = Alignment.Center,
                 ) {
-                    DisableSelection { Text(title, style = if (active && !classic) Theme.type.strong else Theme.type.body, color = if (active || classic || boxed) palette.text else palette.muted) }
+                    val color = if (active && material && !boxed) palette.accent else if (active || classic || boxed) palette.text else palette.muted
+                    DisableSelection { Text(title, style = if (active && !classic) Theme.type.strong else Theme.type.body, color = color) }
                 }
             }
         }

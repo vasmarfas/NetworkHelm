@@ -55,6 +55,7 @@ import com.vasmarfas.networkhelm.ui.kit.Select
 import com.vasmarfas.networkhelm.ui.kit.TabStrip
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.ToolbarButton
+import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.hand
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.theme.BundledThemes
@@ -71,9 +72,12 @@ import com.vasmarfas.networkhelm.ui.theme.ThemeFile
 import com.vasmarfas.networkhelm.ui.theme.ThemeFont
 import com.vasmarfas.networkhelm.ui.theme.hex
 import com.vasmarfas.networkhelm.ui.theme.lit
+import com.vasmarfas.networkhelm.ui.theme.onSnack
+import com.vasmarfas.networkhelm.ui.theme.panel
 import com.vasmarfas.networkhelm.ui.theme.parseColor
 import com.vasmarfas.networkhelm.ui.theme.pictureSpec
 import com.vasmarfas.networkhelm.ui.theme.shaded
+import com.vasmarfas.networkhelm.ui.theme.snack
 import com.vasmarfas.networkhelm.ui.theme.themeIcon
 import com.vasmarfas.networkhelm.ui.theme.tintOf
 import kotlinx.coroutines.launch
@@ -83,6 +87,7 @@ import networkhelm.app.shared.generated.resources.Res
 import networkhelm.app.shared.generated.resources.colour_accent
 import networkhelm.app.shared.generated.resources.colour_badge
 import networkhelm.app.shared.generated.resources.colour_band
+import networkhelm.app.shared.generated.resources.colour_container
 import networkhelm.app.shared.generated.resources.colour_danger
 import networkhelm.app.shared.generated.resources.colour_divider
 import networkhelm.app.shared.generated.resources.colour_faint
@@ -90,9 +95,11 @@ import networkhelm.app.shared.generated.resources.colour_frame
 import networkhelm.app.shared.generated.resources.colour_grid
 import networkhelm.app.shared.generated.resources.colour_highlight
 import networkhelm.app.shared.generated.resources.colour_inactive_title
+import networkhelm.app.shared.generated.resources.colour_inverse
 import networkhelm.app.shared.generated.resources.colour_line
 import networkhelm.app.shared.generated.resources.colour_muted
 import networkhelm.app.shared.generated.resources.colour_on_accent
+import networkhelm.app.shared.generated.resources.colour_on_inverse
 import networkhelm.app.shared.generated.resources.colour_raised
 import networkhelm.app.shared.generated.resources.colour_selection
 import networkhelm.app.shared.generated.resources.colour_shadow
@@ -136,6 +143,7 @@ import networkhelm.app.shared.generated.resources.theme_icons_commands
 import networkhelm.app.shared.generated.resources.theme_icons_menu
 import networkhelm.app.shared.generated.resources.theme_icons_values
 import networkhelm.app.shared.generated.resources.theme_light
+import networkhelm.app.shared.generated.resources.theme_material
 import networkhelm.app.shared.generated.resources.theme_name
 import networkhelm.app.shared.generated.resources.theme_no_palette
 import networkhelm.app.shared.generated.resources.theme_preview
@@ -169,6 +177,9 @@ private val Colours = listOf(
     Colour(Res.string.colour_band, { it.band ?: it.accent }) { p, c -> p.copy(band = c) },
     Colour(Res.string.colour_highlight, { it.lit }) { p, c -> p.copy(highlight = c) },
     Colour(Res.string.colour_shadow, { it.shaded }) { p, c -> p.copy(shadow = c) },
+    Colour(Res.string.colour_container, { it.panel }) { p, c -> p.copy(container = c) },
+    Colour(Res.string.colour_inverse, { it.snack }) { p, c -> p.copy(inverse = c) },
+    Colour(Res.string.colour_on_inverse, { it.onSnack }) { p, c -> p.copy(onInverse = c) },
 )
 
 private enum class IconGroup(val prefix: String, val label: StringResource) {
@@ -205,7 +216,6 @@ private val Sizes = listOf(
 @Composable
 fun ThemeEditor(source: ThemeFile, onCancel: () -> Unit, onSave: (ThemeFile) -> Unit) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val copyName = stringResource(Res.string.theme_copy, source.name)
     val name = remember(source) { TextFieldState(if (source in BundledThemes) copyName else source.name) }
     var theme by remember(source) { mutableStateOf(source) }
@@ -214,7 +224,7 @@ fun ThemeEditor(source: ThemeFile, onCancel: () -> Unit, onSave: (ThemeFile) -> 
     val compact = LocalCompact.current
     Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 980.dp).heightIn(max = 720.dp).padding(16.dp).background(palette.surface, shape).border(1.dp, palette.line, shape).padding(16.dp),
+            Modifier.widthIn(max = 980.dp).heightIn(max = 720.dp).padding(16.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -246,6 +256,10 @@ fun ThemeEditor(source: ThemeFile, onCancel: () -> Unit, onSave: (ThemeFile) -> 
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         Checkbox(theme.classic, { theme = theme.copy(classic = it) }, Modifier.testTag("theme-classic"))
                         Text(stringResource(Res.string.theme_classic), Modifier.clickable { theme = theme.copy(classic = !theme.classic) }.hand())
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Checkbox(theme.material, { theme = theme.copy(material = it) }, Modifier.testTag("theme-material"))
+                        Text(stringResource(Res.string.theme_material), Modifier.clickable { theme = theme.copy(material = !theme.material) }.hand())
                     }
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         Text(stringResource(Res.string.theme_font), Modifier.width(LABEL), color = palette.muted)
@@ -370,7 +384,7 @@ private fun Sample() {
     Box(Modifier.fillMaxWidth().background(palette.workspace).padding(16.dp)) {
         Column(Modifier.fillMaxWidth().clip(shape).background(palette.surface).border(1.dp, palette.frame ?: if (palette.title == null) palette.accent else palette.line, shape)) {
             Row(Modifier.fillMaxWidth().height(metrics.title).background(palette.title ?: palette.accent).padding(horizontal = metrics.padding), verticalAlignment = Alignment.CenterVertically) {
-                Text("Addresses", color = palette.onAccent, style = Theme.type.strong)
+                Text("Addresses", color = if (Theme.material) palette.text else palette.onAccent, style = Theme.type.strong)
             }
             TabStrip(listOf("Addresses", "Routes", "ARP"), 0, {}, Modifier.fillMaxWidth().background(palette.raised))
             Row(Modifier.fillMaxWidth().height(metrics.toolbar).background(palette.raised), verticalAlignment = Alignment.CenterVertically) {

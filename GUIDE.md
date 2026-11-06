@@ -76,6 +76,8 @@ The services are visible in WinBox and in the console: `/ip service print`. Any 
 
 A new MikroTik usually has the login `admin`, with an empty password or one printed on the sticker. If the user group lacks the rights for a menu section, the program marks the section and says which right is missing.
 
+When the password of the user has expired (RouterOS asks for a new one after `/user/expire-password`), the program offers to set it right after the login. "Skip" goes on with the old one, and the router asks again at the next login. The question comes through the console of the router, so it is seen over TCP 8291, SSH and MAC-Telnet, not over the API.
+
 To move to encryption, first connect another way. If the first attempt gives an error about TLS (API-SSL is on and has no certificate), pick "API (8728)" in the "Protocol" list. When the connection opens, click the "Not encrypted" mark in the main window: the "Prepare router" window opens. It has four steps, each of which you can tick or untick, and the commands run when you press Apply:
 
 - issue a self-signed certificate and turn on API-SSL (8729);
@@ -104,7 +106,7 @@ The package pfSense-pkg-RESTAPI version 2 has to be installed: without it pfSens
 
 ### VyOS 1.4 and later
 
-Turn on the HTTP API and create a key: `set service https api keys id <name> key <key>`, then `commit` and `save`. In the program leave "User" empty and enter the key as the password. Every edit is applied and saved at once.
+Turn on the HTTP API and create a key: `set service https api keys id <name> key <key>`, then `commit` and `save`. In the program the key goes into "Password"; VyOS has no user field. Every edit is applied and saved at once.
 
 ### Keenetic and Netcraze
 
@@ -112,7 +114,15 @@ Read only. Enter the login and password of the web interface, or leave the login
 
 ### Other devices
 
-Pick "Other device". SSH is enough for Linux. SNMP v2c reads interfaces, addresses and routes; the community goes in the "Password" field. SNMP v3 needs a user name and passwords. UPnP and TR-064 find the device on port 1900 (a FRITZ!Box serves its description on port 49000). The program writes nothing over SNMP, UPnP or TR-064.
+Pick "Other device". SSH is enough for Linux. UPnP and TR-064 find the device on port 1900 (a FRITZ!Box serves its description on port 49000) and are read only.
+
+SNMP v2c reads interfaces, addresses, routes, ARP, neighbours and storage into windows of their own; the community goes in the field "Community", which shows what you type and starts as `public`; there is no user field. SNMP v3 needs a user name and passwords.
+
+After the main menu appears, the program walks the agent the way `snmpwalk` does: the trees mib-2 (1.3.6.1.2.1), enterprises (1.3.6.1.4.1) and the SNMP modules (1.3.6.1.6.3). The walk takes at most 12 seconds and 20 000 objects, reads 20 rows of each column and 500 objects of each subtree it does not know; the windows read the rest when they open. While it runs, the windows of the main menu already work; when it ends, a "MIB" group appears in the menu with one window per MIB module (IF-MIB, Q-BRIDGE-MIB, POWER-ETHERNET-MIB and so on): a tab for each table and a form for each group of single values. What the main menu already shows (interfaces, addresses, routes, ARP, storage, the system name) does not repeat there. Names, types and value lists come from a built-in dictionary of 30 standard modules and the net-snmp modules; values are shown as a person reads them: states by name, times as durations, MAC and IP addresses as such, yes and no. A window of the "MIB" group reads at most 1000 rows of a table and refreshes every 10 seconds.
+
+A subtree the dictionary does not know, a maker's own objects under enterprises for example, shows as a window named after the maker (MikroTik, Cisco, Huawei, ...) with one row per object: OID under the subtree, type and value, at most 2000 rows.
+
+Writing needs a community or a user with write rights. Any column the dictionary marks read-write or read-create can be changed; all the changes of one row go in one request, which the agent applies whole or not at all. Rows are added and removed in tables with a RowStatus column (VLANs of Q-BRIDGE-MIB, SNMP targets, communities, VACM views): the new row needs its index first (for a table numbered by one integer the window proposes the next free number), and the program sends createAndGo, or createAndWait, the values and active to an agent that wants the row built in steps; a row the agent does not accept is removed again. Tables without RowStatus remove rows only where the standard gives a value for it, such as `invalid` of dot1dStaticStatus. A value of an unknown OID can be changed in the type the agent reported; counters are never written. SNMP tables have no order, so rows cannot be moved. There is no rollback like Safe Mode: a wrong change of a VACM, USM or community table can lock the program out of the agent.
 
 ## Safety
 
@@ -140,7 +150,38 @@ A browser cannot open connections to routers on its own, so a gateway stands bet
 
 More about the gateway (all options, Docker, a container on a RouterOS router, a systemd service) is in [server/README.md](server/README.md).
 
-**The demo page.** https://vasmarfas.github.io/networkhelm/ shows the interface on made-up routers. It has no gateway, and a page in a browser can only send HTTP, so it cannot reach most real routers. How that page is built and what it can do is in [app/webApp/README.md](app/webApp/README.md).
+**The demo page.** https://vasmarfas.github.io/networkhelm/ shows the interface on made-up routers. It has no gateway, and a page in a browser can only send HTTP, so it cannot reach most real routers. RouterOS does not help: its REST API sends no CORS headers and answers the preflight request with 503 (the REST API page of MikroTik says so), so a page cannot call it even over HTTPS with a trusted certificate. Chrome's Direct Sockets, which would give a page real TCP, are exposed only to isolated contexts such as installed Isolated Web Apps, not to ordinary pages. How that page is built and what it can do is in [app/webApp/README.md](app/webApp/README.md).
+
+## Network tools
+
+The "Network tools" button in the connection window and the wrench in the top bar of a router open fourteen tools that run on this computer or phone, not on the router.
+
+| Tool | What it does | Where it works |
+|---|---|---|
+| Ping | Echoes through the system `ping` (on Android `/system/bin/ping`, no root needed) or, as a second method, the time to open a TCP connection to a port (443 by default), which is the only method on iOS. A count or "until stopped", the interval, the timeout, the packet size, the TTL, the don't-fragment flag, and IPv4 or IPv6 to force; the address the name resolved to is shown. A chart of the last 100 round-trip times (a lost reply is a red bar), the last 20 replies, and sent, received, lost in per cent, minimum, average, maximum and jitter (the deviation of the times from their average). "Find path MTU" sends echoes of different sizes with the flag set and narrows in on the largest one that passes (IPv4 only, from 576 to 1500 bytes) | Desktop, Android, iOS (TCP only) |
+| Traceroute | The same `ping` with TTL from 1 to 30; each hop with its address, host name and time. The name is a reverse lookup through the system resolver that runs after the hop is shown, waits at most 2.5 s and can be turned off. It stops at the target or after eight silent hops in a row | Desktop, Android |
+| Port scanner | TCP connections to a list or a range of ports of one host (`22,80,443`, `1-1024`), 64 at once by default, 800 ms each; a port that does not connect is shown as closed or filtered | Desktop, Android, iOS |
+| LAN scanner | Scans a range: `192.168.1.0/24`, `192.168.1.10-100`, `192.168.1.10-192.168.1.99` or an address with a mask, at most 4096 addresses (the network and the broadcast address of a subnet are left out). It starts with the /24 of this device and, if there are several networks, offers a list. Every address gets an echo (48 addresses at once) and TCP connections to ports 22, 53, 80, 139, 443, 445, 5000, 8080, 8291 and 62078; a host that answers either is listed with its name, MAC address, vendor, round-trip time and open ports. MAC addresses are read from the ARP table of this device, and a host that is in the table but ignored every probe is listed too | Desktop, Android, iOS (TCP only) |
+| DNS lookup | A, AAAA, MX, NS, TXT, CNAME, PTR, SOA, SRV and CAA over UDP from Cloudflare, Google, Quad9, Yandex or any server you type; a truncated answer is asked again over TCP. An IP address is looked up as PTR | Desktop, Android, iOS |
+| Whois | Two tabs. RDAP asks the registry over HTTPS about a domain, an IP address, a network in CIDR form or an AS number and lists status, dates, name servers, registrar and the contacts the registry makes public as rows; the raw JSON is one tick away. The server comes from the IANA files at data.iana.org, rdap.org stands in when they name none. Port 43 asks whois.iana.org, follows its referral to the registry and, when the registry names one, to the registrar; a server that fails leaves on the screen what it had sent and is named under the text | RDAP: Desktop, Android; port 43: Desktop, Android, iOS |
+| IP info | An address, a host name or nothing (your public address). Shows the addresses a name resolves to, the reverse name, the AS, prefix, country and registry from the DNS service of Team Cymru, the network record from RDAP with the abuse contact, and the location and provider from ipwho.is (ipapi.co if that fails); for your own address also the address of the other family from ipify. Every block names the host it asked and fails on its own | Desktop, Android |
+| Speed test | Latency (median and jitter of five requests), download and upload over four parallel connections to speed.cloudflare.com or to another server with the same /meta, /__down and /__up; the first half second of a phase is not counted, the next 8 s are, and the figure on the screen is live. Stop cuts the connections | Desktop, Android |
+| Wake-on-LAN | Sends the magic packet to a MAC address by UDP broadcast (255.255.255.255, port 9 by default) | Desktop, Android |
+| Subnet calculator | Network, mask, wildcard, broadcast, first and last host, number of hosts, class and the binary form for IPv4; network, first and last address and their number for IPv6. A range (`192.168.1.10-192.168.5.110`, or `192.168.1.10-100` where the number is the last octet) gives its first and last address, their number, the fewest CIDR blocks that cover it exactly and the smallest network around it | Everywhere |
+| Subnet splitter | Three modes. Equal cuts a network, or a range that is exactly one network, into parts by their number (rounded up to a power of two) or by a prefix; the table shows up to 1024 parts. VLSM gives every host count its own block, the biggest first, inside a network or a range; a block is never smaller than a /30. Summarize merges a list of networks and ranges, one per line or separated by commas, into the fewest CIDR blocks | Everywhere |
+| Transfer time | Gives the third of size, speed and time when two are typed: sizes from B to TiB (decimal and binary), speeds from bit/s to GB/s, time in hours, minutes and seconds. Overhead in per cent is the share of the speed that carries no data. For a known size the time at 10 Mbit/s, 100 Mbit/s and 1 Gbit/s is listed under the result | Everywhere |
+| Port reference | 109 well-known TCP and UDP ports with the protocol, the service and a short description in the language of the interface. The filter takes the start of a number, a part of the service, the protocol or a word of the description. The port scanner names open ports from the same list | Everywhere |
+| MAC vendor lookup | Finds the vendor in the IEEE registry that comes with the program (58 623 blocks of 25.09.2026); the longest prefix wins | Everywhere |
+
+A browser can open no sockets, so the page shows the calculator, the splitter, the port reference, the transfer time and the MAC lookup. IOS has no system `ping`: there the ping tool measures the time to open a TCP connection and the LAN scanner only connects to ports, while traceroute and Wake-on-LAN are missing.
+
+RDAP, IP info and the speed test send requests to third-party hosts, which the line under their form lists. They need HTTPS with the certificate check of the system, which the desktop and Android have; on iOS only the port 43 whois remains of the three, in a browser none.
+
+The scan sends many packets, so run it only on networks you manage. On Android 10 and later the ARP table is closed to apps, so the scan shows no MAC addresses there and misses the hosts that answer nothing but ARP. A MAC address with the "locally administered" bit set, which phones use for privacy, has no vendor and is marked "random or local".
+
+## Appearance
+
+Settings → Theme offers three looks. Modern is the default: flat controls in the layout of WinBox 4. Legacy repeats WinBox 3, with raised buttons and framed tabs, and stays light until "Look" is set to Dark. Material follows Material Design 3: pill-shaped buttons, rounded windows, tonal selection of the current item, fields 40 dp high and table rows 36 dp, so fewer rows fit on the screen than in the other two. "Look" chooses between light, dark and the setting of the system; Modern and Material follow the system until it is changed.
 
 ## When something does not work
 
@@ -151,10 +192,13 @@ More about the gateway (all options, Docker, a container on a RouterOS router, a
 | "… cannot be found" | the name does not resolve to an address | enter the IP address |
 | "The router refused the login: …" | a wrong login or password, or the user has no rights for that service | check them and, on RouterOS, the user group |
 | "… and NetworkHelm could not agree on TLS …" | API-SSL is on in RouterOS, but the service has no certificate | pick "API (8728)", connect, and issue a certificate in the "Prepare router" window |
+| "No SNMP answer from …" | the community is wrong or is not allowed to read (a switch counts such a request as "illegal operation for community name supplied"), the agent is off, or UDP 161 is closed | on the agent check the community: it must exist with read rights and let your address in; SNMP v2c must be on |
+| "the SNMP agent answered notWritable for …" (or noAccess, readOnly, authorizationError) | the object is read-only on this agent or the community or user may not write it | use a community or user with write rights and a view that includes the object |
+| "the SNMP agent answered inconsistentValue for …" (or wrongValue, wrongLength, noCreation) | the agent does not take this value or this row: a required column of a new row is missing, the index is taken, the value is out of range | fill the other columns of the row, take another index, check the allowed values in the documentation of the device |
 | "Android does not let NetworkHelm reach the local network" | the permission is not granted | in the Android settings of the app allow "Nearby devices" |
 | "The connection was lost after sending the command …" | the link dropped at the moment of the edit | check the router first: the command may have run, and a repeat would run it twice |
 | The router stopped answering right after you typed the address | its protection against password guessing took the port check for a login attempt | wait for the block to end and turn the check off in "Settings" |
-| "The browser blocked the request …" | a page in a browser can only send HTTP | open the app through a gateway |
+| "The browser blocked the request …" | a page in a browser can only send HTTP, and RouterOS sends no CORS headers | open the app through a gateway, or connect with the app |
 | The program does not start | on a computer it writes the cause to the file `NetworkHelm-startup-error.log` in the temporary folder | take the file (`%TEMP%` on Windows, `/tmp` on Linux) and attach it to your report with the version of the system |
 
 Everything else can go to the [issue tracker](https://github.com/vasmarfas/networkhelm/issues). Leave addresses, passwords and keys out of your reports.

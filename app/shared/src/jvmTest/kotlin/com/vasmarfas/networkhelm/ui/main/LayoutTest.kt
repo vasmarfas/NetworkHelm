@@ -349,7 +349,7 @@ class LayoutTest {
             node("cmr/wifi", NodeKind.List),
         )
         val storage = MemoryStorage()
-        val tab = RouterTab(FakeRouter(schemas = schemas), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+        val tab = RouterTab(FakeRouter(schemas = schemas, packages = setOf("routeros", "cmr")), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
         runBlocking { tab.loadMenu(bundledMenu()) }
         val top = tab.menu.orEmpty()
         assertEquals("Controller", top.first().title)
@@ -358,6 +358,46 @@ class LayoutTest {
             top.first().items.map { it.title to it.path },
         )
         assertTrue(top.none { it.title == "More" }, "cmr is no menu the menu does not name")
+    }
+
+    @Test
+    fun theControllerStaysOutOfARouterWithoutTheCmrPackageThoughItHasTheMenuOfTheClient() {
+        val schemas = mapOf(directory("", "cmr", "system"), directory("system", "clock"), directory("cmr", "client"), node("cmr/client", NodeKind.Settings))
+        val storage = MemoryStorage()
+        val tab = RouterTab(FakeRouter(schemas = schemas), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+        runBlocking { tab.loadMenu(bundledMenu()) }
+        val top = tab.menu.orEmpty()
+        assertTrue(top.none { it.title == "Controller" })
+        assertTrue(top.none { it.title == "More" })
+        assertEquals("cmr/client", top.single { it.title == "System" }.items.single { it.title == "CMR Client" }.path)
+    }
+
+    private fun capsMan(menu: List<String>) = Pack(menu = menu, window = PackWindow("CAPsMAN", listOf(PackTab("Provisioning", "native/88/154"))), paths = mapOf("native/88/154" to PackPath(columns = listOf("name"))))
+
+    private val capsManRouter = mapOf(
+        directory("", "caps-man", "interface"),
+        directory("caps-man", "interface"),
+        node("caps-man/interface", NodeKind.List),
+        directory("interface", "wireless"),
+        node("interface/wireless", NodeKind.List),
+    )
+
+    @Test
+    fun anEntryOfTheTopLevelThatTheRoutersDescriptionPutsIntoAGroupStandsOnlyThere() {
+        val storage = MemoryStorage()
+        val tab = RouterTab(FakeRouter(schemas = capsManRouter, made = listOf(capsMan(listOf("Wireless", "CAPsMAN")))), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+        runBlocking { tab.loadMenu(bundledMenu()) }
+        val top = tab.menu.orEmpty()
+        assertTrue(top.none { it.title == "CAPsMAN" })
+        assertEquals("native/88/154", top.single { it.title == "Wireless" }.items.single { it.title == "CAPsMAN" }.path)
+    }
+
+    @Test
+    fun anEntryTheRoutersDescriptionKeepsAtTheTopLevelStays() {
+        val storage = MemoryStorage()
+        val tab = RouterTab(FakeRouter(schemas = capsManRouter, made = listOf(capsMan(listOf("CAPsMAN")))), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+        runBlocking { tab.loadMenu(bundledMenu()) }
+        assertEquals(1, tab.menu.orEmpty().count { it.title == "CAPsMAN" })
     }
 
     @Test
@@ -370,7 +410,7 @@ class LayoutTest {
         )
         val ports = Pack(menu = listOf("Controller", "Ports"), window = PackWindow("Ports", listOf(PackTab("Ports", "native/167/32"))), paths = mapOf("native/167/32" to PackPath(columns = listOf("interface"))))
         val storage = MemoryStorage()
-        val tab = RouterTab(FakeRouter(schemas = schemas, made = listOf(wifi, ports)), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
+        val tab = RouterTab(FakeRouter(schemas = schemas, made = listOf(wifi, ports), packages = setOf("routeros", "cmr")), "192.0.2.1", bundledPacks().values, storage, TableLayouts(storage))
         runBlocking { tab.loadMenu(bundledMenu()) }
         val items = tab.menu.orEmpty().first { it.title == "Controller" }.items
         assertEquals("native/167/34", items.single { it.title == "WiFi" }.path)

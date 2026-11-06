@@ -617,7 +617,7 @@ private fun <T> Header(column: TableColumn<T>, width: Dp, state: TableState<*>, 
                 // after the pointer handlers, so that only the drawing follows the pointer and the drag keeps its own frame
                 .offset { IntOffset(dragged.roundToInt(), 0) }
                 .background(if (dragged != 0f) palette.selection else palette.raised)
-                .padding(horizontal = 6.dp, vertical = if (classic) 0.dp else 3.dp),
+                .padding(horizontal = 6.dp, vertical = if (classic) 0.dp else if (Theme.material) 8.dp else 3.dp),
             color = palette.muted,
             singleLine = true,
             overflow = TextOverflow.Ellipsis,

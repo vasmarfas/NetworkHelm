@@ -5,11 +5,14 @@ import com.vasmarfas.networkhelm.model.ErrorCategory
 import com.vasmarfas.networkhelm.model.ListEvent
 import com.vasmarfas.networkhelm.model.MenuPath
 import com.vasmarfas.networkhelm.model.NodeKind
+import com.vasmarfas.networkhelm.model.Platform
 import com.vasmarfas.networkhelm.model.ValueType
 import com.vasmarfas.networkhelm.packs.MenuEntry
+import com.vasmarfas.networkhelm.packs.Pack
 import com.vasmarfas.networkhelm.packs.bundledMenu
 import com.vasmarfas.networkhelm.packs.bundledPacks
 import com.vasmarfas.networkhelm.packs.packName
+import com.vasmarfas.networkhelm.routeros.RouterOsVersion
 import com.vasmarfas.networkhelm.session.DeviceSession
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
@@ -17,17 +20,26 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class DemoRoutersTest {
 
+    // the topology view reads these two itself, no pack lists them
+    private val topologyPaths = setOf("cmr/layout/node", "cmr/layout/link")
+
     private fun router(host: String): DeviceSession = assertNotNull(demoRouter(host))
 
     private suspend fun rows(session: DeviceSession, path: String) = (session.watch(MenuPath.parse(path)).first() as ListEvent.Snapshot).items
 
     private fun flatten(entries: List<MenuEntry>): List<MenuEntry> = entries.flatMap { listOf(it) + flatten(it.items) }
+
+    private fun packsOf(platform: Platform, session: DeviceSession): List<Pack> {
+        val running = RouterOsVersion.parse(session.device.version).takeIf { platform == Platform.RouterOs }
+        return bundledPacks().values.filter { it.platform == platform.packName && running?.within(it.since, it.until) != false }
+    }
 
     private suspend fun leaves(session: DeviceSession, path: MenuPath = MenuPath.Root): List<MenuPath> {
         val schema = session.describe(path)
@@ -68,10 +80,16 @@ class DemoRoutersTest {
     @Test
     fun everyPathOfADemoRouterIsOneThePacksKnow() = runTest {
         for ((platform, host) in demoHosts) {
-            val packs = bundledPacks().values.filter { it.platform == platform.packName }
-            val known = packs.flatMap { pack -> pack.paths.keys + pack.window.tabs.map { it.path } + pack.paths.values.mapNotNull { it.monitor?.command?.trimStart('/') } }.toSet() +
-                flatten(bundledMenu(platform).items).mapNotNull { it.path }
-            val unknown = leaves(router(host)).map { it.toString() }.filter { it !in known }
+            val packed = packsOf(platform, router(host)).flatMap { pack ->
+                pack.paths.keys + pack.window.tabs.map { it.path } + pack.paths.flatMap { (path, shown) ->
+                    listOfNotNull(shown.monitor?.command?.trimStart('/'), shown.owner?.path) + (shown.links + shown.menu).map { it.path } +
+                        shown.actions.map { "$path/${it.command}" } + shown.open?.paths?.values.orEmpty()
+                } + pack.forms.values.flatMap { form -> form.tabs.flatMap { listOfNotNull(it.path, it.monitor?.command?.trimStart('/')) } }
+            }.toSet() + topologyPaths
+            val menu = flatten(bundledMenu(platform).items).mapNotNull { it.path }
+            // an entry that no pack describes opens as an automatic window, and the child menus of its path are its tabs
+            val automatic = menu.filter { it !in packed }
+            val unknown = leaves(router(host)).map { it.toString() }.filter { path -> path !in packed && path !in menu && automatic.none { path.startsWith("$it/") } }
             assertTrue(unknown.isEmpty(), "$platform: $unknown")
         }
     }
@@ -80,7 +98,7 @@ class DemoRoutersTest {
     fun theRowsCarryTheColumnsOfTheirPacks() = runTest {
         for ((platform, host) in demoHosts) {
             val session = router(host)
-            for (pack in bundledPacks().values.filter { it.platform == platform.packName }) {
+            for (pack in packsOf(platform, session)) {
                 for ((path, shown) in pack.paths) {
                     val schema = try {
                         session.describe(MenuPath.parse(path))
@@ -135,6 +153,23 @@ class DemoRoutersTest {
         assertEquals(ErrorCategory.PermissionDenied, assertFailsWith<DeviceException> { session.add(MenuPath.parse("ip/firewall/connection"), emptyMap()) }.category)
         assertEquals(ErrorCategory.MissingItem, assertFailsWith<DeviceException> { session.describe(MenuPath.parse("no/such/menu")) }.category)
         assertEquals(ErrorCategory.MissingItem, assertFailsWith<DeviceException> { session.set(MenuPath.parse("ip/dns/static"), "*FF", mapOf("ttl" to "1h")) }.category)
+    }
+
+    @Test
+    fun theButtonsOfARouterOsPackAreOfferedAndDoNothing() = runTest {
+        val session = router("routeros.demo")
+        val lease = MenuPath.parse("ip/dhcp-server/lease")
+        assertTrue("make-static" in session.describe(lease).commands)
+        assertEquals(emptyList(), session.run(lease, "make-static", emptyMap()).toList())
+        assertFalse("make-static" in router("openwrt.demo").describe(MenuPath.parse("firewall/rule")).commands)
+    }
+
+    @Test
+    fun theExportKeepsTheSettingsAndLeavesTheStateOut() = runTest {
+        val export = router("routeros.demo").export(MenuPath.Root)
+        assertTrue("/ip firewall filter" in export)
+        assertFalse("/log" in export)
+        assertFalse("/ip firewall connection" in export)
     }
 
     @Test

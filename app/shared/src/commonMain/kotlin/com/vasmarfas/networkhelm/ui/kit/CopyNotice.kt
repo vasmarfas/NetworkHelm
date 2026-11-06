@@ -18,6 +18,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
 import androidx.compose.ui.platform.LocalClipboard
@@ -28,6 +29,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.composeunstyled.Text
 import com.vasmarfas.networkhelm.ui.theme.Theme
+import com.vasmarfas.networkhelm.ui.theme.onSnack
+import com.vasmarfas.networkhelm.ui.theme.snack
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -86,13 +89,18 @@ fun CopyNoticeHost(content: @Composable () -> Unit) {
             content()
             notice.text?.let { message ->
                 val palette = Theme.palette
-                val shape = RoundedCornerShape(Theme.metrics.radius)
+                val material = Theme.material
+                val shape = RoundedCornerShape(if (material) 4.dp else Theme.metrics.radius)
+                val face = if (material) {
+                    Modifier.shadow(3.dp, shape).background(palette.snack).padding(horizontal = 16.dp, vertical = 12.dp)
+                } else {
+                    Modifier.clip(shape).background(palette.surface).border(1.dp, palette.line, shape).padding(horizontal = 10.dp, vertical = 5.dp)
+                }
                 Text(
                     message,
-                    Modifier.align(Alignment.BottomCenter).padding(bottom = 40.dp).clip(shape).background(palette.surface).border(1.dp, palette.line, shape)
-                        .padding(horizontal = 10.dp, vertical = 5.dp).testTag("copy-notice").semantics { liveRegion = LiveRegionMode.Polite },
-                    color = palette.text,
-                    style = Theme.type.small,
+                    Modifier.align(Alignment.BottomCenter).padding(bottom = 40.dp).then(face).testTag("copy-notice").semantics { liveRegion = LiveRegionMode.Polite },
+                    color = if (material) palette.onSnack else palette.text,
+                    style = if (material) Theme.type.body else Theme.type.small,
                 )
             }
         }

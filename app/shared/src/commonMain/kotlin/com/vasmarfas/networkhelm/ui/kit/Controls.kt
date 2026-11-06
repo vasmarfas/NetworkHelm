@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
@@ -46,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
@@ -83,6 +85,7 @@ import com.composeunstyled.CheckedIndicator
 import com.composeunstyled.DropdownMenuPanel
 import com.composeunstyled.DropdownMenuPanelScope
 import com.composeunstyled.DropdownMenuScope
+import com.composeunstyled.LocalTextStyle
 import com.composeunstyled.Text
 import com.composeunstyled.TextInput
 import com.composeunstyled.TooltipHost
@@ -96,6 +99,7 @@ import com.composeunstyled.UnstyledTooltip
 import com.vasmarfas.networkhelm.ui.theme.Palette
 import com.vasmarfas.networkhelm.ui.theme.Theme
 import com.vasmarfas.networkhelm.ui.theme.lit
+import com.vasmarfas.networkhelm.ui.theme.panel
 import com.vasmarfas.networkhelm.ui.theme.shaded
 import org.jetbrains.compose.resources.stringResource
 import networkhelm.app.shared.generated.resources.Res
@@ -128,17 +132,18 @@ fun ToolbarButton(
     val palette = Theme.palette
     val color = if (enabled) palette.text else palette.faint
     val classic = Theme.classic
+    val material = Theme.material
     val shown = iconOnly && icon != null
     var cut by remember { mutableStateOf(false) }
     Hint(label, shown || cut) {
         UnstyledButton(
             onClick = onClick,
             enabled = enabled,
-            contentPadding = PaddingValues(horizontal = 6.dp),
+            contentPadding = PaddingValues(horizontal = if (material) 10.dp else 6.dp),
             modifier = modifier
                 .height(Theme.metrics.toolbar)
                 .then(if (classic) Modifier.padding(vertical = 1.dp) else Modifier)
-                .clip(RoundedCornerShape(Theme.metrics.radius))
+                .clip(if (material) RoundedCornerShape(50) else RoundedCornerShape(Theme.metrics.radius))
                 .background(if (active) palette.selection else if (classic) palette.raised else palette.surface.copy(alpha = 0f))
                 .then(if (classic) Modifier.bevel(palette) else Modifier)
                 .hand(enabled),
@@ -163,18 +168,19 @@ fun IconButton(
 ) {
     val palette = Theme.palette
     val classic = Theme.classic
+    val material = Theme.material
     Hint(description, live = hint) {
         UnstyledButton(
             onClick = onClick,
             enabled = enabled,
             modifier = modifier
-                .size(28.dp, Theme.metrics.row)
-                .clip(RoundedCornerShape(Theme.metrics.radius))
+                .then(if (material) Modifier.size(Theme.metrics.row) else Modifier.size(28.dp, Theme.metrics.row))
+                .clip(if (material) RoundedCornerShape(50) else RoundedCornerShape(Theme.metrics.radius))
                 .background(if (active) palette.selection else if (classic) palette.raised else palette.surface.copy(alpha = 0f))
                 .then(if (classic) Modifier.bevel(palette) else Modifier)
                 .hand(enabled),
         ) {
-            UnstyledIcon(icon, description, Modifier.size(14.dp), tint = if (!enabled) palette.faint else if (active) palette.text else palette.muted)
+            UnstyledIcon(icon, description, Modifier.size(if (material) Theme.metrics.icon else 14.dp), tint = if (!enabled) palette.faint else if (active) palette.text else palette.muted)
         }
     }
 }
@@ -186,10 +192,15 @@ fun HintHost(content: @Composable () -> Unit) = TooltipHost(Modifier.fillMaxSize
 fun Hint(text: String, enabled: Boolean = true, live: (@Composable () -> String)? = null, anchor: @Composable () -> Unit) {
     val palette = Theme.palette
     val shape = RoundedCornerShape(Theme.metrics.radius)
+    val face = if (Theme.material) {
+        Modifier.padding(4.dp).shadow(3.dp, shape).background(palette.panel).padding(horizontal = 10.dp, vertical = 6.dp)
+    } else {
+        Modifier.clip(shape).background(palette.surface).border(1.dp, palette.line, shape).padding(horizontal = 6.dp, vertical = 3.dp)
+    }
     UnstyledTooltip(
         enabled = enabled,
         panel = {
-            TooltipPanel(Modifier.clip(shape).background(palette.surface).border(1.dp, palette.line, shape).padding(horizontal = 6.dp, vertical = 3.dp)) {
+            TooltipPanel(face) {
                 DisableSelection { Text(live?.invoke() ?: text, color = palette.text, style = Theme.type.small, singleLine = true) }
             }
         },
@@ -203,21 +214,30 @@ fun Hint(text: String, enabled: Boolean = true, live: (@Composable () -> String)
 @Composable
 fun Button(label: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true, primary: Boolean = false, danger: Boolean = false) {
     val palette = Theme.palette
-    val shape = RoundedCornerShape(Theme.metrics.radius)
     val classic = Theme.classic
+    val material = Theme.material
+    val compact = LocalCompact.current
+    val shape = if (material) RoundedCornerShape(50) else RoundedCornerShape(Theme.metrics.radius)
     val filled = (primary || danger) && enabled && !classic
     val fill = if (danger) palette.danger else palette.accent
     UnstyledButton(
         onClick = onClick,
         enabled = enabled,
-        contentPadding = PaddingValues(horizontal = if (LocalCompact.current) 8.dp else 14.dp),
+        contentPadding = PaddingValues(
+            horizontal = when {
+                material -> if (compact) 16.dp else 24.dp
+                compact -> 8.dp
+                else -> 14.dp
+            },
+        ),
         modifier = modifier
-            .height(Theme.metrics.control)
+            .height(if (material && primary && compact) 48.dp else Theme.metrics.control)
             .widthIn(min = 72.dp)
             .clip(shape)
             .then(
                 when {
                     classic -> Modifier.background(palette.raised).bevel(palette, if (primary && enabled) palette.text else palette.line)
+                    material -> Modifier.background(if (filled) fill else if (enabled) palette.selection else palette.text.copy(alpha = 0.12f))
                     else -> Modifier.background(if (filled) fill else palette.surface).border(1.dp, if (filled) fill else palette.line, shape)
                 },
             )
@@ -226,6 +246,7 @@ fun Button(label: String, onClick: () -> Unit, modifier: Modifier = Modifier, en
         DisableSelection {
             Text(
                 label,
+                style = if (material) Theme.type.strong else LocalTextStyle.current,
                 color = when {
                     !enabled -> palette.faint
                     filled -> palette.onAccent
@@ -251,8 +272,10 @@ fun TextField(
     inputTransformation: InputTransformation? = null,
 ) {
     val palette = Theme.palette
+    val material = Theme.material
     val shape = RoundedCornerShape(Theme.metrics.radius)
     var focused by remember { mutableStateOf(false) }
+    val ring = focused && !readOnly
     UnstyledTextField(
         state = state,
         enabled = enabled,
@@ -269,11 +292,11 @@ fun TextField(
             .height(Theme.metrics.control)
             .clip(shape)
             .background(if (readOnly) palette.raised else palette.surface)
-            .border(1.dp, if (error) palette.danger else if (focused && !readOnly) palette.accent else palette.line, shape)
-            .padding(horizontal = 6.dp),
+            .border(if (material && ring) 2.dp else 1.dp, if (error) palette.danger else if (ring) palette.accent else if (material) palette.faint else palette.line, shape)
+            .padding(horizontal = if (material) 12.dp else 6.dp),
     ) {
         TextInput(
-            Modifier.padding(vertical = if (Theme.classic) 0.dp else 4.dp),
+            if (material) Modifier.fillMaxHeight().wrapContentHeight() else Modifier.padding(vertical = if (Theme.classic) 0.dp else 4.dp),
             placeholder = placeholder?.let { { Text(it, color = palette.faint) } },
         )
     }
@@ -282,11 +305,33 @@ fun TextField(
 // a layer that only draws lets presses through to what lies under it
 fun Modifier.scrim(color: Color) = background(color).pointerInput(Unit) { detectTapGestures { } }
 
+// the scroll goes between the face and the inner padding, so that the padding scrolls with the content
+@Composable
+fun Modifier.dialogPanel(padding: Dp, scroll: ScrollState? = null): Modifier {
+    val palette = Theme.palette
+    val material = Theme.material
+    val face = if (material) {
+        val shape = RoundedCornerShape(28.dp)
+        shadow(6.dp, shape).background(palette.panel)
+    } else {
+        val shape = RoundedCornerShape(Theme.metrics.radius)
+        background(palette.surface, shape).border(1.dp, palette.line, shape)
+    }
+    val inner = when {
+        !material -> padding
+        LocalCompact.current -> 16.dp
+        else -> 24.dp
+    }
+    return face.then(if (scroll != null) Modifier.verticalScroll(scroll) else Modifier).padding(inner)
+}
+
 @Composable
 fun SecretField(state: TextFieldState, modifier: Modifier = Modifier, enabled: Boolean = true, onGo: (() -> Unit)? = null) {
     val palette = Theme.palette
+    val material = Theme.material
     val shape = RoundedCornerShape(Theme.metrics.radius)
     var shown by remember { mutableStateOf(false) }
+    var focused by remember { mutableStateOf(false) }
     BasicSecureTextField(
         state = state,
         enabled = enabled,
@@ -300,11 +345,12 @@ fun SecretField(state: TextFieldState, modifier: Modifier = Modifier, enabled: B
             // the field masks the text on screen only and gives the real text to the accessibility tree,
             // which Android passes on to every accessibility service; the text set here replaces it
             .semantics { if (!shown) editableText = AnnotatedString("•".repeat(state.text.length)) }
+            .onFocusChanged { focused = it.isFocused }
             .height(Theme.metrics.control)
             .clip(shape)
             .background(palette.surface)
-            .border(1.dp, palette.line, shape)
-            .padding(start = 6.dp, end = 2.dp),
+            .border(if (material && focused) 2.dp else 1.dp, if (!material) palette.line else if (focused) palette.accent else palette.faint, shape)
+            .padding(start = if (material) 12.dp else 6.dp, end = if (material) 8.dp else 2.dp),
         decorator = { input ->
             Row(Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.weight(1f)) { input() }
@@ -320,27 +366,30 @@ fun SecretField(state: TextFieldState, modifier: Modifier = Modifier, enabled: B
 @Composable
 fun Checkbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true, unset: Boolean = false) {
     val palette = Theme.palette
+    val material = Theme.material
     val filled = checked && enabled && !Theme.classic
-    val shape = RoundedCornerShape(if (Theme.classic) 0.dp else 3.dp)
+    val shape = RoundedCornerShape(if (Theme.classic) 0.dp else if (material) 2.dp else 3.dp)
+    val box = if (material) 18.dp else 16.dp
+    val mark = if (material) 14.dp else 12.dp
     UnstyledCheckbox(
         checked = checked,
         onCheckedChange = onCheckedChange,
         enabled = enabled,
         modifier = modifier
-            .size(16.dp)
+            .size(box)
             .clip(shape)
             .background(if (filled) palette.accent else palette.surface)
-            .border(1.dp, if (filled) palette.accent else palette.line, shape)
+            .border(if (material && !filled) 2.dp else 1.dp, if (filled) palette.accent else if (material) palette.muted else palette.line, shape)
             .hand(enabled),
     ) {
         if (unset && !checked) {
-            Box(Modifier.size(16.dp), contentAlignment = Alignment.Center) {
-                UnstyledIcon(Lucide.Minus, null, Modifier.size(12.dp), tint = palette.faint)
+            Box(Modifier.size(box), contentAlignment = Alignment.Center) {
+                UnstyledIcon(Lucide.Minus, null, Modifier.size(mark), tint = palette.faint)
             }
         }
         CheckedIndicator {
-            Box(Modifier.size(16.dp), contentAlignment = Alignment.Center) {
-                UnstyledIcon(Lucide.Check, null, Modifier.size(12.dp), tint = if (filled) palette.onAccent else if (enabled) palette.text else palette.faint)
+            Box(Modifier.size(box), contentAlignment = Alignment.Center) {
+                UnstyledIcon(Lucide.Check, null, Modifier.size(mark), tint = if (filled) palette.onAccent else if (enabled) palette.text else palette.faint)
             }
         }
     }
@@ -408,11 +457,14 @@ fun DropdownMenuScope.MenuPanel(
     val bars = WindowInsets.safeDrawing.asPaddingValues()
     val below = bars.calculateBottomPadding() + 8.dp
     val room = LocalWindowInfo.current.containerDpSize.height - bars.calculateTopPadding() - below - 8.dp
-    val panel = Modifier.widthIn(min = minWidth).width(IntrinsicSize.Max).heightIn(max = room).clip(shape).background(palette.surface).border(1.dp, palette.line, shape)
+    val material = Theme.material
+    val face = if (material) Modifier.shadow(3.dp, shape).background(palette.panel) else Modifier.clip(shape).background(palette.surface).border(1.dp, palette.line, shape)
+    val panel = Modifier.widthIn(min = minWidth).width(IntrinsicSize.Max).heightIn(max = room).then(face)
         .then(if (focus != null) Modifier.onFocusChanged { if (it.isFocused) focus.requestFocus() } else Modifier)
-    val inset = if (Theme.classic) 0.dp else 4.dp
+    val inset = if (Theme.classic) 0.dp else if (material) 8.dp else 4.dp
     DisableSelection {
-        Box(Modifier.padding(bottom = below)) {
+        // room for the shadow, which the popup would cut at its edges
+        Box(Modifier.padding(bottom = below).then(if (material) Modifier.padding(4.dp) else Modifier)) {
             if (header == null) {
                 DropdownMenuPanel(panel.verticalScroll(scroll).padding(vertical = inset), content = content)
             } else {
@@ -430,13 +482,20 @@ fun DropdownMenuScope.MenuPanel(
 @Composable
 fun DropdownItem(onClick: () -> Unit, modifier: Modifier = Modifier, selected: Boolean = false, content: @Composable () -> Unit) {
     val palette = Theme.palette
+    val material = Theme.material
     val line = if (Theme.classic) Modifier.drawBehind { drawLine(palette.divider ?: palette.line, Offset(0f, size.height - 0.5f), Offset(size.width, size.height - 0.5f), 1.dp.toPx()) } else Modifier
+    val face = if (material) {
+        Modifier.padding(horizontal = 4.dp).clip(RoundedCornerShape(50)).background(if (selected) palette.selection else Color.Transparent)
+    } else {
+        Modifier.background(if (selected) palette.selection else palette.surface)
+    }
+    val least = if (LocalCompact.current) 44.dp else if (material) Theme.metrics.menuItem else 0.dp
     UnstyledDropdownMenuItem(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().background(if (selected) palette.selection else palette.surface).then(line).hand(),
+        modifier = modifier.fillMaxWidth().then(face).then(line).hand(),
         indication = LocalIndication.current,
     ) {
-        Box(Modifier.heightIn(min = if (LocalCompact.current) 44.dp else 0.dp).padding(horizontal = 10.dp, vertical = 4.dp), contentAlignment = Alignment.CenterStart) {
+        Box(Modifier.heightIn(min = least).padding(horizontal = if (material) 12.dp else 10.dp, vertical = 4.dp), contentAlignment = Alignment.CenterStart) {
             content()
         }
     }

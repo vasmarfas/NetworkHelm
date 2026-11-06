@@ -68,11 +68,20 @@ data class Palette(
     val band: Color? = null,
     val highlight: Color? = null,
     val shadow: Color? = null,
+    val container: Color? = null,
+    val inverse: Color? = null,
+    val onInverse: Color? = null,
 )
 
 val Palette.lit: Color get() = highlight ?: Color.White
 
 val Palette.shaded: Color get() = shadow ?: Color(0xFFE4E4E4)
+
+val Palette.panel: Color get() = container ?: surface
+
+val Palette.snack: Color get() = inverse ?: text
+
+val Palette.onSnack: Color get() = onInverse ?: surface
 
 val DarkPalette = Palette(
     workspace = Color(0xFF23272D),
@@ -163,6 +172,52 @@ val LegacyDarkPalette = Palette(
     shadow = Color(0xFF29292D),
 )
 
+val MaterialPalette = Palette(
+    workspace = Color(0xFFF3EDF7),
+    surface = Color(0xFFFEF7FF),
+    raised = Color(0xFFF7F2FA),
+    line = Color(0xFFCAC4D0),
+    text = Color(0xFF1D1B20),
+    muted = Color(0xFF49454F),
+    faint = Color(0xFF79747E),
+    accent = Color(0xFF6750A4),
+    onAccent = Color(0xFFFFFFFF),
+    selection = Color(0xFFE8DEF8),
+    badge = Color(0xFFE6E0E9),
+    danger = Color(0xFFB3261E),
+    success = Color(0xFF386A20),
+    warning = Color(0xFF7D5700),
+    title = Color(0xFFECE6F0),
+    grid = Color(0xFFE6E0E9),
+    inactiveTitle = Color(0xFFF7F2FA),
+    container = Color(0xFFF3EDF7),
+    inverse = Color(0xFF322F35),
+    onInverse = Color(0xFFF5EFF7),
+)
+
+val MaterialDarkPalette = Palette(
+    workspace = Color(0xFF211F26),
+    surface = Color(0xFF141218),
+    raised = Color(0xFF1D1B20),
+    line = Color(0xFF49454F),
+    text = Color(0xFFE6E0E9),
+    muted = Color(0xFFCAC4D0),
+    faint = Color(0xFF938F99),
+    accent = Color(0xFFD0BCFF),
+    onAccent = Color(0xFF381E72),
+    selection = Color(0xFF4A4458),
+    badge = Color(0xFF36343B),
+    danger = Color(0xFFF2B8B5),
+    success = Color(0xFF9CD67D),
+    warning = Color(0xFFF8BD49),
+    title = Color(0xFF2B2930),
+    grid = Color(0xFF36343B),
+    inactiveTitle = Color(0xFF1D1B20),
+    container = Color(0xFF211F26),
+    inverse = Color(0xFFE6E0E9),
+    onInverse = Color(0xFF322F35),
+)
+
 @Immutable
 @Serializable
 data class Metrics(
@@ -210,6 +265,22 @@ private fun typography(sans: FontFamily, mono: FontFamily, size: Float = 13f) = 
     mono = TextStyle(fontFamily = mono, fontSize = (size - 1).sp, lineHeight = (size + 4).sp, platformStyle = textRasterization),
 )
 
+private fun materialTypography(sans: FontFamily, mono: FontFamily, size: Float) = Typography(
+    body = TextStyle(fontFamily = sans, fontSize = size.sp, lineHeight = (size + 6).sp, fontFeatureSettings = LITERAL, platformStyle = textRasterization),
+    strong = TextStyle(fontFamily = sans, fontSize = size.sp, lineHeight = (size + 6).sp, fontWeight = FontWeight.Medium, fontFeatureSettings = LITERAL, platformStyle = textRasterization),
+    small = TextStyle(fontFamily = sans, fontSize = (size - 2).sp, lineHeight = (size + 2).sp, fontFeatureSettings = LITERAL, platformStyle = textRasterization),
+    section = TextStyle(
+        fontFamily = sans,
+        fontSize = (size - 2).sp,
+        lineHeight = (size + 2).sp,
+        fontWeight = FontWeight.Medium,
+        letterSpacing = 0.5.sp,
+        fontFeatureSettings = LITERAL,
+        platformStyle = textRasterization,
+    ),
+    mono = TextStyle(fontFamily = mono, fontSize = (size - 1).sp, lineHeight = (size + 4).sp, platformStyle = textRasterization),
+)
+
 enum class ThemeFont {
     Inter,
     System,
@@ -224,6 +295,7 @@ data class ThemeFile(
     val fontSize: Float = 13f,
     val font: ThemeFont = ThemeFont.Inter,
     val classic: Boolean = false,
+    val material: Boolean = false,
     val icons: Map<String, String> = emptyMap(),
     val followsSystem: Boolean = true,
 ) {
@@ -245,7 +317,16 @@ val Legacy = ThemeFile(
     followsSystem = false,
 )
 
-val BundledThemes = listOf(Modern, Legacy)
+val Material = ThemeFile(
+    "Material",
+    light = MaterialPalette,
+    dark = MaterialDarkPalette,
+    metrics = Metrics(row = 36.dp, menuItem = 36.dp, control = 40.dp, title = 40.dp, toolbar = 40.dp, icon = 20.dp, gap = 8.dp, padding = 12.dp, radius = 12.dp),
+    fontSize = 14f,
+    material = true,
+)
+
+val BundledThemes = listOf(Modern, Legacy, Material)
 
 fun Color.hex(): String {
     val argb = toArgb().toUInt().toString(16).padStart(8, '0').uppercase()
@@ -282,6 +363,7 @@ private val LocalPalette = staticCompositionLocalOf { DarkPalette }
 private val LocalMetrics = staticCompositionLocalOf { Metrics() }
 private val LocalTypography = staticCompositionLocalOf { typography(FontFamily.SansSerif, FontFamily.Monospace) }
 private val LocalClassic = staticCompositionLocalOf { false }
+private val LocalMaterial = staticCompositionLocalOf { false }
 private val LocalIcons = staticCompositionLocalOf { emptyMap<String, ThemeIcon>() }
 
 object Theme {
@@ -296,6 +378,9 @@ object Theme {
 
     val classic: Boolean
         @Composable @ReadOnlyComposable get() = LocalClassic.current
+
+    val material: Boolean
+        @Composable @ReadOnlyComposable get() = LocalMaterial.current
 
     val icons: Map<String, ThemeIcon>
         @Composable @ReadOnlyComposable get() = LocalIcons.current
@@ -317,20 +402,27 @@ fun NetworkHelmTheme(theme: ThemeFile = Modern, dark: Boolean = isSystemInDarkTh
         )
     }
     val mono = FontFamily(Font(Res.font.jetbrains_mono_regular, FontWeight.Normal), Font(Res.font.jetbrains_mono_bold, FontWeight.Bold))
-    val type = typography(sans, mono, theme.fontSize.coerceIn(9f, 20f))
+    val size = theme.fontSize.coerceIn(9f, 20f)
+    val type = if (theme.material) materialTypography(sans, mono, size) else typography(sans, mono, size)
     val density = LocalDensity.current
     val icons = remember(theme) { theme.drawnIcons() }
+    val indication = if (theme.material) {
+        rememberColoredIndication(palette.text, focusedAlpha = 0.1f, hoveredAlpha = 0.08f, pressedAlpha = 0.1f)
+    } else {
+        rememberColoredIndication(palette.text, hoveredAlpha = 0.1f, pressedAlpha = 0.18f)
+    }
     CompositionLocalProvider(
         LocalDensity provides Density(density.density * scale.coerceIn(0.67f, 2.5f), density.fontScale),
         LocalPalette provides palette,
         LocalMetrics provides theme.metrics,
         LocalClassic provides theme.classic,
+        LocalMaterial provides theme.material,
         LocalIcons provides icons,
         LocalTypography provides type,
         LocalContentColor provides palette.text,
         LocalTextStyle provides type.body,
         LocalTextSelectionColors provides TextSelectionColors(palette.accent, palette.selection),
-        LocalIndication provides rememberColoredIndication(palette.text, hoveredAlpha = 0.1f, pressedAlpha = 0.18f),
+        LocalIndication provides indication,
         content = content,
     )
 }
