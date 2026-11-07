@@ -241,6 +241,16 @@ jobs:
             artifacts/*.zip
             artifacts/*.tar.gz
 
+  announce:
+    name: Announce
+    needs: [meta, android, desktop, gateway, web, github_release]
+    if: ${{ !cancelled() && needs.github_release.result == 'success' && !inputs.draft && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+    uses: ./.github/workflows/announce.yml
+    with:
+      tag: v${{ needs.meta.outputs.version_name }}
+      notes: ${{ inputs.notes_ru }}\n\n${{ inputs.notes_en }}
+    secrets: inherit
+
   # the scan only reports and runs once the release is public, so nothing waits for it; a drafted release is not scanned
   virustotal:
     name: VirusTotal
