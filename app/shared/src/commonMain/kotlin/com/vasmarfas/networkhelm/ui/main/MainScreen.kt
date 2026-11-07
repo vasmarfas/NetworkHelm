@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -115,6 +113,7 @@ import com.vasmarfas.networkhelm.ui.kit.Hint
 import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
 import com.vasmarfas.networkhelm.ui.kit.MenuPanel
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.Select
 import com.vasmarfas.networkhelm.ui.kit.TabStrip
 import com.vasmarfas.networkhelm.ui.kit.TextField
@@ -702,7 +701,7 @@ private fun LeftMenu(tab: RouterTab, search: FocusRequester, modifier: Modifier)
                 Text(stringResource(Res.string.window_loading), Modifier.padding(horizontal = 12.dp), color = palette.muted, style = Theme.type.small)
                 return@Column
             }
-            Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
+            ScrollArea(Modifier.weight(1f)) {
                 if (text.length >= 2) {
                     results.forEachIndexed { index, (title, entry) ->
                         MenuRow(title, false, active = index == chosen, highlight = text, icon = menuIcon(title.substringBefore(" > ")), locked = locked(tab.session.device, entry)) { open(entry) }

@@ -6,16 +6,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +29,7 @@ import com.composables.icons.lucide.SquareArrowOutUpRight
 import com.composables.icons.lucide.X
 import com.composeunstyled.Text
 import com.vasmarfas.networkhelm.ui.kit.IconButton
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.ToolbarButton
 import com.vasmarfas.networkhelm.ui.kit.hand
 import com.vasmarfas.networkhelm.ui.theme.Theme
@@ -89,7 +89,7 @@ internal fun LogDetails(
             IconButton(Lucide.ChevronDown, stringResource(Res.string.log_next_line), { onNext?.invoke() }, Modifier.testTag("log-next-line"), enabled = onNext != null)
             if (onClose != null) IconButton(Lucide.X, stringResource(Res.string.log_close), onClose, Modifier.testTag("log-close"))
         }
-        Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        ScrollArea(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             SelectionContainer {
                 Text(entry.message, Modifier.fillMaxWidth().background(palette.raised, shape).padding(10.dp).testTag("log-message"), style = large, color = if (entry.severity >= Severity.Error) color else palette.text)
             }

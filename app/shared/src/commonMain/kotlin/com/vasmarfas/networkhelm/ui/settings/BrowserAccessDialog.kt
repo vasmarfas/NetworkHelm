@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
@@ -28,14 +27,17 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Globe
 import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.X
 import com.composeunstyled.Text
 import com.composeunstyled.UnstyledIcon
 import com.vasmarfas.networkhelm.app.AccessProblem
 import com.vasmarfas.networkhelm.app.BrowserAccess
 import com.vasmarfas.networkhelm.qr.QrCode
 import com.vasmarfas.networkhelm.ui.kit.Button
+import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.Labeled
 import com.vasmarfas.networkhelm.ui.kit.QrImage
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.SecretField
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.Toggle
@@ -104,95 +106,100 @@ fun BrowserAccessDialog(access: BrowserAccess, onClose: () -> Unit) {
             }
         }
     }
-    Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
+    Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f), onClose), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 640.dp).padding(16.dp).dialogPanel(16.dp, rememberScrollState()),
+            Modifier.widthIn(max = 640.dp).padding(16.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text(stringResource(Res.string.access_title), style = Theme.type.strong)
-            Text(stringResource(Res.string.access_hint), color = palette.muted)
-            if (!access.webApp) Text(stringResource(Res.string.access_no_web_app), color = palette.danger, style = Theme.type.small)
-            if (changing) {
-                Labeled(stringResource(Res.string.access_password)) { SecretField(password, Modifier.width(220.dp).testTag("access-password")) }
-                Labeled(stringResource(Res.string.access_repeat)) { SecretField(repeat, Modifier.width(220.dp).testTag("access-repeat")) }
-                Labeled("") {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Button(stringResource(Res.string.access_set_password), {
-                            differ = password.text.toString() != repeat.text.toString()
-                            if (!differ) {
-                                act {
-                                    access.setPassword(password.text.toString())
-                                    password.clearText()
-                                    repeat.clearText()
-                                    changing = false
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(Res.string.access_title), Modifier.weight(1f), style = Theme.type.strong)
+                IconButton(Lucide.X, stringResource(Res.string.settings_close), onClose, Modifier.testTag("access-cross"))
+            }
+            ScrollArea(Modifier.weight(1f, fill = false), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(stringResource(Res.string.access_hint), color = palette.muted)
+                if (!access.webApp) Text(stringResource(Res.string.access_no_web_app), color = palette.danger, style = Theme.type.small)
+                if (changing) {
+                    Labeled(stringResource(Res.string.access_password)) { SecretField(password, Modifier.width(220.dp).testTag("access-password")) }
+                    Labeled(stringResource(Res.string.access_repeat)) { SecretField(repeat, Modifier.width(220.dp).testTag("access-repeat")) }
+                    Labeled("") {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Button(stringResource(Res.string.access_set_password), {
+                                differ = password.text.toString() != repeat.text.toString()
+                                if (!differ) {
+                                    act {
+                                        access.setPassword(password.text.toString())
+                                        password.clearText()
+                                        repeat.clearText()
+                                        changing = false
+                                    }
                                 }
-                            }
-                        }, enabled = password.text.isNotEmpty() && !busy, primary = true)
-                        if (differ) Text(stringResource(Res.string.access_passwords_differ), Modifier.testTag("access-differ"), color = palette.danger)
-                    }
-                }
-            } else {
-                Labeled(stringResource(Res.string.access_password)) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(stringResource(Res.string.access_password_set), color = palette.muted)
-                        Button(stringResource(Res.string.access_change_password), { changing = true })
-                    }
-                }
-            }
-            Toggle(access.open, stringResource(Res.string.access_open), null, "access-open", enabled = access.ready && chosenPort != null && !busy) { on ->
-                act {
-                    if (on) {
-                        access.change(chosenPort ?: access.port, access.public, access.code)
-                        access.open()
-                    } else {
-                        access.close()
-                    }
-                }
-            }
-            Labeled(stringResource(Res.string.access_port)) { TextField(port, Modifier.width(90.dp).testTag("access-port"), enabled = !access.open) }
-            Toggle(access.public, stringResource(Res.string.access_public), stringResource(Res.string.access_public_hint), "access-public", enabled = !busy) { on ->
-                showCode = on
-                act { access.change(chosenPort ?: access.port, on, access.code) }
-            }
-            Toggle(access.code || access.public, stringResource(Res.string.access_code), stringResource(Res.string.access_code_hint), "access-code", enabled = !access.public && !busy) { on ->
-                showCode = on
-                act { access.change(chosenPort ?: access.port, access.public, on) }
-            }
-            access.otpauth?.let { otpauth ->
-                if (showCode) {
-                    Text(stringResource(Res.string.access_scan), color = palette.muted)
-                    Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                        QrImage(remember(otpauth) { QrCode.encode(otpauth) }, Modifier.size(196.dp).testTag("access-qr"))
-                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text(stringResource(Res.string.gateway_key), color = palette.muted, style = Theme.type.small)
-                            SelectionContainer {
-                                val key = otpauth.substringAfter("secret=").substringBefore('&')
-                                Text(key.chunked(4).chunked(4).joinToString("\n") { it.joinToString(" ") }, style = Theme.type.mono)
-                            }
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Button(stringResource(Res.string.access_new_code), { act { access.newCode() } }, enabled = !busy)
-                                Button(stringResource(Res.string.access_hide_code), { showCode = false })
-                            }
+                            }, enabled = password.text.isNotEmpty() && !busy, primary = true)
+                            if (differ) Text(stringResource(Res.string.access_passwords_differ), Modifier.testTag("access-differ"), color = palette.danger)
                         }
                     }
                 } else {
-                    Labeled("") { Button(stringResource(Res.string.access_show_code), { showCode = true }, Modifier.testTag("access-show-code")) }
-                }
-            }
-            if (access.open) {
-                Labeled(stringResource(Res.string.access_addresses)) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                        access.addresses.firstOrNull()?.let { first -> QrImage(remember(first) { QrCode.encode(first) }, Modifier.size(120.dp).testTag("access-address-qr")) }
-                        SelectionContainer {
-                            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) { for (address in access.addresses) Text(address, style = Theme.type.mono) }
+                    Labeled(stringResource(Res.string.access_password)) {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Text(stringResource(Res.string.access_password_set), color = palette.muted)
+                            Button(stringResource(Res.string.access_change_password), { changing = true })
                         }
                     }
                 }
-                access.certificate?.let { certificate ->
-                    Labeled(stringResource(Res.string.access_certificate)) {
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            SelectionContainer { Text(certificate.split(':').chunked(16).joinToString("\n") { it.joinToString(":") }, style = Theme.type.mono) }
-                            Text(stringResource(Res.string.access_certificate_hint), color = palette.muted, style = Theme.type.small)
+                Toggle(access.open, stringResource(Res.string.access_open), null, "access-open", enabled = access.ready && chosenPort != null && !busy) { on ->
+                    act {
+                        if (on) {
+                            access.change(chosenPort ?: access.port, access.public, access.code)
+                            access.open()
+                        } else {
+                            access.close()
+                        }
+                    }
+                }
+                Labeled(stringResource(Res.string.access_port)) { TextField(port, Modifier.width(90.dp).testTag("access-port"), enabled = !access.open) }
+                Toggle(access.public, stringResource(Res.string.access_public), stringResource(Res.string.access_public_hint), "access-public", enabled = !busy) { on ->
+                    showCode = on
+                    act { access.change(chosenPort ?: access.port, on, access.code) }
+                }
+                Toggle(access.code || access.public, stringResource(Res.string.access_code), stringResource(Res.string.access_code_hint), "access-code", enabled = !access.public && !busy) { on ->
+                    showCode = on
+                    act { access.change(chosenPort ?: access.port, access.public, on) }
+                }
+                access.otpauth?.let { otpauth ->
+                    if (showCode) {
+                        Text(stringResource(Res.string.access_scan), color = palette.muted)
+                        Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                            QrImage(remember(otpauth) { QrCode.encode(otpauth) }, Modifier.size(196.dp).testTag("access-qr"))
+                            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Text(stringResource(Res.string.gateway_key), color = palette.muted, style = Theme.type.small)
+                                SelectionContainer {
+                                    val key = otpauth.substringAfter("secret=").substringBefore('&')
+                                    Text(key.chunked(4).chunked(4).joinToString("\n") { it.joinToString(" ") }, style = Theme.type.mono)
+                                }
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    Button(stringResource(Res.string.access_new_code), { act { access.newCode() } }, enabled = !busy)
+                                    Button(stringResource(Res.string.access_hide_code), { showCode = false })
+                                }
+                            }
+                        }
+                    } else {
+                        Labeled("") { Button(stringResource(Res.string.access_show_code), { showCode = true }, Modifier.testTag("access-show-code")) }
+                    }
+                }
+                if (access.open) {
+                    Labeled(stringResource(Res.string.access_addresses)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                            access.addresses.firstOrNull()?.let { first -> QrImage(remember(first) { QrCode.encode(first) }, Modifier.size(120.dp).testTag("access-address-qr")) }
+                            SelectionContainer {
+                                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) { for (address in access.addresses) Text(address, style = Theme.type.mono) }
+                            }
+                        }
+                    }
+                    access.certificate?.let { certificate ->
+                        Labeled(stringResource(Res.string.access_certificate)) {
+                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                SelectionContainer { Text(certificate.split(':').chunked(16).joinToString("\n") { it.joinToString(":") }, style = Theme.type.mono) }
+                                Text(stringResource(Res.string.access_certificate_hint), color = palette.muted, style = Theme.type.small)
+                            }
                         }
                     }
                 }

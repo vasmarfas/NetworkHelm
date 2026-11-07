@@ -12,10 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.DisableSelection
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -27,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.X
 import com.composeunstyled.Text
 import com.vasmarfas.networkhelm.appVersion
 import com.vasmarfas.networkhelm.nettools.HostOps
@@ -36,8 +36,10 @@ import com.vasmarfas.networkhelm.nettools.hostOps
 import com.vasmarfas.networkhelm.nettools.publicHttp
 import com.vasmarfas.networkhelm.transport.tcpListening
 import com.vasmarfas.networkhelm.ui.kit.Button
+import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.Labeled
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.Select
 import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.hand
@@ -113,12 +115,15 @@ fun ToolsDialog(vendors: suspend () -> MacRegistry = ::bundledVendors, onClose: 
     }
     var chosen by remember { mutableStateOf(tools.first()) }
     val compact = LocalCompact.current
-    BoxWithConstraints(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
+    BoxWithConstraints(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f), onClose), contentAlignment = Alignment.Center) {
         Column(
             Modifier.widthIn(max = 900.dp).height(minOf(maxHeight, 700.dp)).padding(if (compact) 8.dp else 16.dp).dialogPanel(if (compact) 10.dp else 16.dp).testTag("tools-dialog"),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text(stringResource(Res.string.tools_title), style = Theme.type.strong)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(Res.string.tools_title), Modifier.weight(1f), style = Theme.type.strong)
+                IconButton(Lucide.X, stringResource(Res.string.tools_close), onClose, Modifier.testTag("tools-cross"))
+            }
             if (compact) {
                 Select(chosen, tools, { stringResource(it.title) }, { chosen = it }, Modifier.fillMaxWidth().testTag("tool-choice"))
                 Pane(chosen, ops, http, vendors, Modifier.weight(1f))
@@ -146,7 +151,7 @@ fun ToolsDialog(vendors: suspend () -> MacRegistry = ::bundledVendors, onClose: 
 
 @Composable
 private fun Pane(tool: NetTool, ops: HostOps?, http: PublicHttp?, vendors: suspend () -> MacRegistry, modifier: Modifier) {
-    Column(modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    ScrollArea(modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         key(tool) {
             when (tool) {
                 NetTool.Ping -> PingPane(ops)

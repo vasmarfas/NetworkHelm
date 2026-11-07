@@ -42,6 +42,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -276,36 +277,44 @@ fun TextField(
     val shape = RoundedCornerShape(Theme.metrics.radius)
     var focused by remember { mutableStateOf(false) }
     val ring = focused && !readOnly
-    UnstyledTextField(
-        state = state,
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = if (mono) Theme.type.mono else Theme.type.body,
-        textColor = if (enabled) palette.text else palette.faint,
-        cursorBrush = SolidColor(palette.accent),
-        selectionColors = LocalTextSelectionColors.current,
-        lineLimits = TextFieldLineLimits.SingleLine,
-        inputTransformation = inputTransformation,
-        modifier = modifier
-            .onEnter(LocalSubmit.current.takeIf { enabled && !readOnly })
-            .onFocusChanged { focused = it.isFocused }
-            .height(Theme.metrics.control)
-            .clip(shape)
-            .background(if (readOnly) palette.raised else palette.surface)
-            .border(if (material && ring) 2.dp else 1.dp, if (error) palette.danger else if (ring) palette.accent else if (material) palette.faint else palette.line, shape)
-            .padding(horizontal = if (material) 12.dp else 6.dp),
-    ) {
-        TextInput(
-            if (material) Modifier.fillMaxHeight().wrapContentHeight() else Modifier.padding(vertical = if (Theme.classic) 0.dp else 4.dp),
-            placeholder = placeholder?.let { { Text(it, color = palette.faint) } },
-        )
+    // a menu of the field inside the SelectionContainer of HintHost crashes the page of the browser (CMP-2326)
+    DisableSelection {
+        UnstyledTextField(
+            state = state,
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = if (mono) Theme.type.mono else Theme.type.body,
+            textColor = if (enabled) palette.text else palette.faint,
+            cursorBrush = SolidColor(palette.accent),
+            selectionColors = LocalTextSelectionColors.current,
+            lineLimits = TextFieldLineLimits.SingleLine,
+            inputTransformation = inputTransformation,
+            modifier = modifier
+                .onEnter(LocalSubmit.current.takeIf { enabled && !readOnly })
+                .onFocusChanged { focused = it.isFocused }
+                .height(Theme.metrics.control)
+                .clip(shape)
+                .background(if (readOnly) palette.raised else palette.surface)
+                .border(if (material && ring) 2.dp else 1.dp, if (error) palette.danger else if (ring) palette.accent else if (material) palette.faint else palette.line, shape)
+                .padding(horizontal = if (material) 12.dp else 6.dp),
+        ) {
+            TextInput(
+                if (material) Modifier.fillMaxHeight().wrapContentHeight() else Modifier.padding(vertical = if (Theme.classic) 0.dp else 4.dp),
+                placeholder = placeholder?.let { { Text(it, color = palette.faint) } },
+            )
+        }
     }
 }
 
-// a layer that only draws lets presses through to what lies under it
-fun Modifier.scrim(color: Color) = background(color).pointerInput(Unit) { detectTapGestures { } }
+// a layer that only draws lets presses through to what lies under it; a dialog that may be left asks to be closed by a press outside its panel
+@Composable
+fun Modifier.scrim(color: Color, onDismiss: (() -> Unit)? = null): Modifier {
+    val dismiss by rememberUpdatedState(onDismiss)
+    return background(color).pointerInput(Unit) { detectTapGestures { dismiss?.invoke() } }
+}
 
-// the scroll goes between the face and the inner padding, so that the padding scrolls with the content
+// the scroll goes between the face and the inner padding, so that the padding scrolls with the content;
+// a press on the panel itself must not reach the scrim, which would take it for a press outside
 @Composable
 fun Modifier.dialogPanel(padding: Dp, scroll: ScrollState? = null): Modifier {
     val palette = Theme.palette
@@ -322,7 +331,7 @@ fun Modifier.dialogPanel(padding: Dp, scroll: ScrollState? = null): Modifier {
         LocalCompact.current -> 16.dp
         else -> 24.dp
     }
-    return face.then(if (scroll != null) Modifier.verticalScroll(scroll) else Modifier).padding(inner)
+    return face.pointerInput(Unit) { detectTapGestures { } }.then(if (scroll != null) Modifier.verticalScroll(scroll) else Modifier).padding(inner)
 }
 
 @Composable
@@ -332,35 +341,37 @@ fun SecretField(state: TextFieldState, modifier: Modifier = Modifier, enabled: B
     val shape = RoundedCornerShape(Theme.metrics.radius)
     var shown by remember { mutableStateOf(false) }
     var focused by remember { mutableStateOf(false) }
-    BasicSecureTextField(
-        state = state,
-        enabled = enabled,
-        keyboardOptions = KeyboardOptions(autoCorrectEnabled = false, keyboardType = KeyboardType.Password, imeAction = if (onGo != null) ImeAction.Go else ImeAction.Default),
-        onKeyboardAction = onGo?.let { go -> { go() } },
-        textObfuscationMode = if (shown) TextObfuscationMode.Visible else TextObfuscationMode.RevealLastTyped,
-        textStyle = Theme.type.body.copy(color = if (enabled) palette.text else palette.faint),
-        cursorBrush = SolidColor(palette.accent),
-        modifier = modifier
-            .onEnter(LocalSubmit.current.takeIf { enabled })
-            // the field masks the text on screen only and gives the real text to the accessibility tree,
-            // which Android passes on to every accessibility service; the text set here replaces it
-            .semantics { if (!shown) editableText = AnnotatedString("•".repeat(state.text.length)) }
-            .onFocusChanged { focused = it.isFocused }
-            .height(Theme.metrics.control)
-            .clip(shape)
-            .background(palette.surface)
-            .border(if (material && focused) 2.dp else 1.dp, if (!material) palette.line else if (focused) palette.accent else palette.faint, shape)
-            .padding(start = if (material) 12.dp else 6.dp, end = if (material) 8.dp else 2.dp),
-        decorator = { input ->
-            Row(Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.weight(1f)) { input() }
-                UnstyledButton(onClick = { shown = !shown }, modifier = Modifier.size(20.dp).hand()) {
-                    val description = stringResource(if (shown) Res.string.form_hide_secret else Res.string.form_show_secret)
-                    UnstyledIcon(if (shown) Lucide.EyeOff else Lucide.Eye, description, Modifier.size(14.dp), tint = palette.muted)
+    DisableSelection {
+        BasicSecureTextField(
+            state = state,
+            enabled = enabled,
+            keyboardOptions = KeyboardOptions(autoCorrectEnabled = false, keyboardType = KeyboardType.Password, imeAction = if (onGo != null) ImeAction.Go else ImeAction.Default),
+            onKeyboardAction = onGo?.let { go -> { go() } },
+            textObfuscationMode = if (shown) TextObfuscationMode.Visible else TextObfuscationMode.RevealLastTyped,
+            textStyle = Theme.type.body.copy(color = if (enabled) palette.text else palette.faint),
+            cursorBrush = SolidColor(palette.accent),
+            modifier = modifier
+                .onEnter(LocalSubmit.current.takeIf { enabled })
+                // the field masks the text on screen only and gives the real text to the accessibility tree,
+                // which Android passes on to every accessibility service; the text set here replaces it
+                .semantics { if (!shown) editableText = AnnotatedString("•".repeat(state.text.length)) }
+                .onFocusChanged { focused = it.isFocused }
+                .height(Theme.metrics.control)
+                .clip(shape)
+                .background(palette.surface)
+                .border(if (material && focused) 2.dp else 1.dp, if (!material) palette.line else if (focused) palette.accent else palette.faint, shape)
+                .padding(start = if (material) 12.dp else 6.dp, end = if (material) 8.dp else 2.dp),
+            decorator = { input ->
+                Row(Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.weight(1f)) { input() }
+                    UnstyledButton(onClick = { shown = !shown }, modifier = Modifier.size(20.dp).hand()) {
+                        val description = stringResource(if (shown) Res.string.form_hide_secret else Res.string.form_show_secret)
+                        UnstyledIcon(if (shown) Lucide.EyeOff else Lucide.Eye, description, Modifier.size(14.dp), tint = palette.muted)
+                    }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Composable

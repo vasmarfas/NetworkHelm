@@ -21,6 +21,7 @@ import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldBuffer
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -309,20 +310,22 @@ fun TextEditor(state: EditorState, controls: EditorControls, readOnly: Boolean, 
             Gutter(state, scroll, starts, caretLine, style)
             BoxWithConstraints(Modifier.weight(1f).fillMaxHeight().onSizeChanged { state.viewport = it.height }) {
                 val fill = maxWidth
-                BasicTextField(
-                    state = state.text,
-                    modifier = (if (controls.wrap) Modifier.fillMaxSize() else Modifier.fillMaxHeight().widthIn(min = fill).horizontalScroll(horizontal))
-                        .padding(horizontal = 6.dp)
-                        .focusRequester(focus)
-                        .testTag("editor-text"),
-                    readOnly = readOnly,
-                    textStyle = style,
-                    cursorBrush = SolidColor(palette.accent),
-                    lineLimits = TextFieldLineLimits.MultiLine(),
-                    scrollState = scroll,
-                    outputTransformation = colouring,
-                    onTextLayout = { layout -> state.layout = layout() },
-                )
+                DisableSelection {
+                    BasicTextField(
+                        state = state.text,
+                        modifier = (if (controls.wrap) Modifier.fillMaxSize() else Modifier.fillMaxHeight().widthIn(min = fill).horizontalScroll(horizontal))
+                            .padding(horizontal = 6.dp)
+                            .focusRequester(focus)
+                            .testTag("editor-text"),
+                        readOnly = readOnly,
+                        textStyle = style,
+                        cursorBrush = SolidColor(palette.accent),
+                        lineLimits = TextFieldLineLimits.MultiLine(),
+                        scrollState = scroll,
+                        outputTransformation = colouring,
+                        onTextLayout = { layout -> state.layout = layout() },
+                    )
+                }
             }
         }
     }

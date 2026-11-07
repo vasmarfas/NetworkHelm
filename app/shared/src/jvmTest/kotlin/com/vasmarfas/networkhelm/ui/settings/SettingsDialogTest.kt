@@ -87,10 +87,10 @@ class SettingsDialogTest {
         onNodeWithTag("settings-problem").assertTextContains("broken.json is not a theme", substring = true)
         picture("settings")
 
-        onNodeWithTag("probe").performClick()
+        onNodeWithTag("probe").performScrollTo().performClick()
         waitUntil(timeoutMillis = 5_000) { !settings.current.probe }
 
-        onNodeWithTag("terminal-lines").performClick()
+        onNodeWithTag("terminal-lines").performScrollTo().performClick()
         onNodeWithText("50000 lines").performClick()
         waitUntil(timeoutMillis = 5_000) { settings.current.terminalLines == 50000 }
     }

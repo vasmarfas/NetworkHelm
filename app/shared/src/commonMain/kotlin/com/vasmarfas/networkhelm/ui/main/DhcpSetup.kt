@@ -2,18 +2,16 @@ package com.vasmarfas.networkhelm.ui.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +35,7 @@ import com.vasmarfas.networkhelm.session.DeviceSession
 import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
 import com.vasmarfas.networkhelm.ui.kit.Labeled
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.Select
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.theme.Theme
@@ -147,11 +146,11 @@ internal fun DhcpSetupView(session: DeviceSession) {
     val writes = if (chosen == null || plan.network.isEmpty() || plan.pool.isEmpty()) null else names?.let { (poolName, serverName) ->
         dhcpWrites(chosen, plan, lease.text.toString().trim(), poolName, serverName)
     }
-    Column(Modifier.fillMaxSize().background(palette.surface).verticalScroll(rememberScrollState()).padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    ScrollArea(Modifier.fillMaxSize().background(palette.surface), contentPadding = PaddingValues(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(stringResource(Res.string.dhcp_setup_intro), color = palette.muted)
         if (addresses != null && interfaces.isEmpty()) {
             Text(stringResource(Res.string.dhcp_setup_none), color = palette.warning)
-            return@Column
+            return@ScrollArea
         }
         val field = if (LocalCompact.current) Modifier.fillMaxWidth() else Modifier.width(260.dp)
         Labeled(stringResource(Res.string.dhcp_setup_interface)) { Select(chosen, interfaces, { it.orEmpty() }, { iface = it }, field.testTag("dhcp-interface")) }

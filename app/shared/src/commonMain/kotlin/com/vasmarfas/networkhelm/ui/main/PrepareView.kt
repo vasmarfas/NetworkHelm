@@ -2,6 +2,7 @@ package com.vasmarfas.networkhelm.ui.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import com.vasmarfas.networkhelm.session.DeviceSession
 import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.Checkbox
 import com.vasmarfas.networkhelm.ui.theme.Theme
+import com.vasmarfas.networkhelm.ui.workspace.VerticalScrollbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
@@ -61,6 +63,7 @@ internal fun PrepareView(session: DeviceSession, onSecure: (suspend () -> Unit)?
     var done by remember { mutableStateOf(false) }
     var problem by remember { mutableStateOf<String?>(null) }
     val steps = steps(session.device.identity, certificate, tunnel, group, plain && encrypted)
+    val scrolled = rememberScrollState()
 
     @Composable
     fun Choice(text: String, checked: Boolean, enabled: Boolean = true, onChange: (Boolean) -> Unit) {
@@ -80,12 +83,15 @@ internal fun PrepareView(session: DeviceSession, onSecure: (suspend () -> Unit)?
         Choice(stringResource(Res.string.prepare_group), group) { group = it }
         Choice(stringResource(Res.string.prepare_plain), plain && encrypted, enabled = encrypted) { plain = it }
         if (!encrypted) Text(stringResource(Res.string.prepare_plain_note), style = Theme.type.small, color = palette.muted)
-        SelectionContainer(Modifier.weight(1f).fillMaxWidth()) {
-            Text(
-                steps.joinToString("\n") { it.command },
-                Modifier.fillMaxSize().background(palette.raised).verticalScroll(rememberScrollState()).padding(8.dp),
-                style = Theme.type.mono,
-            )
+        Box(Modifier.weight(1f).fillMaxWidth()) {
+            SelectionContainer(Modifier.fillMaxSize()) {
+                Text(
+                    steps.joinToString("\n") { it.command },
+                    Modifier.fillMaxSize().background(palette.raised).verticalScroll(scrolled).padding(8.dp),
+                    style = Theme.type.mono,
+                )
+            }
+            VerticalScrollbar(scrolled, Modifier.align(Alignment.CenterEnd))
         }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             val reopen = onSecure?.takeIf { done && certificate && !encrypted }

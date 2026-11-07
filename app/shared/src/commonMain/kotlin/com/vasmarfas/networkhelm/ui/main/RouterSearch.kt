@@ -142,7 +142,7 @@ fun RouterSearchDialog(search: RouterSearch, routers: List<RouterTab>, onOpen: (
         if (line >= 0) list.animateScrollToItem(line)
     }
     val answered = text == search.searched && hits.isNotEmpty()
-    Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
+    Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f), onClose), contentAlignment = Alignment.Center) {
         Column(
             Modifier.widthIn(max = 860.dp).fillMaxHeight(0.85f).padding(16.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),

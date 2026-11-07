@@ -18,6 +18,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.vasmarfas.networkhelm.ui.theme.Theme
@@ -38,6 +39,7 @@ internal fun VerticalScrollbar(state: ScrollState, modifier: Modifier = Modifier
                 .offset { IntOffset(0, thumb.offset.roundToInt()) }
                 .height(with(density) { thumb.length.toDp() })
                 .fillMaxWidth()
+                .testTag("scrollbar-thumb")
                 .background(Theme.palette.muted.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
                 .pointerInput(state) {
                     detectVerticalDragGestures { change, dy ->

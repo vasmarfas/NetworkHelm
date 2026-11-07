@@ -93,6 +93,7 @@ import com.vasmarfas.networkhelm.ui.table.DataTable
 import com.vasmarfas.networkhelm.ui.table.TableColumn
 import com.vasmarfas.networkhelm.ui.table.TableState
 import com.vasmarfas.networkhelm.ui.theme.Theme
+import com.vasmarfas.networkhelm.ui.workspace.VerticalScrollbar
 import eu.anifantakis.lib.ksafe.KSafeProtectionLevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -280,11 +281,12 @@ fun ConnectScreen(
     val compact = LocalCompact.current
     val density = LocalDensity.current
     var above by remember { mutableStateOf(FORM_GUESS) }
+    val scrolled = rememberScrollState()
     BoxWithConstraints(Modifier.fillMaxSize().background(palette.workspace).fileDrop { files -> ui.launch { state.openFiles(files, onConnected) } }, contentAlignment = Alignment.TopCenter) {
         val margin = if (compact) 8.dp else 16.dp
         val window = maxHeight
         Column(
-            (if (compact) Modifier.fillMaxSize() else Modifier.widthIn(max = 760.dp).fillMaxSize()).verticalScroll(rememberScrollState()).padding(margin),
+            (if (compact) Modifier.fillMaxSize() else Modifier.widthIn(max = 760.dp).fillMaxSize()).verticalScroll(scrolled).padding(margin),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Column(Modifier.onSizeChanged { above = with(density) { it.height.toDp() } }, verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -327,6 +329,7 @@ fun ConnectScreen(
                 }
             }
         }
+        VerticalScrollbar(scrolled, Modifier.align(Alignment.CenterEnd))
         state.winBox?.let { book -> WinBoxImportDialog(book, onCancel = { state.winBox = null }, onImport = { ui.launch { state.importWinBox(book) } }) }
         state.renewing?.let { PasswordRenewal(it) }
         questions.question?.let { TrustDialog(it) }

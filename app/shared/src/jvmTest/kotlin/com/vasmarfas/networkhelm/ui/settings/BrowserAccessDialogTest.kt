@@ -12,6 +12,7 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.v2.runDesktopComposeUiTest
@@ -136,7 +137,7 @@ class BrowserAccessDialogTest {
                 if (shown) BrowserAccessDialog(access) {} else SettingsDialog(AppSettings(MemoryStorage()), access, onBrowserAccess = { shown = true }) {}
             }
         }
-        onNodeWithTag("browser-access").performClick()
+        onNodeWithTag("browser-access").performScrollTo().performClick()
         waitUntil(timeoutMillis = 5_000) { onAllNodes(hasTestTag("access-problem")).fetchSemanticsNodes().isNotEmpty() }
         onNodeWithText("Port 8443 is taken by another program; choose another.").assertExists()
     }

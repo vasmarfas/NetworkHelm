@@ -28,14 +28,19 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.X
 import com.composeunstyled.Text
 import com.vasmarfas.networkhelm.aboutTexts
 import com.vasmarfas.networkhelm.appVersion
 import com.vasmarfas.networkhelm.ui.kit.Button
+import com.vasmarfas.networkhelm.ui.kit.IconButton
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.TabStrip
 import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.scrim
 import com.vasmarfas.networkhelm.ui.theme.Theme
+import com.vasmarfas.networkhelm.ui.workspace.VerticalScrollbar
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import networkhelm.app.shared.generated.resources.Res
@@ -61,32 +66,39 @@ fun AboutDialog(onClose: () -> Unit) {
     val palette = Theme.palette
     val links = LocalUriHandler.current
     var shown by remember { mutableIntStateOf(0) }
-    Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f)), contentAlignment = Alignment.Center) {
+    val notes = rememberScrollState()
+    Box(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.6f), onClose), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = 760.dp).heightIn(max = 640.dp).padding(16.dp).dialogPanel(16.dp, rememberScrollState()),
+            Modifier.widthIn(max = 760.dp).heightIn(max = 640.dp).padding(16.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Image(appIcon(), null, Modifier.size(48.dp))
-                Column {
+                Column(Modifier.weight(1f)) {
                     Text("NetworkHelm $appVersion", style = Theme.type.strong)
                     Text(stringResource(Res.string.about_summary), color = palette.muted, style = Theme.type.small)
                 }
+                IconButton(Lucide.X, stringResource(Res.string.about_close), onClose, Modifier.testTag("about-cross"))
             }
-            Text(stringResource(Res.string.about_description))
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(stringResource(Res.string.about_support), { links.openUri(SUPPORT) }, Modifier.testTag("about-support"), primary = true)
-                Button(stringResource(Res.string.about_site), { links.openUri(SITE) }, Modifier.testTag("about-site"))
-                Button(stringResource(Res.string.about_source), { links.openUri(SOURCE) }, Modifier.testTag("about-source"))
-                Button(stringResource(Res.string.about_telegram), { links.openUri(TELEGRAM) }, Modifier.testTag("about-telegram"))
-            }
-            TabStrip(aboutTexts.map { it.first }, shown, { shown = it })
-            SelectionContainer(Modifier.fillMaxWidth().height(240.dp)) {
-                Text(
-                    aboutTexts[shown].second,
-                    Modifier.fillMaxSize().background(palette.raised).verticalScroll(rememberScrollState()).padding(8.dp),
-                    style = Theme.type.mono,
-                )
+            ScrollArea(Modifier.weight(1f, fill = false), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(stringResource(Res.string.about_description))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(stringResource(Res.string.about_support), { links.openUri(SUPPORT) }, Modifier.testTag("about-support"), primary = true)
+                    Button(stringResource(Res.string.about_site), { links.openUri(SITE) }, Modifier.testTag("about-site"))
+                    Button(stringResource(Res.string.about_source), { links.openUri(SOURCE) }, Modifier.testTag("about-source"))
+                    Button(stringResource(Res.string.about_telegram), { links.openUri(TELEGRAM) }, Modifier.testTag("about-telegram"))
+                }
+                TabStrip(aboutTexts.map { it.first }, shown, { shown = it })
+                Box(Modifier.fillMaxWidth().height(240.dp)) {
+                    SelectionContainer(Modifier.fillMaxSize()) {
+                        Text(
+                            aboutTexts[shown].second,
+                            Modifier.fillMaxSize().background(palette.raised).verticalScroll(notes).padding(8.dp),
+                            style = Theme.type.mono,
+                        )
+                    }
+                    VerticalScrollbar(notes, Modifier.align(Alignment.CenterEnd))
+                }
             }
             Row(Modifier.align(Alignment.End)) { Button(stringResource(Res.string.about_close), onClose, primary = true) }
         }

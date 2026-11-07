@@ -131,6 +131,7 @@ import com.vasmarfas.networkhelm.ui.kit.rememberCopier
 import com.vasmarfas.networkhelm.ui.kit.sunken
 import com.vasmarfas.networkhelm.ui.theme.Theme
 import com.vasmarfas.networkhelm.ui.theme.tintOf
+import com.vasmarfas.networkhelm.ui.workspace.VerticalScrollbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
@@ -491,113 +492,115 @@ fun ItemForm(
                         }
                     }
                     // the scroll hands its own height down as the least, and the fields would never seem to want less
-                    val wanted = fields.onSizeChanged { have = it.height }.verticalScroll(rememberScrollState())
-                        .wrapContentHeight(Alignment.Top).onSizeChanged { need = it.height }
-                    Column(wanted.padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        var above = false
-                        var line = false
-                        var paired = false
-                        if (0 in shown) {
-                            current.argument("disabled")?.let { disabled ->
-                                val enabled = form.value("disabled") !in ValueType.Flag.on
-                                val toggle = { on: Boolean -> form.edit("disabled", disabled.word(!on)) }
-                                val editable = !locked && !disabled.readOnly
-                                if (classic) {
-                                    FieldLine("", form.touched("disabled"), false) {
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Checkbox(enabled, toggle, enabled = editable)
-                                            Text("Enabled", Modifier.padding(start = 6.dp).clickable(enabled = editable) { toggle(!enabled) }, style = Theme.type.body)
+                    val scrolled = rememberScrollState()
+                    Box(fields.onSizeChanged { have = it.height }) {
+                        Column(Modifier.fillMaxWidth().verticalScroll(scrolled).wrapContentHeight(Alignment.Top).onSizeChanged { need = it.height }.padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            var above = false
+                            var line = false
+                            var paired = false
+                            if (0 in shown) {
+                                current.argument("disabled")?.let { disabled ->
+                                    val enabled = form.value("disabled") !in ValueType.Flag.on
+                                    val toggle = { on: Boolean -> form.edit("disabled", disabled.word(!on)) }
+                                    val editable = !locked && !disabled.readOnly
+                                    if (classic) {
+                                        FieldLine("", form.touched("disabled"), false) {
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Checkbox(enabled, toggle, enabled = editable)
+                                                Text("Enabled", Modifier.padding(start = 6.dp).clickable(enabled = editable) { toggle(!enabled) }, style = Theme.type.body)
+                                            }
                                         }
+                                    } else {
+                                        FieldLine("Enabled", form.touched("disabled"), false) { Checkbox(enabled, toggle, enabled = editable) }
                                     }
-                                } else {
-                                    FieldLine("Enabled", form.touched("disabled"), false) { Checkbox(enabled, toggle, enabled = editable) }
                                 }
+                                current.argument("comment")?.let { if (locked || it.readOnly) ReadOnlyRow(it.name, spec.labels, form.value(it.name)) else FieldRow(it, spec.labels, form) }
+                                above = current.argument("disabled") != null || current.argument("comment") != null
+                                line = above
                             }
-                            current.argument("comment")?.let { if (locked || it.readOnly) ReadOnlyRow(it.name, spec.labels, form.value(it.name)) else FieldRow(it, spec.labels, form) }
-                            above = current.argument("disabled") != null || current.argument("comment") != null
-                            line = above
-                        }
-                        for (index in shown) {
-                            val tab = tabs[index]
-                            if (stacked) {
-                                SectionHeading(tab.title)
-                                above = false
-                                line = false
-                            } else if (shown.size > 1) {
-                                Text(tab.title, Modifier.padding(start = 12.dp, top = 6.dp), style = Theme.type.strong, color = palette.muted)
-                                above = false
-                            }
-                            val source = tab.path?.let(related::get)
-                            val owner = source?.form ?: form
-                            val reported = if (tab === watched) monitored else tab.monitor?.let { monitor -> reported(session, monitor, name ?: id) { problem = it } }.orEmpty()
-                            if (tab.chart) Rates(listOf(reported["tx-bits-per-second"], reported["rx-bits-per-second"]), listOf("Tx", "Rx"))
-                            tab.graph?.let { graph ->
-                                val halves = spec.shown?.pairs?.get(graph).orEmpty().map { spec.labels[it] ?: label(it) }
-                                Rates(owner.value(graph)?.split('/').orEmpty(), halves)
-                            }
-                            val prefix = tab.title.lowercase() + "."
-                            // an old name of a field reads as the new one: address of an IP service before 7.24 is Available From
-                            val renamed = spec.form?.renamed.orEmpty().mapValues { (_, new) -> spec.labels[new] ?: label(new) }
-                            val labels = tab.fields.filter { it.startsWith(prefix) }.associateWith { label(it.removePrefix(prefix)) } + renamed + spec.labels
-                            fun live(field: String) = (reported[field] ?: owner.value(field))?.let { display(field, it) }
-                            val described = if (source != null) source.schema else current
-                            val gates = spec.form?.gates { described?.argument(it) != null || owner.value(it) != null }.orEmpty()
-                            for ((field, rx) in if (tab.monitor != null) txRx(tab.fields) else tab.fields.map { it to null }) {
-                                if (field == GROUP_LINE) {
-                                    line = true
-                                    continue
+                            for (index in shown) {
+                                val tab = tabs[index]
+                                if (stacked) {
+                                    SectionHeading(tab.title)
+                                    above = false
+                                    line = false
+                                } else if (shown.size > 1) {
+                                    Text(tab.title, Modifier.padding(start = 12.dp, top = 6.dp), style = Theme.type.strong, color = palette.muted)
+                                    above = false
                                 }
-                                if (field == CHANGELOG_FIELD && source == null) {
+                                val source = tab.path?.let(related::get)
+                                val owner = source?.form ?: form
+                                val reported = if (tab === watched) monitored else tab.monitor?.let { monitor -> reported(session, monitor, name ?: id) { problem = it } }.orEmpty()
+                                if (tab.chart) Rates(listOf(reported["tx-bits-per-second"], reported["rx-bits-per-second"]), listOf("Tx", "Rx"))
+                                tab.graph?.let { graph ->
+                                    val halves = spec.shown?.pairs?.get(graph).orEmpty().map { spec.labels[it] ?: label(it) }
+                                    Rates(owner.value(graph)?.split('/').orEmpty(), halves)
+                                }
+                                val prefix = tab.title.lowercase() + "."
+                                // an old name of a field reads as the new one: address of an IP service before 7.24 is Available From
+                                val renamed = spec.form?.renamed.orEmpty().mapValues { (_, new) -> spec.labels[new] ?: label(new) }
+                                val labels = tab.fields.filter { it.startsWith(prefix) }.associateWith { label(it.removePrefix(prefix)) } + renamed + spec.labels
+                                fun live(field: String) = (reported[field] ?: owner.value(field))?.let { display(field, it) }
+                                val described = if (source != null) source.schema else current
+                                val gates = spec.form?.gates { described?.argument(it) != null || owner.value(it) != null }.orEmpty()
+                                for ((field, rx) in if (tab.monitor != null) txRx(tab.fields) else tab.fields.map { it to null }) {
+                                    if (field == GROUP_LINE) {
+                                        line = true
+                                        continue
+                                    }
+                                    if (field == CHANGELOG_FIELD && source == null) {
+                                        if (above && line) GroupLine()
+                                        above = true
+                                        line = false
+                                        ChangelogBox(owner.value(field), owner.value("latest-version"), fetchable = !native)
+                                        continue
+                                    }
+                                    val argument = described?.argument(field)
+                                    if (argument?.applies(owner, described) == false) continue
+                                    if (gates.hides(field, owner::value)) continue
+                                    val limit = spec.shown?.gauges?.get(field)
+                                    val editable = argument != null && !argument.readOnly && !(argument.fixed && id != null) && !tab.readonly && !locked
+                                    if (limit == null && rx == null && tab.monitor == null && !editable && owner.value(field) == null) continue
                                     if (above && line) GroupLine()
                                     above = true
                                     line = false
-                                    ChangelogBox(owner.value(field), owner.value("latest-version"), fetchable = !native)
-                                    continue
-                                }
-                                val argument = described?.argument(field)
-                                if (argument?.applies(owner, described) == false) continue
-                                if (gates.hides(field, owner::value)) continue
-                                val limit = spec.shown?.gauges?.get(field)
-                                val editable = argument != null && !argument.readOnly && !(argument.fixed && id != null) && !tab.readonly && !locked
-                                if (limit == null && rx == null && tab.monitor == null && !editable && owner.value(field) == null) continue
-                                if (above && line) GroupLine()
-                                above = true
-                                line = false
-                                val halves = spec.shown?.pairs?.get(field)?.takeIf { pair ->
-                                    limit == null && rx == null && tab.monitor == null && (editable || owner.value(field)?.split('/')?.size == pair.size)
-                                }
-                                if (halves != null && !paired) PairHeader(halves, labels)
-                                paired = halves != null
-                                when {
-                                    limit != null -> GaugeRow(field, labels, owner.value(field), owner.value(limit), (current.argument(limit)?.type as? ValueType.Integer)?.unit)
-                                    rx != null -> {
-                                        val tx = labels[field] ?: label(field)
-                                        val values = listOf(live(field), live(rx))
-                                        ReadOnlyRow(field, labels, values.takeIf { it.any { value -> value != null } }?.joinToString(" / ") { it.orEmpty() }, title = tx.replaceFirst(Regex("\\bTx\\b"), "Tx/Rx"))
+                                    val halves = spec.shown?.pairs?.get(field)?.takeIf { pair ->
+                                        limit == null && rx == null && tab.monitor == null && (editable || owner.value(field)?.split('/')?.size == pair.size)
                                     }
-                                    tab.monitor != null -> ReadOnlyRow(field, labels, live(field))
-                                    editable -> {
-                                        val limit = field in spec.shown?.limits.orEmpty()
-                                        val waits = waitsFor(gates, field, owner::value, labels)
-                                        val open = fresh && field in spec.shown?.columns.orEmpty()
-                                        if (halves != null) PairRow(argument, halves, labels, owner, limit) else FieldRow(argument, labels, owner, limit, waits, open, firstFocus.takeIf { !compact && source == null && !locked }, besideOf(field))
-                                        if (source == null && field in spec.form?.confirm.orEmpty() && field in form.changes()) {
-                                            val typed = confirming[field]
-                                            ConfirmRow(argument, labels[field] ?: argument.label ?: label(field), typed.orEmpty(), typed != null && typed != form.value(field).orEmpty(), mismatch) {
-                                                confirming[field] = it
+                                    if (halves != null && !paired) PairHeader(halves, labels)
+                                    paired = halves != null
+                                    when {
+                                        limit != null -> GaugeRow(field, labels, owner.value(field), owner.value(limit), (current.argument(limit)?.type as? ValueType.Integer)?.unit)
+                                        rx != null -> {
+                                            val tx = labels[field] ?: label(field)
+                                            val values = listOf(live(field), live(rx))
+                                            ReadOnlyRow(field, labels, values.takeIf { it.any { value -> value != null } }?.joinToString(" / ") { it.orEmpty() }, title = tx.replaceFirst(Regex("\\bTx\\b"), "Tx/Rx"))
+                                        }
+                                        tab.monitor != null -> ReadOnlyRow(field, labels, live(field))
+                                        editable -> {
+                                            val limit = field in spec.shown?.limits.orEmpty()
+                                            val waits = waitsFor(gates, field, owner::value, labels)
+                                            val open = fresh && field in spec.shown?.columns.orEmpty()
+                                            if (halves != null) PairRow(argument, halves, labels, owner, limit) else FieldRow(argument, labels, owner, limit, waits, open, firstFocus.takeIf { !compact && source == null && !locked }, besideOf(field))
+                                            if (source == null && field in spec.form?.confirm.orEmpty() && field in form.changes()) {
+                                                val typed = confirming[field]
+                                                ConfirmRow(argument, labels[field] ?: argument.label ?: label(field), typed.orEmpty(), typed != null && typed != form.value(field).orEmpty(), mismatch) {
+                                                    confirming[field] = it
+                                                }
                                             }
                                         }
+                                        owner.value(field) != null -> if (halves != null) {
+                                            val values = owner.value(field).orEmpty().split('/')
+                                            ReadOnlyPairRow(field, halves, labels, halves.mapIndexed { index, half -> formatted(spec.shown, half, values[index]) })
+                                        } else {
+                                            ReadOnlyRow(field, labels, owner.value(field)?.let { formatted(spec.shown, field, it) }, argument?.type, extra = besideOf(field))
+                                        }
                                     }
-                                    owner.value(field) != null -> if (halves != null) {
-                                        val values = owner.value(field).orEmpty().split('/')
-                                        ReadOnlyPairRow(field, halves, labels, halves.mapIndexed { index, half -> formatted(spec.shown, half, values[index]) })
-                                    } else {
-                                        ReadOnlyRow(field, labels, owner.value(field)?.let { formatted(spec.shown, field, it) }, argument?.type, extra = besideOf(field))
-                                    }
+                                    below(field)
                                 }
-                                below(field)
                             }
                         }
+                        VerticalScrollbar(scrolled, Modifier.align(Alignment.CenterEnd))
                     }
                     val panelActions = actions.filter { it.beside == null && it.below == null }
                     val panelLinks = links.filter { it.beside == null && it.below == null }

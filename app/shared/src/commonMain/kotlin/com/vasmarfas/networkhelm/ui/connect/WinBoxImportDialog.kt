@@ -24,9 +24,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.X
 import com.composeunstyled.Text
 import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.Checkbox
+import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.ListScrollBar
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
 import com.vasmarfas.networkhelm.ui.kit.Toggle
@@ -61,7 +64,10 @@ internal fun WinBoxImportDialog(book: WinBoxBook, onCancel: () -> Unit, onImport
             Modifier.padding(12.dp).widthIn(max = 800.dp).heightIn(max = 560.dp).dialogPanel(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Text(stringResource(Res.string.winbox_title), style = Theme.type.strong)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(Res.string.winbox_title), Modifier.weight(1f), style = Theme.type.strong)
+                IconButton(Lucide.X, stringResource(Res.string.list_cancel), onCancel, Modifier.testTag("winbox-cross"))
+            }
             Text(stringResource(Res.string.winbox_intro, book.rows.size), color = palette.muted)
             Sessions(book, Modifier.weight(1f, fill = false))
             if (book.unusable > 0) Text(stringResource(Res.string.winbox_unusable, book.unusable), color = palette.muted, style = Theme.type.small)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +14,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -39,6 +38,7 @@ import com.vasmarfas.networkhelm.ui.chart.Series
 import com.vasmarfas.networkhelm.ui.chart.bits
 import com.vasmarfas.networkhelm.ui.chart.byteSize
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.theme.Theme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -127,8 +127,9 @@ internal fun DashboardView(tab: RouterTab) {
             delay(SAMPLE_MILLIS)
         }
     }
-    Column(
-        Modifier.fillMaxSize().background(palette.surface).verticalScroll(rememberScrollState()).padding(horizontal = 14.dp, vertical = 10.dp).testTag("dashboard"),
+    ScrollArea(
+        Modifier.fillMaxSize().background(palette.surface).testTag("dashboard"),
+        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Panels(

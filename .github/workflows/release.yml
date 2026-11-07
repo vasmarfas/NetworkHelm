@@ -224,8 +224,8 @@ jobs:
           target_commitish: ${{ github.sha }}
           body_path: body.md
           generate_release_notes: true
-          # a failed platform leaves its files out, so such a release is only drafted
-          draft: ${{ inputs.draft || contains(needs.*.result, 'failure') }}
+          # a failed platform, or one that got no runner, leaves its files out, so such a release is only drafted
+          draft: ${{ inputs.draft || contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
           prerelease: ${{ contains(needs.meta.outputs.version_name, '-') }}
           fail_on_unmatched_files: false
           # the AAB stays in the run artifacts, it is for Google Play
@@ -245,7 +245,7 @@ jobs:
   virustotal:
     name: VirusTotal
     needs: [meta, android, desktop, gateway, web, github_release]
-    if: ${{ !cancelled() && needs.github_release.result == 'success' && !inputs.draft && !contains(needs.*.result, 'failure') }}
+    if: ${{ !cancelled() && needs.github_release.result == 'success' && !inputs.draft && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
     uses: ./.github/workflows/virustotal.yml
     with:
       tag: v${{ needs.meta.outputs.version_name }}

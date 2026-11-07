@@ -16,10 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,6 +49,7 @@ import com.vasmarfas.networkhelm.ui.kit.Checkbox
 import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
 import com.vasmarfas.networkhelm.ui.kit.MenuPanel
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.Select
 import com.vasmarfas.networkhelm.ui.kit.TabStrip
 import com.vasmarfas.networkhelm.ui.kit.TextField
@@ -282,13 +281,13 @@ fun ThemeEditor(source: ThemeFile, onCancel: () -> Unit, onSave: (ThemeFile) -> 
                 }
             }
             if (compact) {
-                Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                ScrollArea(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     preview(Modifier.fillMaxWidth())
                     fields(Modifier.fillMaxWidth())
                 }
             } else {
                 Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    fields(Modifier.width(420.dp).verticalScroll(rememberScrollState()))
+                    ScrollArea(Modifier.width(420.dp)) { fields(Modifier.fillMaxWidth()) }
                     preview(Modifier.weight(1f))
                 }
             }

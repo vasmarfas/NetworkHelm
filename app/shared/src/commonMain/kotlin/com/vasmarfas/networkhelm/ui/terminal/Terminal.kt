@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -63,6 +62,7 @@ import com.vasmarfas.networkhelm.ssh.SshSession
 import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.LocalCompact
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.TextField
 import com.vasmarfas.networkhelm.ui.kit.ToolbarButton
 import com.vasmarfas.networkhelm.ui.kit.dialogPanel
@@ -244,7 +244,7 @@ private fun SnippetEditor(snippets: Snippets, onClose: () -> Unit) {
         ) {
             Text(stringResource(Res.string.snippets_title), style = Theme.type.strong)
             Text(stringResource(Res.string.snippets_hint), color = palette.muted, style = Theme.type.small)
-            Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            ScrollArea(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 rows.forEachIndexed { index, (name, text) ->
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {

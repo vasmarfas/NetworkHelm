@@ -30,11 +30,17 @@ private fun bytes(vararg parts: ByteArray) = parts.flatMap { it.asList() }.joinT
 
 private fun latin1(text: String) = ByteArray(text.length) { text[it].code.toByte() }
 
-private class FakeConsole(stale: String = "", banner: Boolean = true, private val bytesOf: (String) -> ByteArray = String::encodeToByteArray, probing: Boolean = false, private val handler: suspend (String) -> String) : ShellChannel {
+private class FakeConsole(stale: String = "", banner: Boolean = true, private val bytesOf: (String) -> ByteArray = String::encodeToByteArray, probing: Boolean = false, private val asks: Boolean = true, private val handler: suspend (String) -> String) : ShellChannel {
     private val out = Channel<ByteArray>(Channel.UNLIMITED)
     var closed = false
 
     val answers = mutableListOf<String>()
+
+    val history = mutableListOf<String>()
+
+    private fun typed(line: String) {
+        if (history.lastOrNull() != line) history += line
+    }
 
     init {
         if (probing) out.trySend(bytesOf("\r\u001b[9999B\u001b[6n"))
@@ -57,7 +63,16 @@ private class FakeConsole(stale: String = "", banner: Boolean = true, private va
             out.trySend(bytesOf("\rScript Error: action cancelled\n\r\r\r$PROMPT_TEXT"))
             return
         }
-        val line = bytes.decodeToString().trimEnd('\r')
+        var line = bytes.decodeToString().trimEnd('\r')
+        var relayed = ""
+        if (line.startsWith("$RELAY\r")) {
+            line = line.removePrefix("$RELAY\r")
+            typed(RELAY)
+            relayed = if (asks) "$RELAY\r\n\r$ASKING \r\n\r\r\r" else "$RELAY\r\n\rbad command name terminal (line 1 column 12)\r\n$PROMPT_TEXT"
+            if (!asks) typed(line)
+        } else {
+            typed(line)
+        }
         val (begin, command, end) = checkNotNull(MARKERS.matchEntire(line)).destructured
         val text = handler(command)
         val asking = text.startsWith("?")
@@ -68,7 +83,7 @@ private class FakeConsole(stale: String = "", banner: Boolean = true, private va
             text.startsWith("!") -> text.drop(1) + "\r\n"
             else -> "$text\r\n$end\r\n"
         }
-        out.trySend(bytesOf("$line\u001b[12D\r\n\r$begin\r\n$body${if (asking || silent) "" else PROMPT_TEXT}"))
+        out.trySend(bytesOf("$relayed$line\u001b[12D\r\n\r$begin\r\n$body${if (asking || silent) "" else PROMPT_TEXT}"))
     }
 
     override fun resize(columns: Int, rows: Int) = Unit
@@ -202,6 +217,23 @@ class ConsoleClientTest {
         assertEquals(1, refusal.category)
         assertEquals(emptyList(), client.call(listOf("/ip/address/print")).rows)
         assertEquals(1, consoles.size)
+    }
+
+    @Test
+    fun theHistoryOfTheRouterGetsOneLineHoweverManyCommandsRun() = runTest {
+        val client = client(size = 1) { "[]" }
+        repeat(3) { client.call(listOf("/ip/address/print")) }
+        client.call(listOf("/ip/route/print"))
+        assertEquals(listOf(RELAY), consoles.single().history)
+    }
+
+    @Test
+    fun aRouterWithoutAskIsTypedTheLinesAndIsTriedOnlyOnce() = runTest {
+        val client = ConsoleClient(1) { FakeConsole(asks = false) { "[]" }.also { consoles += it } }
+        repeat(3) { client.call(listOf("/ip/address/print")) }
+        val history = consoles.single().history
+        assertEquals(1, history.count { it == RELAY })
+        assertTrue(history.size > 1)
     }
 
     @Test

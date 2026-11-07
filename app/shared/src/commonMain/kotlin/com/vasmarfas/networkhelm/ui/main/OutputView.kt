@@ -1,7 +1,6 @@
 package com.vasmarfas.networkhelm.ui.main
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +9,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Eye
 import com.composables.icons.lucide.EyeOff
 import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.X
 import com.composeunstyled.Text
 import com.vasmarfas.networkhelm.app.HiddenValue
 import com.vasmarfas.networkhelm.app.LocalSettings
@@ -37,6 +35,7 @@ import com.vasmarfas.networkhelm.session.DeviceSession
 import com.vasmarfas.networkhelm.ui.kit.Button
 import com.vasmarfas.networkhelm.ui.kit.IconButton
 import com.vasmarfas.networkhelm.ui.kit.QrImage
+import com.vasmarfas.networkhelm.ui.kit.ScrollArea
 import com.vasmarfas.networkhelm.ui.kit.copyClipboard
 import com.vasmarfas.networkhelm.ui.kit.dialogPanel
 import com.vasmarfas.networkhelm.ui.kit.scrim
@@ -69,16 +68,19 @@ internal fun Output(title: String, text: String, onClose: () -> Unit) {
             null
         }
     }
-    BoxWithConstraints(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.5f)), contentAlignment = Alignment.Center) {
+    BoxWithConstraints(Modifier.fillMaxSize().scrim(palette.workspace.copy(alpha = 0.5f), onClose), contentAlignment = Alignment.Center) {
         val wide = maxWidth >= 600.dp
         Column(
             Modifier.widthIn(max = 720.dp).heightIn(max = maxHeight - 16.dp).dialogPanel(14.dp).testTag("output"),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text(title, style = Theme.type.strong)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(title, Modifier.weight(1f), style = Theme.type.strong)
+                IconButton(Lucide.X, stringResource(Res.string.output_close), onClose, Modifier.testTag("output-cross"))
+            }
             val qr = @Composable { if (code != null && shown) QrImage(code, Modifier.size(220.dp)) }
             val lines = @Composable { SelectionContainer { Text(if (shown) text else masked(text), style = Theme.type.mono) } }
-            Box(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
+            ScrollArea(Modifier.weight(1f, fill = false)) {
                 if (wide) {
                     Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                         qr()

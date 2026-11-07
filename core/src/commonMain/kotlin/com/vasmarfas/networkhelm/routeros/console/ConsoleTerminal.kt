@@ -19,11 +19,16 @@ private const val SILENT_MILLIS = 10_000L
 private const val CTRL_C: Byte = 0x03
 private const val CTRL_X: Byte = 0x18
 
+// the router keeps what is typed at its prompt in the history of the user and what is typed at the question of ask it does not;
+// a line typed again right after itself is kept once, so the history gets one line however many commands go through
+internal const val RELAY = "[[:parse [/terminal/ask prompt=\"NetworkHelm> \"]]]"
+internal const val ASKING = "NetworkHelm>"
+
 private fun silence(said: String) = "the console of the router fell silent in the middle of a line" + if (said.isBlank()) "" else ": ${said.trim().takeLast(160)}"
 
 // the router prints log messages with action echo into every console and redraws the prompt after each,
 // so a prompt proves nothing: only the end marker, or the beginning one after a failure, ends a command
-internal class ConsoleTerminal private constructor(private val channel: ShellChannel, private val encoding: ApiEncoding) {
+internal class ConsoleTerminal private constructor(private val channel: ShellChannel, private val encoding: ApiEncoding, private var relay: Boolean) {
     private val token = Random.nextInt(0x1000000).toString(16)
     private var count = 0
 
@@ -39,8 +44,10 @@ internal class ConsoleTerminal private constructor(private val channel: ShellCha
         val begin = "rd$token-${count}b"
         val end = "rd$token-${count++}e"
         asked = null
-        channel.write(encoding.encode(":put \"$begin\"; $line; :put \"$end\"\r"))
+        val typed = ":put \"$begin\"; $line; :put \"$end\"\r"
+        channel.write(encoding.encode(if (relay) "$RELAY\r$typed" else typed))
         val raw = read(begin, end, quick)
+        if (relay && clean(raw).lines().none { it.trim() == ASKING }) relay = false
         return asked?.let { Answer(false, "missing value(s) of argument(s) $it") } ?: answer(raw, begin, end)
     }
 
@@ -127,7 +134,7 @@ internal class ConsoleTerminal private constructor(private val channel: ShellCha
 
     companion object {
         suspend fun open(channel: suspend () -> ShellChannel, dialect: Dialect, encoding: ApiEncoding): ConsoleTerminal {
-            val console = ConsoleTerminal(channel(), encoding)
+            val console = ConsoleTerminal(channel(), encoding, dialect == Dialect.Serialize)
             try {
                 console.start()
                 if (dialect == Dialect.Classic) {

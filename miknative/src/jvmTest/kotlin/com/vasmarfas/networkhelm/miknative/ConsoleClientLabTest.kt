@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import org.junit.Assume.assumeTrue
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -62,6 +63,17 @@ class ConsoleClientLabTest {
         val buffer = ByteArray(4096)
         while ("] > " !in seen) {
             val size = read(buffer, 0, buffer.size)
+            if (size < 0) break
+            seen.append(buffer.decodeToString(0, size))
+        }
+        return seen.toString()
+    }
+
+    private suspend fun ShellChannel.readQuiet(): String {
+        val seen = StringBuilder()
+        val buffer = ByteArray(4096)
+        while (true) {
+            val size = withTimeoutOrNull(700) { read(buffer, 0, buffer.size) } ?: break
             if (size < 0) break
             seen.append(buffer.decodeToString(0, size))
         }
@@ -164,6 +176,37 @@ class ConsoleClientLabTest {
             assertTrue("] > " in seen, seen)
         } finally {
             console.close()
+        }
+    }
+
+    @Test
+    fun theCommandsOfTheClientLeaveNoLinesInTheHistoryOfTheUser() = session { session ->
+        val ssh = checkNotNull(session.ssh)
+        val mark = "history-${System.nanoTime()}"
+        val typing = ssh.shell("xterm", 80, 24)
+        try {
+            typing.readToPrompt()
+            typing.readQuiet()
+            typing.write(":put \"$mark\"\r".encodeToByteArray())
+            typing.readQuiet()
+        } finally {
+            typing.close()
+        }
+        repeat(3) { session.count(MenuPath.parse("interface")) }
+        assertNotNull(session.get(MenuPath.parse("system/resource"), null))
+        val reading = ssh.shell("xterm", 80, 24)
+        try {
+            reading.readToPrompt()
+            reading.readQuiet()
+            val recalled = StringBuilder()
+            repeat(3) {
+                reading.write("\u001b[A".encodeToByteArray())
+                recalled.append(reading.readQuiet())
+            }
+            assertTrue(mark in recalled, recalled.toString())
+            assertTrue(":put \"rd" !in recalled, recalled.toString())
+        } finally {
+            reading.close()
         }
     }
 
